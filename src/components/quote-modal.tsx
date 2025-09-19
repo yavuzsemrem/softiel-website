@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion"
 import { X, FileText, Send, CheckCircle, MessageSquare, User, Mail, Phone, Building, Calendar, ArrowDown, Loader2 } from "lucide-react"
 import emailjs from '@emailjs/browser'
 import { PrivacyModal } from './privacy-modal'
+import { useI18n } from "@/contexts/i18n-context"
 
 interface QuoteModalProps {
   isOpen: boolean
@@ -13,6 +14,7 @@ interface QuoteModalProps {
 }
 
 function QuoteFormContent({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
+  const { t, locale } = useI18n()
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
@@ -107,8 +109,8 @@ function QuoteFormContent({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
                   <FileText className="h-6 w-6" />
                 </div>
                 <div>
-                  <h2 className="text-2xl font-bold font-display">Teklif Al</h2>
-                  <p className="text-blue-100 text-sm">Projeniz için ücretsiz teklif alın</p>
+                  <h2 className="text-2xl font-bold font-display">{t('quote.title', 'Teklif Al')}</h2>
+                  <p className="text-blue-100 text-sm">{t('quote.subtitle', 'Projeniz için ücretsiz teklif alın')}</p>
                 </div>
               </div>
               <motion.button
@@ -134,12 +136,12 @@ function QuoteFormContent({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
             {/* Form Header */}
             <div className="text-center mb-8">
               <h3 className="text-2xl font-bold text-neutral-900 dark:text-white mb-4">
-                Projenizi Anlatalım
+                {t('quote.formTitle', 'Projenizi Anlatalım')}
               </h3>
               <p className="text-neutral-600 dark:text-neutral-400 text-lg">
-                Aşağıdaki formu doldurarak projeniz hakkında detaylı bilgi verin. 
+                {t('quote.formDescription', 'Aşağıdaki formu doldurarak projeniz hakkında detaylı bilgi verin.')}
                 <br />
-                <span className="text-cyan-600 dark:text-cyan-400 font-semibold">24 saat içinde</span> size özel teklifimizi sunacağız.
+                <span className="text-cyan-600 dark:text-cyan-400 font-semibold">{t('quote.timeframe', '24 saat içinde')}</span> {t('quote.timeframeDescription', 'size özel teklifimizi sunacağız.')}
               </p>
             </div>
 
@@ -155,7 +157,7 @@ function QuoteFormContent({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
                 >
                   <label htmlFor="name" className="block text-sm font-semibold text-neutral-700 dark:text-neutral-300">
                     <User className="inline h-4 w-4 mr-2 text-cyan-500" />
-                    Ad Soyad *
+                    {t('contact.name', 'Ad Soyad')} *
                   </label>
                   <input
                     type="text"
@@ -164,7 +166,7 @@ function QuoteFormContent({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
                     required
                     className="w-full px-4 py-3 rounded-xl border bg-white dark:bg-neutral-800 text-neutral-900 dark:text-white placeholder-neutral-500 dark:placeholder-neutral-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                     style={{ borderColor: 'rgba(178, 178, 178, 0.3)' }}
-                    placeholder="Adınız ve soyadınız"
+                    placeholder={t('contact.namePlaceholder', 'Adınız ve soyadınız')}
                   />
                 </motion.div>
 
@@ -176,7 +178,7 @@ function QuoteFormContent({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
                 >
                   <label htmlFor="email" className="block text-sm font-semibold text-neutral-700 dark:text-neutral-300">
                     <Mail className="inline h-4 w-4 mr-2 text-cyan-500" />
-                    E-posta *
+                    {t('contact.email', 'E-posta')} *
                   </label>
                   <input
                     type="email"
@@ -185,7 +187,7 @@ function QuoteFormContent({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
                     required
                     className="w-full px-4 py-3 rounded-xl border bg-white dark:bg-neutral-800 text-neutral-900 dark:text-white placeholder-neutral-500 dark:placeholder-neutral-400 focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all duration-200"
                     style={{ borderColor: 'rgba(178, 178, 178, 0.3)' }}
-                    placeholder="ornek@email.com"
+                    placeholder={t('contact.emailPlaceholder', 'ornek@email.com')}
                   />
                 </motion.div>
               </div>
@@ -200,7 +202,7 @@ function QuoteFormContent({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
                 >
                   <label htmlFor="phone" className="block text-sm font-semibold text-neutral-700 dark:text-neutral-300">
                     <Phone className="inline h-4 w-4 mr-2 text-cyan-500" />
-                    Telefon
+                    {t('contact.phone', 'Telefon')}
                   </label>
                   <input
                     type="tel"
@@ -208,7 +210,7 @@ function QuoteFormContent({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
                     name="phone"
                     className="w-full px-4 py-3 rounded-xl border bg-white dark:bg-neutral-800 text-neutral-900 dark:text-white placeholder-neutral-500 dark:placeholder-neutral-400 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200"
                     style={{ borderColor: 'rgba(178, 178, 178, 0.3)' }}
-                    placeholder="0555 123 45 67"
+                    placeholder={t('contact.phonePlaceholder', '0555 123 45 67')}
                   />
                 </motion.div>
 
@@ -220,7 +222,7 @@ function QuoteFormContent({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
                 >
                   <label htmlFor="company" className="block text-sm font-semibold text-neutral-700 dark:text-neutral-300">
                     <Building className="inline h-4 w-4 mr-2 text-cyan-500" />
-                    Şirket
+                    {t('contact.company', 'Şirket')}
                   </label>
                   <input
                     type="text"
@@ -228,7 +230,7 @@ function QuoteFormContent({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
                     name="company"
                     className="w-full px-4 py-3 rounded-xl border bg-white dark:bg-neutral-800 text-neutral-900 dark:text-white placeholder-neutral-500 dark:placeholder-neutral-400 focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200"
                     style={{ borderColor: 'rgba(178, 178, 178, 0.3)' }}
-                    placeholder="Şirket adınız (opsiyonel)"
+                    placeholder={t('contact.companyPlaceholder', 'Şirket adınız (opsiyonel)')}
                   />
                 </motion.div>
               </div>
@@ -242,7 +244,7 @@ function QuoteFormContent({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
               >
                 <label htmlFor="service" className="block text-sm font-semibold text-neutral-700 dark:text-neutral-300">
                   <MessageSquare className="inline h-4 w-4 mr-2 text-cyan-500" />
-                  Hangi hizmete ihtiyacınız var? *
+                  {t('quote.serviceQuestion', 'Hangi hizmete ihtiyacınız var?')} *
                 </label>
                 <select
                   id="service"
@@ -251,21 +253,21 @@ function QuoteFormContent({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
                   className="w-full px-4 py-3 rounded-xl border bg-white dark:bg-neutral-800 text-neutral-900 dark:text-white focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all duration-200"
                   style={{ borderColor: 'rgba(178, 178, 178, 0.3)' }}
                 >
-                  <option value="">Hizmet seçiniz</option>
-                  <option value="web-design">Web Sitesi Tasarımı</option>
-                  <option value="web-development">Web Geliştirme</option>
-                  <option value="mobile-app">Mobil Uygulama Geliştirme</option>
-                  <option value="seo">SEO & Arama Motoru Optimizasyonu</option>
-                  <option value="google-ads">Google Ads & Meta Ads Yönetimi</option>
-                  <option value="wordpress">WordPress & CMS Çözümleri</option>
-                  <option value="logo-design">Logo & Kurumsal Kimlik Tasarımı</option>
-                  <option value="social-media">Sosyal Medya Yönetimi</option>
-                  <option value="ai-integration">Yapay Zeka Entegrasyonları</option>
-                  <option value="automation">Otomasyon & Entegrasyon</option>
-                  <option value="consulting">Dijital Danışmanlık</option>
-                  <option value="no-code">No-Code / Low-Code Çözümleri</option>
-                  <option value="training">Eğitim & Mentorluk</option>
-                  <option value="other">Diğer</option>
+                  <option value="">{t('quote.selectService', 'Hizmet seçiniz')}</option>
+                  <option value="web-design">{t('services.webDesign', 'Web Sitesi Tasarımı')}</option>
+                  <option value="web-development">{t('services.webDevelopment', 'Web Geliştirme')}</option>
+                  <option value="mobile-app">{t('services.mobileApp', 'Mobil Uygulama Geliştirme')}</option>
+                  <option value="seo">{t('services.seo', 'SEO & Arama Motoru Optimizasyonu')}</option>
+                  <option value="google-ads">{t('services.googleAds', 'Google Ads & Meta Ads Yönetimi')}</option>
+                  <option value="wordpress">{t('services.wordpress', 'WordPress & CMS Çözümleri')}</option>
+                  <option value="logo-design">{t('services.logoDesign', 'Logo & Kurumsal Kimlik Tasarımı')}</option>
+                  <option value="social-media">{t('services.socialMedia', 'Sosyal Medya Yönetimi')}</option>
+                  <option value="ai-integration">{t('services.aiIntegration', 'Yapay Zeka Entegrasyonları')}</option>
+                  <option value="automation">{t('services.automation', 'Otomasyon & Entegrasyon')}</option>
+                  <option value="consulting">{t('services.digitalConsulting', 'Dijital Danışmanlık')}</option>
+                  <option value="no-code">{t('services.noCode', 'No-Code / Low-Code Çözümleri')}</option>
+                  <option value="training">{t('services.education', 'Eğitim & Mentorluk')}</option>
+                  <option value="other">{t('quote.other', 'Diğer')}</option>
                 </select>
               </motion.div>
 
@@ -278,7 +280,7 @@ function QuoteFormContent({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
               >
                 <label htmlFor="message" className="block text-sm font-semibold text-neutral-700 dark:text-neutral-300">
                   <MessageSquare className="inline h-4 w-4 mr-2 text-cyan-500" />
-                  Proje Detayları *
+                  {t('quote.projectDetails', 'Proje Detayları')} *
                 </label>
                 <textarea
                   id="message"
@@ -287,7 +289,7 @@ function QuoteFormContent({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
                   rows={6}
                   className="w-full px-4 py-3 rounded-xl border bg-white dark:bg-neutral-800 text-neutral-900 dark:text-white placeholder-neutral-500 dark:placeholder-neutral-400 focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all duration-200 resize-none"
                   style={{ borderColor: 'rgba(178, 178, 178, 0.3)' }}
-                  placeholder="Projeniz hakkında detaylı bilgi verin. Bütçe, zaman çizelgesi, özel istekleriniz vb. ne kadar detay verirseniz, o kadar doğru teklif hazırlayabiliriz."
+                  placeholder={t('quote.messagePlaceholder', 'Projeniz hakkında detaylı bilgi verin. Bütçe, zaman çizelgesi, özel istekleriniz vb. ne kadar detay verirseniz, o kadar doğru teklif hazırlayabiliriz.')}
                 />
               </motion.div>
 
@@ -312,8 +314,8 @@ function QuoteFormContent({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
                     onClick={() => setIsPrivacyModalOpen(true)}
                     className="text-cyan-600 dark:text-cyan-400 hover:underline font-medium hover:text-cyan-700 dark:hover:text-cyan-300 transition-colors duration-200"
                   >
-                    Gizlilik Politikası
-                  </button>'nı okudum ve kabul ediyorum. Kişisel verilerimin işlenmesine onay veriyorum.
+                    {t('footer.privacyPolicy', 'Gizlilik Politikası')}
+                  </button> {locale === 'tr' ? "'nı okudum ve kabul ediyorum. Kişisel verilerimin işlenmesine onay veriyorum." : t('quote.privacyAcceptance', "'nı okudum ve kabul ediyorum. Kişisel verilerimin işlenmesine onay veriyorum.")}
                 </label>
               </motion.div>
 
@@ -329,12 +331,12 @@ function QuoteFormContent({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
                 {isLoading ? (
                   <>
                     <Loader2 className="h-5 w-5 animate-spin" />
-                    <span>Gönderiliyor...</span>
+                    <span>{t('quote.sending', 'Gönderiliyor...')}</span>
                   </>
                 ) : (
                   <>
                     <Send className="h-5 w-5" />
-                    <span>Teklif Talep Et</span>
+                    <span>{t('quote.submit', 'Teklif Talep Et')}</span>
                   </>
                 )}
               </motion.button>
@@ -352,7 +354,7 @@ function QuoteFormContent({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
                 <div className="flex items-center space-x-3 text-green-700 dark:text-green-300">
                   <CheckCircle className="h-5 w-5" />
                   <span className="font-medium text-sm">
-                    Mesajınız başarıyla gönderildi! 24 saat içinde size dönüş yapacağız.
+                    {t('contact.success', 'Mesajınız başarıyla gönderildi!')} {t('quote.responseTime', '24 saat içinde size dönüş yapacağız.')}
                   </span>
                 </div>
               </motion.div>
@@ -384,7 +386,7 @@ function QuoteFormContent({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
         <div className="px-8 py-6 bg-gradient-to-r from-neutral-50 to-neutral-100 dark:from-neutral-900 dark:to-neutral-800 border-t border-neutral-200 dark:border-neutral-700">
           <div className="flex items-center justify-between">
             <p className="text-sm text-neutral-600 dark:text-neutral-400">
-              Ücretsiz teklif almak için formu doldurun
+              {t('quote.footerText', 'Ücretsiz teklif almak için formu doldurun')}
             </p>
             <motion.button
               whileHover={{ scale: 1.02 }}
@@ -392,7 +394,7 @@ function QuoteFormContent({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
               onClick={onClose}
               className="px-6 py-2 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-xl font-medium text-sm shadow-modern hover:shadow-modern-lg transition-all duration-200"
             >
-              Kapat
+              {t('common.close', 'Kapat')}
             </motion.button>
           </div>
         </div>
@@ -420,13 +422,25 @@ export function QuoteModal({ isOpen, onClose }: QuoteModalProps) {
       document.body.style.overflow = 'hidden'
       document.body.style.position = 'fixed'
       document.body.style.width = '100%'
+      document.body.style.height = '100%'
       document.body.style.top = `-${savedScrollY.current}px`
+      document.body.style.left = '0'
+      document.body.style.right = '0'
+      
+      // HTML elementini de engelle
+      document.documentElement.style.overflow = 'hidden'
     } else {
       // Modal kapandığında scroll'u geri aç
-      document.body.style.overflow = 'unset'
-      document.body.style.position = 'unset'
-      document.body.style.width = 'unset'
-      document.body.style.top = 'unset'
+      document.body.style.overflow = ''
+      document.body.style.position = ''
+      document.body.style.width = ''
+      document.body.style.height = ''
+      document.body.style.top = ''
+      document.body.style.left = ''
+      document.body.style.right = ''
+      
+      // HTML elementini de geri aç
+      document.documentElement.style.overflow = ''
       
       // Scroll pozisyonunu geri yükle - animasyonsuz
       window.scrollTo({
@@ -434,6 +448,20 @@ export function QuoteModal({ isOpen, onClose }: QuoteModalProps) {
         left: 0,
         behavior: 'instant'
       })
+    }
+    
+    // Cleanup function
+    return () => {
+      if (isOpen) {
+        document.body.style.overflow = ''
+        document.body.style.position = ''
+        document.body.style.width = ''
+        document.body.style.height = ''
+        document.body.style.top = ''
+        document.body.style.left = ''
+        document.body.style.right = ''
+        document.documentElement.style.overflow = ''
+      }
     }
   }, [isOpen])
 

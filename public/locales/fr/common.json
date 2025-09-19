@@ -1,0 +1,286 @@
+{
+  "navigation": {
+    "home": "Accueil",
+    "about": "À propos",
+    "services": "Services",
+    "blog": "Blog",
+    "contact": "Contact",
+    "pricing": "Tarifs"
+  },
+  "hero": {
+    "title": "Agence Web Moderne",
+    "subtitle": "Faites la différence dans le monde numérique",
+    "description": "Développez votre entreprise avec le design web, le développement, le SEO et les services de marketing numérique.",
+    "cta": "Commencer",
+    "learnMore": "En savoir plus"
+  },
+  "services": {
+    "title": "Nos Services",
+    "subtitle": "Nous offrons des solutions personnalisées pour vous",
+    "webDesign": "Design de Site Web",
+    "webDevelopment": "Développement Web",
+    "seo": "Optimisation SEO",
+    "digitalMarketing": "Marketing Numérique",
+    "mobileApp": "Application Mobile",
+    "aiIntegration": "Intégration IA",
+    "googleAds": "Gestion Google Ads",
+    "wordpress": "Solutions WordPress",
+    "logoDesign": "Logo & Identité d'Entreprise",
+    "socialMedia": "Gestion des Médias Sociaux",
+    "automation": "Automatisation & Intégration",
+    "digitalConsulting": "Conseil Numérique",
+    "noCode": "Solutions No-Code / Low-Code",
+    "education": "Formation & Mentorat"
+  },
+  "blog": {
+    "title": "Blog",
+    "subtitle": "Nos derniers articles",
+    "readMore": "Lire la suite",
+    "readTime": "min de lecture",
+    "publishedOn": "Publié le",
+    "category": "Catégorie",
+    "tags": "Tags",
+    "search": "Rechercher...",
+    "noPosts": "Aucun article de blog trouvé pour le moment"
+  },
+  "contact": {
+    "title": "Contact",
+    "subtitle": "Contactez-nous pour vos projets",
+    "name": "Nom complet",
+    "namePlaceholder": "Votre nom et prénom",
+    "email": "Email",
+    "emailPlaceholder": "exemple@email.com",
+    "phone": "Téléphone",
+    "phonePlaceholder": "0555 123 45 67",
+    "company": "Entreprise",
+    "companyPlaceholder": "Nom de votre entreprise (optionnel)",
+    "message": "Message",
+    "send": "Envoyer",
+    "success": "Votre message a été envoyé avec succès !",
+    "error": "Une erreur s'est produite lors de l'envoi du message."
+  },
+  "footer": {
+    "description": "Nous créons des solutions qui font la différence dans le monde numérique. Nous offrons une large gamme de services du design web aux applications mobiles, du SEO aux intégrations d'intelligence artificielle.",
+    "quickLinks": "Liens Rapides",
+    "services": "Services",
+    "company": "Entreprise",
+    "followUs": "Suivez-nous",
+    "allRightsReserved": "Tous droits réservés",
+    "privacyPolicy": "Politique de Confidentialité",
+    "termsOfService": "Conditions d'Utilisation",
+    "cookiePolicy": "Politique des Cookies",
+    "contactInfo": "Informations de Contact",
+    "email": "E-mail",
+    "phone": "Téléphone",
+    "address": "Adresse",
+    "brandName": "Softiel"
+  },
+  "common": {
+    "loading": "Chargement...",
+    "changingLanguage": "Changement de langue...",
+    "error": "Une erreur s'est produite",
+    "success": "Succès",
+    "cancel": "Annuler",
+    "save": "Enregistrer",
+    "edit": "Modifier",
+    "delete": "Supprimer",
+    "confirm": "Confirmer",
+    "back": "Retour",
+    "next": "Suivant",
+    "previous": "Précédent",
+    "close": "Fermer",
+    "open": "Ouvrir",
+    "search": "Rechercher",
+    "filter": "Filtrer",
+    "sort": "Trier",
+    "view": "Voir",
+    "download": "Télécharger",
+    "upload": "Téléverser",
+    "share": "Partager",
+    "copy": "Copier",
+    "print": "Imprimer",
+    "getQuote": "Demander un devis",
+    "scrollToTop": "Retour en haut",
+    "close": "Fermer"
+  },
+  "brand": {
+    "name": "Softiel"
+  },
+  "quote": {
+    "title": "Demander un devis",
+    "subtitle": "Obtenez un devis gratuit pour votre projet",
+    "formTitle": "Parlez-nous de votre projet",
+    "formDescription": "Remplissez le formulaire ci-dessous pour fournir des informations détaillées sur votre projet.",
+    "timeframe": "dans les 24 heures",
+    "timeframeDescription": "nous vous présenterons notre offre personnalisée.",
+    "serviceQuestion": "De quel service avez-vous besoin ?",
+    "selectService": "Sélectionner un service",
+    "projectDetails": "Détails du projet",
+    "messagePlaceholder": "Fournissez des informations détaillées sur votre projet. Budget, calendrier, demandes spéciales, etc. Plus vous fournirez de détails, plus nous pourrons préparer un devis précis.",
+    "privacyAcceptance": "J'ai lu et accepté la Politique de Confidentialité. Je consens au traitement de mes données personnelles.",
+    "sending": "Envoi en cours...",
+    "submit": "Demander un devis",
+    "responseTime": "Nous vous répondrons dans les 24 heures.",
+    "footerText": "Remplissez le formulaire pour obtenir un devis gratuit",
+    "other": "Autre"
+  },
+  "privacy": {
+    "title": "Politique de Confidentialité",
+    "subtitle": "Protection de vos données personnelles",
+    "introduction": "En tant que Softiel, protéger la vie privée de nos visiteurs et clients est l'une de nos priorités les plus importantes. Cette politique de confidentialité explique quelles données personnelles nous collectons, comment nous les traitons et vos droits dans le cadre de la Loi sur la protection des données personnelles n° 6698 (KVKK) et du Règlement général sur la protection des données de l'Union européenne (RGPD).",
+    "section1": {
+      "title": "1. Données Collectées",
+      "description": "Les données personnelles suivantes peuvent être collectées via notre site web :",
+      "name": "Nom et Prénom",
+      "email": "Adresse e-mail",
+      "phone": "Numéro de téléphone",
+      "cookies": "Cookies (adresse IP, informations du navigateur, données de session, etc.)",
+      "important": "Important :",
+      "note": "Aucune donnée n'est collectée via des bots d'intelligence artificielle, sauf les informations que vous partagez via le formulaire de contact."
+    },
+    "section2": {
+      "title": "2. Finalités du Traitement des Données",
+      "description": "Vos données personnelles collectées sont traitées aux fins suivantes :",
+      "customer": "Répondre aux demandes clients et communiquer",
+      "quotes": "Préparer des devis et établir des relations commerciales",
+      "marketing": "Mener des activités marketing",
+      "analytics": "Effectuer des analyses et mesures de performance (via Google Analytics)"
+    },
+    "section3": {
+      "title": "3. Cookies et Analyses",
+      "description": "Notre site web n'utilise des cookies que dans le cadre du service Google Analytics. Ces cookies sont traités pour améliorer l'expérience utilisateur et mesurer les performances du site. Vous pouvez gérer vos paramètres de cookies dans les options de votre navigateur."
+    },
+    "section4": {
+      "title": "4. Durée de Conservation des Données",
+      "description": "Vos données personnelles sont conservées tant que la relation client se poursuit. Lorsque la relation commerciale pertinente prend fin, vos données seront supprimées ou anonymisées."
+    },
+    "section5": {
+      "title": "5. Droits des Utilisateurs",
+      "description": "Dans le cadre du KVKK et du RGPD, vous avez les droits suivants sur vos données personnelles :",
+      "view": "Consulter vos données",
+      "edit": "Corriger vos données",
+      "delete": "Demander la suppression de vos données",
+      "contact": "Pour exercer ces droits, contactez-nous à",
+      "contactEnd": "."
+    },
+    "section6": {
+      "title": "6. Transfert de Données",
+      "description": "Notre site web est hébergé en Europe, et le traitement de vos données est limité aux pays suivants :",
+      "turkey": "Turquie (dans le cadre des processus commerciaux)",
+      "usa": "États-Unis (via le service Google Analytics)",
+      "note": "En dehors de cela, vos données ne sont pas transférées vers un pays tiers."
+    },
+    "section7": {
+      "title": "7. Mesures de Sécurité",
+      "description": "En tant que Softiel, nous prenons les mesures de sécurité administratives et techniques nécessaires pour protéger vos données personnelles contre l'accès non autorisé, la perte ou la mauvaise utilisation."
+    },
+    "section8": {
+      "title": "8. Contact",
+      "description": "Vous pouvez nous contacter pour des questions ou des demandes concernant notre politique de confidentialité :",
+      "email": "E-mail :"
+    },
+    "lastUpdated": "Dernière mise à jour :",
+    "understood": "Compris"
+  },
+  "terms": {
+    "title": "Conditions d'Utilisation",
+    "subtitle": "Conditions d'utilisation du service et obligations",
+    "introduction": "Ces conditions d'utilisation s'appliquent à tous les utilisateurs qui visitent le site web Softiel (ci-après dénommé \"Site\"). Toute personne qui accède et utilise le Site est réputée avoir accepté les conditions spécifiées ci-dessous.",
+    "section1": {
+      "title": "1. Portée du Service",
+      "description": "Via le site web Softiel, les utilisateurs peuvent ;",
+      "info": "Obtenir des informations,",
+      "quote": "Demander des devis,",
+      "demo": "Demander des démos,",
+      "blog": "Consulter les articles de blog,",
+      "chat": "Poser des questions via le chat bot",
+      "note": "bénéficier de ces services. Les utilisateurs n'ont pas le droit d'effectuer d'autres opérations sur le Site que ces services."
+    },
+    "section2": {
+      "title": "2. Responsabilités des Utilisateurs",
+      "accurate": "Les utilisateurs s'engagent à fournir uniquement des informations exactes et à jour via le Site.",
+      "prohibited": "Le spam, l'abus, l'envoi de contenu nuisible ou tout comportement qui perturberait le fonctionnement du Site est interdit.",
+      "legal": "L'utilisation du Site à des fins autres que son objectif, les tentatives d'accès non autorisé et des situations similaires peuvent être soumises à des sanctions légales."
+    },
+    "section3": {
+      "title": "3. Droits d'Auteur",
+      "rights": "Tous les droits sur tout le contenu du Site (texte, images, logos, code, design, etc.) appartiennent à Softiel.",
+      "permission": "Aucun contenu ne peut être copié, reproduit, distribué ou utilisé à des fins commerciales sans autorisation écrite de Softiel."
+    },
+    "section4": {
+      "title": "4. Modifications des Services et du Contenu",
+      "description": "Softiel se réserve le droit d'apporter des modifications aux services, prix, contenus et conditions d'utilisation offerts sur le Site sans préavis."
+    },
+    "section5": {
+      "title": "5. Clause de Non-Responsabilité",
+      "info": "Toutes les informations sur le Site sont uniquement à des fins d'information générale.",
+      "liability": "Softiel ne peut être tenu responsable des dommages directs ou indirects qui pourraient résulter d'erreurs ou de lacunes possibles dans le contenu ou de l'utilisation de ces informations."
+    },
+    "section6": {
+      "title": "6. Liens Tiers",
+      "description": "Le Site peut contenir des liens tiers tels que Google Maps et des comptes de médias sociaux. Ces liens sont gérés par Softiel et sont fournis pour améliorer l'expérience utilisateur."
+    },
+    "section7": {
+      "title": "7. Litiges et Autorité Légale",
+      "description": "Dans tous les litiges découlant de ces conditions d'utilisation, les Lois de la République de Turquie s'appliqueront. Les autorités compétentes sont les tribunaux et offices d'exécution d'Istanbul."
+    },
+    "section8": {
+      "title": "8. Contact",
+      "description": "Vous pouvez nous contacter pour toutes vos questions et demandes concernant les conditions d'utilisation :",
+      "email": "E-mail :"
+    },
+    "lastUpdated": "Dernière mise à jour :",
+    "understood": "Compris"
+  },
+  "cookie": {
+    "title": "Politique des Cookies",
+    "subtitle": "Informations sur les cookies utilisés sur notre site web",
+    "introduction": "En tant que Softiel, nous utilisons des cookies pour améliorer l'expérience des utilisateurs qui visitent notre site web, mesurer les performances du site et améliorer nos services. Cette Politique des Cookies a été préparée dans le cadre de la Loi sur la Protection des Données Personnelles n° 6698 (KVKK) et du Règlement Général sur la Protection des Données de l'Union Européenne (GDPR).",
+    "section1": {
+      "title": "1. Qu'est-ce qu'un Cookie ?",
+      "description": "Les cookies sont de petits fichiers texte qui sont sauvegardés dans votre navigateur ou sur votre appareil lorsque vous visitez un site web. Grâce à ces fichiers, le site peut mémoriser vos préférences et améliorer votre expérience utilisateur."
+    },
+    "section2": {
+      "title": "2. Types de Cookies Utilisés",
+      "essential": "Cookies Essentiels",
+      "essentialDesc": "Ce sont des cookies nécessaires au bon fonctionnement des fonctions de base du site. Des fonctions comme la connexion et l'envoi de formulaires ne fonctionnent pas sans ces cookies.",
+      "functional": "Cookies Fonctionnels",
+      "functionalDesc": "Il personnalise le site pour vous en mémorisant vos préférences (ex. sélection de langue, paramètres d'affichage).",
+      "analytics": "Cookies Analytiques / de Performance",
+      "analyticsDesc": "Il collecte anonymement les mouvements des utilisateurs sur le site (analyse du trafic, pages visitées, temps de navigation) via Google Analytics. Cela nous aide à améliorer les performances du site et l'expérience utilisateur.",
+      "marketing": "Cookies Marketing / de Suivi",
+      "marketingDesc": "Il nous aide à mesurer l'efficacité des activités publicitaires et de campagne en analysant le comportement des utilisateurs."
+    },
+    "section3": {
+      "title": "3. Objectifs d'Utilisation des Cookies",
+      "description": "Les données collectées sont utilisées aux fins suivantes :",
+      "analyze": "Analyser les performances du site,",
+      "improve": "Améliorer l'expérience utilisateur,",
+      "measure": "Mesurer le nombre de visiteurs et les sources de trafic,",
+      "quality": "Augmenter la qualité de nos services."
+    },
+    "section4": {
+      "title": "4. Cookies Tiers",
+      "description": "Seuls les cookies tiers dans le cadre du service Google Analytics sont utilisés sur notre site. Ces cookies collectent des données statistiques anonymes et ne divulguent pas vos informations d'identité personnelle."
+    },
+    "section5": {
+      "title": "5. Durée de Stockage des Cookies",
+      "description": "Les cookies sont stockés pendant la durée de la session et sont automatiquement supprimés lorsque le navigateur est fermé."
+    },
+    "section6": {
+      "title": "6. Gestion des Cookies",
+      "description": "Les utilisateurs peuvent refuser les cookies ou supprimer les cookies existants via les paramètres du navigateur. Nous vous rappelons que si vous désactivez les cookies, certaines parties du site peuvent ne pas fonctionner correctement."
+    },
+    "section7": {
+      "title": "7. Base Légale et Conformité",
+      "description": "L'utilisation des cookies est effectuée conformément aux obligations légales dans le cadre de la KVKK et du GDPR. Les utilisateurs peuvent exercer leurs droits concernant les cookies à tout moment et demander des informations auprès de nous."
+    },
+    "section8": {
+      "title": "8. Contact",
+      "description": "Vous pouvez nous contacter pour vos questions concernant notre Politique des Cookies :",
+      "email": "E-mail :"
+    },
+    "lastUpdated": "Dernière mise à jour :",
+    "understood": "Compris"
+  }
+}

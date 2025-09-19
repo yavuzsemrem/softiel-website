@@ -2,7 +2,6 @@ import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { BlogDetailHero } from "@/components/blog-detail-hero"
 import { BlogDetailContent } from "@/components/blog-detail-content"
-import { BlogDetailSidebar } from "@/components/blog-detail-sidebar"
 import { RelatedPosts } from "@/components/related-posts"
 import { BlogCommentsSection } from "@/components/blog-comments-section"
 import { getBlog } from "@/lib/blog-service"
@@ -32,20 +31,13 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
         <BlogDetailHero slug={slug} />
         
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <div className="lg:col-span-2">
-              <BlogDetailContent slug={slug} />
-            </div>
-            <div className="lg:col-span-1">
-              <BlogDetailSidebar currentSlug={slug} />
-            </div>
+          <div className="space-y-16">
+            <BlogDetailContent slug={slug} />
+            <BlogCommentsSection slug={slug} />
           </div>
         </div>
-
-        {/* Yorum Bölümü */}
-        <BlogCommentsSection slug={slug} />
         
-        <RelatedPosts />
+        <RelatedPosts currentSlug={slug} />
       </main>
       <Footer />
     </div>

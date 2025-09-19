@@ -133,7 +133,6 @@ export function BlogCommentReplyForm({
       }, 2000)
 
     } catch (error) {
-      console.error('Yanıt gönderme hatası:', error)
       setSubmitStatus('error')
       setErrorMessage('Yanıt gönderilirken bir hata oluştu. Lütfen tekrar deneyin.')
     } finally {

@@ -1,14 +1,11 @@
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
+/** @type {import('next').NextConfig} */
+const nextConfig = {
   // Static export kaldırıldı - Local development için
   // output: 'export',
   trailingSlash: false, // API route'ları için false yapıldı
   images: {
     unoptimized: true
   },
-  // Node.js deprecation warning'lerini bastır
-  serverExternalPackages: [],
   // Environment variables için
   env: {
     NEXT_PUBLIC_RECAPTCHA_SITE_KEY: process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY,
@@ -31,4 +28,7 @@ const nextConfig: NextConfig = {
   // assetPrefix: '',
 };
 
-export default nextConfig;
+module.exports = nextConfig;
+
+
+

@@ -143,7 +143,6 @@ export function BlogCommentForm({ blogSlug, onCommentSubmit }: BlogCommentFormPr
       }, 3000)
 
     } catch (error) {
-      console.error('Yorum gönderme hatası:', error)
       setSubmitStatus('error')
       setErrorMessage('Yorum gönderilirken bir hata oluştu. Lütfen tekrar deneyin.')
     } finally {
@@ -159,29 +158,29 @@ export function BlogCommentForm({ blogSlug, onCommentSubmit }: BlogCommentFormPr
       className="glass rounded-2xl p-8 border border-white/20 shadow-modern-lg"
       style={{ background: 'rgba(255, 255, 255, 0.1)' }}
     >
-      <div className="flex items-center space-x-3 mb-6">
-        <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: 'linear-gradient(to right, #06b6d4, #3b82f6)' }}>
+      <div className="flex flex-col sm:flex-row sm:items-center space-y-3 sm:space-y-0 sm:space-x-3 mb-6">
+        <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: 'linear-gradient(to right, #06b6d4, #3b82f6)' }}>
           <MessageSquare className="h-5 w-5 text-white" />
         </div>
-        <div>
-          <h3 className="text-xl font-bold text-white">Yorum Yap</h3>
-          <p className="text-sm text-neutral-400">Yorumunuz admin tarafından incelendikten sonra yayınlanacaktır</p>
+        <div className="min-w-0 flex-1">
+          <h3 className="text-lg sm:text-xl font-bold text-white">Yorum Yap</h3>
+          <p className="text-xs sm:text-sm text-neutral-400">Yorumunuz admin tarafından incelendikten sonra yayınlanacaktır</p>
         </div>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Ad ve E-posta */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div className="space-y-2">
             <label className="block text-sm font-semibold text-white mb-2 flex items-center space-x-2">
-              <User className="h-4 w-4" />
+              <User className="h-4 w-4 flex-shrink-0" />
               <span>Adınız *</span>
             </label>
             <input
               type="text"
               value={formData.name}
               onChange={(e) => handleInputChange('name', e.target.value)}
-              className="w-full px-4 py-3 glass rounded-xl text-white placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/70 transition-all duration-300 border border-white/20"
+              className="w-full px-4 py-3 glass rounded-xl text-white placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/70 transition-all duration-300 border border-white/20 min-w-0"
               style={{ background: 'rgba(255, 255, 255, 0.1)' }}
               placeholder="Adınızı giriniz"
               required
@@ -190,14 +189,14 @@ export function BlogCommentForm({ blogSlug, onCommentSubmit }: BlogCommentFormPr
 
           <div className="space-y-2">
             <label className="block text-sm font-semibold text-white mb-2 flex items-center space-x-2">
-              <Mail className="h-4 w-4" />
+              <Mail className="h-4 w-4 flex-shrink-0" />
               <span>E-posta *</span>
             </label>
             <input
               type="email"
               value={formData.email}
               onChange={(e) => handleInputChange('email', e.target.value)}
-              className="w-full px-4 py-3 glass rounded-xl text-white placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/70 transition-all duration-300 border border-white/20"
+              className="w-full px-4 py-3 glass rounded-xl text-white placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/70 transition-all duration-300 border border-white/20 min-w-0"
               style={{ background: 'rgba(255, 255, 255, 0.1)' }}
               placeholder="E-posta adresinizi giriniz"
               required
@@ -208,14 +207,14 @@ export function BlogCommentForm({ blogSlug, onCommentSubmit }: BlogCommentFormPr
         {/* Yorum */}
         <div className="space-y-2">
           <label className="block text-sm font-semibold text-white mb-2 flex items-center space-x-2">
-            <MessageSquare className="h-4 w-4" />
+            <MessageSquare className="h-4 w-4 flex-shrink-0" />
             <span>Yorumunuz *</span>
           </label>
           <textarea
             value={formData.comment}
             onChange={(e) => handleInputChange('comment', e.target.value)}
             rows={5}
-            className="w-full px-4 py-3 glass rounded-xl text-white placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/70 transition-all duration-300 border border-white/20 resize-none"
+            className="w-full px-4 py-3 glass rounded-xl text-white placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/70 transition-all duration-300 border border-white/20 resize-none min-w-0"
             style={{ background: 'rgba(255, 255, 255, 0.1)' }}
             placeholder="Yorumunuzu buraya yazınız..."
             required
@@ -249,12 +248,11 @@ export function BlogCommentForm({ blogSlug, onCommentSubmit }: BlogCommentFormPr
         )}
 
         {/* Gönder Butonu */}
-        <div className="flex items-center justify-end">
-          
+        <div className="flex items-center justify-center sm:justify-end">
           <button
             type="submit"
             disabled={isSubmitting || !isReady}
-            className="flex items-center space-x-2 px-6 py-3 text-white rounded-xl hover:opacity-90 transition-all duration-200 shadow-modern-lg disabled:opacity-50 disabled:cursor-not-allowed"
+            className="flex items-center justify-center space-x-2 px-6 py-3 text-white rounded-xl hover:opacity-90 transition-all duration-200 shadow-modern-lg disabled:opacity-50 disabled:cursor-not-allowed w-full sm:w-auto"
             style={{ background: 'linear-gradient(to right, #06b6d4, #3b82f6)' }}
           >
             {isSubmitting ? (

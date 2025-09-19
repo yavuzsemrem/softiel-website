@@ -1,6 +1,3 @@
-"use client"
-
-import { use } from "react"
 import { DashboardLayout } from "@/components/dashboard-layout"
 import { BlogEditForm } from "@/components/blog-edit-form"
 
@@ -10,8 +7,8 @@ interface BlogEditPageProps {
   }>
 }
 
-export default function BlogEditPage({ params }: BlogEditPageProps) {
-  const { id } = use(params)
+export default async function BlogEditPage({ params }: BlogEditPageProps) {
+  const { id } = await params
   
   return (
     <DashboardLayout>
@@ -19,7 +16,7 @@ export default function BlogEditPage({ params }: BlogEditPageProps) {
         {/* Background Elements */}
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute -top-20 -right-20 w-40 h-40 bg-blue-500/10 rounded-full mix-blend-screen filter blur-xl opacity-30 animate-pulse"></div>
-          <div className="absolute -bottom-20 -left-20 w-40 h-40 bg-cyan-500/10 rounded-full mix-blend-screen filter blur-xl opacity-30 animate-pulse"></div>
+          <div className="absolute -bottom-20 -left-20 w-40 h-40 bg-cyan-500/10 rounded-full mix-blend-screen filter blur-xl opacity-20 animate-pulse"></div>
           <div className="absolute top-1/2 right-1/4 w-32 h-32 bg-sky-500/10 rounded-full mix-blend-screen filter blur-xl opacity-20 animate-pulse"></div>
         </div>
         

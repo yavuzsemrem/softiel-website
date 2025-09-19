@@ -202,7 +202,6 @@ export function BlogDetailHero({ slug }: BlogDetailHeroProps) {
         setError("Blog yazısı bulunamadı")
       }
     } catch (err) {
-      console.error("Blog yükleme hatası:", err)
       setError("Blog yüklenirken bir hata oluştu")
     } finally {
       setLoading(false)
@@ -228,7 +227,6 @@ export function BlogDetailHero({ slug }: BlogDetailHeroProps) {
         await logBlogLikeActivity(post.title || 'Blog yazısı', post.id || slug)
       }
     } catch (err) {
-      console.error("Beğeni güncelleme hatası:", err)
       // Hata durumunda state'i geri al
       setIsLiked(!isLiked)
     }
@@ -328,18 +326,19 @@ export function BlogDetailHero({ slug }: BlogDetailHeroProps) {
             </span>
           </motion.div>
 
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-display font-bold text-neutral-900 dark:text-white mb-8 leading-tight">
-            {post.title.split(' ').map((word, index, array) => 
-              index === array.length - 1 ? (
-                <span key={index} className="bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 bg-clip-text text-transparent">
-                  {word}
-                </span>
-              ) : (
-                <span key={index}>{word} </span>
-              )
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-display font-bold text-neutral-900 dark:text-white mb-8 leading-tight blog-hero-title">
+            {post.title.split(' ').slice(0, -2).join(' ')} {post.title.split(' ').length > 2 && (
+              <span className="bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 bg-clip-text text-transparent">
+                {post.title.split(' ').slice(-2).join(' ')}
+              </span>
+            )}
+            {post.title.split(' ').length <= 2 && (
+              <span className="bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 bg-clip-text text-transparent">
+                {post.title}
+              </span>
             )}
           </h1>
-          <p className="text-lg sm:text-xl text-neutral-600 dark:text-neutral-400 max-w-4xl mx-auto leading-relaxed mb-8">
+          <p className="text-lg sm:text-xl text-neutral-600 dark:text-neutral-400 max-w-4xl mx-auto leading-relaxed mb-8 blog-hero-excerpt">
             {post.excerpt}
           </p>
 
@@ -348,23 +347,23 @@ export function BlogDetailHero({ slug }: BlogDetailHeroProps) {
             {post.tags && post.tags.length > 0 ? post.tags.map((tag) => (
               <span
                 key={tag}
-                className="inline-flex items-center space-x-1 glass rounded-full px-3 py-1 text-xs text-cyan-600 dark:text-cyan-400"
+                className="inline-flex items-center space-x-1 glass rounded-full px-3 py-1 text-xs text-cyan-600 dark:text-cyan-400 blog-hero-tag"
                 style={{ background: 'rgba(6, 182, 212, 0.2)' }}
               >
-                <Tag className="h-3 w-3" />
-                <span>{tag}</span>
+                <Tag className="h-3 w-3 flex-shrink-0" />
+                <span className="truncate">{tag}</span>
               </span>
             )) : null}
           </div>
 
           {/* Meta Information */}
           <div className="flex flex-wrap justify-center items-center gap-6 text-sm text-neutral-500 dark:text-neutral-400 mb-8">
-            <div className="flex items-center space-x-2">
-              <User className="h-4 w-4" />
-              <span>{post.author}</span>
+            <div className="flex items-center space-x-2 min-w-0">
+              <User className="h-4 w-4 flex-shrink-0" />
+              <span className="blog-hero-meta">{post.author}</span>
             </div>
-            <div className="flex items-center space-x-2">
-              <Calendar className="h-4 w-4" />
+            <div className="flex items-center space-x-2 min-w-0">
+              <Calendar className="h-4 w-4 flex-shrink-0" />
         <span>
           {(() => {
             try {
@@ -393,7 +392,6 @@ export function BlogDetailHero({ slug }: BlogDetailHeroProps) {
                 day: 'numeric'
               })
             } catch (error) {
-              console.error('Tarih işleme hatası:', error)
               return 'Tarih hatası'
             }
           })()}

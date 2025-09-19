@@ -452,3 +452,305 @@ input[type="password"]::-webkit-strong-password-auto-fill-button {
     font-size: 0.625rem !important;
   }
 }
+
+/* Sticky Sidebar with Limit */
+.sticky-sidebar-with-limit {
+  position: sticky;
+  top: 6rem;
+  align-self: flex-start;
+}
+
+/* Sticky limit için CSS custom property kullanımı */
+.sticky-sidebar-with-limit[style*="--sticky-limit"] {
+  position: sticky;
+  top: 6rem;
+  align-self: flex-start;
+}
+
+/* Responsive sticky - sadece lg+ ekranlarda */
+@media (max-width: 1023px) {
+  .sticky-sidebar-with-limit {
+    position: relative !important;
+    top: auto !important;
+  }
+}
+
+/* Enhanced Sticky Sidebar - Yorumların sonuna kadar */
+.enhanced-sticky-sidebar {
+  position: sticky !important;
+  top: 6rem !important;
+  align-self: flex-start !important;
+  max-height: calc(100vh - 8rem) !important;
+  overflow-y: auto !important;
+  z-index: 30 !important;
+  /* Sticky bottom limit - yorumların sonuna kadar */
+  bottom: auto !important;
+}
+
+/* Responsive sticky - sadece lg+ ekranlarda */
+@media (max-width: 1023px) {
+  .enhanced-sticky-sidebar {
+    position: relative !important;
+    top: auto !important;
+    max-height: none !important;
+    overflow-y: visible !important;
+  }
+}
+
+/* Sticky container için özel kurallar */
+.sticky-container {
+  position: relative;
+  min-height: 100vh;
+}
+
+.sticky-container .enhanced-sticky-sidebar {
+  position: sticky !important;
+  top: 6rem !important;
+  bottom: auto !important;
+  align-self: flex-start !important;
+}
+
+/* Yorum metinleri için word-break kuralları */
+.comment-content {
+  word-break: break-word !important;
+  overflow-wrap: anywhere !important;
+  hyphens: auto !important;
+  max-width: 100% !important;
+  overflow: hidden !important;
+}
+
+/* Responsive yorum alanları */
+@media (max-width: 768px) {
+  .comment-content {
+    word-break: break-all !important;
+    overflow-wrap: break-word !important;
+  }
+}
+
+/* Kategori etiketleri için hizalama */
+.category-tag {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+}
+
+/* Blog içerik stilleri - sadece temel stiller */
+.blog-content {
+  color: white;
+  line-height: 1.7;
+}
+
+/* Sadece stil olmayan elementler için varsayılan stiller */
+.blog-content h1:not([style]),
+.blog-content h2:not([style]),
+.blog-content h3:not([style]),
+.blog-content h4:not([style]),
+.blog-content h5:not([style]),
+.blog-content h6:not([style]) {
+  color: white;
+  font-weight: bold;
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.blog-content h1:not([style]) {
+  font-size: 2.25rem;
+  margin-top: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.blog-content h2:not([style]) {
+  font-size: 1.875rem;
+  margin-top: 1.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.blog-content h3:not([style]) {
+  font-size: 1.5rem;
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.blog-content h4:not([style]) {
+  font-size: 1.25rem;
+  margin-top: 1.25rem;
+  margin-bottom: 0.75rem;
+}
+
+.blog-content h5:not([style]) {
+  font-size: 1.125rem;
+  margin-top: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.blog-content h6:not([style]) {
+  font-size: 1rem;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.blog-content p:not([style]) {
+  color: white;
+  margin-bottom: 1rem;
+  line-height: 1.7;
+}
+
+.blog-content strong:not([style]) {
+  color: white;
+  font-weight: bold;
+}
+
+.blog-content em:not([style]) {
+  color: #d1d5db;
+  font-style: italic;
+}
+
+.blog-content ul:not([style]),
+.blog-content ol:not([style]) {
+  color: white;
+  margin-bottom: 1rem;
+  margin-left: 1rem;
+}
+
+.blog-content ul:not([style]) {
+  list-style-type: disc;
+}
+
+.blog-content ol:not([style]) {
+  list-style-type: decimal;
+}
+
+.blog-content li:not([style]) {
+  color: white;
+  margin-bottom: 0.5rem;
+}
+
+.blog-content blockquote:not([style]) {
+  border-left: 4px solid #06b6d4;
+  padding-left: 1rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  margin: 1rem 0;
+  color: #a5f3fc;
+  font-style: italic;
+  background-color: rgba(31, 41, 55, 0.5);
+  border-radius: 0 0.5rem 0.5rem 0;
+}
+
+.blog-content code:not([style]) {
+  background-color: #1f2937;
+  color: #4ade80;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-family: 'Courier New', monospace;
+  font-size: 0.875rem;
+}
+
+.blog-content pre:not([style]) {
+  background-color: #1f2937;
+  color: #4ade80;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  margin: 1rem 0;
+  font-family: 'Courier New', monospace;
+  font-size: 0.875rem;
+  overflow-x: auto;
+}
+
+.blog-content a:not([style]) {
+  color: #22d3ee;
+  text-decoration: underline;
+}
+
+.blog-content a:hover {
+  color: #67e8f9;
+}
+
+.blog-content img:not([style]) {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+  margin: 1rem 0;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.blog-content table:not([style]) {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+  color: white;
+}
+
+.blog-content th:not([style]),
+.blog-content td:not([style]) {
+  border: 1px solid #374151;
+  padding: 0.75rem;
+  text-align: left;
+}
+
+.blog-content th:not([style]) {
+  background-color: #374151;
+  font-weight: bold;
+}
+
+.blog-content tr:nth-child(even) {
+  background-color: rgba(55, 65, 81, 0.3);
+}
+
+/* Responsive ve güvenlik */
+.blog-content * {
+  max-width: 100%;
+}
+
+/* Dashboard yorum taşma kontrolü */
+.dashboard-comment-content {
+  word-break: break-word !important;
+  overflow-wrap: anywhere !important;
+  hyphens: auto !important;
+  max-width: 100% !important;
+  overflow: hidden !important;
+}
+
+.dashboard-comment-author {
+  max-width: 100% !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
+
+.dashboard-comment-email {
+  max-width: 100% !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
+
+/* Blog hero taşma kontrolü */
+.blog-hero-title {
+  word-break: break-word !important;
+  overflow-wrap: anywhere !important;
+  hyphens: auto !important;
+  max-width: 100% !important;
+}
+
+.blog-hero-excerpt {
+  word-break: break-word !important;
+  overflow-wrap: anywhere !important;
+  hyphens: auto !important;
+  max-width: 100% !important;
+}
+
+.blog-hero-tag {
+  max-width: 200px !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
+
+.blog-hero-meta {
+  max-width: 150px !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}

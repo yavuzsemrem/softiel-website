@@ -60,7 +60,6 @@ export function BlogDetailSidebar({ currentSlug }: BlogDetailSidebarProps) {
           setLatestPosts(shuffledLatest.slice(0, 5))
         }
       } catch (error) {
-        console.error('Veri yükleme hatası:', error)
         // Hata durumunda son yazıları getir
         try {
           const latest = await getBlogs({ status: 'published' }, { page: 1, limit: 10 })
@@ -75,7 +74,6 @@ export function BlogDetailSidebar({ currentSlug }: BlogDetailSidebarProps) {
           
           setLatestPosts(shuffledLatest.slice(0, 5))
         } catch (fallbackError) {
-          console.error('Fallback blog yükleme hatası:', fallbackError)
         }
       } finally {
         setIsLoading(false)
@@ -113,7 +111,6 @@ export function BlogDetailSidebar({ currentSlug }: BlogDetailSidebarProps) {
         day: 'numeric'
       })
     } catch (error) {
-      console.error('Tarih işleme hatası:', error)
       return 'Tarih hatası'
     }
   }
@@ -133,21 +130,21 @@ export function BlogDetailSidebar({ currentSlug }: BlogDetailSidebarProps) {
   ]
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-4 lg:space-y-6">
 
       {/* Popular/Featured Posts */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2, duration: 0.6 }}
-        className="glass rounded-2xl shadow-modern p-6 border border-white/50 dark:border-white/40 backdrop-blur-lg dark:[border:1px_solid_rgba(255,255,255,0.2)]"
+        className="glass rounded-xl shadow-modern p-3 lg:p-4 border border-white/50 dark:border-white/40 backdrop-blur-lg dark:[border:1px_solid_rgba(255,255,255,0.2)]"
         style={{ background: 'rgba(255, 255, 255, 0.1)' }}
       >
-        <h3 className="text-lg font-semibold text-neutral-900 dark:text-white mb-4 flex items-center">
+        <h3 className="text-sm lg:text-base font-semibold text-neutral-900 dark:text-white mb-2 lg:mb-3 flex items-center">
           {featuredPosts.length > 0 ? (
-            <Star className="h-5 w-5 mr-2 text-yellow-500" />
+            <Star className="h-3 w-3 lg:h-4 lg:w-4 mr-2 text-yellow-500" />
           ) : (
-          <Clock className="h-5 w-5 mr-2 text-cyan-500" />
+          <Clock className="h-3 w-3 lg:h-4 lg:w-4 mr-2 text-cyan-500" />
           )}
           {sectionTitle}
         </h3>
@@ -162,7 +159,7 @@ export function BlogDetailSidebar({ currentSlug }: BlogDetailSidebarProps) {
             ))}
           </div>
         ) : (
-        <div className="space-y-4">
+        <div className="space-y-2 lg:space-y-3">
             {displayPosts.map((post, index) => {
               // URL oluşturma - daha güvenli
               const blogUrl = post.slug ? `/blog/${post.slug}` : post.id ? `/blog/${post.id}` : '#'
@@ -171,28 +168,56 @@ export function BlogDetailSidebar({ currentSlug }: BlogDetailSidebarProps) {
             <Link
                   key={post.id || index}
                   href={blogUrl}
-              className="group block p-3 glass rounded-xl hover:bg-white/20 transition-all duration-200"
+              className="group block p-2 glass rounded-lg hover:bg-white/20 transition-all duration-200"
               style={{ background: 'rgba(255, 255, 255, 0.05)' }}
             >
-              <h4 className="text-sm font-medium text-neutral-900 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors line-clamp-2 mb-2">
-                {post.title}
-              </h4>
-              <div className="flex items-center justify-between text-xs text-neutral-500 dark:text-neutral-400">
-                <div className="flex items-center space-x-2">
-                  <Calendar className="h-3 w-3" />
-                    <span>{formatDate(post.createdAt)}</span>
+              <div className="flex space-x-3">
+                {/* Image */}
+                <div className="flex-shrink-0 w-16 h-12 rounded-lg overflow-hidden bg-gradient-to-br from-cyan-500/20 via-blue-500/20 to-purple-500/20">
+                  {post.image ? (
+                    <img
+                      src={post.image}
+                      alt={post.title}
+                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                      onError={(e) => {
+                        // Görsel yüklenemezse fallback göster
+                        const target = e.target as HTMLImageElement;
+                        target.style.display = 'none';
+                        const fallback = target.nextElementSibling as HTMLElement;
+                        if (fallback) fallback.style.display = 'flex';
+                      }}
+                    />
+                  ) : null}
+                  <div className="w-full h-full flex items-center justify-center" style={{ display: post.image ? 'none' : 'flex' }}>
+                    <div className="text-lg font-bold text-cyan-500/30 dark:text-cyan-400/30">
+                      {post.title.charAt(0)}
+                    </div>
+                  </div>
                 </div>
-                <div className="flex items-center space-x-1">
-                  <Clock className="h-3 w-3" />
-                  <span>{post.readTime}</span>
+                
+                {/* Content */}
+                <div className="flex-1 min-w-0">
+                  <h4 className="text-xs lg:text-sm font-medium text-neutral-900 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors line-clamp-2 mb-2">
+                    {post.title}
+                  </h4>
+                  <div className="flex items-center justify-between text-xs text-neutral-500 dark:text-neutral-400">
+                    <div className="flex items-center space-x-2">
+                      <Calendar className="h-3 w-3" />
+                        <span className="text-xs">{formatDate(post.createdAt)}</span>
+                    </div>
+                    <div className="flex items-center space-x-1">
+                      <Clock className="h-3 w-3" />
+                      <span className="text-xs">{post.readTime}</span>
+                    </div>
+                  </div>
+                    {featuredPosts.length > 0 && (
+                      <div className="flex items-center mt-2">
+                        <Star className="h-3 w-3 text-yellow-500 mr-1" />
+                        <span className="text-xs text-yellow-500">Öne Çıkan</span>
+                      </div>
+                    )}
                 </div>
               </div>
-                {featuredPosts.length > 0 && (
-                  <div className="flex items-center mt-2">
-                    <Star className="h-3 w-3 text-yellow-500 mr-1" />
-                    <span className="text-xs text-yellow-500">Öne Çıkan</span>
-                  </div>
-                )}
             </Link>
               )
             })}
@@ -205,19 +230,19 @@ export function BlogDetailSidebar({ currentSlug }: BlogDetailSidebarProps) {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.4, duration: 0.6 }}
-        className="glass rounded-2xl shadow-modern p-6 border border-white/50 dark:border-white/40 backdrop-blur-lg dark:[border:1px_solid_rgba(255,255,255,0.2)]"
+        className="glass rounded-xl shadow-modern p-3 lg:p-4 border border-white/50 dark:border-white/40 backdrop-blur-lg dark:[border:1px_solid_rgba(255,255,255,0.2)]"
         style={{ background: 'rgba(255, 255, 255, 0.1)' }}
       >
-        <h3 className="text-lg font-semibold text-neutral-900 dark:text-white mb-4 flex items-center">
-          <BookOpen className="h-5 w-5 mr-2 text-cyan-500" />
+        <h3 className="text-sm lg:text-base font-semibold text-neutral-900 dark:text-white mb-2 lg:mb-3 flex items-center">
+          <BookOpen className="h-3 w-3 lg:h-4 lg:w-4 mr-2 text-cyan-500" />
           Kategoriler
         </h3>
-        <div className="space-y-3">
+        <div className="space-y-1.5 lg:space-y-2">
           {isLoading ? (
-            <div className="space-y-3">
+            <div className="space-y-2">
               {[...Array(5)].map((_, i) => (
                 <div key={i} className="animate-pulse">
-                  <div className="h-12 bg-white/20 rounded-xl"></div>
+                  <div className="h-10 bg-white/20 rounded-lg"></div>
                 </div>
               ))}
             </div>
@@ -226,12 +251,12 @@ export function BlogDetailSidebar({ currentSlug }: BlogDetailSidebarProps) {
             <Link
                 key={category}
                 href={`/blog?category=${encodeURIComponent(category)}`}
-              className="group flex items-center justify-between p-3 glass rounded-xl hover:bg-white/20 transition-all duration-200"
+              className="group flex items-center justify-between p-2 glass rounded-lg hover:bg-white/20 transition-all duration-200"
               style={{ background: 'rgba(255, 255, 255, 0.05)' }}
             >
-              <div className="flex items-center space-x-3">
-                  <div className={`w-3 h-3 rounded-full bg-gradient-to-r ${categoryColors[index % categoryColors.length]}`}></div>
-                <span className="text-sm font-medium text-neutral-900 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">
+              <div className="flex items-center space-x-2 lg:space-x-3">
+                  <div className={`w-2 h-2 lg:w-3 lg:h-3 rounded-full bg-gradient-to-r ${categoryColors[index % categoryColors.length]}`}></div>
+                <span className="text-xs lg:text-sm font-medium text-neutral-900 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">
                     {category}
                 </span>
               </div>
@@ -247,14 +272,14 @@ export function BlogDetailSidebar({ currentSlug }: BlogDetailSidebarProps) {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.6, duration: 0.6 }}
-        className="glass rounded-2xl shadow-modern p-6 border border-white/50 dark:border-white/40 backdrop-blur-lg dark:[border:1px_solid_rgba(255,255,255,0.2)]"
+        className="glass rounded-xl shadow-modern p-3 lg:p-4 border border-white/50 dark:border-white/40 backdrop-blur-lg dark:[border:1px_solid_rgba(255,255,255,0.2)]"
         style={{ background: 'rgba(255, 255, 255, 0.1)' }}
       >
-        <h3 className="text-lg font-semibold text-neutral-900 dark:text-white mb-4 flex items-center">
-          <TrendingUp className="h-5 w-5 mr-2 text-cyan-500" />
+        <h3 className="text-sm lg:text-base font-semibold text-neutral-900 dark:text-white mb-2 lg:mb-3 flex items-center">
+          <TrendingUp className="h-3 w-3 lg:h-4 lg:w-4 mr-2 text-cyan-500" />
           Popüler Etiketler
         </h3>
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-1 lg:gap-1.5">
           {isLoading ? (
             <div className="flex flex-wrap gap-2">
               {[...Array(8)].map((_, i) => (
@@ -268,7 +293,7 @@ export function BlogDetailSidebar({ currentSlug }: BlogDetailSidebarProps) {
             <Link
               key={tag}
                 href={`/blog?tag=${encodeURIComponent(tag)}`}
-                className="group inline-flex items-center px-3 py-1.5 text-xs font-medium text-neutral-700 dark:text-neutral-300 bg-white/10 hover:bg-cyan-500/20 hover:text-cyan-600 dark:hover:text-cyan-400 rounded-full transition-all duration-200 border border-white/20 hover:border-cyan-500/50"
+                className="group inline-flex items-center px-2 py-1 text-xs font-medium text-neutral-700 dark:text-neutral-300 bg-white/10 hover:bg-cyan-500/20 hover:text-cyan-600 dark:hover:text-cyan-400 rounded-full transition-all duration-200 border border-white/20 hover:border-cyan-500/50"
               >
                 <Tag className="h-3 w-3 mr-1" />
                 {tag}

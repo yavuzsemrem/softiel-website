@@ -1,0 +1,302 @@
+{
+  "navigation": {
+    "home": "Ana Sayfa",
+    "about": "Hakkımızda",
+    "services": "Hizmetlerimiz",
+    "blog": "Blog",
+    "contact": "İletişim",
+    "pricing": "Fiyatlandırma"
+  },
+  "hero": {
+    "title": "Modern Web Ajansı",
+    "subtitle": "Dijital dünyada fark yaratın",
+    "description": "Web tasarım, geliştirme, SEO ve dijital pazarlama hizmetleri ile işinizi büyütün.",
+    "cta": "Hemen Başlayın",
+    "learnMore": "Daha Fazla Bilgi"
+  },
+  "services": {
+    "title": "Hizmetlerimiz",
+    "subtitle": "Size özel çözümler sunuyoruz",
+    "webDesign": "Web Sitesi Tasarımı",
+    "webDevelopment": "Web Geliştirme",
+    "seo": "SEO Optimizasyonu",
+    "digitalMarketing": "Dijital Pazarlama",
+    "mobileApp": "Mobil Uygulama",
+    "aiIntegration": "Yapay Zeka Entegrasyonu",
+    "googleAds": "Google Ads Yönetimi",
+    "wordpress": "WordPress Çözümleri",
+    "logoDesign": "Logo & Kurumsal Kimlik",
+    "socialMedia": "Sosyal Medya Yönetimi",
+    "automation": "Otomasyon & Entegrasyon",
+    "digitalConsulting": "Dijital Danışmanlık",
+    "noCode": "No-Code / Low-Code Çözümleri",
+    "education": "Eğitim & Mentorluk"
+  },
+  "blog": {
+    "title": "Blog",
+    "subtitle": "En son yazılarımız",
+    "readMore": "Devamını Oku",
+    "readTime": "dakika okuma",
+    "publishedOn": "Yayınlanma",
+    "category": "Kategori",
+    "tags": "Etiketler",
+    "search": "Ara...",
+    "noPosts": "Henüz blog yazısı bulunmuyor",
+    "badge": "Blog & İçerikler",
+    "hero": {
+      "title": "Dijital Dünyada",
+      "subtitle": "Bilgi ve İlham",
+      "description": "Web tasarımından yapay zekaya, SEO'dan mobil uygulama geliştirmeye kadar dijital dünyadaki son gelişmeler, ipuçları ve uzman görüşlerimizi keşfedin. İşinizi büyütecek stratejiler ve teknolojiler hakkında güncel içerikler.",
+      "cta": "Yazıları Keşfet"
+    },
+    "stats": {
+      "monthlyVisitors": "Aylık Ziyaretçi",
+      "activeReaders": "Aktif Okuyucu",
+      "averageRead": "Ortalama Okuma",
+      "contentQuality": "İçerik Kalitesi",
+      "weeklyUpdate": "Haftalık Güncelleme",
+      "newContent": "Yeni İçerik",
+      "satisfaction": "Okuyucu Memnuniyeti",
+      "positiveFeedback": "Pozitif Geri Bildirim"
+    }
+  },
+  "contact": {
+    "title": "İletişim",
+    "subtitle": "Projeleriniz için bizimle iletişime geçin",
+    "name": "Ad Soyad",
+    "namePlaceholder": "Adınız ve soyadınız",
+    "email": "E-posta",
+    "emailPlaceholder": "ornek@email.com",
+    "phone": "Telefon",
+    "phonePlaceholder": "0555 123 45 67",
+    "company": "Şirket",
+    "companyPlaceholder": "Şirket adınız (opsiyonel)",
+    "message": "Mesaj",
+    "send": "Gönder",
+    "success": "Mesajınız başarıyla gönderildi!",
+    "error": "Mesaj gönderilirken bir hata oluştu."
+  },
+  "footer": {
+    "description": "Dijital dünyada fark yaratan çözümler üretiyoruz. Web tasarımından mobil uygulamalara, SEO'dan yapay zeka entegrasyonlarına kadar geniş bir yelpazede hizmet veriyoruz.",
+    "quickLinks": "Sayfalarımız",
+    "services": "Hizmetlerimiz",
+    "company": "Şirket",
+    "followUs": "Bizi Takip Edin",
+    "allRightsReserved": "Tüm hakları saklıdır",
+    "privacyPolicy": "Gizlilik Politikası",
+    "termsOfService": "Kullanım Koşulları",
+    "cookiePolicy": "Çerez Politikası",
+    "contactInfo": "İletişim Bilgileri",
+    "email": "E-posta",
+    "phone": "Telefon",
+    "address": "Adres",
+    "brandName": "Softiel"
+  },
+  "common": {
+    "loading": "Yükleniyor...",
+    "changingLanguage": "Dil değiştiriliyor...",
+    "error": "Bir hata oluştu",
+    "success": "Başarılı",
+    "cancel": "İptal",
+    "save": "Kaydet",
+    "edit": "Düzenle",
+    "delete": "Sil",
+    "confirm": "Onayla",
+    "back": "Geri",
+    "next": "İleri",
+    "previous": "Önceki",
+    "close": "Kapat",
+    "open": "Aç",
+    "search": "Ara",
+    "filter": "Filtrele",
+    "sort": "Sırala",
+    "view": "Görüntüle",
+    "download": "İndir",
+    "upload": "Yükle",
+    "share": "Paylaş",
+    "copy": "Kopyala",
+    "print": "Yazdır",
+    "getQuote": "Teklif Al",
+    "scrollToTop": "Yukarı Çık"
+  },
+  "brand": {
+    "name": "Softiel"
+  },
+  "quote": {
+    "title": "Teklif Al",
+    "subtitle": "Projeniz için ücretsiz teklif alın",
+    "formTitle": "Projenizi Anlatalım",
+    "formDescription": "Aşağıdaki formu doldurarak projeniz hakkında detaylı bilgi verin.",
+    "timeframe": "24 saat içinde",
+    "timeframeDescription": "size özel teklifimizi sunacağız.",
+    "serviceQuestion": "Hangi hizmete ihtiyacınız var?",
+    "selectService": "Hizmet seçiniz",
+    "projectDetails": "Proje Detayları",
+    "messagePlaceholder": "Projeniz hakkında detaylı bilgi verin. Bütçe, zaman çizelgesi, özel istekleriniz vb. ne kadar detay verirseniz, o kadar doğru teklif hazırlayabiliriz.",
+    "privacyAcceptance": "'nı okudum ve kabul ediyorum. Kişisel verilerimin işlenmesine onay veriyorum.",
+    "sending": "Gönderiliyor...",
+    "submit": "Teklif Talep Et",
+    "responseTime": "24 saat içinde size dönüş yapacağız.",
+    "footerText": "Ücretsiz teklif almak için formu doldurun",
+    "other": "Diğer"
+  },
+  "privacy": {
+    "title": "Gizlilik Politikası",
+    "subtitle": "Kişisel verilerinizin korunması",
+    "introduction": "Softiel olarak, ziyaretçilerimizin ve müşterilerimizin gizliliğini korumak en önemli önceliklerimizden biridir. Bu gizlilik politikası, 6698 sayılı Kişisel Verilerin Korunması Kanunu (KVKK) ve Avrupa Birliği Genel Veri Koruma Tüzüğü (GDPR) kapsamında, hangi kişisel verilerinizi topladığımızı, nasıl işlediğimizi ve haklarınızı açıklamaktadır.",
+    "section1": {
+      "title": "1. Toplanan Veriler",
+      "description": "Web sitemiz üzerinden aşağıdaki kişisel veriler toplanabilmektedir:",
+      "name": "Ad Soyad",
+      "email": "E-posta adresi",
+      "phone": "Telefon numarası",
+      "cookies": "Çerezler (IP adresi, tarayıcı bilgileri, oturum verileri vb.)",
+      "important": "Önemli:",
+      "note": "İletişim formu aracılığıyla paylaştığınız bilgiler dışında, yapay zeka botu aracılığıyla herhangi bir veri toplanmamaktadır."
+    },
+    "section2": {
+      "title": "2. Verilerin İşlenme Amaçları",
+      "description": "Toplanan kişisel verileriniz aşağıdaki amaçlarla işlenmektedir:",
+      "customer": "Müşteri taleplerini yanıtlamak ve iletişime geçmek",
+      "quotes": "Teklif hazırlamak ve iş ilişkisi kurmak",
+      "marketing": "Pazarlama faaliyetleri yürütmek",
+      "analytics": "Analitik ve performans ölçümleri yapmak (Google Analytics aracılığıyla)"
+    },
+    "section3": {
+      "title": "3. Çerezler ve Analitik",
+      "description": "Web sitemizde yalnızca Google Analytics hizmeti kapsamında çerezler kullanılmaktadır. Bu çerezler, kullanıcı deneyimini geliştirmek ve site performansını ölçmek amacıyla işlenmektedir. Çerez ayarlarınızı tarayıcı seçeneklerinizden yönetebilirsiniz."
+    },
+    "section4": {
+      "title": "4. Verilerin Saklanma Süresi",
+      "description": "Kişisel verileriniz, müşteri ilişkisi devam ettiği sürece saklanmaktadır. İlgili iş ilişkisinin sona ermesi halinde verileriniz silinecek veya anonim hale getirilecektir."
+    },
+    "section5": {
+      "title": "5. Kullanıcı Hakları",
+      "description": "KVKK ve GDPR kapsamında, kişisel verileriniz üzerinde aşağıdaki haklara sahipsiniz:",
+      "view": "Verilerinizi görüntüleme",
+      "edit": "Verilerinizi düzeltme",
+      "delete": "Verilerinizin silinmesini talep etme",
+      "contact": "Bu haklarınızı kullanmak için bize",
+      "contactEnd": "adresinden ulaşabilirsiniz."
+    },
+    "section6": {
+      "title": "6. Veri Aktarımı",
+      "description": "Web sitemiz Avrupa'da barındırılmakta olup, verilerinizin işlenmesi yalnızca aşağıdaki ülkelerle sınırlıdır:",
+      "turkey": "Türkiye (iş süreçleri kapsamında)",
+      "usa": "Amerika Birleşik Devletleri (Google Analytics hizmeti aracılığıyla)",
+      "note": "Bunun dışında verileriniz üçüncü bir ülkeye aktarılmamaktadır."
+    },
+    "section7": {
+      "title": "7. Güvenlik Önlemleri",
+      "description": "Softiel olarak, kişisel verilerinizin yetkisiz erişime, kayba veya kötüye kullanıma karşı korunması için gerekli idari ve teknik güvenlik önlemlerini almaktayız."
+    },
+    "section8": {
+      "title": "8. İletişim",
+      "description": "Gizlilik politikamız hakkında sorularınız veya talepleriniz için bizimle iletişime geçebilirsiniz:",
+      "email": "E-posta:"
+    },
+    "lastUpdated": "Son güncelleme:",
+    "understood": "Anladım"
+  },
+  "terms": {
+    "title": "Kullanım Koşulları",
+    "subtitle": "Hizmet kullanım şartları ve yükümlülükler",
+    "introduction": "Bu kullanım koşulları, Softiel web sitesini (bundan sonra \"Site\" olarak anılacaktır) ziyaret eden tüm kullanıcılar için geçerlidir. Siteye erişen ve kullanan herkes aşağıda belirtilen koşulları kabul etmiş sayılır.",
+    "section1": {
+      "title": "1. Hizmetin Kapsamı",
+      "description": "Softiel web sitesi üzerinden kullanıcılar;",
+      "info": "Bilgi alma,",
+      "quote": "Teklif talep etme,",
+      "demo": "Demo talep etme,",
+      "blog": "Blog yazılarını görüntüleme,",
+      "chat": "Chat bot üzerinden sorular yöneltme",
+      "note": "hizmetlerinden yararlanabilirler. Kullanıcıların Site üzerinde bu hizmetler dışında herhangi bir işlem yapma hakkı bulunmamaktadır."
+    },
+    "section2": {
+      "title": "2. Kullanıcı Sorumlulukları",
+      "accurate": "Kullanıcılar, Site üzerinden yalnızca doğru ve güncel bilgiler vermeyi taahhüt eder.",
+      "prohibited": "Spam, kötüye kullanım, zararlı içerik gönderme veya Site'nin işleyişini bozacak her türlü davranış yasaktır.",
+      "legal": "Site'nin amacı dışında kullanımı, yetkisiz erişim girişimleri ve benzeri durumlar hukuki yaptırımlara tabi olabilir."
+    },
+    "section3": {
+      "title": "3. Telif Hakları",
+      "rights": "Site üzerinde yer alan tüm içeriklerin (metin, görsel, logo, kod, tasarım vb.) tüm hakları Softiel'e aittir.",
+      "permission": "Softiel'in yazılı izni olmadan hiçbir içerik kopyalanamaz, çoğaltılamaz, dağıtılamaz veya ticari amaçla kullanılamaz."
+    },
+    "section4": {
+      "title": "4. Hizmet ve İçerik Değişiklikleri",
+      "description": "Softiel, Site üzerinde sunulan hizmetler, fiyatlar, içerikler ve kullanım koşullarında önceden bildirimde bulunmaksızın değişiklik yapma hakkını saklı tutar."
+    },
+    "section5": {
+      "title": "5. Sorumluluk Reddi",
+      "info": "Site üzerinde yer alan tüm bilgiler yalnızca genel bilgilendirme amacı taşır.",
+      "liability": "Softiel, içeriklerdeki olası hata veya eksikliklerden ya da bu bilgilerin kullanımından doğabilecek doğrudan veya dolaylı zararlardan sorumlu tutulamaz."
+    },
+    "section6": {
+      "title": "6. Üçüncü Taraf Bağlantılar",
+      "description": "Site üzerinde Google Maps ve sosyal medya hesapları gibi üçüncü taraf bağlantıları bulunabilir. Bu bağlantılar Softiel tarafından yönetilmekte olup, kullanıcı deneyimini geliştirmek amacıyla sunulmaktadır."
+    },
+    "section7": {
+      "title": "7. Uyuşmazlık ve Yasal Yetki",
+      "description": "Bu kullanım koşullarından doğabilecek her türlü uyuşmazlıkta Türkiye Cumhuriyeti Kanunları geçerli olacaktır. Yetkili merciler, İstanbul mahkemeleri ve icra daireleridir."
+    },
+    "section8": {
+      "title": "8. İletişim",
+      "description": "Kullanım koşulları hakkında tüm sorularınız ve talepleriniz için bizimle iletişime geçebilirsiniz:",
+      "email": "E-posta:"
+    },
+    "lastUpdated": "Son güncelleme:",
+    "understood": "Anladım"
+  },
+  "cookie": {
+    "title": "Çerez Politikası",
+    "subtitle": "Web sitemizde kullanılan çerezler hakkında bilgi",
+    "introduction": "Softiel olarak, web sitemizi ziyaret eden kullanıcıların deneyimini geliştirmek, site performansını ölçmek ve hizmetlerimizi iyileştirmek amacıyla çerezler kullanmaktayız. Bu Çerez Politikası, 6698 sayılı Kişisel Verilerin Korunması Kanunu (KVKK) ve Avrupa Birliği Genel Veri Koruma Tüzüğü (GDPR) kapsamında hazırlanmıştır.",
+    "section1": {
+      "title": "1. Çerez Nedir?",
+      "description": "Çerezler, bir web sitesini ziyaret ettiğinizde tarayıcınıza veya cihazınıza kaydedilen küçük metin dosyalarıdır. Bu dosyalar sayesinde site, tercihlerinizi hatırlayabilir ve kullanıcı deneyiminizi geliştirebilir."
+    },
+    "section2": {
+      "title": "2. Kullanılan Çerez Türleri",
+      "essential": "Zorunlu Çerezler",
+      "essentialDesc": "Sitenin temel işlevlerini yerine getirebilmesi için gerekli çerezlerdir. Oturum açma, form gönderme gibi işlevler bu çerezler olmadan çalışmaz.",
+      "functional": "İşlevsel Çerezler",
+      "functionalDesc": "Tercihlerinizi (ör. dil seçimi, görüntü ayarları) hatırlayarak siteyi size özel hale getirir.",
+      "analytics": "Analitik / Performans Çerezleri",
+      "analyticsDesc": "Google Analytics aracılığıyla kullanıcıların site üzerindeki hareketlerini (trafik analizi, ziyaret edilen sayfalar, gezinme süreleri) anonim olarak toplar. Bu sayede site performansını ve kullanıcı deneyimini geliştirmemize yardımcı olur.",
+      "marketing": "Pazarlama / İzleme Çerezleri",
+      "marketingDesc": "Kullanıcı davranışlarını analiz ederek reklam ve kampanya çalışmalarının etkinliğini ölçmemize yardımcı olur."
+    },
+    "section3": {
+      "title": "3. Çerezlerin Kullanım Amaçları",
+      "description": "Toplanan veriler, aşağıdaki amaçlarla kullanılmaktadır:",
+      "analyze": "Site performansını analiz etmek,",
+      "improve": "Kullanıcı deneyimini iyileştirmek,",
+      "measure": "Ziyaretçi sayısını ve trafik kaynaklarını ölçmek,",
+      "quality": "Hizmet kalitemizi artırmak."
+    },
+    "section4": {
+      "title": "4. Üçüncü Taraf Çerezler",
+      "description": "Sitemizde yalnızca Google Analytics hizmeti kapsamında üçüncü taraf çerezler kullanılmaktadır. Bu çerezler anonim istatistiksel veriler toplar ve kişisel kimlik bilgilerinizi ifşa etmez."
+    },
+    "section5": {
+      "title": "5. Çerezlerin Saklanma Süresi",
+      "description": "Çerezler, oturum süresince saklanmakta olup tarayıcı kapatıldığında otomatik olarak silinir."
+    },
+    "section6": {
+      "title": "6. Çerezlerin Yönetimi",
+      "description": "Kullanıcılar, tarayıcı ayarları üzerinden çerezleri reddedebilir veya mevcut çerezleri silebilir. Çerezleri devre dışı bırakmanız halinde, sitenin bazı bölümlerinin doğru çalışmayabileceğini hatırlatırız."
+    },
+    "section7": {
+      "title": "7. Yasal Dayanak ve Uyum",
+      "description": "Çerez kullanımı, KVKK ve GDPR kapsamında yasal yükümlülüklere uygun olarak gerçekleştirilmektedir. Kullanıcılar, diledikleri zaman çerezlere ilişkin haklarını kullanabilir ve bizden bilgi talep edebilirler."
+    },
+    "section8": {
+      "title": "8. İletişim",
+      "description": "Çerez Politikamız hakkında sorularınız için bizimle iletişime geçebilirsiniz:",
+      "email": "E-posta:"
+    },
+    "lastUpdated": "Son güncelleme:",
+    "understood": "Anladım"
+  }
+}

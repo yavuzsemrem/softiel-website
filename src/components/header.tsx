@@ -8,17 +8,20 @@ import { Menu, X, FileText, ChevronDown, Globe } from "lucide-react"
 import { Logo } from "./logo"
 import { Navigation } from "./navigation"
 import { QuoteModal } from "./quote-modal"
+import { useI18n } from "@/contexts/i18n-context"
+import Flag from "react-world-flags"
 
 const languages = [
-  { code: 'tr', flag: '/flags/tr.svg' },
-  { code: 'en', flag: '/flags/en.svg' },
-  { code: 'de', flag: '/flags/de.svg' },
-  { code: 'fr', flag: '/flags/fr.svg' },
-  { code: 'ru', flag: '/flags/ru.svg' },
-  { code: 'ar', flag: '/flags/ar.svg' },
+  { code: 'tr', countryCode: 'TR' },
+  { code: 'en', countryCode: 'GB' },
+  { code: 'de', countryCode: 'DE' },
+  { code: 'fr', countryCode: 'FR' },
+  { code: 'ru', countryCode: 'RU' },
+  { code: 'ar', countryCode: 'SA' },
 ]
 
 export function Header() {
+  const { locale, setLocale, t } = useI18n()
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isLanguageDropdownOpen, setIsLanguageDropdownOpen] = useState(false)
@@ -47,8 +50,17 @@ export function Header() {
 
   const selectLanguage = (language: typeof languages[0]) => {
     setSelectedLanguage(language)
+    setLocale(language.code)
     setIsLanguageDropdownOpen(false)
   }
+
+  // Mevcut dil değiştiğinde seçili dili güncelle
+  useEffect(() => {
+    const currentLanguage = languages.find(lang => lang.code === locale)
+    if (currentLanguage) {
+      setSelectedLanguage(currentLanguage)
+    }
+  }, [locale])
 
   const toggleQuoteModal = () => {
     setIsQuoteModalOpen(!isQuoteModalOpen)
@@ -98,7 +110,7 @@ export function Header() {
               className="flex items-center justify-center w-10 h-10 sm:w-auto sm:h-auto sm:space-x-2 sm:px-4 py-2 bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white rounded-xl hover:shadow-lg transition-all duration-200 shadow-lg"
             >
               <FileText className="h-4 w-4" />
-              <span className="hidden sm:inline text-sm font-medium">Teklif Al</span>
+              <span className="hidden sm:inline text-sm font-medium">{t('common.getQuote', 'Teklif Al')}</span>
             </motion.button>
 
             {/* Language Selector */}
@@ -110,12 +122,9 @@ export function Header() {
                 className="flex items-center justify-center w-10 h-10 sm:w-auto sm:h-auto sm:space-x-2 sm:px-3 py-2 text-white rounded-xl transition-all duration-200 backdrop-blur-sm bg-slate-800/60 hover:bg-slate-700/60"
                 style={{ border: '1px solid rgba(178, 178, 178, 0.1)' }}
               >
-                <Image 
-                  src={selectedLanguage.flag} 
-                  alt={`${selectedLanguage.code} flag`} 
-                  width={28} 
-                  height={20}
-                  className="w-6 h-4 sm:w-7 sm:h-5 object-cover rounded-sm"
+                <Flag 
+                  code={selectedLanguage.countryCode} 
+                  className="w-6 h-4 sm:w-7 sm:h-5 rounded-sm"
                 />
                 <ChevronDown className={`hidden sm:block h-4 w-4 transition-transform ${isLanguageDropdownOpen ? 'rotate-180' : ''}`} />
               </motion.button>
@@ -138,12 +147,9 @@ export function Header() {
                           selectedLanguage.code === language.code ? 'bg-slate-700/80 text-white shadow-lg' : ''
                         }`}
                       >
-                        <Image 
-                          src={language.flag} 
-                          alt={`${language.code} flag`} 
-                          width={32} 
-                          height={24}
-                          className="w-6 h-4 sm:w-8 sm:h-6 object-cover rounded-sm shadow-sm"
+                        <Flag 
+                          code={language.countryCode} 
+                          className="w-6 h-4 sm:w-8 sm:h-6 rounded-sm shadow-sm"
                         />
                       </button>
                     ))}

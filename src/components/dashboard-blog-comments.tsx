@@ -126,23 +126,27 @@ export function DashboardBlogComments({ blogId }: DashboardBlogCommentsProps) {
       >
         {/* Comment Header */}
         <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-3 space-y-2 sm:space-y-0">
-          <div className="flex items-start space-x-2 sm:space-x-3">
+          <div className="flex items-start space-x-2 sm:space-x-3 min-w-0 flex-1">
             <div className="w-7 h-7 sm:w-8 sm:h-8 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full flex items-center justify-center flex-shrink-0">
               <User className="h-3 w-3 sm:h-4 sm:w-4 text-white" />
             </div>
             <div className="min-w-0 flex-1">
               <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-2 space-y-1 sm:space-y-0">
-                <h4 className="font-medium text-white text-sm sm:text-base truncate">{comment.authorName}</h4>
-                <span className="text-xs text-neutral-400 truncate">({comment.authorEmail})</span>
+                <h4 className="font-medium text-white text-sm sm:text-base dashboard-comment-author" title={comment.authorName}>
+                  {comment.authorName}
+                </h4>
+                <span className="text-xs text-neutral-400 dashboard-comment-email" title={comment.authorEmail}>
+                  ({comment.authorEmail})
+                </span>
               </div>
               <div className="flex flex-col sm:flex-row sm:items-center space-y-1 sm:space-y-0 sm:space-x-2 text-xs text-neutral-400">
                 <div className="flex items-center space-x-1">
-                  <Calendar className="h-3 w-3" />
-                  <span>{formatDate(comment.createdAt)}</span>
+                  <Calendar className="h-3 w-3 flex-shrink-0" />
+                  <span className="truncate">{formatDate(comment.createdAt)}</span>
                 </div>
                 <div className="flex items-center space-x-1">
                   {approvalStatus.icon}
-                  <span className={approvalStatus.color}>{approvalStatus.text}</span>
+                  <span className={`${approvalStatus.color} truncate`}>{approvalStatus.text}</span>
                 </div>
               </div>
             </div>
@@ -166,7 +170,7 @@ export function DashboardBlogComments({ blogId }: DashboardBlogCommentsProps) {
         </div>
 
         {/* Comment Content */}
-        <div className="text-neutral-300 leading-relaxed mb-3 break-words overflow-wrap-anywhere whitespace-pre-wrap text-sm sm:text-base">
+        <div className="text-neutral-300 leading-relaxed mb-3 dashboard-comment-content text-sm sm:text-base">
           {comment.content}
         </div>
 
@@ -174,10 +178,10 @@ export function DashboardBlogComments({ blogId }: DashboardBlogCommentsProps) {
         {hasReplies && (
           <button
             onClick={() => toggleReplies(comment.id!)}
-            className="flex items-center space-x-1 text-blue-400 hover:text-blue-300 transition-colors text-xs sm:text-sm"
+            className="flex items-center space-x-1 text-blue-400 hover:text-blue-300 transition-colors text-xs sm:text-sm min-w-0"
           >
-            {isExpanded ? <ChevronUp className="h-3 w-3 sm:h-4 sm:w-4" /> : <ChevronDown className="h-3 w-3 sm:h-4 sm:w-4" />}
-            <span className="truncate">
+            {isExpanded ? <ChevronUp className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" /> : <ChevronDown className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />}
+            <span className="truncate min-w-0">
               {isExpanded ? 'Yanıtları Gizle' : `${comment.replies?.length} Yanıtı Görüntüle`}
             </span>
           </button>

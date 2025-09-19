@@ -5,33 +5,9 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { motion, AnimatePresence } from "framer-motion"
 import { ChevronDown, Menu, X, Sparkles, Globe, Code, Smartphone, Search, Target, FileText, Palette, Share2, Bot, Zap, Users, BookOpen, Wrench } from "lucide-react"
+import { useI18n } from "@/contexts/i18n-context"
 
-const navigationItems = [
-  { name: "Ana Sayfa", href: "/" },
-  { 
-    name: "Hizmetlerimiz", 
-    href: "/hizmetlerimiz",
-    dropdown: [
-      { name: "Web Sitesi Tasarımı", href: "/hizmetlerimiz/web-sitesi-tasarimi", icon: Globe },
-      { name: "Web Geliştirme", href: "/hizmetlerimiz/web-gelistirme", icon: Code },
-      { name: "Mobil Uygulama Geliştirme", href: "/hizmetlerimiz/mobil-uygulama-gelistirme", icon: Smartphone },
-      { name: "SEO & Arama Motoru Optimizasyonu", href: "/hizmetlerimiz/seo-arama-motoru-optimizasyonu", icon: Search },
-      { name: "Google Ads & Meta Ads Yönetimi", href: "/hizmetlerimiz/google-ads-meta-ads-yonetimi", icon: Target },
-      { name: "WordPress & CMS Çözümleri", href: "/hizmetlerimiz/wordpress-cms-cozumleri", icon: FileText },
-      { name: "Logo & Kurumsal Kimlik Tasarımı", href: "/hizmetlerimiz/logo-kurumsal-kimlik-tasarimi", icon: Palette },
-      { name: "Sosyal Medya Yönetimi", href: "/hizmetlerimiz/sosyal-medya-yonetimi", icon: Share2 },
-      { name: "Yapay Zeka Entegrasyonları", href: "/hizmetlerimiz/yapay-zeka-entegrasyonlari", icon: Bot },
-      { name: "Otomasyon & Entegrasyon", href: "/hizmetlerimiz/otomasyon-entegrasyon", icon: Zap },
-      { name: "Dijital Danışmanlık", href: "/hizmetlerimiz/dijital-danismanlik", icon: Users },
-      { name: "No-Code / Low-Code Çözümleri", href: "/hizmetlerimiz/no-code-low-code-cozumleri", icon: Wrench },
-      { name: "Eğitim & Mentorluk", href: "/hizmetlerimiz/egitim-mentorluk", icon: BookOpen },
-    ]
-  },
-  { name: "Hakkımızda", href: "/hakkimizda" },
-  { name: "Fiyatlandırma", href: "/fiyatlandirma" },
-  { name: "Blog", href: "/blog" },
-  { name: "İletişim", href: "/iletisim" },
-]
+// Navigation items will be generated dynamically with i18n
 
 interface NavigationProps {
   isMobile?: boolean
@@ -39,8 +15,37 @@ interface NavigationProps {
 }
 
 export function Navigation({ isMobile = false, onClose }: NavigationProps) {
+  const { t, getLocalizedUrl } = useI18n()
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null)
   const pathname = usePathname()
+
+  // Navigation items with i18n and localized URLs
+  const navigationItems = [
+    { name: t('navigation.home', 'Ana Sayfa'), href: getLocalizedUrl("/") },
+    { 
+      name: t('navigation.services', 'Hizmetlerimiz'), 
+      href: getLocalizedUrl("/hizmetlerimiz"),
+      dropdown: [
+        { name: t('services.webDesign', 'Web Sitesi Tasarımı'), href: getLocalizedUrl("/hizmetlerimiz/web-sitesi-tasarimi"), icon: Globe },
+        { name: t('services.webDevelopment', 'Web Geliştirme'), href: getLocalizedUrl("/hizmetlerimiz/web-gelistirme"), icon: Code },
+        { name: t('services.mobileApp', 'Mobil Uygulama Geliştirme'), href: getLocalizedUrl("/hizmetlerimiz/mobil-uygulama-gelistirme"), icon: Smartphone },
+        { name: t('services.seo', 'SEO & Arama Motoru Optimizasyonu'), href: getLocalizedUrl("/hizmetlerimiz/seo-arama-motoru-optimizasyonu"), icon: Search },
+        { name: t('services.googleAds', 'Google Ads & Meta Ads Yönetimi'), href: getLocalizedUrl("/hizmetlerimiz/google-ads-meta-ads-yonetimi"), icon: Target },
+        { name: t('services.wordpress', 'WordPress & CMS Çözümleri'), href: getLocalizedUrl("/hizmetlerimiz/wordpress-cms-cozumleri"), icon: FileText },
+        { name: t('services.logoDesign', 'Logo & Kurumsal Kimlik Tasarımı'), href: getLocalizedUrl("/hizmetlerimiz/logo-kurumsal-kimlik-tasarimi"), icon: Palette },
+        { name: t('services.socialMedia', 'Sosyal Medya Yönetimi'), href: getLocalizedUrl("/hizmetlerimiz/social-media-yonetimi"), icon: Share2 },
+        { name: t('services.aiIntegration', 'Yapay Zeka Entegrasyonları'), href: getLocalizedUrl("/hizmetlerimiz/yapay-zeka-entegrasyonlari"), icon: Bot },
+        { name: t('services.automation', 'Otomasyon & Entegrasyon'), href: getLocalizedUrl("/hizmetlerimiz/otomasyon-entegrasyon"), icon: Zap },
+        { name: t('services.digitalConsulting', 'Dijital Danışmanlık'), href: getLocalizedUrl("/hizmetlerimiz/dijital-danismanlik"), icon: Users },
+        { name: t('services.noCode', 'No-Code / Low-Code Çözümleri'), href: getLocalizedUrl("/hizmetlerimiz/no-code-low-code-cozumleri"), icon: Wrench },
+        { name: t('services.education', 'Eğitim & Mentorluk'), href: getLocalizedUrl("/hizmetlerimiz/egitim-mentorluk"), icon: BookOpen },
+      ]
+    },
+    { name: t('navigation.about', 'Hakkımızda'), href: getLocalizedUrl("/hakkimizda") },
+    { name: t('navigation.pricing', 'Fiyatlandırma'), href: getLocalizedUrl("/fiyatlandirma") },
+    { name: t('navigation.blog', 'Blog'), href: getLocalizedUrl("/blog") },
+    { name: t('navigation.contact', 'İletişim'), href: getLocalizedUrl("/iletisim") },
+  ]
 
   const handleDropdownToggle = (itemName: string) => {
     setActiveDropdown(activeDropdown === itemName ? null : itemName)
@@ -204,7 +209,7 @@ export function Navigation({ isMobile = false, onClose }: NavigationProps) {
                     <div className="px-2">
                       <div className="flex items-center space-x-2 px-3 py-2 mb-2">
                         <Sparkles className="h-4 w-4 text-blue-400" />
-                        <span className="text-sm font-semibold text-blue-400">Hizmetlerimiz</span>
+                        <span className="text-sm font-semibold text-blue-400">{t('navigation.services', 'Hizmetlerimiz')}</span>
                       </div>
                       <div className="grid grid-cols-1 gap-1">
                         {item.dropdown.map((subItem, index) => {

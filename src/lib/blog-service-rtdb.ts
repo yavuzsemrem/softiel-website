@@ -56,7 +56,6 @@ const blogsRef = ref(rtdb, 'blogs')
 // Yeni blog oluştur
 export async function createBlog(blogData: Omit<BlogPost, 'id' | 'createdAt' | 'updatedAt' | 'views' | 'likes' | 'comments'>): Promise<{ id: string; slug: string }> {
   try {
-    console.log('Realtime Database: Blog oluşturuluyor...', blogData)
     
     const newBlogRef = push(blogsRef)
     const blogId = newBlogRef.key!
@@ -82,10 +81,8 @@ export async function createBlog(blogData: Omit<BlogPost, 'id' | 'createdAt' | '
     }
     
     await set(newBlogRef, blogDataWithTimestamps)
-    console.log('Realtime Database: Blog oluşturuldu:', blogId)
     return { id: blogId, slug: slug }
   } catch (error) {
-    console.error('Realtime Database: Blog oluşturma hatası:', error)
     throw new Error(`Blog oluşturulamadı: ${(error as any)?.message || 'Bilinmeyen hata'}`)
   }
 }
@@ -93,7 +90,6 @@ export async function createBlog(blogData: Omit<BlogPost, 'id' | 'createdAt' | '
 // Blog güncelle
 export async function updateBlog(id: string, blogData: Partial<BlogPost>): Promise<void> {
   try {
-    console.log('Realtime Database: Blog güncelleniyor...', id, blogData)
     
     const blogRef = ref(rtdb, `blogs/${id}`)
     const updateData = {
@@ -103,9 +99,7 @@ export async function updateBlog(id: string, blogData: Partial<BlogPost>): Promi
     }
     
     await set(blogRef, updateData)
-    console.log('Realtime Database: Blog güncellendi:', id)
   } catch (error) {
-    console.error('Realtime Database: Blog güncelleme hatası:', error)
     throw new Error(`Blog güncellenemedi: ${(error as any)?.message || 'Bilinmeyen hata'}`)
   }
 }
@@ -113,13 +107,10 @@ export async function updateBlog(id: string, blogData: Partial<BlogPost>): Promi
 // Blog sil
 export async function deleteBlog(id: string): Promise<void> {
   try {
-    console.log('Realtime Database: Blog siliniyor...', id)
     
     const blogRef = ref(rtdb, `blogs/${id}`)
     await remove(blogRef)
-    console.log('Realtime Database: Blog silindi:', id)
   } catch (error) {
-    console.error('Realtime Database: Blog silme hatası:', error)
     throw new Error(`Blog silinemedi: ${(error as any)?.message || 'Bilinmeyen hata'}`)
   }
 }
@@ -127,14 +118,12 @@ export async function deleteBlog(id: string): Promise<void> {
 // Tek blog getir
 export async function getBlog(id: string): Promise<BlogPost | null> {
   try {
-    console.log('Realtime Database: Blog getiriliyor...', id)
     
     const blogRef = ref(rtdb, `blogs/${id}`)
     const snapshot = await get(blogRef)
     
     if (snapshot.exists()) {
       const blogData = snapshot.val()
-      console.log('Realtime Database: Blog getirildi:', blogData.title)
       
       // Görüntülenme sayısını artır
       const updatedViews = (blogData.views || 0) + 1
@@ -146,10 +135,8 @@ export async function getBlog(id: string): Promise<BlogPost | null> {
       } as BlogPost
     }
     
-    console.log('Realtime Database: Blog bulunamadı:', id)
     return null
   } catch (error) {
-    console.error('Realtime Database: Blog getirme hatası:', error)
     throw new Error(`Blog getirilemedi: ${(error as any)?.message || 'Bilinmeyen hata'}`)
   }
 }
@@ -220,7 +207,6 @@ export async function getBlogs(
       hasMore: endIndex < blogs.length
     }
   } catch (error) {
-    console.error('Realtime Database: Blog listesi getirme hatası:', error)
     throw new Error(`Blog listesi getirilemedi: ${(error as any)?.message || 'Bilinmeyen hata'}`)
   }
 }
@@ -236,7 +222,6 @@ export async function getPublishedBlogs(
 // Blog görüntülenme sayısını artır
 export async function incrementBlogViews(id: string): Promise<void> {
   try {
-    console.log('Realtime Database: Görüntülenme sayısı artırılıyor...', id)
     
     const blogRef = ref(rtdb, `blogs/${id}`)
     const snapshot = await get(blogRef)
@@ -244,17 +229,14 @@ export async function incrementBlogViews(id: string): Promise<void> {
     if (snapshot.exists()) {
       const currentViews = snapshot.val().views || 0
       await set(ref(rtdb, `blogs/${id}/views`), currentViews + 1)
-      console.log('Realtime Database: Görüntülenme sayısı artırıldı:', currentViews + 1)
     }
   } catch (error) {
-    console.error('Realtime Database: Görüntülenme sayısı artırma hatası:', error)
   }
 }
 
 // Blog beğeni sayısını güncelle
 export async function updateBlogLikes(id: string, increment: boolean): Promise<void> {
   try {
-    console.log('Realtime Database: Beğeni sayısı güncelleniyor...', id, increment)
     
     const blogRef = ref(rtdb, `blogs/${id}`)
     const snapshot = await get(blogRef)
@@ -264,17 +246,14 @@ export async function updateBlogLikes(id: string, increment: boolean): Promise<v
       const newLikes = increment ? currentLikes + 1 : Math.max(0, currentLikes - 1)
       
       await set(ref(rtdb, `blogs/${id}/likes`), newLikes)
-      console.log('Realtime Database: Beğeni sayısı güncellendi:', newLikes)
     }
   } catch (error) {
-    console.error('Realtime Database: Beğeni sayısı güncelleme hatası:', error)
   }
 }
 
 // Blog yorum sayısını güncelle
 export async function updateBlogComments(id: string, increment: boolean): Promise<void> {
   try {
-    console.log('Realtime Database: Yorum sayısı güncelleniyor...', id, increment)
     
     const blogRef = ref(rtdb, `blogs/${id}`)
     const snapshot = await get(blogRef)
@@ -284,17 +263,14 @@ export async function updateBlogComments(id: string, increment: boolean): Promis
       const newComments = increment ? currentComments + 1 : Math.max(0, currentComments - 1)
       
       await set(ref(rtdb, `blogs/${id}/comments`), newComments)
-      console.log('Realtime Database: Yorum sayısı güncellendi:', newComments)
     }
   } catch (error) {
-    console.error('Realtime Database: Yorum sayısı güncelleme hatası:', error)
   }
 }
 
 // Kategorileri getir
 export async function getCategories(): Promise<string[]> {
   try {
-    console.log('Realtime Database: Kategoriler getiriliyor...')
     
     const snapshot = await get(blogsRef)
     const categories = new Set<string>()
@@ -309,10 +285,8 @@ export async function getCategories(): Promise<string[]> {
     }
     
     const result = Array.from(categories).sort()
-    console.log('Realtime Database: Kategoriler getirildi:', result)
     return result
   } catch (error) {
-    console.error('Realtime Database: Kategoriler getirme hatası:', error)
     throw new Error(`Kategoriler getirilemedi: ${(error as any)?.message || 'Bilinmeyen hata'}`)
   }
 }
@@ -350,7 +324,6 @@ export async function getBlogStats(): Promise<{
   totalComments: number
 }> {
   try {
-    console.log('Realtime Database: Blog istatistikleri getiriliyor...')
     
     const snapshot = await get(blogsRef)
     let total = 0
@@ -386,10 +359,8 @@ export async function getBlogStats(): Promise<{
       totalComments
     }
     
-    console.log('Realtime Database: Blog istatistikleri getirildi:', stats)
     return stats
   } catch (error) {
-    console.error('Realtime Database: Blog istatistikleri getirme hatası:', error)
     throw new Error(`Blog istatistikleri getirilemedi: ${(error as any)?.message || 'Bilinmeyen hata'}`)
   }
 }

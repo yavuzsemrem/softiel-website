@@ -160,7 +160,6 @@ const blogsCollection = collection(db, 'blogs')
       )
     } catch (activityError) {
       // Aktivite kaydetme hatası blog oluşturmayı engellemez
-      console.warn('Activity logging failed:', activityError)
     }
     
     return { id: blogId, slug: slug }
@@ -240,7 +239,6 @@ export async function updateBlog(identifier: string, blogData: Partial<BlogPost>
       )
     } catch (activityError) {
       // Aktivite kaydetme hatası blog güncellemeyi engellemez
-      console.warn('Activity logging failed:', activityError)
     }
     
   } catch (error) {
@@ -306,7 +304,6 @@ export async function deleteBlog(identifier: string): Promise<void> {
       )
     } catch (activityError) {
       // Aktivite kaydetme hatası blog silmeyi engellemez
-      console.warn('Activity logging failed:', activityError)
     }
     
     // Kategori post sayısını güncelle
@@ -631,7 +628,6 @@ export async function updateBlogLikes(identifier: string, increment: boolean): P
             }
           } catch (activityError) {
             // Aktivite kaydetme hatası beğeniyi engellemez
-            console.warn('Activity logging failed:', activityError)
           }
         }
         
@@ -669,7 +665,6 @@ export async function updateBlogLikes(identifier: string, increment: boolean): P
             }
           } catch (activityError) {
             // Aktivite kaydetme hatası beğeniyi engellemez
-            console.warn('Activity logging failed:', activityError)
           }
         }
         

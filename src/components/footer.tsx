@@ -23,27 +23,9 @@ import { Logo } from "./logo"
 import { PrivacyModal } from "./privacy-modal"
 import { TermsModal } from "./terms-modal"
 import { CookieModal } from "./cookie-modal"
+import { useI18n } from "@/contexts/i18n-context"
 
-const footerLinks = {
-  services: [
-    { name: "Web Sitesi Tasarımı", href: "/hizmetlerimiz/web-sitesi-tasarimi" },
-    { name: "Web Geliştirme", href: "/hizmetlerimiz/web-gelistirme" },
-    { name: "Mobil Uygulama", href: "/hizmetlerimiz/mobil-uygulama-gelistirme" },
-    { name: "SEO Optimizasyonu", href: "/hizmetlerimiz/seo-arama-motoru-optimizasyonu" },
-    { name: "Google Ads Yönetimi", href: "/hizmetlerimiz/google-ads-meta-ads-yonetimi" },
-    { name: "Yapay Zeka Entegrasyonu", href: "/hizmetlerimiz/yapay-zeka-entegrasyonlari" },
-    { name: "WordPress Çözümleri", href: "/hizmetlerimiz/wordpress-cms-cozumleri" },
-    { name: "Logo & Kurumsal Kimlik", href: "/hizmetlerimiz/logo-kurumsal-kimlik-tasarimi" },
-  ],
-  pages: [
-    { name: "Ana Sayfa", href: "/" },
-    { name: "Hakkımızda", href: "/hakkimizda" },
-    { name: "Hizmetlerimiz", href: "/hizmetlerimiz" },
-    { name: "Fiyatlandırma", href: "/fiyatlandirma" },
-    { name: "Blog", href: "/blog" },
-    { name: "İletişim", href: "/iletisim" },
-  ]
-}
+// Footer links will be generated dynamically with i18n
 
 const socialLinks = [
   { 
@@ -97,9 +79,32 @@ const socialLinks = [
 ]
 
 export function Footer() {
+  const { t, getLocalizedUrl } = useI18n()
   const [isPrivacyModalOpen, setIsPrivacyModalOpen] = useState(false)
   const [isTermsModalOpen, setIsTermsModalOpen] = useState(false)
   const [isCookieModalOpen, setIsCookieModalOpen] = useState(false)
+
+  // Footer links with i18n and localized URLs
+  const footerLinks = {
+    services: [
+      { name: t('services.webDesign', 'Web Sitesi Tasarımı'), href: getLocalizedUrl("/hizmetlerimiz/web-sitesi-tasarimi") },
+      { name: t('services.webDevelopment', 'Web Geliştirme'), href: getLocalizedUrl("/hizmetlerimiz/web-gelistirme") },
+      { name: t('services.mobileApp', 'Mobil Uygulama'), href: getLocalizedUrl("/hizmetlerimiz/mobil-uygulama-gelistirme") },
+      { name: t('services.seo', 'SEO Optimizasyonu'), href: getLocalizedUrl("/hizmetlerimiz/seo-arama-motoru-optimizasyonu") },
+      { name: t('services.googleAds', 'Google Ads Yönetimi'), href: getLocalizedUrl("/hizmetlerimiz/google-ads-meta-ads-yonetimi") },
+      { name: t('services.aiIntegration', 'Yapay Zeka Entegrasyonu'), href: getLocalizedUrl("/hizmetlerimiz/yapay-zeka-entegrasyonlari") },
+      { name: t('services.wordpress', 'WordPress Çözümleri'), href: getLocalizedUrl("/hizmetlerimiz/wordpress-cms-cozumleri") },
+      { name: t('services.logoDesign', 'Logo & Kurumsal Kimlik'), href: getLocalizedUrl("/hizmetlerimiz/logo-kurumsal-kimlik-tasarimi") },
+    ],
+    pages: [
+      { name: t('navigation.home', 'Ana Sayfa'), href: getLocalizedUrl("/") },
+      { name: t('navigation.about', 'Hakkımızda'), href: getLocalizedUrl("/hakkimizda") },
+      { name: t('navigation.services', 'Hizmetlerimiz'), href: getLocalizedUrl("/hizmetlerimiz") },
+      { name: t('navigation.pricing', 'Fiyatlandırma'), href: getLocalizedUrl("/fiyatlandirma") },
+      { name: t('navigation.blog', 'Blog'), href: getLocalizedUrl("/blog") },
+      { name: t('navigation.contact', 'İletişim'), href: getLocalizedUrl("/iletisim") },
+    ]
+  }
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -137,11 +142,11 @@ export function Footer() {
                       className="w-full h-full object-contain"
                     />
                   </div>
-                  <span className="text-2xl font-bold text-white">Softiel</span>
+                  <span className="text-2xl font-bold text-white">{t('footer.brandName', 'Softiel')}</span>
                 </div>
                 
                 <p className="text-slate-300 text-sm leading-relaxed mb-6 max-w-xs mx-auto md:mx-0">
-                  Dijital dünyada fark yaratan çözümler üretiyoruz. Web tasarımından mobil uygulamalara, SEO'dan yapay zeka entegrasyonlarına kadar geniş bir yelpazede hizmet veriyoruz.
+                  {t('footer.description', 'Dijital dünyada fark yaratan çözümler üretiyoruz. Web tasarımından mobil uygulamalara, SEO\'dan yapay zeka entegrasyonlarına kadar geniş bir yelpazede hizmet veriyoruz.')}
                 </p>
 
                 {/* Social Media */}
@@ -189,7 +194,7 @@ export function Footer() {
               >
                 <h3 className="text-lg font-semibold text-white mb-4 flex items-center justify-center md:justify-start">
                   <Zap className="h-5 w-5 text-cyan-400 mr-2" />
-                  Hizmetlerimiz
+                  {t('footer.services', 'Hizmetlerimiz')}
                 </h3>
                 <ul className="space-y-2">
                   {footerLinks.services.map((link) => (
@@ -217,7 +222,7 @@ export function Footer() {
               >
                 <h3 className="text-lg font-semibold text-white mb-4 flex items-center justify-center md:justify-start">
                   <Globe className="h-5 w-5 text-blue-400 mr-2" />
-                  Sayfalarımız
+                  {t('footer.quickLinks', 'Sayfalarımız')}
                 </h3>
                 <ul className="space-y-2">
                   {footerLinks.pages.map((link) => (
@@ -245,7 +250,7 @@ export function Footer() {
               >
                 <h3 className="text-lg font-semibold text-white mb-6 flex items-center justify-center md:justify-start">
                   <Phone className="h-5 w-5 text-blue-400 mr-2" />
-                  İletişim Bilgileri
+                  {t('footer.contactInfo', 'İletişim Bilgileri')}
                 </h3>
                 
                 {/* Contact Cards */}
@@ -262,7 +267,7 @@ export function Footer() {
                         <Mail className="h-4 w-4 md:h-5 md:w-5 text-white" />
                       </div>
                       <div className="flex-1 text-center md:text-left">
-                        <p className="text-xs font-medium text-blue-400 mb-1">E-posta</p>
+                        <p className="text-xs font-medium text-blue-400 mb-1">{t('footer.email', 'E-posta')}</p>
                         <p className="text-sm font-semibold text-slate-300 group-hover:text-blue-400 transition-colors">info@softiel.com</p>
                       </div>
                     </div>
@@ -280,7 +285,7 @@ export function Footer() {
                         <Phone className="h-4 w-4 md:h-5 md:w-5 text-white" />
                       </div>
                       <div className="flex-1 text-center md:text-left">
-                        <p className="text-xs font-medium text-blue-400 mb-1">Telefon</p>
+                        <p className="text-xs font-medium text-blue-400 mb-1">{t('footer.phone', 'Telefon')}</p>
                         <p className="text-sm font-semibold text-slate-300 group-hover:text-blue-400 transition-colors">0541 188 30 45</p>
                       </div>
                     </div>
@@ -297,7 +302,7 @@ export function Footer() {
                         <MapPin className="h-4 w-4 md:h-5 md:w-5 text-white" />
                       </div>
                       <div className="flex-1 text-center md:text-left">
-                        <p className="text-xs font-medium text-blue-400 mb-1">Adres</p>
+                        <p className="text-xs font-medium text-blue-400 mb-1">{t('footer.address', 'Adres')}</p>
                         <p className="text-sm font-semibold text-slate-300 group-hover:text-blue-400 transition-colors">İstanbul, Türkiye</p>
                       </div>
                     </div>
@@ -313,7 +318,7 @@ export function Footer() {
         <div className="py-6 border-t border-slate-700/50">
           <div className="flex flex-col lg:flex-row justify-between items-center space-y-4 lg:space-y-0">
             <div className="text-sm text-slate-400">
-              © 2025 Softiel. Tüm hakları saklıdır.
+              © 2025 {t('footer.brandName', 'Softiel')}. {t('footer.allRightsReserved', 'Tüm hakları saklıdır.')}
             </div>
             
             <div className="flex items-center space-x-6 text-sm">
@@ -321,19 +326,19 @@ export function Footer() {
                 onClick={() => setIsPrivacyModalOpen(true)}
                 className="text-slate-400 hover:text-cyan-400 transition-colors cursor-pointer"
               >
-                Gizlilik Politikası
+                {t('footer.privacyPolicy', 'Gizlilik Politikası')}
               </button>
               <button
                 onClick={() => setIsTermsModalOpen(true)}
                 className="text-slate-400 hover:text-cyan-400 transition-colors cursor-pointer"
               >
-                Kullanım Koşulları
+                {t('footer.termsOfService', 'Kullanım Koşulları')}
               </button>
               <button
                 onClick={() => setIsCookieModalOpen(true)}
                 className="text-slate-400 hover:text-cyan-400 transition-colors cursor-pointer"
               >
-                Çerez Politikası
+                {t('footer.cookiePolicy', 'Çerez Politikası')}
               </button>
             </div>
 
@@ -344,7 +349,7 @@ export function Footer() {
               whileTap={{ scale: 0.95 }}
               className="flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white text-sm font-medium rounded-lg hover:shadow-lg transition-all duration-200"
             >
-              <span>Yukarı Çık</span>
+              <span>{t('common.scrollToTop', 'Yukarı Çık')}</span>
               <ArrowUpRight className="h-4 w-4 rotate-[-45deg]" />
             </motion.button>
           </div>

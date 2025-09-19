@@ -3,6 +3,7 @@
 import React, { useEffect, useRef } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { X, FileText, Scale, Users, Shield, AlertCircle, Mail, Globe } from "lucide-react"
+import { useI18n } from "@/contexts/i18n-context"
 
 interface TermsModalProps {
   isOpen: boolean
@@ -10,6 +11,7 @@ interface TermsModalProps {
 }
 
 export function TermsModal({ isOpen, onClose }: TermsModalProps) {
+  const { t } = useI18n()
   const savedScrollY = useRef(0)
 
   // Modal açıldığında scroll pozisyonunu sakla ve engelle
@@ -84,8 +86,8 @@ export function TermsModal({ isOpen, onClose }: TermsModalProps) {
                           <Scale className="h-6 w-6" />
                         </div>
                         <div>
-                          <h2 className="text-2xl font-bold font-display">Kullanım Koşulları</h2>
-                          <p className="text-blue-100 text-sm">Hizmet kullanım şartları ve yükümlülükler</p>
+                          <h2 className="text-2xl font-bold font-display">{t('terms.title', 'Kullanım Koşulları')}</h2>
+                          <p className="text-blue-100 text-sm">{t('terms.subtitle', 'Hizmet kullanım şartları ve yükümlülükler')}</p>
                         </div>
                       </div>
                       <motion.button
@@ -106,7 +108,7 @@ export function TermsModal({ isOpen, onClose }: TermsModalProps) {
                     {/* Introduction */}
                     <div className="mb-8 p-6 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-2xl border border-blue-200 dark:border-blue-800">
                       <p className="text-base leading-relaxed mb-0">
-                        Bu kullanım koşulları, Softiel web sitesini (bundan sonra "Site" olarak anılacaktır) ziyaret eden tüm kullanıcılar için geçerlidir. Siteye erişen ve kullanan herkes aşağıda belirtilen koşulları kabul etmiş sayılır.
+                        {t('terms.introduction', 'Bu kullanım koşulları, Softiel web sitesini (bundan sonra "Site" olarak anılacaktır) ziyaret eden tüm kullanıcılar için geçerlidir. Siteye erişen ve kullanan herkes aşağıda belirtilen koşulları kabul etmiş sayılır.')}
                       </p>
                     </div>
 
@@ -116,33 +118,33 @@ export function TermsModal({ isOpen, onClose }: TermsModalProps) {
                         <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg flex items-center justify-center">
                           <FileText className="h-4 w-4 text-white" />
                         </div>
-                        <h3 className="text-xl font-bold text-neutral-900 dark:text-white">1. Hizmetin Kapsamı</h3>
+                        <h3 className="text-xl font-bold text-neutral-900 dark:text-white">{t('terms.section1.title', '1. Hizmetin Kapsamı')}</h3>
                       </div>
-                      <p className="mb-4">Softiel web sitesi üzerinden kullanıcılar;</p>
+                      <p className="mb-4">{t('terms.section1.description', 'Softiel web sitesi üzerinden kullanıcılar;')}</p>
                       <ul className="space-y-2 mb-4">
                         <li className="flex items-center space-x-2">
                           <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                          <span>Bilgi alma,</span>
+                          <span>{t('terms.section1.info', 'Bilgi alma,')}</span>
                         </li>
                         <li className="flex items-center space-x-2">
                           <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                          <span>Teklif talep etme,</span>
+                          <span>{t('terms.section1.quote', 'Teklif talep etme,')}</span>
                         </li>
                         <li className="flex items-center space-x-2">
                           <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                          <span>Demo talep etme,</span>
+                          <span>{t('terms.section1.demo', 'Demo talep etme,')}</span>
                         </li>
                         <li className="flex items-center space-x-2">
                           <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                          <span>Blog yazılarını görüntüleme,</span>
+                          <span>{t('terms.section1.blog', 'Blog yazılarını görüntüleme,')}</span>
                         </li>
                         <li className="flex items-center space-x-2">
                           <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                          <span>Chat bot üzerinden sorular yöneltme</span>
+                          <span>{t('terms.section1.chat', 'Chat bot üzerinden sorular yöneltme')}</span>
                         </li>
                       </ul>
                       <p className="text-sm text-neutral-600 dark:text-neutral-400">
-                        hizmetlerinden yararlanabilirler. Kullanıcıların Site üzerinde bu hizmetler dışında herhangi bir işlem yapma hakkı bulunmamaktadır.
+                        {t('terms.section1.note', 'hizmetlerinden yararlanabilirler. Kullanıcıların Site üzerinde bu hizmetler dışında herhangi bir işlem yapma hakkı bulunmamaktadır.')}
                       </p>
                     </div>
 
@@ -152,20 +154,20 @@ export function TermsModal({ isOpen, onClose }: TermsModalProps) {
                         <div className="w-8 h-8 bg-gradient-to-r from-green-500 to-emerald-500 rounded-lg flex items-center justify-center">
                           <Users className="h-4 w-4 text-white" />
                         </div>
-                        <h3 className="text-xl font-bold text-neutral-900 dark:text-white">2. Kullanıcı Sorumlulukları</h3>
+                        <h3 className="text-xl font-bold text-neutral-900 dark:text-white">{t('terms.section2.title', '2. Kullanıcı Sorumlulukları')}</h3>
                       </div>
                       <ul className="space-y-3">
                         <li className="flex items-start space-x-3">
                           <div className="w-2 h-2 bg-green-500 rounded-full mt-2 flex-shrink-0"></div>
-                          <span>Kullanıcılar, Site üzerinden yalnızca doğru ve güncel bilgiler vermeyi taahhüt eder.</span>
+                          <span>{t('terms.section2.accurate', 'Kullanıcılar, Site üzerinden yalnızca doğru ve güncel bilgiler vermeyi taahhüt eder.')}</span>
                         </li>
                         <li className="flex items-start space-x-3">
                           <div className="w-2 h-2 bg-green-500 rounded-full mt-2 flex-shrink-0"></div>
-                          <span>Spam, kötüye kullanım, zararlı içerik gönderme veya Site'nin işleyişini bozacak her türlü davranış yasaktır.</span>
+                          <span>{t('terms.section2.prohibited', 'Spam, kötüye kullanım, zararlı içerik gönderme veya Site\'nin işleyişini bozacak her türlü davranış yasaktır.')}</span>
                         </li>
                         <li className="flex items-start space-x-3">
                           <div className="w-2 h-2 bg-green-500 rounded-full mt-2 flex-shrink-0"></div>
-                          <span>Site'nin amacı dışında kullanımı, yetkisiz erişim girişimleri ve benzeri durumlar hukuki yaptırımlara tabi olabilir.</span>
+                          <span>{t('terms.section2.legal', 'Site\'nin amacı dışında kullanımı, yetkisiz erişim girişimleri ve benzeri durumlar hukuki yaptırımlara tabi olabilir.')}</span>
                         </li>
                       </ul>
                     </div>
@@ -176,16 +178,16 @@ export function TermsModal({ isOpen, onClose }: TermsModalProps) {
                         <div className="w-8 h-8 bg-gradient-to-r from-orange-500 to-red-500 rounded-lg flex items-center justify-center">
                           <Shield className="h-4 w-4 text-white" />
                         </div>
-                        <h3 className="text-xl font-bold text-neutral-900 dark:text-white">3. Telif Hakları</h3>
+                        <h3 className="text-xl font-bold text-neutral-900 dark:text-white">{t('terms.section3.title', '3. Telif Hakları')}</h3>
                       </div>
                       <ul className="space-y-3">
                         <li className="flex items-start space-x-3">
                           <div className="w-2 h-2 bg-orange-500 rounded-full mt-2 flex-shrink-0"></div>
-                          <span>Site üzerinde yer alan tüm içeriklerin (metin, görsel, logo, kod, tasarım vb.) tüm hakları Softiel'e aittir.</span>
+                          <span>{t('terms.section3.rights', 'Site üzerinde yer alan tüm içeriklerin (metin, görsel, logo, kod, tasarım vb.) tüm hakları Softiel\'e aittir.')}</span>
                         </li>
                         <li className="flex items-start space-x-3">
                           <div className="w-2 h-2 bg-orange-500 rounded-full mt-2 flex-shrink-0"></div>
-                          <span>Softiel'in yazılı izni olmadan hiçbir içerik kopyalanamaz, çoğaltılamaz, dağıtılamaz veya ticari amaçla kullanılamaz.</span>
+                          <span>{t('terms.section3.permission', 'Softiel\'in yazılı izni olmadan hiçbir içerik kopyalanamaz, çoğaltılamaz, dağıtılamaz veya ticari amaçla kullanılamaz.')}</span>
                         </li>
                       </ul>
                     </div>
@@ -196,10 +198,10 @@ export function TermsModal({ isOpen, onClose }: TermsModalProps) {
                         <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
                           <AlertCircle className="h-4 w-4 text-white" />
                         </div>
-                        <h3 className="text-xl font-bold text-neutral-900 dark:text-white">4. Hizmet ve İçerik Değişiklikleri</h3>
+                        <h3 className="text-xl font-bold text-neutral-900 dark:text-white">{t('terms.section4.title', '4. Hizmet ve İçerik Değişiklikleri')}</h3>
                       </div>
                       <p>
-                        Softiel, Site üzerinde sunulan hizmetler, fiyatlar, içerikler ve kullanım koşullarında önceden bildirimde bulunmaksızın değişiklik yapma hakkını saklı tutar.
+                        {t('terms.section4.description', 'Softiel, Site üzerinde sunulan hizmetler, fiyatlar, içerikler ve kullanım koşullarında önceden bildirimde bulunmaksızın değişiklik yapma hakkını saklı tutar.')}
                       </p>
                     </div>
 
@@ -209,16 +211,16 @@ export function TermsModal({ isOpen, onClose }: TermsModalProps) {
                         <div className="w-8 h-8 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-lg flex items-center justify-center">
                           <Globe className="h-4 w-4 text-white" />
                         </div>
-                        <h3 className="text-xl font-bold text-neutral-900 dark:text-white">5. Sorumluluk Reddi</h3>
+                        <h3 className="text-xl font-bold text-neutral-900 dark:text-white">{t('terms.section5.title', '5. Sorumluluk Reddi')}</h3>
                       </div>
                       <ul className="space-y-3">
                         <li className="flex items-start space-x-3">
                           <div className="w-2 h-2 bg-cyan-500 rounded-full mt-2 flex-shrink-0"></div>
-                          <span>Site üzerinde yer alan tüm bilgiler yalnızca genel bilgilendirme amacı taşır.</span>
+                          <span>{t('terms.section5.info', 'Site üzerinde yer alan tüm bilgiler yalnızca genel bilgilendirme amacı taşır.')}</span>
                         </li>
                         <li className="flex items-start space-x-3">
                           <div className="w-2 h-2 bg-cyan-500 rounded-full mt-2 flex-shrink-0"></div>
-                          <span>Softiel, içeriklerdeki olası hata veya eksikliklerden ya da bu bilgilerin kullanımından doğabilecek doğrudan veya dolaylı zararlardan sorumlu tutulamaz.</span>
+                          <span>{t('terms.section5.liability', 'Softiel, içeriklerdeki olası hata veya eksikliklerden ya da bu bilgilerin kullanımından doğabilecek doğrudan veya dolaylı zararlardan sorumlu tutulamaz.')}</span>
                         </li>
                       </ul>
                     </div>
@@ -229,10 +231,10 @@ export function TermsModal({ isOpen, onClose }: TermsModalProps) {
                         <div className="w-8 h-8 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-lg flex items-center justify-center">
                           <Scale className="h-4 w-4 text-white" />
                         </div>
-                        <h3 className="text-xl font-bold text-neutral-900 dark:text-white">6. Üçüncü Taraf Bağlantılar</h3>
+                        <h3 className="text-xl font-bold text-neutral-900 dark:text-white">{t('terms.section6.title', '6. Üçüncü Taraf Bağlantılar')}</h3>
                       </div>
                       <p>
-                        Site üzerinde Google Maps ve sosyal medya hesapları gibi üçüncü taraf bağlantıları bulunabilir. Bu bağlantılar Softiel tarafından yönetilmekte olup, kullanıcı deneyimini geliştirmek amacıyla sunulmaktadır.
+                        {t('terms.section6.description', 'Site üzerinde Google Maps ve sosyal medya hesapları gibi üçüncü taraf bağlantıları bulunabilir. Bu bağlantılar Softiel tarafından yönetilmekte olup, kullanıcı deneyimini geliştirmek amacıyla sunulmaktadır.')}
                       </p>
                     </div>
 
@@ -242,10 +244,10 @@ export function TermsModal({ isOpen, onClose }: TermsModalProps) {
                         <div className="w-8 h-8 bg-gradient-to-r from-red-500 to-pink-500 rounded-lg flex items-center justify-center">
                           <Scale className="h-4 w-4 text-white" />
                         </div>
-                        <h3 className="text-xl font-bold text-neutral-900 dark:text-white">7. Uyuşmazlık ve Yasal Yetki</h3>
+                        <h3 className="text-xl font-bold text-neutral-900 dark:text-white">{t('terms.section7.title', '7. Uyuşmazlık ve Yasal Yetki')}</h3>
                       </div>
                       <p>
-                        Bu kullanım koşullarından doğabilecek her türlü uyuşmazlıkta Türkiye Cumhuriyeti Kanunları geçerli olacaktır. Yetkili merciler, İstanbul mahkemeleri ve icra daireleridir.
+                        {t('terms.section7.description', 'Bu kullanım koşullarından doğabilecek her türlü uyuşmazlıkta Türkiye Cumhuriyeti Kanunları geçerli olacaktır. Yetkili merciler, İstanbul mahkemeleri ve icra daireleridir.')}
                       </p>
                     </div>
 
@@ -255,15 +257,15 @@ export function TermsModal({ isOpen, onClose }: TermsModalProps) {
                         <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg flex items-center justify-center">
                           <Mail className="h-4 w-4 text-white" />
                         </div>
-                        <h3 className="text-xl font-bold text-neutral-900 dark:text-white">8. İletişim</h3>
+                        <h3 className="text-xl font-bold text-neutral-900 dark:text-white">{t('terms.section8.title', '8. İletişim')}</h3>
                       </div>
-                      <p className="mb-4">Kullanım koşulları hakkında tüm sorularınız ve talepleriniz için bizimle iletişime geçebilirsiniz:</p>
+                      <p className="mb-4">{t('terms.section8.description', 'Kullanım koşulları hakkında tüm sorularınız ve talepleriniz için bizimle iletişime geçebilirsiniz:')}</p>
                       <div className="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 p-6 rounded-2xl border border-blue-200 dark:border-blue-800">
                         <div className="space-y-2">
                           <p className="font-semibold text-neutral-900 dark:text-white mb-2">Softiel</p>
                           <p className="flex items-center space-x-2 text-neutral-700 dark:text-neutral-300">
                             <Mail className="h-4 w-4 text-purple-500" />
-                            <span>E-posta: <a href="mailto:info@softiel.com" className="text-purple-600 dark:text-purple-400 hover:underline font-medium">info@softiel.com</a></span>
+                            <span>{t('terms.section8.email', 'E-posta:')} <a href="mailto:info@softiel.com" className="text-purple-600 dark:text-purple-400 hover:underline font-medium">info@softiel.com</a></span>
                           </p>
                         </div>
                       </div>
@@ -275,7 +277,7 @@ export function TermsModal({ isOpen, onClose }: TermsModalProps) {
                 <div className="px-8 py-6 bg-gradient-to-r from-neutral-50 to-neutral-100 dark:from-neutral-900 dark:to-neutral-800 border-t border-neutral-200 dark:border-neutral-700">
                   <div className="flex items-center justify-between">
                     <p className="text-sm text-neutral-600 dark:text-neutral-400">
-                      Son güncelleme: {new Date().toLocaleDateString('tr-TR')}
+                      {t('terms.lastUpdated', 'Son güncelleme:')} {new Date().toLocaleDateString('tr-TR')}
                     </p>
                     <motion.button
                       whileHover={{ scale: 1.02 }}
@@ -283,7 +285,7 @@ export function TermsModal({ isOpen, onClose }: TermsModalProps) {
                       onClick={onClose}
                       className="px-6 py-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-xl font-medium text-sm shadow-modern hover:shadow-modern-lg transition-all duration-200"
                     >
-                      Anladım
+                      {t('terms.understood', 'Anladım')}
                     </motion.button>
                   </div>
                 </div>

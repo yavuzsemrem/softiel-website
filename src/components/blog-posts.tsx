@@ -4,23 +4,22 @@ import React, { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import { Calendar, User, ArrowRight, Search, Filter, Clock, Eye, Heart, BookOpen, Tag, ChevronDown, Loader2 } from "lucide-react"
 import Link from "next/link"
-import { getPublishedBlogs, BlogPost } from "@/lib/blog-service"
+import { getPublishedBlogs, BlogPost, getCategories } from "@/lib/blog-service"
 
 const demoBlogs: BlogPost[] = []
 
-const categories = ["Tümü", "Web Tasarım", "SEO", "Teknoloji", "E-ticaret", "Mobil", "Pazarlama", "Web Geliştirme", "Güvenlik"]
 
 export function BlogPosts() {
   const [selectedCategory, setSelectedCategory] = useState("Tümü")
   const [searchQuery, setSearchQuery] = useState("")
   const [selectedTags, setSelectedTags] = useState<string[]>([])
   const [isTagsDropdownOpen, setIsTagsDropdownOpen] = useState(false)
-  const [isClient, setIsClient] = useState(false)
   const [currentPage, setCurrentPage] = useState(1)
   const [postsPerPage] = useState(9)
   const [blogs, setBlogs] = useState<BlogPost[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState("")
+  const [categories, setCategories] = useState<string[]>(["Tümü"])
 
   // Tüm etiketleri topla
   const allTags = Array.from(new Set(blogs.flatMap(post => post.tags || []))).sort()
@@ -28,6 +27,7 @@ export function BlogPosts() {
   // Blog verilerini yükle
   useEffect(() => {
     loadBlogs()
+    loadCategories()
   }, [])
 
   const loadBlogs = async () => {
@@ -51,6 +51,16 @@ export function BlogPosts() {
     }
   }
 
+  const loadCategories = async () => {
+    try {
+      const firebaseCategories = await getCategories()
+      setCategories(["Tümü", ...firebaseCategories])
+    } catch (err) {
+      // Hata durumunda varsayılan kategorileri kullan
+      setCategories(["Tümü"])
+    }
+  }
+
   // Filtreler değiştiğinde blogları yeniden yükle
   useEffect(() => {
     if (!loading) {
@@ -58,10 +68,6 @@ export function BlogPosts() {
     }
   }, [selectedCategory, selectedTags, searchQuery])
 
-  // Client-side kontrolü
-  React.useEffect(() => {
-    setIsClient(true)
-  }, [])
 
   // URL parametrelerini kontrol et
   React.useEffect(() => {
@@ -508,17 +514,11 @@ export function BlogPosts() {
                   <div className="flex items-center space-x-4 text-sm text-neutral-500 dark:text-neutral-400">
                     <div className="flex items-center space-x-1">
                       <Eye className="h-4 w-4" />
-                      <span>{isClient ? 
-                        (localStorage.getItem(`blog_views_${post.id}`) || '0') : 
-                        '0'
-                      }</span>
+                      <span>{post.views || 0}</span>
                     </div>
                     <div className="flex items-center space-x-1">
                       <Heart className="h-4 w-4" />
-                      <span>{isClient ? 
-                        (localStorage.getItem(`blog_likes_${post.id}`) || '0') : 
-                        '0'
-                      }</span>
+                      <span>{post.likes || 0}</span>
                     </div>
                   </div>
                 </div>

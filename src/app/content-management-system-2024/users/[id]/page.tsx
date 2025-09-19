@@ -1,6 +1,4 @@
-"use client"
-
-import React, { use } from 'react'
+import React from 'react'
 import { DashboardLayout } from '@/components/dashboard-layout'
 import { UserDetailView } from '@/components/user-detail-view'
 
@@ -10,8 +8,8 @@ interface UserDetailPageProps {
   }>
 }
 
-export default function UserDetailPage({ params }: UserDetailPageProps) {
-  const { id } = use(params)
+export default async function UserDetailPage({ params }: UserDetailPageProps) {
+  const { id } = await params
   
   return (
     <DashboardLayout>

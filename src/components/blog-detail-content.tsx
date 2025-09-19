@@ -333,7 +333,6 @@ export function BlogDetailContent({ slug }: BlogDetailContentProps) {
         setError("Blog yazısı bulunamadı")
       }
     } catch (err) {
-      console.error("Blog yükleme hatası:", err)
       setError("Blog yüklenirken bir hata oluştu")
     } finally {
       setLoading(false)
@@ -362,7 +361,6 @@ export function BlogDetailContent({ slug }: BlogDetailContentProps) {
         }
       }
     } catch (err) {
-      console.error("Beğeni güncelleme hatası:", err)
       // Hata durumunda state'i geri al
       setIsLiked(!isLiked)
     }
@@ -394,13 +392,11 @@ export function BlogDetailContent({ slug }: BlogDetailContentProps) {
         }
       }
     } catch (error) {
-      console.error('Paylaşım hatası:', error)
       // Fallback: URL'yi panoya kopyala
       try {
         await navigator.clipboard.writeText(shareData.url)
         alert(`${platform.charAt(0).toUpperCase() + platform.slice(1)} paylaşımı için link panoya kopyalandı!`)
       } catch (clipboardError) {
-        console.error('Panoya kopyalama hatası:', clipboardError)
         alert('Paylaşım desteklenmiyor. Lütfen linki manuel olarak kopyalayın.')
       }
     }
@@ -436,44 +432,23 @@ export function BlogDetailContent({ slug }: BlogDetailContentProps) {
     >
       {/* Content */}
       <div 
-        className="prose prose-lg max-w-none text-white"
-        style={{
-          color: 'white'
-        }}
+        className="blog-content prose prose-lg max-w-none"
         dangerouslySetInnerHTML={{ 
           __html: post.content
-            .replace(/<h([1-6])/g, '<h$1 class="text-white font-bold mb-4 mt-6" style="color: white !important;"')
-            .replace(/<h1/g, '<h1 class="text-4xl font-bold text-white mb-6 mt-8" style="color: white !important;"')
-            .replace(/<h2/g, '<h2 class="text-3xl font-bold text-white mb-5 mt-7" style="color: white !important;"')
-            .replace(/<h3/g, '<h3 class="text-2xl font-bold text-white mb-4 mt-6" style="color: white !important;"')
-            .replace(/<h4/g, '<h4 class="text-xl font-bold text-white mb-3 mt-5" style="color: white !important;"')
-            .replace(/<h5/g, '<h5 class="text-lg font-bold text-white mb-3 mt-4" style="color: white !important;"')
-            .replace(/<h6/g, '<h6 class="text-base font-bold text-white mb-2 mt-4" style="color: white !important;"')
-            .replace(/<p/g, '<p class="text-white mb-4 leading-relaxed" style="color: white !important;"')
-            .replace(/<strong/g, '<strong class="font-bold text-white" style="color: white !important;"')
-            .replace(/<em/g, '<em class="italic text-gray-300" style="color: #d1d5db !important;"')
-            .replace(/<ul/g, '<ul class="list-disc list-inside text-white mb-4 ml-4" style="color: white !important;"')
-            .replace(/<ol/g, '<ol class="list-decimal list-inside text-white mb-4 ml-4" style="color: white !important;"')
-            .replace(/<li/g, '<li class="text-white mb-2" style="color: white !important;"')
-            .replace(/<blockquote/g, '<blockquote class="border-l-4 border-cyan-500 pl-4 py-2 my-4 text-cyan-200 italic bg-gray-800/50 rounded-r" style="color: #a5f3fc !important;"')
-            .replace(/<code/g, '<code class="bg-gray-800 px-2 py-1 rounded text-green-400 font-mono text-sm" style="background-color: #1f2937 !important; color: #4ade80 !important;"')
-            .replace(/<pre/g, '<pre class="bg-gray-800 p-4 rounded-lg my-4 font-mono text-sm text-green-400 overflow-x-auto" style="background-color: #1f2937 !important; color: #4ade80 !important;"')
-            .replace(/<a/g, '<a class="text-cyan-400 hover:text-cyan-300 underline" target="_blank" rel="noopener noreferrer" style="color: #22d3ee !important;"')
-            .replace(/<img/g, '<img class="max-w-full h-auto rounded-lg my-4 shadow-lg" style="max-width: 100% !important; height: auto !important;"')
         }}
       />
 
       {/* Author Bio */}
       <div className="mt-12 pt-8 border-t border-white/20">
         <div className="flex items-start space-x-4">
-          <div className="w-16 h-16 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full flex items-center justify-center">
+          <div className="w-16 h-16 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full flex items-center justify-center flex-shrink-0">
             <span className="text-white font-bold text-xl">A</span>
           </div>
-          <div className="flex-1">
+          <div className="flex-1 min-w-0">
             <h3 className="text-xl font-semibold text-neutral-900 dark:text-white mb-2">
               Admin
             </h3>
-            <p className="text-neutral-600 dark:text-neutral-400 mb-4">
+            <p className="text-neutral-600 dark:text-neutral-400 mb-4 leading-relaxed">
               Softiel ekibinin deneyimli yazarlarından. Web geliştirme, dijital pazarlama ve 
               teknoloji trendleri konularında uzman. 5+ yıllık deneyim ile işletmelerin 
               dijital dönüşüm süreçlerinde rehberlik ediyor.
@@ -551,38 +526,40 @@ export function BlogDetailContent({ slug }: BlogDetailContentProps) {
           </div>
         </div>
         
-        <h4 className="text-lg font-semibold text-neutral-900 dark:text-white mb-4">Paylaş</h4>
-        <div className="flex space-x-4">
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={() => handleShare('twitter')}
-            className="flex items-center space-x-2 glass px-4 py-2 rounded-lg text-neutral-700 dark:text-neutral-300 hover:text-cyan-600 dark:hover:text-cyan-400 transition-all duration-200"
-            style={{ background: 'rgba(255, 255, 255, 0.1)' }}
-          >
-            <Share2 className="h-4 w-4" />
-            <span>Twitter</span>
-          </motion.button>
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={() => handleShare('linkedin')}
-            className="flex items-center space-x-2 glass px-4 py-2 rounded-lg text-neutral-700 dark:text-neutral-300 hover:text-cyan-600 dark:hover:text-cyan-400 transition-all duration-200"
-            style={{ background: 'rgba(255, 255, 255, 0.1)' }}
-          >
-            <Share2 className="h-4 w-4" />
-            <span>LinkedIn</span>
-          </motion.button>
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={() => handleShare('facebook')}
-            className="flex items-center space-x-2 glass px-4 py-2 rounded-lg text-neutral-700 dark:text-neutral-300 hover:text-cyan-600 dark:hover:text-cyan-400 transition-all duration-200"
-            style={{ background: 'rgba(255, 255, 255, 0.1)' }}
-          >
-            <Share2 className="h-4 w-4" />
-            <span>Facebook</span>
-          </motion.button>
+        <div data-share-section className="mt-8 pt-6 border-t border-white/20">
+          <h4 className="text-lg font-semibold text-neutral-900 dark:text-white mb-4">Paylaş</h4>
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => handleShare('twitter')}
+              className="flex items-center justify-center sm:justify-start space-x-2 glass px-4 py-2 rounded-lg text-neutral-700 dark:text-neutral-300 hover:text-cyan-600 dark:hover:text-cyan-400 transition-all duration-200 flex-1 sm:flex-none"
+              style={{ background: 'rgba(255, 255, 255, 0.1)' }}
+            >
+              <Share2 className="h-4 w-4" />
+              <span>Twitter</span>
+            </motion.button>
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => handleShare('linkedin')}
+              className="flex items-center justify-center sm:justify-start space-x-2 glass px-4 py-2 rounded-lg text-neutral-700 dark:text-neutral-300 hover:text-cyan-600 dark:hover:text-cyan-400 transition-all duration-200 flex-1 sm:flex-none"
+              style={{ background: 'rgba(255, 255, 255, 0.1)' }}
+            >
+              <Share2 className="h-4 w-4" />
+              <span>LinkedIn</span>
+            </motion.button>
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => handleShare('facebook')}
+              className="flex items-center justify-center sm:justify-start space-x-2 glass px-4 py-2 rounded-lg text-neutral-700 dark:text-neutral-300 hover:text-cyan-600 dark:hover:text-cyan-400 transition-all duration-200 flex-1 sm:flex-none"
+              style={{ background: 'rgba(255, 255, 255, 0.1)' }}
+            >
+              <Share2 className="h-4 w-4" />
+              <span>Facebook</span>
+            </motion.button>
+          </div>
         </div>
       </div>
     </motion.article>

@@ -1,6 +1,4 @@
-"use client"
-
-import React, { use } from 'react'
+import React from 'react'
 import { DashboardLayout } from '@/components/dashboard-layout'
 import { CategoryDetailView } from '@/components/category-detail-view'
 
@@ -10,8 +8,8 @@ interface CategoryDetailPageProps {
   }>
 }
 
-export default function CategoryDetailPage({ params }: CategoryDetailPageProps) {
-  const { id } = use(params)
+export default async function CategoryDetailPage({ params }: CategoryDetailPageProps) {
+  const { id } = await params
   
   return (
     <DashboardLayout>

@@ -101,7 +101,6 @@ const mockBlogs: BlogPost[] = [
 
 // Mock functions
 export async function createBlog(blogData: Omit<BlogPost, 'id' | 'createdAt' | 'updatedAt' | 'views' | 'likes' | 'comments'>): Promise<{ id: string; slug: string }> {
-  console.log('Mock: Blog oluşturuluyor...', blogData)
   
   // Slug oluştur
   const slug = blogData.title
@@ -124,12 +123,10 @@ export async function createBlog(blogData: Omit<BlogPost, 'id' | 'createdAt' | '
   }
   
   mockBlogs.unshift(newBlog)
-  console.log('Mock: Blog oluşturuldu:', newBlog.id)
   return { id: newBlog.id, slug: slug }
 }
 
 export async function updateBlog(id: string, blogData: Partial<BlogPost>): Promise<void> {
-  console.log('Mock: Blog güncelleniyor...', id, blogData)
   
   const index = mockBlogs.findIndex(blog => blog.id === id)
   if (index !== -1) {
@@ -138,32 +135,27 @@ export async function updateBlog(id: string, blogData: Partial<BlogPost>): Promi
       ...blogData,
       updatedAt: new Date()
     }
-    console.log('Mock: Blog güncellendi:', id)
   } else {
     throw new Error('Blog bulunamadı')
   }
 }
 
 export async function deleteBlog(id: string): Promise<void> {
-  console.log('Mock: Blog siliniyor...', id)
   
   const index = mockBlogs.findIndex(blog => blog.id === id)
   if (index !== -1) {
     mockBlogs.splice(index, 1)
-    console.log('Mock: Blog silindi:', id)
   } else {
     throw new Error('Blog bulunamadı')
   }
 }
 
 export async function getBlog(id: string): Promise<BlogPost | null> {
-  console.log('Mock: Blog getiriliyor...', id)
   
   const blog = mockBlogs.find(blog => blog.id === id)
   if (blog) {
     // Görüntülenme sayısını artır
     blog.views += 1
-    console.log('Mock: Blog getirildi:', blog.title)
   }
   
   return blog || null
@@ -173,7 +165,6 @@ export async function getBlogs(
   filters: BlogFilters = {},
   pagination: BlogPagination = { page: 1, limit: 10 }
 ): Promise<{ blogs: BlogPost[], total: number, hasMore: boolean }> {
-  console.log('Mock: Blog listesi getiriliyor...', filters, pagination)
   
   let filteredBlogs = [...mockBlogs]
   
@@ -219,7 +210,6 @@ export async function getBlogs(
   const endIndex = startIndex + pagination.limit
   const blogs = filteredBlogs.slice(startIndex, endIndex)
   
-  console.log('Mock: Blog listesi getirildi:', blogs.length, 'blog')
   
   return {
     blogs,
@@ -236,51 +226,41 @@ export async function getPublishedBlogs(
 }
 
 export async function incrementBlogViews(id: string): Promise<void> {
-  console.log('Mock: Görüntülenme sayısı artırılıyor...', id)
   
   const blog = mockBlogs.find(blog => blog.id === id)
   if (blog) {
     blog.views += 1
-    console.log('Mock: Görüntülenme sayısı artırıldı:', blog.views)
   }
 }
 
 export async function updateBlogLikes(id: string, increment: boolean): Promise<void> {
-  console.log('Mock: Beğeni sayısı güncelleniyor...', id, increment)
   
   const blog = mockBlogs.find(blog => blog.id === id)
   if (blog) {
     blog.likes += increment ? 1 : -1
     if (blog.likes < 0) blog.likes = 0
-    console.log('Mock: Beğeni sayısı güncellendi:', blog.likes)
   }
 }
 
 export async function updateBlogComments(id: string, increment: boolean): Promise<void> {
-  console.log('Mock: Yorum sayısı güncelleniyor...', id, increment)
   
   const blog = mockBlogs.find(blog => blog.id === id)
   if (blog) {
     blog.comments += increment ? 1 : -1
     if (blog.comments < 0) blog.comments = 0
-    console.log('Mock: Yorum sayısı güncellendi:', blog.comments)
   }
 }
 
 export async function getCategories(): Promise<string[]> {
-  console.log('Mock: Kategoriler getiriliyor...')
   
   const categories = [...new Set(mockBlogs.map(blog => blog.category))]
-  console.log('Mock: Kategoriler getirildi:', categories)
   
   return categories.sort()
 }
 
 export async function getTags(): Promise<string[]> {
-  console.log('Mock: Etiketler getiriliyor...')
   
   const tags = [...new Set(mockBlogs.flatMap(blog => blog.tags))]
-  console.log('Mock: Etiketler getirildi:', tags)
   
   return tags.sort()
 }
@@ -294,7 +274,6 @@ export async function getBlogStats(): Promise<{
   totalLikes: number
   totalComments: number
 }> {
-  console.log('Mock: Blog istatistikleri getiriliyor...')
   
   const stats = {
     total: mockBlogs.length,
@@ -306,7 +285,6 @@ export async function getBlogStats(): Promise<{
     totalComments: mockBlogs.reduce((sum, blog) => sum + blog.comments, 0)
   }
   
-  console.log('Mock: Blog istatistikleri getirildi:', stats)
   
   return stats
 }

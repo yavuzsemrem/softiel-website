@@ -3,6 +3,8 @@ import { Inter, Poppins } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { NotificationProvider } from "@/contexts/notification-context";
+import { I18nProvider } from "@/contexts/i18n-context";
+import { AppContent } from "@/components/app-content";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -34,6 +36,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="tr" suppressHydrationWarning>
+      <head>
+        <script 
+          id="Cookiebot" 
+          src="https://consent.cookiebot.com/uc.js" 
+          data-cbid="147e1717-7906-4741-9373-2fab1630eed4" 
+          data-blockingmode="auto" 
+          type="text/javascript"
+        />
+      </head>
       <body
         className={`${inter.variable} ${poppins.variable} font-sans antialiased`}
       >
@@ -43,9 +54,13 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <NotificationProvider>
-            {children}
-          </NotificationProvider>
+          <I18nProvider>
+            <NotificationProvider>
+              <AppContent>
+                {children}
+              </AppContent>
+            </NotificationProvider>
+          </I18nProvider>
         </ThemeProvider>
         <script
           dangerouslySetInnerHTML={{

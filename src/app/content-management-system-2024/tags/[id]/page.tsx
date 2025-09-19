@@ -1,6 +1,4 @@
-"use client"
-
-import React, { use } from 'react'
+import React from 'react'
 import { DashboardLayout } from '@/components/dashboard-layout'
 import { TagDetailView } from '@/components/tag-detail-view'
 
@@ -10,8 +8,8 @@ interface TagDetailPageProps {
   }>
 }
 
-export default function TagDetailPage({ params }: TagDetailPageProps) {
-  const { id } = use(params)
+export default async function TagDetailPage({ params }: TagDetailPageProps) {
+  const { id } = await params
   
   return (
     <DashboardLayout>
