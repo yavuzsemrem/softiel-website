@@ -1,0 +1,77 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // OTP kodları - herkes oluşturabilir ve okuyabilir (güvenlik için süreli)
+    match /otp_codes/{otpId} {
+      allow read, write, create, delete: if true;
+    }
+    
+    // Admin kullanıcıları - herkes okuyabilir (login için gerekli)
+    match /admin_users/{userId} {
+      allow read: if true;
+      allow write: if false; // Sadece admin panelinden güncellenebilir
+    }
+    
+    // Users koleksiyonu - login için gerekli
+    match /users/{userId} {
+      allow read: if true;
+      allow write: if true; // Login sırasında lastLoginAt güncellemesi için
+    }
+    
+    // Blog yazıları - herkes okuyabilir, admin paneli yazabilir
+    match /blogs/{blogId} {
+      allow read: if true;
+      allow write, create, delete: if true; // Admin paneli için
+    }
+    
+    // Yorumlar - admin paneli için gerekli
+    match /comments/{commentId} {
+      allow read, write, create, delete: if true; // Admin paneli için
+    }
+    
+    // Kategoriler - admin paneli için gerekli
+    match /categories/{categoryId} {
+      allow read, write, create, delete: if true; // Admin paneli için
+    }
+    
+    // Etiketler - admin paneli için gerekli
+    match /tags/{tagId} {
+      allow read, write, create, delete: if true; // Admin paneli için
+    }
+    
+    // Bildirimler - admin paneli için gerekli
+    match /notifications/{notificationId} {
+      allow read, write, create, delete: if true; // Admin paneli için
+    }
+    
+    // İstatistikler - admin paneli için gerekli
+    match /stats/{statId} {
+      allow read, write, create, delete: if true; // Admin paneli için
+    }
+    
+    // Aktiviteler - admin paneli için gerekli
+    match /activities/{activityId} {
+      allow read, write, create, delete: if true; // Admin paneli için
+    }
+    
+    // Admin yanıtları - admin paneli için gerekli
+    match /admin_replies/{replyId} {
+      allow read, write, create, delete: if true; // Admin paneli için
+    }
+    
+    // Test koleksiyonları - sadece development
+    match /manual_test/{document} {
+      allow read, write: if false; // Production'da kapalı
+    }
+    
+    match /test/{document} {
+      allow read, write: if false; // Production'da kapalı
+    }
+    
+    // Diğer tüm dokümanlar - sadece okuma
+    match /{document=**} {
+      allow read: if true;
+      allow write: if false;
+    }
+  }
+}
