@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react"
 import { motion } from "framer-motion"
-import { Calendar, User, ArrowRight, Search, Filter, Clock, Eye, Heart, BookOpen, Tag, ChevronDown, Loader2 } from "lucide-react"
+import { Calendar, User, ArrowRight, Search, Filter, Clock, Eye, Heart, BookOpen, Tag, ChevronDown, Loader2, X } from "lucide-react"
 import Link from "next/link"
 import { getPublishedBlogs, BlogPost, getCategories } from "@/lib/blog-service"
 
@@ -10,16 +10,16 @@ const demoBlogs: BlogPost[] = []
 
 
 export function BlogPosts() {
-  const [selectedCategory, setSelectedCategory] = useState("Tümü")
+  const [selectedCategory, setSelectedCategory] = useState("all")
   const [searchQuery, setSearchQuery] = useState("")
   const [selectedTags, setSelectedTags] = useState<string[]>([])
-  const [isTagsDropdownOpen, setIsTagsDropdownOpen] = useState(false)
+  const [isFilterOpen, setIsFilterOpen] = useState(false)
   const [currentPage, setCurrentPage] = useState(1)
   const [postsPerPage] = useState(9)
   const [blogs, setBlogs] = useState<BlogPost[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState("")
-  const [categories, setCategories] = useState<string[]>(["Tümü"])
+  const [categories, setCategories] = useState<string[]>(["all"])
 
   // Tüm etiketleri topla
   const allTags = Array.from(new Set(blogs.flatMap(post => post.tags || []))).sort()
@@ -36,7 +36,7 @@ export function BlogPosts() {
       setError("")
       
       const filters = {
-        category: selectedCategory !== "Tümü" ? selectedCategory : undefined,
+        category: selectedCategory !== "all" ? selectedCategory : undefined,
         tags: selectedTags.length > 0 ? selectedTags : undefined,
         search: searchQuery || undefined
       }
@@ -54,10 +54,10 @@ export function BlogPosts() {
   const loadCategories = async () => {
     try {
       const firebaseCategories = await getCategories()
-      setCategories(["Tümü", ...firebaseCategories])
+      setCategories(["all", ...firebaseCategories])
     } catch (err) {
       // Hata durumunda varsayılan kategorileri kullan
-      setCategories(["Tümü"])
+      setCategories(["all"])
     }
   }
 
@@ -80,12 +80,16 @@ export function BlogPosts() {
       
       if (categoryParam && categories.includes(categoryParam)) {
         setSelectedCategory(categoryParam)
+        // URL'den kategori geldiyse filtreleri aç
+        setIsFilterOpen(true)
       }
       
       if (tagParam) {
         setSelectedTags([tagParam])
+        setIsFilterOpen(true)
       } else if (tagsParam) {
         setSelectedTags(tagsParam.split(',').filter(tag => tag.trim()))
+        setIsFilterOpen(true)
       }
       
       // Kategori, etiket filtrelendiyse veya scroll parametresi varsa blog yazıları kısmına scroll yap
@@ -98,13 +102,13 @@ export function BlogPosts() {
               block: 'start'
             })
           }
-        }, 100)
+        }, 200)
       }
     }
-  }, [])
+  }, [categories])
 
   const filteredPosts = blogs.filter(post => {
-    const matchesCategory = selectedCategory === "Tümü" || post.category === selectedCategory
+    const matchesCategory = selectedCategory === "all" || post.category === selectedCategory
     const matchesTags = selectedTags.length === 0 || selectedTags.some(selectedTag => 
       (post.tags || []).some(tag => tag.toLowerCase() === selectedTag.toLowerCase())
     )
@@ -143,7 +147,7 @@ export function BlogPosts() {
     e.stopPropagation()
     
     // Sadece state'leri güncelle, URL manipülasyonu yapma
-    setSelectedCategory("Tümü")
+    setSelectedCategory("all")
     setSelectedTags([])
     setSearchQuery("")
     setCurrentPage(1)
@@ -154,23 +158,24 @@ export function BlogPosts() {
     setCurrentPage(1)
   }, [selectedCategory, selectedTags, searchQuery])
 
-  // Dropdown dışına tıklandığında kapat
+  // Kategori değiştiğinde scroll davranışını kontrol et
   React.useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      const target = event.target as HTMLElement
-      if (!target.closest('[data-dropdown="tags"]')) {
-        setIsTagsDropdownOpen(false)
+    if (selectedCategory !== "all") {
+      // Sadece filtre paneli açıksa scroll yap
+      if (isFilterOpen) {
+        setTimeout(() => {
+          const blogPostsElement = document.getElementById('blog-posts')
+          if (blogPostsElement) {
+            blogPostsElement.scrollIntoView({ 
+              behavior: 'smooth',
+              block: 'start'
+            })
+          }
+        }, 100)
       }
     }
+  }, [selectedCategory, isFilterOpen])
 
-    if (isTagsDropdownOpen) {
-      document.addEventListener('mousedown', handleClickOutside)
-    }
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside)
-    }
-  }, [isTagsDropdownOpen])
 
 
   return (
@@ -215,198 +220,292 @@ export function BlogPosts() {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 0.6 }}
           viewport={{ once: true }}
-          className="glass rounded-2xl shadow-modern-lg p-6 mb-12 border border-white/50 dark:border-white/40 backdrop-blur-lg dark:[border:1px_solid_rgba(255,255,255,0.2)]"
-          style={{ background: 'rgba(255, 255, 255, 0.1)' }}
+          className="relative overflow-hidden mb-12"
         >
-          <div className="flex flex-col gap-4">
-            {/* Search */}
-            <div className="w-full relative">
-              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-neutral-400" />
+          {/* Background Gradient */}
+          <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 via-blue-500/5 to-purple-500/10 rounded-3xl"></div>
+          
+          {/* Main Container */}
+          <div className="relative glass rounded-3xl shadow-2xl p-8 lg:p-10 border border-white/20 backdrop-blur-xl"
+               style={{ 
+                 background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)',
+                 boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.1)'
+               }}>
+            
+            {/* Header Section */}
+            <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-8">
+              <div className="flex items-center space-x-4 mb-6 lg:mb-0">
+                <div className="w-12 h-12 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-2xl flex items-center justify-center shadow-lg">
+                  <Filter className="h-6 w-6 text-white" />
+                </div>
+                <div>
+                  <h2 className="text-2xl font-bold text-white mb-1">
+                    Blog Filtreleri
+                  </h2>
+                  <p className="text-neutral-400 text-sm">
+                    Blog yazılarınızı kategorilere göre filtreleyin ve arayın
+                  </p>
+                </div>
+              </div>
+              
+              {/* Filter Toggle */}
+              <motion.button
+                onClick={() => setIsFilterOpen(!isFilterOpen)}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="group relative overflow-hidden px-6 py-3 rounded-2xl text-white font-medium transition-all duration-300"
+                style={{ 
+                  background: 'linear-gradient(135deg, rgba(6, 182, 212, 0.2) 0%, rgba(59, 130, 246, 0.2) 100%)'
+                }}
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="relative flex items-center space-x-3">
+                  <Filter className="h-5 w-5" />
+                  <span className="sm:hidden">
+                    Filtreler
+                  </span>
+                  <span className="hidden sm:inline">
+                    {isFilterOpen ? 'Filtreleri Gizle' : 'Filtreleri Göster'}
+                  </span>
+                  <motion.div
+                    animate={{ rotate: isFilterOpen ? 180 : 0 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <ChevronDown className="h-4 w-4" />
+                  </motion.div>
+                </div>
+              </motion.button>
+            </div>
+
+            {/* Search Bar */}
+            <div className="relative mb-8">
+              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                <Search className="h-6 w-6 text-cyan-400" />
+              </div>
               <input
                 type="text"
                 placeholder="Yazı ara..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-12 pr-4 py-3 rounded-xl glass text-neutral-900 dark:text-white placeholder-neutral-500 dark:placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/70 focus:shadow-[0_0_30px_rgba(6,182,212,0.6)] transition-all duration-200 backdrop-blur-lg border border-white/20"
-                style={{ background: 'rgba(255, 255, 255, 0.1)' }}
+                className="w-full pl-12 pr-6 py-4 rounded-2xl text-white placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:shadow-[0_0_40px_rgba(6,182,212,0.4)] transition-all duration-300 backdrop-blur-lg text-lg"
+                style={{ 
+                  background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)',
+                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)'
+                }}
               />
-            </div>
-
-            {/* Category Filter */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2">
-              {categories.map((category) => (
-                <button
-                  key={category}
-                  onClick={() => setSelectedCategory(category)}
-                  className={`px-3 py-2 rounded-lg font-medium text-xs sm:text-sm transition-all duration-200 text-center focus:outline-none focus:ring-0 focus:border-0 focus:shadow-none ${
-                    selectedCategory === category
-                      ? 'bg-gradient-to-r from-cyan-500 to-blue-500 text-white shadow-lg'
-                      : 'glass text-neutral-700 dark:text-neutral-300 hover:bg-white/20 dark:hover:bg-gray-800'
-                  }`}
-                  style={{
-                    ...(selectedCategory !== category ? { background: 'rgba(255, 255, 255, 0.1)' } : {}),
-                    outline: 'none',
-                    border: 'none',
-                    boxShadow: selectedCategory === category ? '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)' : 'none'
-                  }}
+              {searchQuery && (
+                <motion.button
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  onClick={() => setSearchQuery("")}
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 p-2 rounded-lg text-neutral-400 hover:text-white hover:bg-white/10 transition-all duration-200"
                 >
-                  <span className="truncate block">{category}</span>
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Active Filters */}
-          {(selectedTags.length > 0 || selectedCategory !== "Tümü" || searchQuery) && (
-            <div className="mt-4">
-              <div className="flex flex-wrap items-center gap-2 mb-2">
-                <span className="text-sm font-medium text-neutral-600 dark:text-neutral-400">Aktif Filtreler:</span>
-              </div>
-              
-              <div className="flex flex-wrap items-center gap-2">
-                {selectedCategory !== "Tümü" && (
-                  <div className="inline-flex items-center space-x-2 glass rounded-full px-3 py-1 text-xs sm:text-sm text-cyan-600 dark:text-cyan-400"
-                       style={{ background: 'rgba(6, 182, 212, 0.2)' }}>
-                    <span className="truncate">Kategori: {selectedCategory}</span>
-                    <button
-                      onClick={() => setSelectedCategory("Tümü")}
-                      className="text-cyan-600 dark:text-cyan-400 hover:text-cyan-700 dark:hover:text-cyan-300 transition-colors flex-shrink-0"
-                    >
-                      ×
-                    </button>
-                  </div>
-                )}
-                
-                {selectedTags.map((tag) => (
-                  <div key={tag} className="inline-flex items-center space-x-2 glass rounded-full px-3 py-1 text-xs sm:text-sm text-cyan-600 dark:text-cyan-400"
-                       style={{ background: 'rgba(6, 182, 212, 0.2)' }}>
-                    <span className="truncate max-w-24">{tag}</span>
-                    <button
-                      onClick={() => toggleTag(tag)}
-                      className="text-cyan-600 dark:text-cyan-400 hover:text-cyan-700 dark:hover:text-cyan-300 transition-colors flex-shrink-0"
-                    >
-                      ×
-                    </button>
-                  </div>
-                ))}
-                
-                <button
-                  onClick={clearAllFilters}
-                  className="inline-flex items-center space-x-1 glass rounded-full px-3 py-1 text-xs sm:text-sm text-red-500 hover:text-red-600 transition-colors"
-                  style={{ background: 'rgba(239, 68, 68, 0.2)' }}
-                >
-                  <span>Tümünü Temizle</span>
-                </button>
-              </div>
-            </div>
-          )}
-
-          {/* Tags Dropdown */}
-          <div className="mt-8">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-xl font-bold text-neutral-900 dark:text-white">Etiketler</h3>
-              <span className="text-sm text-neutral-500 dark:text-neutral-400">
-                {selectedTags.length > 0 ? `${selectedTags.length} etiket seçili` : 'Etiket seçin'}
-              </span>
-            </div>
-            
-            {/* Dropdown Button */}
-            <div className="relative" data-dropdown="tags">
-              <button
-                onClick={() => setIsTagsDropdownOpen(!isTagsDropdownOpen)}
-                className="w-full flex items-center justify-between px-4 py-3 glass rounded-xl text-left text-neutral-900 dark:text-white hover:bg-white/20 transition-all duration-200 border border-white/20"
-                style={{ background: 'rgba(255, 255, 255, 0.1)' }}
-              >
-                <span className="flex items-center space-x-2">
-                  <Tag className="h-5 w-5 text-cyan-500" />
-                  <span className="truncate">
-                    {selectedTags.length === 0 
-                      ? 'Etiket seçin' 
-                      : selectedTags.length === 1 
-                        ? selectedTags[0]
-                        : `${selectedTags.length} etiket seçili`
-                    }
-                  </span>
-                </span>
-                <ChevronDown 
-                  className={`h-5 w-5 text-neutral-400 transition-transform duration-200 flex-shrink-0 ${
-                    isTagsDropdownOpen ? 'rotate-180' : ''
-                  }`} 
-                />
-              </button>
-
-              {/* Dropdown Content */}
-              {isTagsDropdownOpen && (
-                <>
-                  {/* Overlay */}
-                  <div 
-                    className="fixed inset-0 z-[99998]" 
-                    onClick={() => setIsTagsDropdownOpen(false)}
-                  />
-                  
-                  {/* Dropdown - Fixed positioning for full control */}
-                  <div 
-                    className="fixed glass rounded-xl shadow-2xl z-[99999] max-h-96 overflow-y-auto border border-cyan-500/30"
-                    style={{ 
-                      top: '50%',
-                      left: '50%',
-                      transform: 'translate(-50%, -50%)',
-                      width: '90vw',
-                      maxWidth: '600px',
-                      background: 'rgba(15, 23, 42, 0.95)', 
-                      backdropFilter: 'blur(20px)',
-                      boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.8)'
-                    }}
-                  >
-                    <div className="p-6">
-                      <div className="flex items-center justify-between mb-4">
-                        <h3 className="text-lg font-semibold text-white">Etiket Seçin</h3>
-                        <button
-                          onClick={() => setIsTagsDropdownOpen(false)}
-                          className="text-neutral-400 hover:text-white transition-colors"
-                        >
-                          ×
-                        </button>
-                      </div>
-                      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
-                        {allTags.map((tag) => (
-                          <button
-                            key={tag}
-                            onClick={() => toggleTag(tag)}
-                            className={`group relative px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200 ${
-                              selectedTags.includes(tag)
-                                ? 'bg-gradient-to-r from-cyan-500 to-blue-500 text-white shadow-lg'
-                                : 'text-neutral-200 hover:bg-cyan-500/20 hover:text-cyan-300'
-                            }`}
-                            style={!selectedTags.includes(tag) ? { 
-                              background: 'rgba(255, 255, 255, 0.08)',
-                              border: '1px solid rgba(255, 255, 255, 0.15)'
-                            } : {}}
-                          >
-                            <span className="block truncate">{tag}</span>
-                            {selectedTags.includes(tag) && (
-                              <div className="absolute -top-1 -right-1 w-5 h-5 bg-white rounded-full flex items-center justify-center shadow-lg">
-                                <span className="text-cyan-500 text-xs font-bold">✓</span>
-                              </div>
-                            )}
-                          </button>
-                        ))}
-                      </div>
-                      <div className="mt-4 flex justify-end">
-                        <button
-                          onClick={() => setIsTagsDropdownOpen(false)}
-                          className="px-4 py-2 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-lg text-sm font-medium hover:shadow-lg transition-all duration-200"
-                        >
-                          Tamam
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </>
+                  <X className="h-4 w-4" />
+                </motion.button>
               )}
             </div>
+            
+            {/* Advanced Filters Panel */}
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: isFilterOpen ? 1 : 0, height: isFilterOpen ? "auto" : 0 }}
+              transition={{ duration: 0.4, ease: "easeInOut" }}
+              className="overflow-hidden"
+            >
+              <motion.div
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: isFilterOpen ? 1 : 0, y: isFilterOpen ? 0 : -20 }}
+                transition={{ duration: 0.4, delay: 0.1 }}
+                className="relative"
+              >
+                {/* Filter Panel Background */}
+                <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 via-blue-500/3 to-purple-500/5 rounded-2xl"></div>
+                
+                <div className="relative glass rounded-2xl p-8 border border-white/10 backdrop-blur-xl"
+                     style={{ 
+                       background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.03) 100%)',
+                       boxShadow: '0 20px 40px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1)'
+                     }}>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {/* Category Filter */}
+                    <div className="space-y-3">
+                      <div className="flex items-center space-x-2">
+                        <div className="w-2 h-2 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full"></div>
+                        <label className="text-sm font-semibold text-white uppercase tracking-wider">Kategori</label>
+                      </div>
+                      
+                      <div className="relative">
+                        <select
+                          value={selectedCategory}
+                          onChange={(e) => setSelectedCategory(e.target.value)}
+                          className="w-full px-4 py-3 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:shadow-[0_0_20px_rgba(6,182,212,0.3)] transition-all duration-300 appearance-none cursor-pointer text-sm font-medium"
+                    style={{ 
+                            background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)',
+                            boxShadow: '0 4px 16px rgba(0, 0, 0, 0.1)'
+                          }}
+                        >
+                          {categories.map((category) => (
+                            <option key={category} value={category} className="bg-slate-800 text-white">
+                              {category === "all" ? "Tümü" : category}
+                            </option>
+                          ))}
+                        </select>
+                        <div className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
+                          <ChevronDown className="h-5 w-5 text-cyan-400" />
+                        </div>
+                      </div>
+                              </div>
+
+                    {/* Tags Filter */}
+                    <div className="space-y-3">
+                      <div className="flex items-center space-x-2">
+                        <div className="w-2 h-2 bg-gradient-to-r from-emerald-500 to-green-500 rounded-full"></div>
+                        <label className="text-sm font-semibold text-white uppercase tracking-wider">Etiketler</label>
+                      </div>
+                      
+                      <div className="relative">
+                        <select
+                          value=""
+                          onChange={(e) => {
+                            if (e.target.value && !selectedTags.includes(e.target.value)) {
+                              toggleTag(e.target.value)
+                            }
+                          }}
+                          className="w-full px-4 py-3 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:shadow-[0_0_20px_rgba(6,182,212,0.3)] transition-all duration-300 appearance-none cursor-pointer text-sm font-medium"
+                          style={{ 
+                            background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)',
+                            boxShadow: '0 4px 16px rgba(0, 0, 0, 0.1)'
+                          }}
+                        >
+                          <option value="" className="bg-slate-800 text-white">
+                            {selectedTags.length === 0 ? 'Etiket seçin' : 'Başka etiket ekle'}
+                          </option>
+                          {allTags.map((tag) => (
+                            <option key={tag} value={tag} className="bg-slate-800 text-white">
+                              {tag}
+                            </option>
+                          ))}
+                        </select>
+                        <div className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
+                          <Tag className="h-5 w-5 text-cyan-400" />
+                        </div>
+                      </div>
+
+                    </div>
+
+                    {/* Clear Filters */}
+                    <div className="space-y-3">
+                      <div className="flex items-center space-x-2">
+                        <div className="w-2 h-2 bg-gradient-to-r from-red-500 to-pink-500 rounded-full"></div>
+                        <label className="text-sm font-semibold text-white uppercase tracking-wider">Temizle</label>
+                      </div>
+                      <motion.button
+                        onClick={clearAllFilters}
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        className="group relative w-full px-6 py-3 rounded-xl text-neutral-400 hover:text-white transition-all duration-300 overflow-hidden"
+                        style={{ 
+                          background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)',
+                          boxShadow: '0 4px 16px rgba(0, 0, 0, 0.1)'
+                        }}
+                      >
+                        <div className="absolute inset-0 bg-gradient-to-r from-red-500/20 to-pink-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        <div className="relative flex items-center justify-center space-x-2">
+                          <X className="h-4 w-4" />
+                          <span className="font-medium">Tümünü Temizle</span>
+                        </div>
+                      </motion.button>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            </motion.div>
+
+            {/* Active Filters */}
+            {(selectedCategory !== "all" || selectedTags.length > 0 || (searchQuery && searchQuery.trim() !== "")) && (
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="mt-8"
+              >
+                <div className="glass rounded-2xl p-6 border border-white/10 backdrop-blur-xl"
+                     style={{ 
+                       background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%)',
+                       boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)'
+                     }}>
+                  <div className="flex flex-wrap items-center gap-3">
+                    <div className="flex items-center space-x-2">
+                      <div className="w-2 h-2 bg-gradient-to-r from-emerald-500 to-green-500 rounded-full animate-pulse"></div>
+                      <span className="text-sm font-semibold text-white uppercase tracking-wider">Aktif Filtreler</span>
+                    </div>
+                    
+                    <div className="flex flex-wrap gap-2">
+                      {selectedCategory !== "all" && selectedCategory !== "" && (
+                        <motion.span
+                          initial={{ opacity: 0, scale: 0.8 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          className="inline-flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 text-cyan-300 rounded-xl text-sm font-medium border border-cyan-500/30"
+                          style={{ boxShadow: '0 4px 16px rgba(6, 182, 212, 0.2)' }}
+                        >
+                          <span>{selectedCategory}</span>
+                          <motion.button
+                            whileHover={{ scale: 1.1 }}
+                            whileTap={{ scale: 0.9 }}
+                            onClick={() => setSelectedCategory("all")}
+                            className="hover:text-cyan-100 transition-colors duration-200"
+                          >
+                            <X className="h-3 w-3" />
+                          </motion.button>
+                        </motion.span>
+                      )}
+                      
+                      {searchQuery && (
+                        <motion.span
+                          initial={{ opacity: 0, scale: 0.8 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          className="inline-flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-blue-500/20 to-indigo-500/20 text-blue-300 rounded-xl text-sm font-medium border border-blue-500/30"
+                          style={{ boxShadow: '0 4px 16px rgba(59, 130, 246, 0.2)' }}
+                        >
+                          <span>"{searchQuery}"</span>
+                          <motion.button
+                            whileHover={{ scale: 1.1 }}
+                            whileTap={{ scale: 0.9 }}
+                            onClick={() => setSearchQuery("")}
+                            className="hover:text-blue-100 transition-colors duration-200"
+                          >
+                            <X className="h-3 w-3" />
+                          </motion.button>
+                        </motion.span>
+                      )}
+                      
+                      {selectedTags.map((tag) => (
+                        <motion.span
+                          key={tag}
+                          initial={{ opacity: 0, scale: 0.8 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          className="inline-flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-emerald-500/20 to-green-500/20 text-emerald-300 rounded-xl text-sm font-medium border border-emerald-500/30"
+                          style={{ boxShadow: '0 4px 16px rgba(16, 185, 129, 0.2)' }}
+                        >
+                          <span>{tag}</span>
+                          <motion.button
+                            whileHover={{ scale: 1.1 }}
+                            whileTap={{ scale: 0.9 }}
+                            onClick={() => toggleTag(tag)}
+                            className="hover:text-emerald-100 transition-colors duration-200"
+                          >
+                            <X className="h-3 w-3" />
+                          </motion.button>
+                        </motion.span>
+                      ))}
+                    </div>
+                  </div>
+            </div>
+              </motion.div>
+            )}
           </div>
         </motion.div>
+
 
         {/* Error Message */}
         {error && (

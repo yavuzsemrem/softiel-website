@@ -419,32 +419,58 @@ export function BlogList() {
       </div>
 
       {/* Top Controls */}
-      <div className="space-y-4">
+      <div className="space-y-6">
         {/* Search and Filters Row */}
         <div className="flex flex-col sm:flex-row gap-4">
           {/* Search */}
           <div className="relative w-full sm:w-80 lg:w-96">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-neutral-300 z-10" />
+            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-6 w-6 text-cyan-400 z-10" />
             <input
               type="text"
               placeholder="Blog ara..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-3 glass rounded-xl text-white placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/70 transition-all duration-300 backdrop-blur-lg border border-white/20"
-              style={{ background: 'rgba(255, 255, 255, 0.1)' }}
+              className="w-full pl-12 pr-6 py-4 rounded-2xl text-white placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:shadow-[0_0_40px_rgba(6,182,212,0.4)] transition-all duration-300 backdrop-blur-lg text-lg"
+              style={{ 
+                background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)',
+                boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)'
+              }}
             />
+            {searchQuery && (
+              <motion.button
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                onClick={() => setSearchQuery("")}
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 p-2 rounded-lg text-neutral-400 hover:text-white hover:bg-white/10 transition-all duration-200"
+              >
+                <X className="h-4 w-4" />
+              </motion.button>
+            )}
           </div>
 
           {/* Filter Toggle */}
-          <button
+          <motion.button
             onClick={() => setShowFilters(!showFilters)}
-            className="flex items-center space-x-2 px-4 py-3 glass rounded-xl text-white hover:bg-white/10 transition-all duration-200 border border-white/20"
-            style={{ background: 'rgba(255, 255, 255, 0.1)' }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="group relative overflow-hidden px-6 py-4 rounded-2xl text-white font-medium transition-all duration-300"
+            style={{ 
+              background: 'linear-gradient(135deg, rgba(6, 182, 212, 0.2) 0%, rgba(59, 130, 246, 0.2) 100%)',
+              boxShadow: '0 8px 32px rgba(6, 182, 212, 0.3)'
+            }}
           >
-            <Filter className="h-5 w-5" />
-            <span className="hidden sm:inline">Filtreler</span>
-            <ChevronDown className={`h-4 w-4 transition-transform ${showFilters ? 'rotate-180' : ''}`} />
-          </button>
+            <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            <div className="relative flex items-center space-x-3">
+              <Filter className="h-5 w-5" />
+              <span className="hidden sm:inline">Filtreler</span>
+              <motion.div
+                animate={{ rotate: showFilters ? 180 : 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                <ChevronDown className="h-4 w-4" />
+              </motion.div>
+            </div>
+          </motion.button>
         </div>
 
         {/* Selection Controls Row */}
@@ -554,74 +580,133 @@ export function BlogList() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="glass rounded-xl p-6 border border-white/20 backdrop-blur-lg overflow-hidden"
-            style={{ background: 'rgba(255, 255, 255, 0.1)' }}
+            transition={{ duration: 0.4, ease: "easeInOut" }}
+            className="overflow-hidden"
           >
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {/* Category Filter */}
-              <div>
-                <label className="block text-sm font-medium text-white mb-2">Kategori</label>
-          <select
-            value={selectedCategory}
-            onChange={(e) => setSelectedCategory(e.target.value)}
-                  className="w-full px-4 py-3 glass rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/70 transition-all duration-300 appearance-none cursor-pointer border border-white/20"
-                  style={{ background: 'rgba(255, 255, 255, 0.1)' }}
-          >
-            {categories.map(category => (
-                    <option key={category} value={category} className="bg-slate-800 text-white">
-                      {category}
-                    </option>
-            ))}
-          </select>
+            <motion.div
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: 0.1 }}
+              className="relative"
+            >
+              {/* Filter Panel Background */}
+              <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 via-blue-500/3 to-purple-500/5 rounded-2xl"></div>
+              
+              <div className="relative glass rounded-2xl p-8 border border-white/10 backdrop-blur-xl"
+                   style={{ 
+                     background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.03) 100%)',
+                     boxShadow: '0 20px 40px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1)'
+                   }}>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {/* Category Filter */}
+                  <div className="space-y-3">
+                    <div className="flex items-center space-x-2">
+                      <div className="w-2 h-2 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full"></div>
+                      <label className="text-sm font-semibold text-white uppercase tracking-wider">Kategori</label>
+                    </div>
+                    <div className="relative">
+                      <select
+                        value={selectedCategory}
+                        onChange={(e) => setSelectedCategory(e.target.value)}
+                        className="w-full px-4 py-4 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:shadow-[0_0_20px_rgba(6,182,212,0.3)] transition-all duration-300 appearance-none cursor-pointer text-sm font-medium"
+                        style={{ 
+                          background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)',
+                          boxShadow: '0 4px 16px rgba(0, 0, 0, 0.1)'
+                        }}
+                      >
+                        {categories.map(category => (
+                          <option key={category} value={category} className="bg-slate-800 text-white">
+                            {category}
+                          </option>
+                        ))}
+                      </select>
+                      <div className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
+                        <ChevronDown className="h-4 w-4 text-cyan-400" />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Status Filter */}
+                  <div className="space-y-3">
+                    <div className="flex items-center space-x-2">
+                      <div className="w-2 h-2 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full"></div>
+                      <label className="text-sm font-semibold text-white uppercase tracking-wider">Durum</label>
+                    </div>
+                    <div className="relative">
+                      <select
+                        value={selectedStatus}
+                        onChange={(e) => setSelectedStatus(e.target.value)}
+                        className="w-full px-4 py-4 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:shadow-[0_0_20px_rgba(147,51,234,0.3)] transition-all duration-300 appearance-none cursor-pointer text-sm font-medium"
+                        style={{ 
+                          background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)',
+                          boxShadow: '0 4px 16px rgba(0, 0, 0, 0.1)'
+                        }}
+                      >
+                        {statuses.map(status => (
+                          <option key={status} value={status} className="bg-slate-800 text-white">
+                            {status}
+                          </option>
+                        ))}
+                      </select>
+                      <div className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
+                        <ChevronDown className="h-4 w-4 text-purple-400" />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Clear Filters */}
+                  <div className="flex items-end">
+                    <motion.button
+                      onClick={clearFilters}
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      className="group relative w-full px-6 py-4 rounded-xl text-neutral-400 hover:text-white transition-all duration-300 overflow-hidden"
+                      style={{ 
+                        background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%)',
+                        boxShadow: '0 4px 16px rgba(0, 0, 0, 0.1)'
+                      }}
+                    >
+                      <div className="absolute inset-0 bg-gradient-to-r from-red-500/10 to-pink-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                      <div className="relative flex items-center justify-center space-x-2">
+                        <X className="h-4 w-4" />
+                        <span className="font-medium">Filtreleri Temizle</span>
+                      </div>
+                    </motion.button>
+                  </div>
+                </div>
+
+                {/* Tags Filter */}
+                <div className="mt-8">
+                  <div className="flex items-center space-x-2 mb-4">
+                    <div className="w-2 h-2 bg-gradient-to-r from-emerald-500 to-green-500 rounded-full"></div>
+                    <label className="text-sm font-semibold text-white uppercase tracking-wider">Etiketler</label>
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {allTags.map(tag => (
+                      <motion.button
+                        key={tag}
+                        onClick={() => toggleTag(tag)}
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        className={`px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 ${
+                          selectedTags.includes(tag)
+                            ? "bg-gradient-to-r from-cyan-500/20 to-blue-500/20 text-cyan-300 border border-cyan-500/30"
+                            : "bg-white/10 text-neutral-400 hover:text-white hover:bg-white/20"
+                        }`}
+                        style={{ 
+                          boxShadow: selectedTags.includes(tag) 
+                            ? '0 4px 16px rgba(6, 182, 212, 0.2)' 
+                            : '0 2px 8px rgba(0, 0, 0, 0.1)'
+                        }}
+                      >
+                        {tag}
+                      </motion.button>
+                    ))}
+                  </div>
+                </div>
               </div>
-
-          {/* Status Filter */}
-              <div>
-                <label className="block text-sm font-medium text-white mb-2">Durum</label>
-          <select
-            value={selectedStatus}
-            onChange={(e) => setSelectedStatus(e.target.value)}
-                  className="w-full px-4 py-3 glass rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/70 transition-all duration-300 appearance-none cursor-pointer border border-white/20"
-                  style={{ background: 'rgba(255, 255, 255, 0.1)' }}
-          >
-            {statuses.map(status => (
-                    <option key={status} value={status} className="bg-slate-800 text-white">
-                      {status}
-                    </option>
-            ))}
-          </select>
-        </div>
-
-              {/* Clear Filters */}
-              <div className="flex items-end">
-                <button
-                  onClick={clearFilters}
-                  className="w-full px-4 py-3 text-neutral-400 hover:text-white hover:bg-white/10 rounded-xl transition-all duration-200 border border-white/20"
-                >
-                  Filtreleri Temizle
-                </button>
-        </div>
-      </div>
-
-            {/* Tags Filter */}
-            <div className="mt-4">
-              <label className="block text-sm font-medium text-white mb-3">Etiketler</label>
-              <div className="flex flex-wrap gap-2">
-                {allTags.map(tag => (
-                  <button
-                    key={tag}
-                    onClick={() => toggleTag(tag)}
-                    className={`px-3 py-2 rounded-lg text-sm transition-all duration-200 ${
-                      selectedTags.includes(tag)
-                        ? "bg-cyan-500/20 text-cyan-400 border border-cyan-500/30"
-                        : "bg-white/10 text-neutral-400 hover:text-white hover:bg-white/20 border border-white/20"
-                    }`}
-                  >
-                    {tag}
-                  </button>
-                ))}
-              </div>
-            </div>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>

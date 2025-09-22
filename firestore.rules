@@ -54,6 +54,11 @@ service cloud.firestore {
       allow read, write, create, delete: if true; // Admin paneli için
     }
     
+    // Projeler - admin paneli için gerekli
+    match /projects/{projectId} {
+      allow read, write, create, delete: if true; // Admin paneli için
+    }
+    
     // Admin yanıtları - admin paneli için gerekli
     match /admin_replies/{replyId} {
       allow read, write, create, delete: if true; // Admin paneli için

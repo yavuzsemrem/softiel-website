@@ -12,7 +12,8 @@ import {
   Database,
   ChevronRight,
   X,
-  Tag
+  Tag,
+  Briefcase
 } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -53,6 +54,18 @@ export function DashboardSidebar({ isOpen, onClose, collapsed, onToggle, user: p
       href: '/content-management-system-2024/blogs/new',
       icon: Plus,
       current: pathname.startsWith('/content-management-system-2024/blogs/new')
+    },
+    {
+      name: 'Projelerimiz',
+      href: '/content-management-system-2024/projects',
+      icon: Briefcase,
+      current: pathname.startsWith('/content-management-system-2024/projects') && !pathname.startsWith('/content-management-system-2024/projects/new')
+    },
+    {
+      name: 'Yeni Proje',
+      href: '/content-management-system-2024/projects/new',
+      icon: Plus,
+      current: pathname.startsWith('/content-management-system-2024/projects/new')
     },
     {
       name: 'Kategoriler',

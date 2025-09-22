@@ -5,7 +5,8 @@
     "services": "Услуги",
     "blog": "Блог",
     "contact": "Контакты",
-    "pricing": "Цены"
+    "pricing": "Цены",
+    "references": "Наши Проекты"
   },
   "hero": {
     "title": "Современное веб-агентство",
@@ -282,5 +283,69 @@
     },
     "lastUpdated": "Последнее обновление:",
     "understood": "Понятно"
+  },
+  "references": {
+    "title": "Наши Проекты",
+    "subtitle": "Успешные Проекты",
+    "description": "Откройте для себя наши проекты, которые меняют цифровой мир. Изучите наши успешные проекты в широком спектре от веб-дизайна до разработки мобильных приложений, от решений электронной коммерции до корпоративных систем.",
+    "badge": "Наши Проекты",
+    "ctaTitle": "Изучить Проекты",
+    "ctaSecondary": "Начать Проект",
+    "stats": {
+      "completedProjects": "Команда Экспертов",
+      "happyClients": "Поддержка 24/7",
+      "satisfaction": "Удовлетворенность Клиентов",
+      "experience": "Надежный Сервис",
+      "completedProjectsValue": "Опытные",
+      "happyClientsValue": "Живая Поддержка",
+      "satisfactionValue": "98%",
+      "experienceValue": "Гарантия Качества",
+      "completedProjectsDesc": "Опытные Разработчики",
+      "happyClientsDesc": "Поддержка Клиентов",
+      "satisfactionDesc": "Средняя Оценка",
+      "experienceDesc": "Профессиональный Подход"
+    },
+    "filter": {
+      "title": "Фильтр & Сортировка",
+      "showFilters": "Показать Фильтры",
+      "hideFilters": "Скрыть Фильтры",
+      "clearFilters": "Очистить",
+      "searchPlaceholder": "Поиск проекта...",
+      "category": "Категория",
+      "sortBy": "Сортировать по",
+      "activeFilters": "Активные Фильтры",
+      "categories": {
+        "all": "Все",
+        "webDesign": "Веб-Дизайн",
+        "webDevelopment": "Веб-Разработка",
+        "mobileApp": "Мобильное Приложение",
+        "ecommerce": "Электронная Коммерция",
+        "seo": "SEO & Маркетинг",
+        "branding": "Брендинг"
+      },
+      "sortOptions": {
+        "newest": "Новейшие",
+        "oldest": "Старейшие",
+        "name": "Имя (А-Я)",
+        "category": "Категория"
+      }
+    },
+    "grid": {
+      "title": "Портфолио Проектов",
+      "subtitle": "проектов найдено",
+      "viewProject": "Просмотр",
+      "viewCode": "Код",
+      "featured": "Рекомендуемые",
+      "status": {
+        "completed": "Завершено",
+        "ongoing": "В Процессе",
+        "upcoming": "Скоро"
+      },
+      "emptyState": {
+        "title": "Проекты Не Найдены",
+        "description": "Не найдено проектов, соответствующих вашим критериям поиска. Попробуйте изменить фильтры.",
+        "resetFilters": "Сбросить Фильтры"
+      }
+    }
   }
 }

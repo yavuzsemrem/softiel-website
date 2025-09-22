@@ -5,7 +5,8 @@
     "services": "Services",
     "blog": "Blog",
     "contact": "Contact",
-    "pricing": "Pricing"
+    "pricing": "Pricing",
+    "references": "Our Projects"
   },
   "hero": {
     "title": "Modern Web Agency",
@@ -281,5 +282,85 @@
     },
     "lastUpdated": "Last updated:",
     "understood": "Understood"
+  },
+  "references": {
+    "title": "Our Projects",
+    "subtitle": "Successful Projects",
+    "description": "Discover our projects that make a difference in the digital world. Explore our successful projects in a wide range from web design to mobile app development, from e-commerce solutions to corporate systems.",
+    "badge": "Our Projects",
+    "ctaTitle": "Explore Projects",
+    "ctaSecondary": "Start Project",
+    "stats": {
+      "completedProjects": "Expert Team",
+      "happyClients": "24/7 Support",
+      "satisfaction": "Client Satisfaction",
+      "experience": "Reliable Service",
+      "completedProjectsValue": "Experienced",
+      "happyClientsValue": "Live Support",
+      "satisfactionValue": "98%",
+      "experienceValue": "Quality Guarantee",
+      "completedProjectsDesc": "Experienced Developers",
+      "happyClientsDesc": "Customer Support",
+      "satisfactionDesc": "Average Rating",
+      "experienceDesc": "Professional Approach"
+    },
+    "filter": {
+      "title": "Filter & Sort",
+      "showFilters": "Show Filters",
+      "hideFilters": "Hide Filters",
+      "clearFilters": "Clear",
+      "searchPlaceholder": "Search projects...",
+      "category": "Category",
+      "sortBy": "Sort By",
+      "activeFilters": "Active Filters",
+      "categories": {
+        "all": "All",
+        "webDesign": "Web Design",
+        "webDevelopment": "Web Development",
+        "mobileApp": "Mobile App",
+        "ecommerce": "E-commerce",
+        "seo": "SEO & Marketing",
+        "branding": "Brand Identity"
+      },
+      "sortOptions": {
+        "newest": "Newest",
+        "oldest": "Oldest",
+        "name": "Name (A-Z)",
+        "category": "Category"
+      }
+    },
+    "grid": {
+      "title": "Our Project Portfolio",
+      "subtitle": "projects found",
+      "viewProject": "View",
+      "viewCode": "Code",
+      "featured": "Featured",
+      "status": {
+        "completed": "Completed",
+        "ongoing": "Ongoing",
+        "upcoming": "Upcoming"
+      },
+      "emptyState": {
+        "title": "No Projects Found",
+        "description": "No projects found matching your criteria. Try changing the filters.",
+        "resetFilters": "Reset Filters"
+      }
+    },
+    "projectDetail": {
+      "backToProjects": "Back to Projects",
+      "viewLive": "View Live",
+      "viewCode": "View Code",
+      "client": "Client",
+      "clientDesc": "Project Owner",
+      "duration": "Duration",
+      "durationDesc": "Project Duration",
+      "status": "Status",
+      "statusDesc": "Project Status",
+      "category": "Category",
+      "categoryDesc": "Project Category",
+      "technologies": "Technologies Used",
+      "features": "Project Features",
+      "gallery": "Project Gallery"
+    }
   }
 }

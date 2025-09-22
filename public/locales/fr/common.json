@@ -5,7 +5,8 @@
     "services": "Services",
     "blog": "Blog",
     "contact": "Contact",
-    "pricing": "Tarifs"
+    "pricing": "Tarifs",
+    "references": "Nos Projets"
   },
   "hero": {
     "title": "Agence Web Moderne",
@@ -282,5 +283,69 @@
     },
     "lastUpdated": "Dernière mise à jour :",
     "understood": "Compris"
+  },
+  "references": {
+    "title": "Nos Projets",
+    "subtitle": "Projets Réussis",
+    "description": "Découvrez nos projets qui font la différence dans le monde numérique. Explorez nos projets réussis dans un large éventail, du design web au développement d'applications mobiles, des solutions e-commerce aux systèmes d'entreprise.",
+    "badge": "Nos Projets",
+    "ctaTitle": "Explorer les Projets",
+    "ctaSecondary": "Démarrer un Projet",
+    "stats": {
+      "completedProjects": "Équipe d'Experts",
+      "happyClients": "Support 24/7",
+      "satisfaction": "Satisfaction Client",
+      "experience": "Service Fiable",
+      "completedProjectsValue": "Expérimentés",
+      "happyClientsValue": "Support en Direct",
+      "satisfactionValue": "98%",
+      "experienceValue": "Garantie Qualité",
+      "completedProjectsDesc": "Développeurs Expérimentés",
+      "happyClientsDesc": "Support Client",
+      "satisfactionDesc": "Note Moyenne",
+      "experienceDesc": "Approche Professionnelle"
+    },
+    "filter": {
+      "title": "Filtrer & Trier",
+      "showFilters": "Afficher les Filtres",
+      "hideFilters": "Masquer les Filtres",
+      "clearFilters": "Effacer",
+      "searchPlaceholder": "Rechercher un projet...",
+      "category": "Catégorie",
+      "sortBy": "Trier par",
+      "activeFilters": "Filtres Actifs",
+      "categories": {
+        "all": "Tous",
+        "webDesign": "Design Web",
+        "webDevelopment": "Développement Web",
+        "mobileApp": "App Mobile",
+        "ecommerce": "E-commerce",
+        "seo": "SEO & Marketing",
+        "branding": "Identité de Marque"
+      },
+      "sortOptions": {
+        "newest": "Plus Récent",
+        "oldest": "Plus Ancien",
+        "name": "Nom (A-Z)",
+        "category": "Catégorie"
+      }
+    },
+    "grid": {
+      "title": "Portfolio de Projets",
+      "subtitle": "projets trouvés",
+      "viewProject": "Voir",
+      "viewCode": "Code",
+      "featured": "En Vedette",
+      "status": {
+        "completed": "Terminé",
+        "ongoing": "En Cours",
+        "upcoming": "Bientôt"
+      },
+      "emptyState": {
+        "title": "Aucun Projet Trouvé",
+        "description": "Aucun projet ne correspond à vos critères de recherche. Essayez de modifier les filtres.",
+        "resetFilters": "Réinitialiser les Filtres"
+      }
+    }
   }
 }

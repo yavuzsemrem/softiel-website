@@ -16,12 +16,12 @@ import { db } from './firebase'
 
 export interface Activity {
   id?: string
-  type: 'blog_created' | 'blog_updated' | 'blog_published' | 'blog_deleted' | 'category_created' | 'comment_added' | 'user_login' | 'seo_optimized' | 'blog_liked' | 'comment_liked'
+  type: 'blog_created' | 'blog_updated' | 'blog_published' | 'blog_deleted' | 'category_created' | 'comment_added' | 'user_login' | 'seo_optimized' | 'blog_liked' | 'comment_liked' | 'project_created' | 'project_updated' | 'project_deleted' | 'project_liked'
   title: string
   description: string
   userId: string
   userName: string
-  targetId?: string // blog id, category id, etc.
+  targetId?: string // blog id, category id, project id, etc.
   metadata?: Record<string, any>
   createdAt: Timestamp
   isRead?: boolean // Okunma durumu
@@ -273,6 +273,26 @@ export function getActivityDisplayInfo(type: Activity['type']) {
       icon: '👍',
       color: 'text-emerald-500',
       bgColor: 'bg-emerald-100 dark:bg-emerald-900/20'
+    },
+    project_created: {
+      icon: '🚀',
+      color: 'text-green-500',
+      bgColor: 'bg-green-100 dark:bg-green-900/20'
+    },
+    project_updated: {
+      icon: '✏️',
+      color: 'text-blue-500',
+      bgColor: 'bg-blue-100 dark:bg-blue-900/20'
+    },
+    project_deleted: {
+      icon: '🗑️',
+      color: 'text-red-500',
+      bgColor: 'bg-red-100 dark:bg-red-900/20'
+    },
+    project_liked: {
+      icon: '❤️',
+      color: 'text-pink-500',
+      bgColor: 'bg-pink-100 dark:bg-pink-900/20'
     }
   }
   
@@ -280,5 +300,28 @@ export function getActivityDisplayInfo(type: Activity['type']) {
     icon: '📋',
     color: 'text-gray-500',
     bgColor: 'bg-gray-100 dark:bg-gray-900/20'
+  }
+}
+
+// Proje aktiviteleri için yardımcı fonksiyonlar
+export async function logProjectActivity(projectId: string, action: 'created' | 'updated' | 'deleted', metadata: { title: string, status: string }): Promise<void> {
+  try {
+    const activityData = {
+      type: `project_${action}` as Activity['type'],
+      title: `Proje ${action === 'created' ? 'oluşturuldu' : action === 'updated' ? 'güncellendi' : 'silindi'}`,
+      description: `"${metadata.title}" projesi ${action === 'created' ? 'oluşturuldu' : action === 'updated' ? 'güncellendi' : 'silindi'}`,
+      userId: 'system', // Gerçek uygulamada current user ID olmalı
+      userName: 'System',
+      targetId: projectId,
+      metadata: {
+        projectTitle: metadata.title,
+        projectStatus: metadata.status,
+        action
+      }
+    }
+
+    await createActivity(activityData)
+  } catch (error) {
+    console.error('Error logging project activity:', error)
   }
 }

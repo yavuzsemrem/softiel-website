@@ -60,7 +60,8 @@ const urlMappings = {
     '/hizmetlerimiz/otomasyon-entegrasyon': '/tr/hizmetlerimiz/otomasyon-entegrasyon',
     '/hizmetlerimiz/dijital-danismanlik': '/tr/hizmetlerimiz/dijital-danismanlik',
     '/hizmetlerimiz/no-code-low-code-cozumleri': '/tr/hizmetlerimiz/no-code-low-code-cozumleri',
-    '/hizmetlerimiz/egitim-mentorluk': '/tr/hizmetlerimiz/egitim-mentorluk'
+    '/hizmetlerimiz/egitim-mentorluk': '/tr/hizmetlerimiz/egitim-mentorluk',
+    '/projelerimiz': '/tr/projelerimiz'
   },
   en: {
     '/': '/en',
@@ -81,7 +82,8 @@ const urlMappings = {
     '/hizmetlerimiz/otomasyon-entegrasyon': '/en/services/automation-integration',
     '/hizmetlerimiz/dijital-danismanlik': '/en/services/digital-consulting',
     '/hizmetlerimiz/no-code-low-code-cozumleri': '/en/services/no-code-low-code-solutions',
-    '/hizmetlerimiz/egitim-mentorluk': '/en/services/education-mentoring'
+    '/hizmetlerimiz/egitim-mentorluk': '/en/services/education-mentoring',
+    '/projelerimiz': '/en/projects'
   },
   de: {
     '/': '/de',
@@ -102,7 +104,8 @@ const urlMappings = {
     '/hizmetlerimiz/otomasyon-entegrasyon': '/de/dienstleistungen/automatisierung-integration',
     '/hizmetlerimiz/dijital-danismanlik': '/de/dienstleistungen/digitale-beratung',
     '/hizmetlerimiz/no-code-low-code-cozumleri': '/de/dienstleistungen/no-code-low-code-losungen',
-    '/hizmetlerimiz/egitim-mentorluk': '/de/dienstleistungen/bildung-mentoring'
+    '/hizmetlerimiz/egitim-mentorluk': '/de/dienstleistungen/bildung-mentoring',
+    '/projelerimiz': '/de/projekte'
   },
   fr: {
     '/': '/fr',
@@ -123,7 +126,8 @@ const urlMappings = {
     '/hizmetlerimiz/otomasyon-entegrasyon': '/fr/services/automatisation-integration',
     '/hizmetlerimiz/dijital-danismanlik': '/fr/services/conseil-numerique',
     '/hizmetlerimiz/no-code-low-code-cozumleri': '/fr/services/solutions-no-code-low-code',
-    '/hizmetlerimiz/egitim-mentorluk': '/fr/services/formation-mentorat'
+    '/hizmetlerimiz/egitim-mentorluk': '/fr/services/formation-mentorat',
+    '/projelerimiz': '/fr/projets'
   },
   ru: {
     '/': '/ru',
@@ -144,7 +148,8 @@ const urlMappings = {
     '/hizmetlerimiz/otomasyon-entegrasyon': '/ru/uslugi/avtomatizaciya-integraciya',
     '/hizmetlerimiz/dijital-danismanlik': '/ru/uslugi/cifrovoe-konsultirovanie',
     '/hizmetlerimiz/no-code-low-code-cozumleri': '/ru/uslugi/resheniya-no-code-low-code',
-    '/hizmetlerimiz/egitim-mentorluk': '/ru/uslugi/obrazovanie-mentoring'
+    '/hizmetlerimiz/egitim-mentorluk': '/ru/uslugi/obrazovanie-mentoring',
+    '/projelerimiz': '/ru/proekty'
   },
   ar: {
     '/': '/ar',
@@ -165,7 +170,8 @@ const urlMappings = {
     '/hizmetlerimiz/otomasyon-entegrasyon': '/ar/خدماتنا/الأتمتة-والتكامل',
     '/hizmetlerimiz/dijital-danismanlik': '/ar/خدماتنا/الاستشارات-الرقمية',
     '/hizmetlerimiz/no-code-low-code-cozumleri': '/ar/خدماتنا/حلول-لا-كود-قليل-الكود',
-    '/hizmetlerimiz/egitim-mentorluk': '/ar/خدماتنا/التعليم-والإرشاد'
+    '/hizmetlerimiz/egitim-mentorluk': '/ar/خدماتنا/التعليم-والإرشاد',
+    '/projelerimiz': '/ar/مشاريعنا'
   }
 };
 
@@ -178,13 +184,14 @@ const getTranslatedUrl = (currentPath: string, targetLocale: string): string => 
   }) || 'tr';
 
   // Mevcut dildeki URL'yi Türkçe URL'ye çevir
+  const currentMappings = urlMappings[currentLocale as keyof typeof urlMappings];
   const turkishUrl = Object.keys(urlMappings.tr).find(key => 
-    urlMappings[currentLocale as keyof typeof urlMappings][key as keyof typeof urlMappings[typeof currentLocale]] === currentPath
+    (currentMappings as any)?.[key] === currentPath
   ) || currentPath;
 
   // Türkçe URL'yi hedef dile çevir
   const targetMappings = urlMappings[targetLocale as keyof typeof urlMappings];
-  return (targetMappings as any)[turkishUrl] || currentPath;
+  return (targetMappings as any)?.[turkishUrl] || currentPath;
 };
 
 const getCurrentLocaleFromUrl = (pathname: string): string => {
@@ -329,7 +336,7 @@ export function I18nProvider({ children }: { children: React.ReactNode }) {
 
   const getLocalizedUrl = (turkishUrl: string): string => {
     const currentMappings = urlMappings[locale as keyof typeof urlMappings];
-    return (currentMappings as any)[turkishUrl] || turkishUrl;
+    return (currentMappings as any)?.[turkishUrl] || turkishUrl;
   };
 
   return (

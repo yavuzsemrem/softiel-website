@@ -100,6 +100,7 @@ export function Footer() {
       { name: t('navigation.home', 'Ana Sayfa'), href: getLocalizedUrl("/") },
       { name: t('navigation.about', 'Hakkımızda'), href: getLocalizedUrl("/hakkimizda") },
       { name: t('navigation.services', 'Hizmetlerimiz'), href: getLocalizedUrl("/hizmetlerimiz") },
+      { name: t('navigation.references', 'Projelerimiz'), href: getLocalizedUrl("/projelerimiz") },
       { name: t('navigation.pricing', 'Fiyatlandırma'), href: getLocalizedUrl("/fiyatlandirma") },
       { name: t('navigation.blog', 'Blog'), href: getLocalizedUrl("/blog") },
       { name: t('navigation.contact', 'İletişim'), href: getLocalizedUrl("/iletisim") },

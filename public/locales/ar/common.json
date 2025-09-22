@@ -5,7 +5,8 @@
     "services": "خدماتنا",
     "blog": "المدونة",
     "contact": "اتصل بنا",
-    "pricing": "الأسعار"
+    "pricing": "الأسعار",
+    "references": "مشاريعنا"
   },
   "hero": {
     "title": "وكالة ويب حديثة",
@@ -282,5 +283,69 @@
     },
     "lastUpdated": "آخر تحديث:",
     "understood": "فهمت"
+  },
+  "references": {
+    "title": "مشاريعنا",
+    "subtitle": "المشاريع الناجحة",
+    "description": "اكتشف مشاريعنا التي تحدث فرقاً في العالم الرقمي. استكشف مشاريعنا الناجحة في مجموعة واسعة من تصميم المواقع إلى تطوير التطبيقات المحمولة، من حلول التجارة الإلكترونية إلى الأنظمة المؤسسية.",
+    "badge": "مشاريعنا",
+    "ctaTitle": "استكشاف المشاريع",
+    "ctaSecondary": "بدء مشروع",
+    "stats": {
+      "completedProjects": "فريق الخبراء",
+      "happyClients": "دعم 24/7",
+      "satisfaction": "رضا العملاء",
+      "experience": "خدمة موثوقة",
+      "completedProjectsValue": "ذوو خبرة",
+      "happyClientsValue": "دعم مباشر",
+      "satisfactionValue": "98%",
+      "experienceValue": "ضمان الجودة",
+      "completedProjectsDesc": "مطورون ذوو خبرة",
+      "happyClientsDesc": "دعم العملاء",
+      "satisfactionDesc": "التقييم المتوسط",
+      "experienceDesc": "نهج مهني"
+    },
+    "filter": {
+      "title": "تصفية وترتيب",
+      "showFilters": "إظهار المرشحات",
+      "hideFilters": "إخفاء المرشحات",
+      "clearFilters": "مسح",
+      "searchPlaceholder": "البحث عن مشروع...",
+      "category": "الفئة",
+      "sortBy": "ترتيب حسب",
+      "activeFilters": "المرشحات النشطة",
+      "categories": {
+        "all": "الكل",
+        "webDesign": "تصميم المواقع",
+        "webDevelopment": "تطوير المواقع",
+        "mobileApp": "التطبيق المحمول",
+        "ecommerce": "التجارة الإلكترونية",
+        "seo": "تحسين محركات البحث والتسويق",
+        "branding": "هوية العلامة التجارية"
+      },
+      "sortOptions": {
+        "newest": "الأحدث",
+        "oldest": "الأقدم",
+        "name": "الاسم (أ-ي)",
+        "category": "الفئة"
+      }
+    },
+    "grid": {
+      "title": "محفظة المشاريع",
+      "subtitle": "مشروع موجود",
+      "viewProject": "عرض",
+      "viewCode": "الكود",
+      "featured": "مميز",
+      "status": {
+        "completed": "مكتمل",
+        "ongoing": "جاري",
+        "upcoming": "قريباً"
+      },
+      "emptyState": {
+        "title": "لم يتم العثور على مشاريع",
+        "description": "لا توجد مشاريع تطابق معايير البحث الخاصة بك. جرب تغيير المرشحات.",
+        "resetFilters": "إعادة تعيين المرشحات"
+      }
+    }
   }
 }

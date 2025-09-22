@@ -5,7 +5,8 @@
     "services": "Dienstleistungen",
     "blog": "Blog",
     "contact": "Kontakt",
-    "pricing": "Preise"
+    "pricing": "Preise",
+    "references": "Unsere Projekte"
   },
   "hero": {
     "title": "Moderne Web-Agentur",
@@ -282,5 +283,69 @@
     },
     "lastUpdated": "Letzte Aktualisierung:",
     "understood": "Verstanden"
+  },
+  "references": {
+    "title": "Unsere Projekte",
+    "subtitle": "Erfolgreiche Projekte",
+    "description": "Entdecken Sie unsere Projekte, die in der digitalen Welt einen Unterschied machen. Erkunden Sie unsere erfolgreichen Projekte in einem breiten Spektrum von Webdesign bis hin zur mobilen App-Entwicklung, von E-Commerce-Lösungen bis hin zu Unternehmenssystemen.",
+    "badge": "Unsere Projekte",
+    "ctaTitle": "Projekte Erkunden",
+    "ctaSecondary": "Projekt Starten",
+    "stats": {
+      "completedProjects": "Experten-Team",
+      "happyClients": "24/7 Support",
+      "satisfaction": "Kundenzufriedenheit",
+      "experience": "Zuverlässiger Service",
+      "completedProjectsValue": "Erfahren",
+      "happyClientsValue": "Live-Support",
+      "satisfactionValue": "98%",
+      "experienceValue": "Qualitätsgarantie",
+      "completedProjectsDesc": "Erfahrene Entwickler",
+      "happyClientsDesc": "Kundensupport",
+      "satisfactionDesc": "Durchschnittliche Bewertung",
+      "experienceDesc": "Professioneller Ansatz"
+    },
+    "filter": {
+      "title": "Filtern & Sortieren",
+      "showFilters": "Filter Anzeigen",
+      "hideFilters": "Filter Ausblenden",
+      "clearFilters": "Löschen",
+      "searchPlaceholder": "Projekt suchen...",
+      "category": "Kategorie",
+      "sortBy": "Sortieren nach",
+      "activeFilters": "Aktive Filter",
+      "categories": {
+        "all": "Alle",
+        "webDesign": "Webdesign",
+        "webDevelopment": "Webentwicklung",
+        "mobileApp": "Mobile App",
+        "ecommerce": "E-Commerce",
+        "seo": "SEO & Marketing",
+        "branding": "Markenidentität"
+      },
+      "sortOptions": {
+        "newest": "Neueste",
+        "oldest": "Älteste",
+        "name": "Name (A-Z)",
+        "category": "Kategorie"
+      }
+    },
+    "grid": {
+      "title": "Projekt-Portfolio",
+      "subtitle": "Projekte gefunden",
+      "viewProject": "Anzeigen",
+      "viewCode": "Code",
+      "featured": "Empfohlen",
+      "status": {
+        "completed": "Abgeschlossen",
+        "ongoing": "Laufend",
+        "upcoming": "Bald"
+      },
+      "emptyState": {
+        "title": "Keine Projekte gefunden",
+        "description": "Keine Projekte entsprechen Ihren Suchkriterien. Versuchen Sie, die Filter zu ändern.",
+        "resetFilters": "Filter zurücksetzen"
+      }
+    }
   }
 }

@@ -5,7 +5,8 @@
     "services": "Hizmetlerimiz",
     "blog": "Blog",
     "contact": "İletişim",
-    "pricing": "Fiyatlandırma"
+    "pricing": "Fiyatlandırma",
+    "references": "Projelerimiz"
   },
   "hero": {
     "title": "Modern Web Ajansı",
@@ -298,5 +299,85 @@
     },
     "lastUpdated": "Son güncelleme:",
     "understood": "Anladım"
+  },
+  "references": {
+    "title": "Projelerimiz",
+    "subtitle": "Başarılı",
+    "description": "Dijital dünyada fark yaratan projelerimizi keşfedin. Web tasarımından mobil uygulama geliştirmeye, e-ticaret çözümlerinden kurumsal sistemlere kadar geniş bir yelpazede başarılı projelerimizi inceleyin.",
+    "badge": "Projelerimiz",
+    "ctaTitle": "Projeleri İncele",
+    "ctaSecondary": "Proje Başlat",
+    "stats": {
+      "completedProjects": "Uzman Ekip",
+      "happyClients": "7/24 Destek",
+      "satisfaction": "Müşteri Memnuniyeti",
+      "experience": "Güvenilir Hizmet",
+      "completedProjectsValue": "Deneyimli",
+      "happyClientsValue": "Canlı Destek",
+      "satisfactionValue": "%98",
+      "experienceValue": "Kalite Garantisi",
+      "completedProjectsDesc": "Deneyimli Geliştiriciler",
+      "happyClientsDesc": "Müşteri Desteği",
+      "satisfactionDesc": "Ortalama Puan",
+      "experienceDesc": "Profesyonel Yaklaşım"
+    },
+    "filter": {
+      "title": "Filtrele & Sırala",
+      "showFilters": "Filtreleri Göster",
+      "hideFilters": "Filtreleri Gizle",
+      "clearFilters": "Temizle",
+      "searchPlaceholder": "Proje ara...",
+      "category": "Kategori",
+      "sortBy": "Sıralama",
+      "activeFilters": "Aktif Filtreler",
+      "categories": {
+        "all": "Tümü",
+        "webDesign": "Web Tasarımı",
+        "webDevelopment": "Web Geliştirme",
+        "mobileApp": "Mobil Uygulama",
+        "ecommerce": "E-ticaret",
+        "seo": "SEO & Pazarlama",
+        "branding": "Marka Kimliği"
+      },
+      "sortOptions": {
+        "newest": "En Yeni",
+        "oldest": "En Eski",
+        "name": "İsim (A-Z)",
+        "category": "Kategori"
+      }
+    },
+    "grid": {
+      "title": "Proje Portföyümüz",
+      "subtitle": "proje bulundu",
+      "viewProject": "Görüntüle",
+      "viewCode": "Kod",
+      "featured": "Öne Çıkan",
+      "status": {
+        "completed": "Tamamlandı",
+        "ongoing": "Devam Ediyor",
+        "upcoming": "Yakında"
+      },
+      "emptyState": {
+        "title": "Proje Bulunamadı",
+        "description": "Aradığınız kriterlere uygun proje bulunamadı. Filtreleri değiştirmeyi deneyin.",
+        "resetFilters": "Filtreleri Sıfırla"
+      }
+    },
+    "projectDetail": {
+      "backToProjects": "Projelere Dön",
+      "viewLive": "Canlı Görüntüle",
+      "viewCode": "Kodu Görüntüle",
+      "client": "Müşteri",
+      "clientDesc": "Proje Sahibi",
+      "duration": "Süre",
+      "durationDesc": "Proje Süresi",
+      "status": "Durum",
+      "statusDesc": "Proje Durumu",
+      "category": "Kategori",
+      "categoryDesc": "Proje Kategorisi",
+      "technologies": "Kullanılan Teknolojiler",
+      "features": "Proje Özellikleri",
+      "gallery": "Proje Galerisi"
+    }
   }
 }

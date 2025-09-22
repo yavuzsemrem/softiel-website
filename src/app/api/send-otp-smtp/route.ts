@@ -18,7 +18,7 @@ const isSMTPConfigured = () => {
 }
 
 // Create transporter
-const transporter = nodemailer.createTransporter(SMTP_CONFIG)
+const transporter = nodemailer.createTransport(SMTP_CONFIG)
 
 // OTP Email Template
 const createOTPEmailHTML = (userName: string, otpCode: string, expiryMinutes: number) => {
