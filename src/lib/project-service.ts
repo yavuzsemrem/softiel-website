@@ -31,6 +31,7 @@ export interface Project {
   content: string
   client: string
   duration: string
+  endDate?: string
   status: 'completed' | 'ongoing' | 'upcoming'
   category: string
   technologies: string[]

@@ -58,9 +58,12 @@ export function Navigation({ isMobile = false, onClose }: NavigationProps) {
   }
 
   const isActive = (href: string) => {
-    if (href === "/") {
-      return pathname === "/"
+    // Ana sayfa kontrolü - getLocalizedUrl("/") "/tr" döndürüyor
+    if (href === "/" || href === "/tr" || href === "/en" || href === "/de" || href === "/fr" || href === "/ar") {
+      // Ana sayfa sadece tam olarak ana sayfa URL'sinde aktif olmalı
+      return pathname === href
     }
+    // Diğer sayfalar için pathname'in href ile başlaması yeterli
     return pathname.startsWith(href)
   }
 
@@ -164,7 +167,7 @@ export function Navigation({ isMobile = false, onClose }: NavigationProps) {
   }
 
   return (
-    <nav className="hidden lg:flex items-center space-x-4">
+    <nav className="hidden lg:flex items-center justify-center gap-2 xl:gap-3">
       {navigationItems.map((item) => (
         <div key={item.name} className="relative group">
           {item.dropdown ? (
@@ -174,13 +177,13 @@ export function Navigation({ isMobile = false, onClose }: NavigationProps) {
                 onMouseLeave={() => setActiveDropdown(null)}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className={`relative flex items-center justify-center space-x-1 px-4 py-2.5 rounded-xl font-medium transition-all duration-300 overflow-hidden ${
+                className={`relative flex items-center justify-center space-x-1 px-1.5 lg:px-2 xl:px-3 py-1.5 lg:py-2 rounded-lg font-medium text-xs lg:text-sm xl:text-base transition-all duration-300 overflow-hidden whitespace-nowrap ${
                   isActive(item.href)
                     ? 'text-white bg-gradient-to-r from-blue-500/20 to-cyan-500/20 backdrop-blur-sm shadow-lg shadow-blue-500/10'
                     : 'text-white hover:text-white hover:bg-gradient-to-r hover:from-blue-500/10 hover:to-cyan-500/10 hover:shadow-md hover:shadow-blue-500/10'
                 }`}
               >
-                <span className="relative z-10">{item.name}</span>
+                <span className="relative z-10 truncate max-w-[100px] lg:max-w-[120px] xl:max-w-none">{item.name}</span>
                 <ChevronDown 
                   className={`h-4 w-4 transition-all duration-300 relative z-10 ${
                     activeDropdown === item.name ? 'rotate-180 text-white' : ''
@@ -244,15 +247,15 @@ export function Navigation({ isMobile = false, onClose }: NavigationProps) {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-                <Link
-                  href={item.href}
-                  className={`relative flex items-center justify-center px-4 py-2.5 rounded-xl font-medium transition-all duration-300 overflow-hidden ${
-                    isActive(item.href)
-                      ? 'text-white bg-gradient-to-r from-blue-500/20 to-cyan-500/20 backdrop-blur-sm shadow-lg shadow-blue-500/10'
-                      : 'text-white hover:text-white hover:bg-gradient-to-r hover:from-blue-500/10 hover:to-cyan-500/10 hover:shadow-md hover:shadow-blue-500/10'
-                  }`}
-                >
-                  <span className="relative z-10">{item.name}</span>
+              <Link
+                href={item.href}
+                className={`relative flex items-center justify-center px-1.5 lg:px-2 xl:px-3 py-1.5 lg:py-2 rounded-lg font-medium text-xs lg:text-sm xl:text-base transition-all duration-300 overflow-hidden whitespace-nowrap ${
+                  isActive(item.href)
+                    ? 'text-white bg-gradient-to-r from-blue-500/20 to-cyan-500/20 backdrop-blur-sm shadow-lg shadow-blue-500/10'
+                    : 'text-white hover:text-white hover:bg-gradient-to-r hover:from-blue-500/10 hover:to-cyan-500/10 hover:shadow-md hover:shadow-blue-500/10'
+                }`}
+              >
+                <span className="relative z-10 truncate max-w-[100px] lg:max-w-[120px] xl:max-w-none">{item.name}</span>
                 {isActive(item.href) && (
                   <motion.div
                     initial={{ scale: 0, opacity: 0 }}

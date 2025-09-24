@@ -5,7 +5,7 @@ import { motion } from "framer-motion"
 import { ArrowLeft, ExternalLink, Github, Calendar, User, Tag, Globe, Code, Smartphone, Search, Target, FileText, Palette, Share2, Bot, Zap, Users, BookOpen, Wrench, Loader2, XCircle, Image as ImageIcon, Monitor, ShoppingCart, Megaphone, Brain, Settings, GraduationCap, Camera, Layers, Images, Layout, Paintbrush, Eye, Video } from "lucide-react"
 import { useI18n } from "@/contexts/i18n-context"
 import Link from "next/link"
-import { getProjectBySlug, type Project as ProjectType } from "@/lib/project-service"
+import { getProject, getProjectBySlug, type Project as ProjectType } from "@/lib/project-service"
 import { ImageGalleryModal } from "@/components/image-gallery-modal"
 
 interface ProjectDetailProps {
@@ -27,6 +27,21 @@ const categoryIcons = {
   education: GraduationCap   // Eğitim için graduation cap ikonu
 }
 
+const categoryLabels = {
+  webDesign: "Web Tasarım",
+  webDevelopment: "Web Geliştirme",
+  mobileApp: "Mobil Uygulama",
+  ecommerce: "E-ticaret",
+  seo: "SEO",
+  branding: "Branding",
+  socialMedia: "Sosyal Medya",
+  aiIntegration: "AI Entegrasyonu",
+  automation: "Otomasyon",
+  digitalConsulting: "Dijital Danışmanlık",
+  noCode: "No-Code",
+  education: "Eğitim"
+}
+
 export function ProjectDetail({ slug }: ProjectDetailProps) {
   const { t } = useI18n()
   const [project, setProject] = useState<ProjectType | null>(null)
@@ -41,18 +56,13 @@ export function ProjectDetail({ slug }: ProjectDetailProps) {
       try {
         setLoading(true)
         setError("")
-        console.log('Loading project with slug:', slug)
-        
         // Önce ID ile arama yap, bulamazsa slug ile ara
         let projectData = null
         projectData = await getProject(slug)
-        console.log('Project found by ID:', projectData)
         
         // Eğer ID ile bulunamadıysa, slug ile ara
         if (!projectData) {
-          console.log('Project not found by ID, trying by slug...')
           projectData = await getProjectBySlug(slug)
-          console.log('Project found by slug:', projectData)
         }
         
         if (projectData) {
@@ -61,7 +71,6 @@ export function ProjectDetail({ slug }: ProjectDetailProps) {
           setError('Proje bulunamadı')
         }
       } catch (error) {
-        console.error('Error loading project:', error)
         setError('Proje yüklenirken bir hata oluştu')
       } finally {
         setLoading(false)
@@ -76,6 +85,17 @@ export function ProjectDetail({ slug }: ProjectDetailProps) {
     if (!timestamp) return 'Tarih yok'
     const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp)
     return date.toLocaleDateString('tr-TR')
+  }
+
+  // Bitiş tarihi formatı
+  const formatEndDate = (endDate: string) => {
+    if (!endDate) return "Belirtilmemiş"
+    const date = new Date(endDate)
+    return date.toLocaleDateString("tr-TR", {
+      year: "numeric",
+      month: "long",
+      day: "numeric"
+    })
   }
 
   // URL formatı - protokol yoksa https:// ekle
@@ -164,11 +184,11 @@ export function ProjectDetail({ slug }: ProjectDetailProps) {
           >
             <CategoryIcon className="h-5 w-5 text-cyan-500 fill-current" />
             <span className="text-sm font-semibold text-neutral-700 dark:text-neutral-300">
-              {t(`references.filter.categories.${project.category}`, project.category)}
+              {categoryLabels[project.category as keyof typeof categoryLabels] || project.category}
             </span>
           </motion.div>
 
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-display font-bold text-neutral-900 dark:text-white mb-8 leading-tight">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-display font-bold text-neutral-900 dark:text-white mb-8 leading-tight break-words hyphens-auto">
             {project.title.split(' ').slice(0, -2).join(' ')} {project.title.split(' ').length > 2 && (
               <span className="bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 bg-clip-text text-transparent">
                 {project.title.split(' ').slice(-2).join(' ')}
@@ -180,7 +200,7 @@ export function ProjectDetail({ slug }: ProjectDetailProps) {
               </span>
             )}
           </h1>
-          <p className="text-base sm:text-lg lg:text-xl text-neutral-600 dark:text-neutral-400 mb-12 max-w-4xl mx-auto leading-relaxed">
+          <p className="text-base sm:text-lg lg:text-xl text-neutral-600 dark:text-neutral-400 mb-12 max-w-4xl mx-auto leading-relaxed break-words hyphens-auto">
             {project.content || project.description}
           </p>
           
@@ -234,10 +254,10 @@ export function ProjectDetail({ slug }: ProjectDetailProps) {
             },
             {
               icon: Calendar,
-              title: t('projectDetail.duration', 'Tarih'),
-              info: formatDate(project.createdAt),
-              description: t('projectDetail.durationDesc', 'Proje Tarihi'),
-              color: "from-cyan-500 to-cyan-600"
+              title: t('projectDetail.endDate', 'Bitiş Tarihi'),
+              info: formatEndDate(project.endDate || ''),
+              description: t('projectDetail.endDateDesc', 'Proje Bitiş Tarihi'),
+              color: "from-green-500 to-green-600"
             },
             {
               icon: Tag,
@@ -249,7 +269,7 @@ export function ProjectDetail({ slug }: ProjectDetailProps) {
             {
               icon: CategoryIcon,
               title: t('projectDetail.category', 'Kategori'),
-              info: t(`references.filter.categories.${project.category}`, project.category),
+              info: categoryLabels[project.category as keyof typeof categoryLabels] || project.category,
               description: t('projectDetail.categoryDesc', 'Proje Kategorisi'),
               color: "from-purple-500 to-purple-600"
             }
@@ -265,13 +285,13 @@ export function ProjectDetail({ slug }: ProjectDetailProps) {
               <div className={`w-10 h-10 lg:w-12 lg:h-12 bg-gradient-to-r ${item.color} rounded-xl flex items-center justify-center mx-auto mb-3 lg:mb-4 shadow-modern`}>
                 <item.icon className="h-5 w-5 lg:h-6 lg:w-6 text-white" />
               </div>
-              <h3 className="text-sm lg:text-base font-semibold text-neutral-900 dark:text-white mb-1 lg:mb-2">
+              <h3 className="text-sm lg:text-base font-semibold text-neutral-900 dark:text-white mb-1 lg:mb-2 break-words">
                 {item.title}
               </h3>
-              <p className="text-blue-600 dark:text-blue-400 font-medium mb-1 text-sm lg:text-base">
+              <p className="text-blue-600 dark:text-blue-400 font-medium mb-1 text-sm lg:text-base break-words hyphens-auto">
                 {item.info}
               </p>
-              <p className="text-xs text-neutral-600 dark:text-neutral-400">
+              <p className="text-xs text-neutral-600 dark:text-neutral-400 break-words">
                 {item.description}
               </p>
             </motion.div>

@@ -74,3 +74,5 @@ export async function updateProjectSlug(projectId: string) {
     return { success: false, error: error.message }
   }
 }
+
+

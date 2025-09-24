@@ -38,11 +38,6 @@ export default function ReferencesPage() {
         </div>
         
         <ReferencesHero />
-        <ReferencesFilter 
-          onFilterChange={handleFilterChange} 
-          projectCounts={projectCounts}
-          totalProjects={totalProjects}
-        />
         <ReferencesGrid 
           filters={filters} 
           onProjectCountsChange={handleProjectCountsChange}

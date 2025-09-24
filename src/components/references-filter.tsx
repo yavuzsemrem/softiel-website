@@ -24,16 +24,29 @@ export function ReferencesFilter({ onFilterChange, projectCounts = {}, totalProj
     sortBy: "newest"
   })
 
-  // Sadece projesi olan kategorileri göster
+  // Dashboard ile aynı kategori listesi
+  const allCategories = [
+    { value: "webDesign", label: "Web Tasarım" },
+    { value: "webDevelopment", label: "Web Geliştirme" },
+    { value: "mobileApp", label: "Mobil Uygulama" },
+    { value: "ecommerce", label: "E-ticaret" },
+    { value: "seo", label: "SEO" },
+    { value: "branding", label: "Branding" },
+    { value: "socialMedia", label: "Sosyal Medya" },
+    { value: "aiIntegration", label: "AI Entegrasyonu" },
+    { value: "automation", label: "Otomasyon" },
+    { value: "digitalConsulting", label: "Dijital Danışmanlık" },
+    { value: "noCode", label: "No-Code" },
+    { value: "education", label: "Eğitim" }
+  ]
+
   const categories = [
     { value: "all", label: t('references.filter.categories.all'), count: totalProjects },
-    ...Object.entries(projectCounts)
-      .filter(([_, count]) => count > 0)
-      .map(([category, count]) => ({
-        value: category,
-        label: t(`references.filter.categories.${category}`),
-        count: count
-      }))
+    ...allCategories.map(category => ({
+      value: category.value,
+      label: category.label,
+      count: projectCounts[category.value] || 0
+    }))
   ]
 
   const sortOptions = [

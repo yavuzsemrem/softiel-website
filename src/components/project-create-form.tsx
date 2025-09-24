@@ -62,6 +62,7 @@ export function ProjectCreateForm() {
     status: 'upcoming' as 'completed' | 'ongoing' | 'upcoming',
     client: '',
     duration: '',
+    endDate: '',
     image: '',
     gallery: [] as string[],
     technologies: [] as string[],
@@ -369,6 +370,7 @@ export function ProjectCreateForm() {
         content: formData.content.trim(),
         client: formData.client.trim(),
         duration: formData.duration.trim(),
+        endDate: formData.endDate,
         status: formData.status,
         category: formData.category,
         technologies: formData.technologies,
@@ -388,7 +390,6 @@ export function ProjectCreateForm() {
       }, 2000)
 
     } catch (error) {
-      console.error('Error creating project:', error)
       setError(error instanceof Error ? error.message : 'Proje oluşturulurken bir hata oluştu!')
     } finally {
       setIsSaving(false)
@@ -635,6 +636,38 @@ export function ProjectCreateForm() {
                     style={{ background: 'rgba(255, 255, 255, 0.1)' }}
                     placeholder="Örn: 3 ay, 6 hafta..."
                   />
+                </div>
+
+                {/* End Date */}
+                <div className="space-y-2">
+                  <label className="block text-sm font-semibold text-white mb-3 flex items-center space-x-2">
+                    <Calendar className="h-4 w-4 text-cyan-300" />
+                    <span>Bitiş Tarihi</span>
+                  </label>
+                  <div className="relative">
+                    <input
+                      type="date"
+                      name="endDate"
+                      value={formData.endDate}
+                      onChange={handleInputChange}
+                      onClick={(e) => e.currentTarget.showPicker?.()}
+                      className="w-full px-3 sm:px-4 py-3 sm:py-4 glass rounded-xl text-white placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/70 transition-all duration-300 text-sm sm:text-base cursor-pointer [&::-webkit-calendar-picker-indicator]:opacity-0 [&::-webkit-calendar-picker-indicator]:absolute [&::-webkit-calendar-picker-indicator]:right-0 [&::-webkit-calendar-picker-indicator]:w-full [&::-webkit-calendar-picker-indicator]:h-full [&::-webkit-calendar-picker-indicator]:cursor-pointer"
+                      style={{ background: 'rgba(255, 255, 255, 0.1)' }}
+                    />
+                    <div className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
+                      <Calendar className="h-4 w-4 text-cyan-300" />
+                    </div>
+                  </div>
+                  {formData.endDate && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="flex items-center space-x-2 text-xs text-cyan-300"
+                    >
+                      <div className="w-1.5 h-1.5 bg-green-400 rounded-full"></div>
+                      <span>Seçilen tarih: {new Date(formData.endDate).toLocaleDateString('tr-TR')}</span>
+                    </motion.div>
+                  )}
                 </div>
 
               </div>

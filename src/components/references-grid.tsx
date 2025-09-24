@@ -2,14 +2,15 @@
 
 import React, { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { ExternalLink, Github, Eye, Calendar, User, Tag, ArrowRight, Star, Award, Zap, Loader2 } from "lucide-react"
+import { ExternalLink, Github, Eye, Calendar, User, Tag, ArrowRight, Star, Award, Zap, Loader2, ArrowLeft, Briefcase, XCircle } from "lucide-react"
 import { useI18n } from "@/contexts/i18n-context"
 import Link from "next/link"
 import { getProjects, type Project as ProjectType } from "@/lib/project-service"
+import { ReferencesFilter } from "@/components/references-filter"
 
 interface Project {
-  id: string
-  slug: string
+  id?: string
+  slug?: string
   title: string
   description: string
   category: string
@@ -17,6 +18,7 @@ interface Project {
   technologies: string[]
   client: string
   createdAt: any
+  endDate?: string
   status: "completed" | "ongoing" | "upcoming"
   featured: boolean
   liveUrl?: string
@@ -44,6 +46,13 @@ export function ReferencesGrid({ filters = { category: "all", search: "", sortBy
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState("")
   const [projectCounts, setProjectCounts] = useState<{ [category: string]: number }>({})
+  
+  // Paging state'leri
+  const [currentPage, setCurrentPage] = useState(1)
+  const [projectsPerPage] = useState(9) // Blog sayfasındaki gibi 9 proje per sayfa
+  
+  // Filtreler için local state
+  const [localFilters, setLocalFilters] = useState(filters)
 
   // Firestore'dan projeleri yükle
   useEffect(() => {
@@ -51,11 +60,9 @@ export function ReferencesGrid({ filters = { category: "all", search: "", sortBy
       try {
         setLoading(true)
         setError("")
-        const result = await getProjects({})
-        console.log('Loaded projects:', result.projects)
-        setProjects(result.projects)
+        const result = await getProjects({}, 1000) // Büyük bir sayı ile tüm projeleri al
+        setProjects(result.projects as Project[])
       } catch (error) {
-        console.error('Error loading projects:', error)
         setError('Projeler yüklenirken bir hata oluştu')
       } finally {
         setLoading(false)
@@ -76,13 +83,13 @@ export function ReferencesGrid({ filters = { category: "all", search: "", sortBy
     let filtered = [...projects]
 
     // Category filter
-    if (filters.category !== "all") {
-      filtered = filtered.filter(project => project.category === filters.category)
+    if (localFilters.category !== "all") {
+      filtered = filtered.filter(project => project.category === localFilters.category)
     }
 
     // Search filter
-    if (filters.search) {
-      const searchTerm = filters.search.toLowerCase()
+    if (localFilters.search) {
+      const searchTerm = localFilters.search.toLowerCase()
       filtered = filtered.filter(project =>
         project.title.toLowerCase().includes(searchTerm) ||
         project.description.toLowerCase().includes(searchTerm) ||
@@ -92,7 +99,7 @@ export function ReferencesGrid({ filters = { category: "all", search: "", sortBy
     }
 
     // Sort
-    switch (filters.sortBy) {
+    switch (localFilters.sortBy) {
       case "newest":
         filtered.sort((a, b) => {
           const dateA = a.createdAt?.toDate ? a.createdAt.toDate() : new Date(a.createdAt)
@@ -116,7 +123,7 @@ export function ReferencesGrid({ filters = { category: "all", search: "", sortBy
     }
 
     setFilteredProjects(filtered)
-  }, [projects, filters])
+  }, [projects, localFilters])
 
   // Kategori sayılarını hesapla
   useEffect(() => {
@@ -126,11 +133,33 @@ export function ReferencesGrid({ filters = { category: "all", search: "", sortBy
     })
     setProjectCounts(counts)
     
-    // Parent'a proje sayılarını gönder
+    // Parent'a proje sayılarını gönder (kategori kodlarıyla)
     if (onProjectCountsChange) {
       onProjectCountsChange(counts, projects.length)
     }
-  }, [projects, onProjectCountsChange])
+  }, [projects]) // onProjectCountsChange dependency'sini kaldırdım
+
+  // Paging hesaplamaları
+  const totalPages = Math.ceil(filteredProjects.length / projectsPerPage)
+  const startIndex = (currentPage - 1) * projectsPerPage
+  const endIndex = startIndex + projectsPerPage
+  const currentProjects = filteredProjects.slice(startIndex, endIndex)
+
+  // Sayfa değiştirme fonksiyonu
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  // Filtre değiştirme fonksiyonu
+  const handleFilterChange = (newFilters: typeof localFilters) => {
+    setLocalFilters(newFilters)
+  }
+
+  // Filtreler değiştiğinde ilk sayfaya dön
+  useEffect(() => {
+    setCurrentPage(1)
+  }, [localFilters.category, localFilters.search, localFilters.sortBy])
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -205,27 +234,59 @@ export function ReferencesGrid({ filters = { category: "all", search: "", sortBy
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
-          className="text-center mb-12"
+          className="text-center mb-16"
         >
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold text-neutral-900 dark:text-white mb-4">
-            {t('references.grid.title')}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1, duration: 0.6 }}
+            viewport={{ once: true }}
+            className="inline-flex items-center space-x-2 glass rounded-full px-6 py-3 shadow-modern mb-8"
+            style={{ background: 'rgba(255, 255, 255, 0.1)' }}
+          >
+            <Briefcase className="h-5 w-5 text-cyan-500 fill-current" />
+            <span className="text-sm font-semibold text-neutral-700 dark:text-neutral-300">
+              Proje Portföyümüz
+            </span>
+          </motion.div>
+
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-display font-bold text-neutral-900 dark:text-white mb-6">
+            Proje{" "}
+            <span className="bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 bg-clip-text text-transparent">
+              Portföyümüz
+            </span>
           </h2>
-          <p className="text-lg text-neutral-600 dark:text-neutral-400 max-w-3xl mx-auto">
-            {filteredProjects.length} {t('references.grid.subtitle')}
+          <p className="text-lg sm:text-xl text-neutral-600 dark:text-neutral-400 max-w-3xl mx-auto leading-relaxed">
+            Web tasarımından mobil uygulamalara, e-ticaret çözümlerinden yapay zeka entegrasyonlarına kadar geniş bir yelpazede gerçekleştirdiğimiz projelerimizi keşfedin. Her proje, müşteri memnuniyeti ve teknolojik mükemmellik odaklı yaklaşımımızın bir yansımasıdır.
           </p>
+        </motion.div>
+
+        {/* Filters */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2, duration: 0.6 }}
+          viewport={{ once: true }}
+          className="mb-12"
+        >
+          <ReferencesFilter 
+            onFilterChange={handleFilterChange} 
+            projectCounts={projectCounts}
+            totalProjects={projects.length}
+          />
         </motion.div>
 
         {/* Projects Grid */}
         <AnimatePresence mode="wait">
           <motion.div
-            key={`${filters.category}-${filters.search}-${filters.sortBy}`}
+            key={`${localFilters.category}-${localFilters.search}-${localFilters.sortBy}`}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8"
           >
-            {filteredProjects.map((project, index) => (
+            {currentProjects.map((project, index) => (
               <motion.div
                 key={project.id}
                 initial={{ opacity: 0, y: 20 }}
@@ -235,7 +296,7 @@ export function ReferencesGrid({ filters = { category: "all", search: "", sortBy
                 style={{ background: 'rgba(255, 255, 255, 0.1)' }}
               >
                 <Link 
-                  href={`/tr/projelerimiz/${project.id}`} 
+                  href={`/tr/projelerimiz/${project.slug || project.id}`} 
                   className="block"
                 >
                 {/* Project Image */}
@@ -276,32 +337,32 @@ export function ReferencesGrid({ filters = { category: "all", search: "", sortBy
                         <span>{t('references.grid.viewProject')}</span>
                       </motion.div>
                       {project.liveUrl && project.liveUrl.startsWith('http') && (
-                        <motion.a
-                          href={project.liveUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
+                        <motion.button
                           whileHover={{ scale: 1.1 }}
                           whileTap={{ scale: 0.9 }}
                           className="inline-flex items-center space-x-1 px-4 py-2 bg-white/90 dark:bg-gray-800/90 text-neutral-900 dark:text-white rounded-xl font-medium text-sm shadow-modern hover:bg-white dark:hover:bg-gray-700 transition-colors duration-200"
-                          onClick={(e) => e.stopPropagation()}
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            window.open(project.liveUrl, '_blank', 'noopener,noreferrer')
+                          }}
                         >
                           <ExternalLink className="h-4 w-4" />
                           <span>Canlı Site</span>
-                        </motion.a>
+                        </motion.button>
                       )}
                       {project.githubUrl && project.githubUrl.startsWith('http') && (
-                        <motion.a
-                          href={project.githubUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
+                        <motion.button
                           whileHover={{ scale: 1.1 }}
                           whileTap={{ scale: 0.9 }}
                           className="inline-flex items-center space-x-1 px-4 py-2 bg-white/90 dark:bg-gray-800/90 text-neutral-900 dark:text-white rounded-xl font-medium text-sm shadow-modern hover:bg-white dark:hover:bg-gray-700 transition-colors duration-200"
-                          onClick={(e) => e.stopPropagation()}
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            window.open(project.githubUrl, '_blank', 'noopener,noreferrer')
+                          }}
                         >
                           <Github className="h-4 w-4" />
                           <span>GitHub</span>
-                        </motion.a>
+                        </motion.button>
                       )}
                     </div>
                   </div>
@@ -347,7 +408,7 @@ export function ReferencesGrid({ filters = { category: "all", search: "", sortBy
                     </div>
                     <div className="flex items-center space-x-1">
                       <Calendar className="h-4 w-4" />
-                      <span>{formatDate(project.createdAt)}</span>
+                      <span>{formatDate(project.endDate)}</span>
                     </div>
                   </div>
 
@@ -372,7 +433,7 @@ export function ReferencesGrid({ filters = { category: "all", search: "", sortBy
         </AnimatePresence>
 
         {/* Empty State */}
-        {filteredProjects.length === 0 && !loading && (
+        {currentProjects.length === 0 && !loading && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -396,6 +457,69 @@ export function ReferencesGrid({ filters = { category: "all", search: "", sortBy
               <span>{t('references.grid.emptyState.resetFilters')}</span>
               <ArrowRight className="h-4 w-4" />
             </button>
+          </motion.div>
+        )}
+
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4, duration: 0.6 }}
+            viewport={{ once: true }}
+            className="flex justify-center mt-12"
+          >
+            <div className="glass rounded-2xl p-4 shadow-modern border border-white/50 dark:border-white/40 backdrop-blur-lg dark:[border:1px_solid_rgba(255,255,255,0.2)]"
+                 style={{ background: 'rgba(255, 255, 255, 0.1)' }}>
+              <div className="flex items-center space-x-2">
+                {/* Previous Button */}
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => handlePageChange(currentPage - 1)}
+                  disabled={currentPage === 1}
+                  className="glass rounded-xl px-4 py-2 text-sm font-medium text-neutral-700 dark:text-neutral-300 hover:text-cyan-600 dark:hover:text-cyan-400 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                  style={{ background: 'rgba(255, 255, 255, 0.1)' }}
+                >
+                  <ArrowLeft className="h-4 w-4" />
+                </motion.button>
+
+                {/* Page Numbers */}
+                <div className="flex items-center space-x-1">
+                  {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                    <motion.button
+                      key={page}
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      onClick={() => handlePageChange(page)}
+                      className={`w-10 h-10 rounded-xl text-sm font-medium transition-all duration-200 ${
+                        page === currentPage
+                          ? 'text-white shadow-modern'
+                          : 'glass text-neutral-700 dark:text-neutral-300 hover:text-blue-600 dark:hover:text-blue-400'
+                      }`}
+                      style={page === currentPage 
+                        ? { background: 'linear-gradient(to right, #06b6d4, #3b82f6)' }
+                        : { background: 'rgba(255, 255, 255, 0.1)' }
+                      }
+                    >
+                      {page}
+                    </motion.button>
+                  ))}
+                </div>
+
+                {/* Next Button */}
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => handlePageChange(currentPage + 1)}
+                  disabled={currentPage === totalPages}
+                  className="glass rounded-xl px-4 py-2 text-sm font-medium text-neutral-700 dark:text-neutral-300 hover:text-cyan-600 dark:hover:text-cyan-400 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                  style={{ background: 'rgba(255, 255, 255, 0.1)' }}
+                >
+                  <ArrowRight className="h-4 w-4" />
+                </motion.button>
+              </div>
+            </div>
           </motion.div>
         )}
       </div>

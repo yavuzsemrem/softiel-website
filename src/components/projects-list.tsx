@@ -69,7 +69,20 @@ export function ProjectsList() {
   const [projectToDelete, setProjectToDelete] = useState<ProjectType | null>(null)
   const { showToast } = useToast()
 
-  const categories = ["Tümü", "Web Tasarım", "Web Geliştirme", "Mobil Uygulama", "E-ticaret", "SEO", "Branding", "Otomasyon", "Yapay Zeka"]
+  const categories = [
+    { value: "webDesign", label: "Web Tasarım" },
+    { value: "webDevelopment", label: "Web Geliştirme" },
+    { value: "mobileApp", label: "Mobil Uygulama" },
+    { value: "ecommerce", label: "E-ticaret" },
+    { value: "seo", label: "SEO" },
+    { value: "branding", label: "Branding" },
+    { value: "socialMedia", label: "Sosyal Medya" },
+    { value: "aiIntegration", label: "AI Entegrasyonu" },
+    { value: "automation", label: "Otomasyon" },
+    { value: "digitalConsulting", label: "Dijital Danışmanlık" },
+    { value: "noCode", label: "No-Code" },
+    { value: "education", label: "Eğitim" }
+  ]
   const statuses = ["Tümü", "Tamamlandı", "Devam Ediyor", "Planlanmış"]
   const sortOptions = [
     { value: "date", label: "Tarih" },
@@ -82,7 +95,6 @@ export function ProjectsList() {
   // Proje verilerini yükle
   useEffect(() => {
     loadProjects()
-    loadStats()
   }, [])
 
   const loadProjects = async () => {
@@ -93,22 +105,20 @@ export function ProjectsList() {
       // Önce mevcut projeleri temizle
       setProjects([])
       
-      const filters = {
-        category: selectedCategory !== "Tümü" ? selectedCategory : undefined,
-        status: selectedStatus !== "Tümü" ? 
-          (selectedStatus === "Tamamlandı" ? "completed" : 
-           selectedStatus === "Devam Ediyor" ? "ongoing" : 
-           selectedStatus === "Planlanmış" ? "upcoming" : undefined) : undefined,
-        search: searchQuery || undefined,
-        sortBy: sortBy as any
-      }
-      
-      const result = await getProjects(filters, projectsPerPage, currentPage > 1 ? (currentPage - 1) * projectsPerPage : undefined)
+      // Tüm projeleri yükle, filtreleme client-side'da yapılacak
+      const result = await getProjects({}, 1000) // Büyük bir sayı ile tüm projeleri al
       
       setProjects(result.projects)
-      setTotalPages(Math.ceil(result.projects.length / projectsPerPage))
+      
+      // İstatistikleri de güncelle
+      const projectList = result.projects
+      setStats({
+        total: projectList.length,
+        completed: projectList.filter(p => p.status === 'completed').length,
+        ongoing: projectList.filter(p => p.status === 'ongoing').length,
+        upcoming: projectList.filter(p => p.status === 'upcoming').length
+      })
     } catch (err) {
-      console.error('Error loading projects:', err)
       setError('Projeler yüklenirken bir hata oluştu')
     } finally {
       setLoading(false)
@@ -117,7 +127,8 @@ export function ProjectsList() {
 
   const loadStats = async () => {
     try {
-      const result = await getProjects({})
+      // İstatistikler için tüm projeleri al (büyük bir sayı ile limit koy)
+      const result = await getProjects({}, 1000)
       const projectList = result.projects
       
       setStats({
@@ -152,7 +163,7 @@ export function ProjectsList() {
   }
 
   const selectAllProjects = () => {
-    const allProjectIds = filteredProjects.map(project => project.id!).filter(Boolean)
+    const allProjectIds = getCurrentPageProjects().map(project => project.id!).filter(Boolean)
     setSelectedProjects(new Set(allProjectIds))
   }
 
@@ -214,20 +225,12 @@ export function ProjectsList() {
       setSelectedProjects(new Set())
       setIsBulkDeleteModalOpen(false)
       loadProjects()
-      loadStats()
     } catch (error) {
       showToast({ title: 'Hata', message: 'Toplu silme işlemi sırasında hata oluştu', type: 'error' })
     } finally {
       setIsDeleting(false)
     }
   }
-
-  // Filtreler değiştiğinde projeleri yeniden yükle
-  useEffect(() => {
-    if (!loading) {
-      loadProjects()
-    }
-  }, [selectedCategory, selectedStatus, searchQuery])
 
   // Filtreler değiştiğinde ilk sayfaya dön
   useEffect(() => {
@@ -277,7 +280,15 @@ export function ProjectsList() {
       setIsDeleting(true)
       await deleteProject(projectToDelete.id!)
       setProjects(prev => prev.filter(project => project.id !== projectToDelete.id))
-      loadStats() // İstatistikleri güncelle
+      
+      // İstatistikleri güncelle
+      const updatedProjects = projects.filter(project => project.id !== projectToDelete.id)
+      setStats({
+        total: updatedProjects.length,
+        completed: updatedProjects.filter(p => p.status === 'completed').length,
+        ongoing: updatedProjects.filter(p => p.status === 'ongoing').length,
+        upcoming: updatedProjects.filter(p => p.status === 'upcoming').length
+      })
       showToast({ 
         title: 'Başarılı', 
         message: 'Proje başarıyla silindi', 
@@ -301,7 +312,9 @@ export function ProjectsList() {
       project.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
       project.client.toLowerCase().includes(searchQuery.toLowerCase())
     
-    const matchesCategory = selectedCategory === "Tümü" || project.category === selectedCategory
+    const matchesCategory = selectedCategory === "Tümü" || 
+      project.category === selectedCategory ||
+      categories.find(cat => cat.label === selectedCategory)?.value === project.category
     const matchesStatus = selectedStatus === "Tümü" || 
       (selectedStatus === "Tamamlandı" && project.status === "completed") ||
       (selectedStatus === "Devam Ediyor" && project.status === "ongoing") ||
@@ -309,6 +322,11 @@ export function ProjectsList() {
     
     return matchesSearch && matchesCategory && matchesStatus
   })
+
+  // Toplam sayfa sayısını güncelle
+  useEffect(() => {
+    setTotalPages(Math.ceil(filteredProjects.length / projectsPerPage))
+  }, [filteredProjects.length, projectsPerPage])
 
   const formatDate = (timestamp: any) => {
     if (!timestamp) return "Tarih yok"
@@ -540,7 +558,7 @@ export function ProjectsList() {
           >
             <option value="Tümü">Tüm Kategoriler</option>
             {categories.map(category => (
-              <option key={category} value={category}>{category}</option>
+              <option key={category.value} value={category.label}>{category.label}</option>
             ))}
           </select>
         </div>
@@ -645,7 +663,7 @@ export function ProjectsList() {
                   <div className="flex items-center space-x-4">
                     <div className="flex items-center space-x-1.5 text-neutral-400">
                       <Calendar className="h-4 w-4" />
-                      <span className="text-sm">{formatDate(project.createdAt)}</span>
+                      <span className="text-sm">{formatDate(project.endDate)}</span>
                     </div>
                     <div className="flex items-center space-x-1.5 text-neutral-400">
                       <Clock className="h-4 w-4" />

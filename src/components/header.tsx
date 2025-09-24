@@ -21,7 +21,7 @@ const languages = [
 ]
 
 export function Header() {
-  const { locale, setLocale, t } = useI18n()
+  const { locale, setLocale, t, getLocalizedUrl } = useI18n()
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isLanguageDropdownOpen, setIsLanguageDropdownOpen] = useState(false)
@@ -78,55 +78,68 @@ export function Header() {
           : "bg-transparent"
       }`}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-        <div className="flex items-center justify-between h-16 lg:h-20">
+      <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-6 xl:px-8 w-full">
+        <div className="flex items-center justify-between h-16 lg:h-18 gap-1 lg:gap-2">
           {/* Logo */}
-          <Link href="/" className="flex-shrink-0">
-            <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 relative">
+          <Link href={getLocalizedUrl("/")} className="flex-shrink-0">
+            <div className="flex items-center space-x-2 lg:space-x-3 ml-2 lg:ml-0">
+              <div className="w-12 h-12 lg:w-12 lg:h-12 relative">
                 <Image 
                   src="/transparent.png" 
                   alt="Softiel Logo" 
-                  width={40} 
-                  height={40}
+                  width={48} 
+                  height={48}
                   className="w-full h-full object-contain"
                 />
               </div>
-              <span className="text-xl font-bold text-white">Softiel</span>
+              <span className="text-2xl lg:text-2xl font-bold text-white">Softiel</span>
             </div>
           </Link>
 
           {/* Desktop Navigation */}
-          <Navigation />
+          <div className="flex-1 flex justify-center">
+            <Navigation />
+          </div>
 
-          {/* Right side buttons */}
-          <div className="flex items-center space-x-4">
-
-            {/* Quote Request Button */}
+          {/* Quote Request Button - desktop only */}
+          <div className="hidden lg:flex flex-shrink-0 mr-2 lg:mr-3 xl:mr-4">
             <motion.button
               onClick={toggleQuoteModal}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="flex items-center justify-center w-10 h-10 sm:w-auto sm:h-auto sm:space-x-2 sm:px-4 py-2 bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white rounded-xl hover:shadow-lg transition-all duration-200 shadow-lg"
+              className="flex items-center justify-center w-auto h-auto space-x-1 xl:space-x-1.5 px-2 xl:px-3 py-1.5 lg:py-2 bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white rounded-lg hover:shadow-lg transition-all duration-200 shadow-lg"
             >
               <FileText className="h-4 w-4" />
-              <span className="hidden sm:inline text-sm font-medium">{t('common.getQuote', 'Teklif Al')}</span>
+              <span className="text-xs lg:text-sm xl:text-base font-medium">{t('common.getQuote', 'Teklif Al')}</span>
+            </motion.button>
+          </div>
+
+          {/* Right side buttons for mobile and desktop */}
+          <div className="flex items-center lg:space-x-0">
+            {/* Mobile Quote Button */}
+            <motion.button
+              onClick={toggleQuoteModal}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="lg:hidden flex items-center justify-center w-10 h-10 bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white rounded-lg hover:shadow-lg transition-all duration-200 shadow-lg mr-3"
+            >
+              <FileText className="h-4 w-4" />
             </motion.button>
 
             {/* Language Selector */}
-            <div className="relative">
+            <div className="relative mr-3 lg:mr-0">
               <motion.button
                 onClick={toggleLanguageDropdown}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="flex items-center justify-center w-10 h-10 sm:w-auto sm:h-auto sm:space-x-2 sm:px-3 py-2 text-white rounded-xl transition-all duration-200 backdrop-blur-sm bg-slate-800/60 hover:bg-slate-700/60"
+                className="flex items-center justify-center w-10 h-10 lg:w-auto lg:h-auto lg:space-x-1 xl:space-x-1.5 lg:px-1.5 xl:px-2 py-1.5 lg:py-2 text-white rounded-lg transition-all duration-200 backdrop-blur-sm bg-slate-800/60 hover:bg-slate-700/60"
                 style={{ border: '1px solid rgba(178, 178, 178, 0.1)' }}
               >
                 <Flag 
                   code={selectedLanguage.countryCode} 
-                  className="w-6 h-4 sm:w-7 sm:h-5 rounded-sm"
+                  className="w-7 h-5 lg:w-8 lg:h-6 rounded-sm"
                 />
-                <ChevronDown className={`hidden sm:block h-4 w-4 transition-transform ${isLanguageDropdownOpen ? 'rotate-180' : ''}`} />
+                <ChevronDown className={`hidden lg:block h-4 w-4 transition-transform ${isLanguageDropdownOpen ? 'rotate-180' : ''}`} />
               </motion.button>
 
               <AnimatePresence>
