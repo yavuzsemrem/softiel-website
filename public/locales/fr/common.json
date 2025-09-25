@@ -107,6 +107,52 @@
   "brand": {
     "name": "Softiel"
   },
+  "chatbot": {
+    "welcome": {
+      "greeting": "Bonjour ! 👋",
+      "description": "Je suis l'assistant IA de Softiel. Comment puis-je vous aider ?"
+    },
+    "initialMessage": "Bonjour ! Bienvenue chez Softiel ! 👋 Comment puis-je vous aider ?",
+    "quickReplies": {
+      "services": "Quels sont vos services ?",
+      "pricing": "Obtenir des informations sur les prix",
+      "projects": "Je veux voir vos projets",
+      "contact": "Informations de contact"
+    },
+    "status": {
+      "online": "En ligne",
+      "waiting": "Veuillez patienter",
+      "securityCheck": "Vérification de sécurité...",
+      "contentAnalysis": "Analyse de contenu...",
+      "behaviorAnalysis": "Analyse comportementale...",
+      "blocked": "Bloqué pour des raisons de sécurité"
+    },
+    "placeholders": {
+      "typeMessage": "Tapez votre message...",
+      "waiting": "Veuillez patienter...",
+      "securityCheck": "Vérification de sécurité...",
+      "contentAnalysis": "Analyse de contenu...",
+      "behaviorAnalysis": "Analyse comportementale...",
+      "blocked": "Bloqué pour des raisons de sécurité"
+    },
+    "errors": {
+      "behaviorSuspicious": "🤖 Résultat de l'analyse comportementale : Activité suspecte détectée. Veuillez interagir plus naturellement.",
+      "honeypotBot": "🛡️ Impossible d'envoyer le message pour des raisons de sécurité. Activité de bot détectée.",
+      "cooldownActive": "⏰ Période de refroidissement active. Temps restant : {time}s",
+      "contentBlocked": "🚫 Votre message n'a pas passé la vérification de sécurité. {reasons}",
+      "suggestions": "💡 Suggestions : {suggestions}",
+      "suspiciousActivity": "🛡️ Impossible d'envoyer le message pour des raisons de sécurité. Score de risque : {score}%",
+      "rateLimited": "⚠️ {reason}",
+      "recaptchaFailed": "🛡️ Vérification de sécurité échouée : {error}",
+      "quotaExceeded": "ℹ️ Note : Le service IA est actuellement occupé, j'utilise donc une réponse de secours. Le service normal reprendra bientôt ! 😊",
+      "recaptchaError": "🛡️ Une erreur s'est produite lors de la vérification de sécurité. Veuillez réessayer."
+    },
+    "contactInfo": {
+      "phone": "+90 (555) 123 45 67",
+      "email": "info@softiel.com",
+      "workingHours": "Lundi - Vendredi : 09:00 - 18:00"
+    }
+  },
   "quote": {
     "title": "Demander un devis",
     "subtitle": "Obtenez un devis gratuit pour votre projet",

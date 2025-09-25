@@ -1,5 +1,84 @@
 @import "tailwindcss";
 
+/* Honeypot Tuzakları - Görünmez alanlar */
+.honeypot-field {
+  position: absolute !important;
+  left: -9999px !important;
+  top: -9999px !important;
+  width: 1px !important;
+  height: 1px !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  z-index: -1 !important;
+  visibility: hidden !important;
+  border: none !important;
+  background: transparent !important;
+  color: transparent !important;
+  font-size: 0 !important;
+  line-height: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+/* Chatbot Welcome Message */
+.chatbot-welcome-message {
+  animation: welcomePulse 3s ease-in-out infinite;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.05);
+}
+
+@keyframes welcomePulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.05);
+  }
+  50% {
+    transform: scale(1.01);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.1);
+  }
+}
+
+/* Responsive welcome message - Yatay düzen */
+@media (max-width: 1024px) {
+  .chatbot-welcome-message {
+    max-width: 350px;
+    right: -5px;
+  }
+}
+
+@media (max-width: 768px) {
+  .chatbot-welcome-message {
+    max-width: 320px;
+    right: -10px;
+    bottom: 22px;
+  }
+}
+
+@media (max-width: 640px) {
+  .chatbot-welcome-message {
+    max-width: 300px;
+    right: -15px;
+    bottom: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .chatbot-welcome-message {
+    max-width: 280px;
+    right: -20px;
+    bottom: 18px;
+  }
+}
+
+@media (max-width: 360px) {
+  .chatbot-welcome-message {
+    max-width: 260px;
+    right: -25px;
+    bottom: 16px;
+  }
+}
+
 :root {
   /* Light theme - Modern mavi gradient temelli */
   --background: #f8fafc;
@@ -821,6 +900,64 @@ input[type="password"]::-webkit-strong-password-auto-fill-button {
 
 
 /* Chatbot Responsive Styles */
+@media (max-width: 1024px) {
+  .chatbot-button {
+    width: 5rem !important;
+    height: 5rem !important;
+  }
+  
+  .chatbot-button img {
+    width: 3.25rem !important;
+    height: 3.25rem !important;
+  }
+  
+  .chatbot-button svg {
+    width: 2.75rem !important;
+    height: 2.75rem !important;
+  }
+  
+  /* Send button boyutunu düzelt */
+  .chatbot-input .chatbot-button {
+    width: auto !important;
+    height: auto !important;
+    padding: 0.75rem !important;
+  }
+  
+  .chatbot-input .chatbot-button svg {
+    width: 1.25rem !important;
+    height: 1.25rem !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .chatbot-button {
+    width: 5.5rem !important;
+    height: 5.5rem !important;
+  }
+  
+  .chatbot-button img {
+    width: 3.5rem !important;
+    height: 3.5rem !important;
+  }
+  
+  .chatbot-button svg {
+    width: 3rem !important;
+    height: 3rem !important;
+  }
+  
+  /* Send button boyutunu düzelt */
+  .chatbot-input .chatbot-button {
+    width: auto !important;
+    height: auto !important;
+    padding: 0.75rem !important;
+  }
+  
+  .chatbot-input .chatbot-button svg {
+    width: 1.25rem !important;
+    height: 1.25rem !important;
+  }
+}
+
 @media (max-width: 640px) {
   .chatbot-container {
     bottom: 1rem !important;
@@ -853,9 +990,48 @@ input[type="password"]::-webkit-strong-password-auto-fill-button {
     padding: 0.75rem 1rem !important;
   }
   
+  /* Chatbot header hizalama düzeltmeleri - Mobil */
+  .chatbot-header .flex.flex-col.justify-center h3 {
+    margin: 0 !important;
+    padding: 0 !important;
+    line-height: 1 !important;
+  }
+  
+  .chatbot-header .flex.flex-col.justify-center .flex.items-center {
+    margin-top: 0.25rem !important;
+  }
+  
+  .chatbot-header .flex.flex-col.justify-center p {
+    margin: 0 !important;
+    padding: 0 !important;
+    line-height: 1 !important;
+  }
+  
   .chatbot-button {
-    width: 3.5rem !important;
-    height: 3.5rem !important;
+    width: 5rem !important;
+    height: 5rem !important;
+  }
+  
+  .chatbot-button img {
+    width: 3rem !important;
+    height: 3rem !important;
+  }
+  
+  .chatbot-button svg {
+    width: 2.5rem !important;
+    height: 2.5rem !important;
+  }
+  
+  /* Send button boyutunu düzelt */
+  .chatbot-input .chatbot-button {
+    width: auto !important;
+    height: auto !important;
+    padding: 0.75rem !important;
+  }
+  
+  .chatbot-input .chatbot-button svg {
+    width: 1.25rem !important;
+    height: 1.25rem !important;
   }
 }
 
@@ -882,10 +1058,95 @@ input[type="password"]::-webkit-strong-password-auto-fill-button {
     font-size: 0.875rem !important;
   }
   
+  /* Chatbot header hizalama düzeltmeleri - Küçük Mobil */
+  .chatbot-header .flex.flex-col.justify-center h3 {
+    margin: 0 !important;
+    padding: 0 !important;
+    line-height: 1 !important;
+  }
+  
+  .chatbot-header .flex.flex-col.justify-center .flex.items-center {
+    margin-top: 0.25rem !important;
+  }
+  
+  .chatbot-header .flex.flex-col.justify-center p {
+    margin: 0 !important;
+    padding: 0 !important;
+    line-height: 1 !important;
+  }
+  
   .chatbot-button {
+    width: 5rem !important;
+    height: 5rem !important;
+  }
+  
+  .chatbot-button img {
     width: 3rem !important;
     height: 3rem !important;
   }
+  
+  .chatbot-button svg {
+    width: 2.5rem !important;
+    height: 2.5rem !important;
+  }
+  
+  /* Send button boyutunu düzelt */
+  .chatbot-input .chatbot-button {
+    width: auto !important;
+    height: auto !important;
+    padding: 0.75rem !important;
+  }
+  
+  .chatbot-input .chatbot-button svg {
+    width: 1.25rem !important;
+    height: 1.25rem !important;
+  }
+}
+
+@media (max-width: 360px) {
+  .chatbot-button {
+    width: 5.5rem !important;
+    height: 5.5rem !important;
+  }
+  
+  .chatbot-button img {
+    width: 3.25rem !important;
+    height: 3.25rem !important;
+  }
+  
+  .chatbot-button svg {
+    width: 2.75rem !important;
+    height: 2.75rem !important;
+  }
+  
+  /* Send button boyutunu düzelt */
+  .chatbot-input .chatbot-button {
+    width: auto !important;
+    height: auto !important;
+    padding: 0.75rem !important;
+  }
+  
+  .chatbot-input .chatbot-button svg {
+    width: 1.25rem !important;
+    height: 1.25rem !important;
+  }
+}
+
+/* Chatbot header hizalama düzeltmeleri - Desktop */
+.chatbot-header .flex.flex-col.justify-center h3 {
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 1 !important;
+}
+
+.chatbot-header .flex.flex-col.justify-center .flex.items-center {
+  margin-top: 0.25rem !important;
+}
+
+.chatbot-header .flex.flex-col.justify-center p {
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 1 !important;
 }
 
 /* Chatbot z-index management */

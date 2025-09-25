@@ -107,6 +107,52 @@
   "brand": {
     "name": "Softiel"
   },
+  "chatbot": {
+    "welcome": {
+      "greeting": "Hallo! 👋",
+      "description": "Ich bin Softiels KI-Assistent. Wie kann ich Ihnen helfen?"
+    },
+    "initialMessage": "Hallo! Willkommen bei Softiel! 👋 Wie kann ich Ihnen helfen?",
+    "quickReplies": {
+      "services": "Was sind Ihre Dienstleistungen?",
+      "pricing": "Preisinformationen erhalten",
+      "projects": "Ich möchte Ihre Projekte sehen",
+      "contact": "Kontaktinformationen"
+    },
+    "status": {
+      "online": "Online",
+      "waiting": "Bitte warten",
+      "securityCheck": "Sicherheitsprüfung...",
+      "contentAnalysis": "Inhaltsanalyse...",
+      "behaviorAnalysis": "Verhaltensanalyse...",
+      "blocked": "Aus Sicherheitsgründen blockiert"
+    },
+    "placeholders": {
+      "typeMessage": "Geben Sie Ihre Nachricht ein...",
+      "waiting": "Bitte warten...",
+      "securityCheck": "Sicherheitsprüfung...",
+      "contentAnalysis": "Inhaltsanalyse...",
+      "behaviorAnalysis": "Verhaltensanalyse...",
+      "blocked": "Aus Sicherheitsgründen blockiert"
+    },
+    "errors": {
+      "behaviorSuspicious": "🤖 Verhaltensanalyse-Ergebnis: Verdächtige Aktivität erkannt. Bitte interagieren Sie natürlicher.",
+      "honeypotBot": "🛡️ Nachricht kann aus Sicherheitsgründen nicht gesendet werden. Bot-Aktivität erkannt.",
+      "cooldownActive": "⏰ Abkühlzeit aktiv. Verbleibende Zeit: {time}s",
+      "contentBlocked": "🚫 Ihre Nachricht hat die Sicherheitsprüfung nicht bestanden. {reasons}",
+      "suggestions": "💡 Vorschläge: {suggestions}",
+      "suspiciousActivity": "🛡️ Nachricht kann aus Sicherheitsgründen nicht gesendet werden. Risikobewertung: {score}%",
+      "rateLimited": "⚠️ {reason}",
+      "recaptchaFailed": "🛡️ Sicherheitsprüfung fehlgeschlagen: {error}",
+      "quotaExceeded": "ℹ️ Hinweis: Der KI-Service ist derzeit beschäftigt, daher verwende ich eine Fallback-Antwort. Der normale Service wird bald fortgesetzt! 😊",
+      "recaptchaError": "🛡️ Ein Fehler ist bei der Sicherheitsprüfung aufgetreten. Bitte versuchen Sie es erneut."
+    },
+    "contactInfo": {
+      "phone": "+90 (555) 123 45 67",
+      "email": "info@softiel.com",
+      "workingHours": "Montag - Freitag: 09:00 - 18:00"
+    }
+  },
   "quote": {
     "title": "Angebot anfordern",
     "subtitle": "Holen Sie sich ein kostenloses Angebot für Ihr Projekt",

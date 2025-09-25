@@ -15,6 +15,15 @@ import {
   CheckCircle
 } from "lucide-react"
 import aiIcon from "@/images/ai.PNG"
+import { generateGeminiResponse, getFallbackResponse } from "@/lib/gemini"
+import { checkRateLimit, generateSessionId, getRateLimitStatus } from "@/lib/rateLimiter"
+import { useRecaptcha } from "@/hooks/useRecaptcha"
+import { useFingerprinting } from "@/hooks/useFingerprinting"
+import { useContentAnalysis } from "@/hooks/useContentAnalysis"
+import { useCooldown } from "@/hooks/useCooldown"
+import { useHoneypot } from "@/hooks/useHoneypot"
+import { useBehavioralAnalysis } from "@/hooks/useBehavioralAnalysis"
+import { useI18n } from "@/contexts/i18n-context"
 
 interface Message {
   id: string
@@ -30,33 +39,46 @@ interface QuickReply {
   action: string
 }
 
-const quickReplies: QuickReply[] = [
-  { id: '1', text: 'Hizmetleriniz neler?', action: 'services' },
-  { id: '2', text: 'Fiyat bilgisi al', action: 'pricing' },
-  { id: '3', text: 'Projelerinizi görmek istiyorum', action: 'projects' },
-  { id: '4', text: 'İletişim bilgileri', action: 'contact' }
+// Quick replies will be generated dynamically based on language
+const getQuickReplies = (t: (key: string) => string): QuickReply[] => [
+  { id: '1', text: t('chatbot.quickReplies.services'), action: 'services' },
+  { id: '2', text: t('chatbot.quickReplies.pricing'), action: 'pricing' },
+  { id: '3', text: t('chatbot.quickReplies.projects'), action: 'projects' },
+  { id: '4', text: t('chatbot.quickReplies.contact'), action: 'contact' }
 ]
 
-const contactInfo = {
-  phone: '+90 (555) 123 45 67',
-  email: 'info@softiel.com',
-  workingHours: 'Pazartesi - Cuma: 09:00 - 18:00'
-}
+const getContactInfo = (t: (key: string) => string) => ({
+  phone: t('chatbot.contactInfo.phone'),
+  email: t('chatbot.contactInfo.email'),
+  workingHours: t('chatbot.contactInfo.workingHours')
+})
 
 export function Chatbot() {
+  const { t, locale } = useI18n()
   const [isOpen, setIsOpen] = useState(false)
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      id: '1',
-      text: 'Merhaba! Softiel\'e hoş geldiniz! 👋 Size nasıl yardımcı olabilirim?',
-      sender: 'bot',
-      timestamp: new Date()
-    }
-  ])
+  const [isWelcomeVisible, setIsWelcomeVisible] = useState(true)
+  const [messages, setMessages] = useState<Message[]>([])
+
+  // String interpolation helper
+  const interpolate = (text: string, values: Record<string, any>) => {
+    return text.replace(/\{(\w+)\}/g, (match, key) => values[key] || match)
+  }
   const [inputValue, setInputValue] = useState('')
   const [isTyping, setIsTyping] = useState(false)
+  const [isRateLimited, setIsRateLimited] = useState(false)
+  const [rateLimitMessage, setRateLimitMessage] = useState('')
+  const [retryAfter, setRetryAfter] = useState(0)
+  const [remainingMessages, setRemainingMessages] = useState(10)
+  const [sessionId] = useState(() => generateSessionId())
+  const [isRecaptchaLoading, setIsRecaptchaLoading] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
+  const { executeRecaptchaAction, isAvailable } = useRecaptcha()
+  const { fingerprint, riskScore, isSuspicious, reasons, isLoading: isFingerprintLoading } = useFingerprinting(sessionId)
+  const { analyzeMessage, cleanMessage, isMessageSafe, getSuggestions, isAnalyzing: isContentAnalyzing } = useContentAnalysis()
+  const { canSend: canSendMessage, remainingTime: cooldownRemaining, reason: cooldownReason, cooldownType, isInCooldown, messageCount, recordMessageSent } = useCooldown(sessionId)
+  const { honeypotFields, checkFormData, isInitialized: isHoneypotInitialized } = useHoneypot()
+  const { isHuman: isBehaviorHuman, confidence: behaviorConfidence, riskScore: behaviorRiskScore, reasons: behaviorReasons, isLoading: isBehaviorLoading } = useBehavioralAnalysis()
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
@@ -66,83 +88,255 @@ export function Chatbot() {
     scrollToBottom()
   }, [messages])
 
+  // Dil değiştiğinde initial message'ı güncelle
+  useEffect(() => {
+    if (messages.length === 0) {
+      setMessages([{
+        id: '1',
+        text: t('chatbot.initialMessage'),
+        sender: 'bot',
+        timestamp: new Date()
+      }])
+    }
+  }, [locale, t])
+
+
   const handleSendMessage = async (text: string) => {
     if (!text.trim()) return
 
-    const userMessage: Message = {
-      id: Date.now().toString(),
-      text: text.trim(),
-      sender: 'user',
-      timestamp: new Date()
-    }
-
-    setMessages(prev => [...prev, userMessage])
-    setInputValue('')
-    setIsTyping(true)
-
-    // Simulate bot response
-    setTimeout(() => {
-      const botResponse = generateBotResponse(text)
-      const botMessage: Message = {
-        id: (Date.now() + 1).toString(),
-        text: botResponse.text,
+    // Behavioral Analysis kontrolü
+    if (!isBehaviorLoading && !isBehaviorHuman && behaviorRiskScore > 0.7) {
+      const behaviorBotMessage: Message = {
+        id: Date.now().toString(),
+        text: t('chatbot.errors.behaviorSuspicious'),
         sender: 'bot',
         timestamp: new Date(),
-        type: botResponse.type
+        type: 'text'
+      }
+      setMessages(prev => [...prev, behaviorBotMessage])
+      return
+    }
+
+    // Honeypot kontrolü
+    if (isHoneypotInitialized) {
+      const formData = { message: text };
+      const honeypotResult = checkFormData(formData);
+      
+      if (honeypotResult.isBot) {
+        const honeypotBotMessage: Message = {
+          id: Date.now().toString(),
+          text: t('chatbot.errors.honeypotBot'),
+          sender: 'bot',
+          timestamp: new Date(),
+          type: 'text'
+        }
+        setMessages(prev => [...prev, honeypotBotMessage])
+        return
+      }
+    }
+
+    // Cooldown kontrolü
+    if (!canSendMessage) {
+      const cooldownBotMessage: Message = {
+        id: Date.now().toString(),
+        text: interpolate(t('chatbot.errors.cooldownActive'), { time: cooldownRemaining }),
+        sender: 'bot',
+        timestamp: new Date(),
+        type: 'text'
+      }
+      setMessages(prev => [...prev, cooldownBotMessage])
+      return
+    }
+
+    // İçerik analizi kontrolü
+    const contentAnalysis = analyzeMessage(text)
+    if (!isMessageSafe(text)) {
+      const contentBotMessage: Message = {
+        id: Date.now().toString(),
+        text: interpolate(t('chatbot.errors.contentBlocked'), { reasons: contentAnalysis.reasons.join(', ') }),
+        sender: 'bot',
+        timestamp: new Date(),
+        type: 'text'
+      }
+      setMessages(prev => [...prev, contentBotMessage])
+      
+      // Öneriler varsa göster
+      if (contentAnalysis.suggestions.length > 0) {
+        const suggestionMessage: Message = {
+          id: (Date.now() + 1).toString(),
+          text: interpolate(t('chatbot.errors.suggestions'), { suggestions: contentAnalysis.suggestions.join(', ') }),
+          sender: 'bot',
+          timestamp: new Date(),
+          type: 'text'
+        }
+        setMessages(prev => [...prev, suggestionMessage])
+      }
+      return
+    }
+
+    // Fingerprinting kontrolü
+    if (isSuspicious && riskScore > 0.7) {
+      const suspiciousBotMessage: Message = {
+        id: Date.now().toString(),
+        text: interpolate(t('chatbot.errors.suspiciousActivity'), { score: (riskScore * 100).toFixed(0) }),
+        sender: 'bot',
+        timestamp: new Date(),
+        type: 'text'
+      }
+      setMessages(prev => [...prev, suspiciousBotMessage])
+      return
+    }
+
+    // Rate limiting kontrolü
+    const rateLimitResult = checkRateLimit(sessionId)
+    
+    if (!rateLimitResult.allowed) {
+      setIsRateLimited(true)
+      setRateLimitMessage(rateLimitResult.reason || 'Mesaj gönderemezsiniz.')
+      setRetryAfter(rateLimitResult.retryAfter || 0)
+      
+      // Rate limit mesajını göster
+      const rateLimitBotMessage: Message = {
+        id: Date.now().toString(),
+        text: interpolate(t('chatbot.errors.rateLimited'), { reason: rateLimitResult.reason }),
+        sender: 'bot',
+        timestamp: new Date(),
+        type: 'text'
+      }
+      setMessages(prev => [...prev, rateLimitBotMessage])
+      
+      // Retry after süresini takip et
+      if (rateLimitResult.retryAfter) {
+        const countdown = setInterval(() => {
+          setRetryAfter(prev => {
+            if (prev <= 1) {
+              clearInterval(countdown)
+              setIsRateLimited(false)
+              setRateLimitMessage('')
+              return 0
+            }
+            return prev - 1
+          })
+        }, 1000)
+      }
+      
+      return
+    }
+
+    // Rate limit geçildi, reCAPTCHA kontrolü yap
+    setIsRecaptchaLoading(true)
+    
+    try {
+      // reCAPTCHA token'ını al ve doğrula
+      const recaptchaResult = await executeRecaptchaAction('chatbot_message')
+      
+      if (!recaptchaResult.success) {
+        // reCAPTCHA başarısız
+        const recaptchaBotMessage: Message = {
+          id: Date.now().toString(),
+          text: interpolate(t('chatbot.errors.recaptchaFailed'), { error: recaptchaResult.error || 'Bilinmeyen hata' }),
+          sender: 'bot',
+          timestamp: new Date(),
+          type: 'text'
+        }
+        setMessages(prev => [...prev, recaptchaBotMessage])
+        return
       }
 
-      setMessages(prev => [...prev, botMessage])
-      setIsTyping(false)
-    }, 1000 + Math.random() * 1000)
+      // reCAPTCHA başarılı, mesajı işle
+      setIsRateLimited(false)
+      setRateLimitMessage('')
+      setRetryAfter(0)
+      setRemainingMessages(rateLimitResult.remainingMessages || 0)
+
+      const userMessage: Message = {
+        id: Date.now().toString(),
+        text: text.trim(),
+        sender: 'user',
+        timestamp: new Date()
+      }
+
+      setMessages(prev => [...prev, userMessage])
+      setInputValue('')
+      setIsTyping(true)
+      
+      // Cooldown'u kaydet
+      recordMessageSent()
+
+      try {
+        // Gemini API'den yanıt al
+        const geminiResponse = await generateGeminiResponse(text, locale)
+        
+        if (geminiResponse.success) {
+          const botMessage: Message = {
+            id: (Date.now() + 1).toString(),
+            text: geminiResponse.text,
+            sender: 'bot',
+            timestamp: new Date(),
+            type: 'text'
+          }
+          setMessages(prev => [...prev, botMessage])
+        } else {
+          // API başarısız olursa fallback kullan
+          const fallbackResponse = getFallbackResponse(text)
+          const botMessage: Message = {
+            id: (Date.now() + 1).toString(),
+            text: fallbackResponse,
+            sender: 'bot',
+            timestamp: new Date(),
+            type: 'text'
+          }
+          setMessages(prev => [...prev, botMessage])
+          
+          // Quota hatası durumunda kullanıcıya bilgi ver
+          if (geminiResponse.error?.includes('quota')) {
+            const quotaMessage: Message = {
+              id: (Date.now() + 2).toString(),
+              text: t('chatbot.errors.quotaExceeded'),
+              sender: 'bot',
+              timestamp: new Date(),
+              type: 'text'
+            }
+            setMessages(prev => [...prev, quotaMessage])
+          }
+        }
+      } catch (error) {
+        // Hata durumunda fallback kullan
+        const fallbackResponse = getFallbackResponse(text)
+        const botMessage: Message = {
+          id: (Date.now() + 1).toString(),
+          text: fallbackResponse,
+          sender: 'bot',
+          timestamp: new Date(),
+          type: 'text'
+        }
+        setMessages(prev => [...prev, botMessage])
+      } finally {
+        setIsTyping(false)
+      }
+    } catch (error) {
+      // reCAPTCHA hatası durumunda fallback mesaj
+      const recaptchaBotMessage: Message = {
+        id: Date.now().toString(),
+        text: t('chatbot.errors.recaptchaError'),
+        sender: 'bot',
+        timestamp: new Date(),
+        type: 'text'
+      }
+      setMessages(prev => [...prev, recaptchaBotMessage])
+    } finally {
+      setIsRecaptchaLoading(false)
+    }
   }
 
-  const generateBotResponse = (userText: string) => {
-    const text = userText.toLowerCase()
-    
-    if (text.includes('hizmet') || text.includes('service')) {
-      return {
-        text: 'Softiel olarak web tasarımı, web geliştirme, mobil uygulama geliştirme, SEO, dijital pazarlama ve daha birçok hizmet sunuyoruz. Detaylı bilgi için hizmetlerimiz sayfasını ziyaret edebilirsiniz! 🚀',
-        type: 'text' as const
-      }
-    }
-    
-    if (text.includes('fiyat') || text.includes('price') || text.includes('ücret')) {
-      return {
-        text: 'Projelerimiz için özel fiyatlandırma yapıyoruz. Size en uygun çözümü sunabilmemiz için iletişime geçmenizi öneriyoruz. 📞',
-        type: 'text' as const
-      }
-    }
-    
-    if (text.includes('proje') || text.includes('project') || text.includes('referans')) {
-      return {
-        text: 'Projelerimizi görmek için projelerimiz sayfasını ziyaret edebilirsiniz. Her proje bizim için özel ve değerli! 💼',
-        type: 'text' as const
-      }
-    }
-    
-    if (text.includes('iletişim') || text.includes('contact') || text.includes('telefon')) {
-      return {
-        text: 'İletişim bilgilerimiz:',
-        type: 'contact_info' as const
-      }
-    }
-    
-    if (text.includes('teşekkür') || text.includes('thanks') || text.includes('sağol')) {
-      return {
-        text: 'Rica ederim! Başka bir konuda yardımcı olabilir miyim? 😊',
-        type: 'text' as const
-      }
-    }
-    
-    return {
-      text: 'Anladım! Size daha iyi yardımcı olabilmem için hizmetlerimiz, fiyatlandırma veya projelerimiz hakkında soru sorabilirsiniz. 🤔',
-      type: 'text' as const
-    }
-  }
 
   const handleQuickReply = (reply: QuickReply) => {
     handleSendMessage(reply.text)
   }
+
+  // Dinamik quick replies ve contact info
+  const quickReplies = getQuickReplies(t)
+  const contactInfo = getContactInfo(t)
 
   const toggleChatbot = () => {
     setIsOpen(!isOpen)
@@ -163,6 +357,56 @@ export function Chatbot() {
         animate={{ opacity: 1 }}
         transition={{ duration: 0.2 }}
       >
+        {/* Welcome Message - Sadece kapalıyken ve görünürken göster */}
+        {!isOpen && isWelcomeVisible && (
+          <motion.div
+            initial={{ opacity: 0, x: 20, scale: 0.8 }}
+            animate={{ opacity: 1, x: 0, scale: 1 }}
+            exit={{ opacity: 0, x: 20, scale: 0.8 }}
+            transition={{ duration: 0.3, delay: 1.2 }}
+            className="absolute bottom-16 sm:bottom-20 right-0 mb-2 sm:mb-3"
+          >
+            <div className="bg-gradient-to-br from-slate-800/95 to-slate-900/95 backdrop-blur-md rounded-2xl p-3 sm:p-4 shadow-2xl chatbot-welcome-message w-80 sm:w-96 relative">
+              {/* Kapatma butonu */}
+              <button
+                onClick={() => setIsWelcomeVisible(false)}
+                className="absolute top-2 right-2 p-1 text-slate-400 hover:text-white hover:bg-slate-700/50 rounded-full transition-all duration-200 z-10"
+              >
+                <X className="w-4 h-4" />
+              </button>
+              
+              <div className="flex items-center space-x-2 sm:space-x-3 pr-6">
+                <div className="flex-shrink-0">
+                  <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center" style={{
+                    background: 'linear-gradient(135deg, rgba(30, 41, 59, 0.9) 0%, rgba(59, 130, 246, 0.2) 25%, rgba(14, 165, 233, 0.15) 50%, rgba(59, 130, 246, 0.2) 75%, rgba(30, 41, 59, 0.9) 100%)',
+                    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.05)'
+                  }}>
+                    <Image 
+                      src={aiIcon} 
+                      alt="AI Assistant" 
+                      width={28}
+                      height={28}
+                      className="w-5 h-5 sm:w-7 sm:h-7 object-contain"
+                    />
+                  </div>
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center space-x-2">
+                    <span className="text-xs sm:text-sm font-semibold text-white whitespace-nowrap">
+                      {t('chatbot.welcome.greeting')}
+                    </span>
+                  </div>
+                  <div className="text-xs text-slate-300 leading-tight mt-1">
+                    {t('chatbot.welcome.description')}
+                  </div>
+                </div>
+              </div>
+              {/* Ok işareti */}
+              <div className="absolute -bottom-1 right-3 sm:right-4 w-3 h-3 bg-gradient-to-br from-slate-800/95 to-slate-900/95 transform rotate-45 border-r border-b border-slate-700/50"></div>
+            </div>
+          </motion.div>
+        )}
+        
          <motion.button
            whileHover={{ scale: 1.05 }}
            whileTap={{ scale: 0.95 }}
@@ -189,7 +433,7 @@ export function Chatbot() {
            transition={{ 
              duration: 0.6, 
              ease: [0.68, -0.55, 0.265, 1.55],
-             delay: 0.3
+             delay: 0.1
            }}
          >
            {/* Glow effect */}
@@ -206,7 +450,7 @@ export function Chatbot() {
                  transition={{ duration: 0.3, ease: "easeInOut" }}
                  className="relative z-10"
                >
-                 <X className="w-8 h-8 sm:w-9 sm:h-9 text-gray-300" />
+                 <X className="w-8 h-8 sm:w-10 sm:h-10 md:w-9 md:h-9 text-gray-300" />
                </motion.div>
              ) : (
                <motion.div
@@ -222,7 +466,7 @@ export function Chatbot() {
                    alt="AI Assistant" 
                    width={40} 
                    height={40} 
-                   className="w-10 h-10 sm:w-11 sm:h-11 object-contain"
+                   className="w-10 h-10 sm:w-12 sm:h-12 md:w-11 md:h-11 object-contain"
                  />
                </motion.div>
              )}
@@ -274,20 +518,50 @@ export function Chatbot() {
                      className="object-contain w-7 h-7"
                    />
                  </div>
-                <div>
-                  <h3 className="font-semibold text-white chatbot-header h3 text-base"
+                <div className="flex flex-col justify-center">
+                  <h3 className="font-semibold text-white text-base leading-none"
                   style={{
-                    textShadow: '0 1px 2px rgba(0, 0, 0, 0.5), 0 0 10px rgba(59, 130, 246, 0.3)'
-                  }}>Softiel Asistanı</h3>
-                  <div className="flex items-center space-x-2">
-                    <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse shadow-lg"
+                    textShadow: '0 1px 2px rgba(0, 0, 0, 0.5), 0 0 10px rgba(59, 130, 246, 0.3)',
+                    margin: 0,
+                    padding: 0
+                  }}>Softiel AI</h3>
+                  <div className="flex items-center space-x-2 mt-1">
+                    <div className={`w-2 h-2 rounded-full shadow-lg ${
+                      isRateLimited 
+                        ? 'bg-red-400' 
+                        : 'bg-green-400 animate-pulse'
+                    }`}
                          style={{
-                           boxShadow: '0 0 8px rgba(34, 197, 94, 0.6)'
+                           boxShadow: isRateLimited 
+                             ? '0 0 8px rgba(239, 68, 68, 0.6)'
+                             : '0 0 8px rgba(34, 197, 94, 0.6)'
                          }}></div>
-                    <p className="text-sm text-green-400 chatbot-header p font-medium"
-                       style={{
-                         textShadow: '0 1px 2px rgba(0, 0, 0, 0.3)'
-                       }}>Çevrimiçi</p>
+        <p className={`text-sm font-medium leading-none ${
+          isRateLimited 
+            ? 'text-red-400' 
+            : (isSuspicious && riskScore > 0.7)
+              ? 'text-yellow-400'
+              : isFingerprintLoading
+                ? 'text-blue-400'
+                : isContentAnalyzing
+                  ? 'text-purple-400'
+                  : 'text-green-400'
+        }`}
+           style={{
+             textShadow: '0 1px 2px rgba(0, 0, 0, 0.3)',
+             margin: 0,
+             padding: 0
+           }}>
+          {isRateLimited 
+            ? `${t('chatbot.status.waiting')} (${retryAfter}s)` 
+            : (isSuspicious && riskScore > 0.7)
+              ? `Risk: ${(riskScore * 100).toFixed(0)}%`
+              : isFingerprintLoading
+                ? t('chatbot.status.securityCheck')
+                : isContentAnalyzing
+                  ? t('chatbot.status.contentAnalysis')
+                  : t('chatbot.status.online')}
+        </p>
                   </div>
                 </div>
               </div>
@@ -402,7 +676,7 @@ export function Chatbot() {
                 </div>
 
                 {/* Quick Replies */}
-                {messages.length === 1 && (
+                {messages.length === 1 && !isRateLimited && !isFingerprintLoading && !isContentAnalyzing && !(isSuspicious && riskScore > 0.7) && canSendMessage && !(!isBehaviorHuman && behaviorRiskScore > 0.7) && (
                   <div className="px-5 pb-3 chatbot-quick-replies">
                     <div className="flex flex-wrap gap-3">
                       {quickReplies.map((reply) => (
@@ -425,29 +699,75 @@ export function Chatbot() {
                 {/* Input */}
                 <div className="p-5 chatbot-input bg-gradient-to-t from-slate-800/40 to-transparent">
                   <div className="flex items-center space-x-3">
+                    {/* Honeypot Tuzakları - Görünmez alanlar */}
+                    {honeypotFields.map((field) => (
+                      <input
+                        key={field.name}
+                        type={field.type}
+                        name={field.name}
+                        placeholder={field.placeholder}
+                        className="honeypot-field"
+                        style={field.style}
+                        tabIndex={-1}
+                        autoComplete="off"
+                        aria-hidden="true"
+                      />
+                    ))}
+                    
                     <input
                       ref={inputRef}
                       type="text"
                       value={inputValue}
                       onChange={(e) => setInputValue(e.target.value)}
-                      onKeyPress={(e) => e.key === 'Enter' && handleSendMessage(inputValue)}
-                      placeholder="Mesajınızı yazın..."
-                      className="flex-1 backdrop-blur-sm rounded-xl px-4 py-3 text-white placeholder-slate-400 text-base focus:outline-none transition-all duration-200 chatbot-input shadow-md"
+                      onKeyPress={(e) => e.key === 'Enter' && !isRateLimited && !isRecaptchaLoading && !isFingerprintLoading && !isContentAnalyzing && !(isSuspicious && riskScore > 0.7) && canSendMessage && !(!isBehaviorHuman && behaviorRiskScore > 0.7) && handleSendMessage(inputValue)}
+                      placeholder={
+                        isRateLimited 
+                          ? `${t('chatbot.placeholders.waiting')} (${retryAfter}s)` 
+                          : isFingerprintLoading
+                            ? t('chatbot.placeholders.securityCheck')
+                            : isContentAnalyzing
+                              ? t('chatbot.placeholders.contentAnalysis')
+                              : (!isBehaviorHuman && behaviorRiskScore > 0.7)
+                                ? t('chatbot.placeholders.behaviorAnalysis')
+                                : (isSuspicious && riskScore > 0.7)
+                                  ? t('chatbot.placeholders.blocked')
+                                  : t('chatbot.placeholders.typeMessage')
+                      }
+                      disabled={isRateLimited || isRecaptchaLoading || isFingerprintLoading || isContentAnalyzing || (isSuspicious && riskScore > 0.7) || !canSendMessage || (!isBehaviorHuman && behaviorRiskScore > 0.7)}
+                      className={`flex-1 backdrop-blur-sm rounded-xl px-4 py-3 text-white placeholder-slate-400 text-base focus:outline-none transition-all duration-200 chatbot-input shadow-md ${
+                        isRateLimited || isRecaptchaLoading || isFingerprintLoading || isContentAnalyzing || (isSuspicious && riskScore > 0.7) || !canSendMessage || (!isBehaviorHuman && behaviorRiskScore > 0.7) ? 'opacity-50 cursor-not-allowed' : ''
+                      }`}
                       style={{
-                        background: 'linear-gradient(135deg, rgba(30, 41, 59, 0.8) 0%, rgba(51, 65, 85, 0.6) 50%, rgba(30, 41, 59, 0.8) 100%)',
+                        background: isRateLimited || isRecaptchaLoading || isFingerprintLoading || isContentAnalyzing || (isSuspicious && riskScore > 0.7) || !canSendMessage || (!isBehaviorHuman && behaviorRiskScore > 0.7)
+                          ? 'linear-gradient(135deg, rgba(30, 41, 59, 0.4) 0%, rgba(51, 65, 85, 0.3) 50%, rgba(30, 41, 59, 0.4) 100%)'
+                          : 'linear-gradient(135deg, rgba(30, 41, 59, 0.8) 0%, rgba(51, 65, 85, 0.6) 50%, rgba(30, 41, 59, 0.8) 100%)',
                         boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
-                        border: '2px solid rgba(148, 163, 184, 0.1)'
+                        border: isRateLimited 
+                          ? '2px solid rgba(239, 68, 68, 0.3)'
+                          : isRecaptchaLoading
+                            ? '2px solid rgba(59, 130, 246, 0.3)'
+                            : (isSuspicious && riskScore > 0.7)
+                              ? '2px solid rgba(245, 158, 11, 0.3)'
+                              : '2px solid rgba(148, 163, 184, 0.1)'
                       }}
                     />
                       <motion.button
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        onClick={() => handleSendMessage(inputValue)}
-                        disabled={!inputValue.trim()}
-                        className="p-3 text-white rounded-xl disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 chatbot-button shadow-md hover:shadow-lg backdrop-blur-sm"
+                        whileHover={!isRateLimited && !isRecaptchaLoading && !isFingerprintLoading && !isContentAnalyzing && !(isSuspicious && riskScore > 0.7) && canSendMessage && !(!isBehaviorHuman && behaviorRiskScore > 0.7) ? { scale: 1.05 } : {}}
+                        whileTap={!isRateLimited && !isRecaptchaLoading && !isFingerprintLoading && !isContentAnalyzing && !(isSuspicious && riskScore > 0.7) && canSendMessage && !(!isBehaviorHuman && behaviorRiskScore > 0.7) ? { scale: 0.95 } : {}}
+                        onClick={() => !isRateLimited && !isRecaptchaLoading && !isFingerprintLoading && !isContentAnalyzing && !(isSuspicious && riskScore > 0.7) && canSendMessage && !(!isBehaviorHuman && behaviorRiskScore > 0.7) && handleSendMessage(inputValue)}
+                        disabled={!inputValue.trim() || isRateLimited || isRecaptchaLoading || isFingerprintLoading || isContentAnalyzing || (isSuspicious && riskScore > 0.7) || !canSendMessage || (!isBehaviorHuman && behaviorRiskScore > 0.7)}
+                        className={`p-3 text-white rounded-xl transition-all duration-200 chatbot-button shadow-md backdrop-blur-sm ${
+                          isRateLimited || isRecaptchaLoading || isFingerprintLoading || isContentAnalyzing || (isSuspicious && riskScore > 0.7) || !canSendMessage || (!isBehaviorHuman && behaviorRiskScore > 0.7)
+                            ? 'opacity-30 cursor-not-allowed' 
+                            : 'disabled:opacity-50 disabled:cursor-not-allowed hover:shadow-lg'
+                        }`}
                         style={{
-                          background: 'var(--chatbot-user-bg)',
-                          boxShadow: 'var(--chatbot-user-shadow)'
+                          background: isRateLimited || isRecaptchaLoading || isFingerprintLoading || isContentAnalyzing || (isSuspicious && riskScore > 0.7) || !canSendMessage || (!isBehaviorHuman && behaviorRiskScore > 0.7)
+                            ? 'rgba(100, 100, 100, 0.3)'
+                            : 'var(--chatbot-user-bg)',
+                          boxShadow: isRateLimited || isRecaptchaLoading || isFingerprintLoading || isContentAnalyzing || (isSuspicious && riskScore > 0.7) || !canSendMessage || (!isBehaviorHuman && behaviorRiskScore > 0.7)
+                            ? 'none'
+                            : 'var(--chatbot-user-shadow)'
                         }}
                       >
                       <Send className="w-5 h-5" />

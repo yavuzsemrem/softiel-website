@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { NotificationProvider } from "@/contexts/notification-context";
 import { I18nProvider } from "@/contexts/i18n-context";
 import { AppContent } from "@/components/app-content";
+import { RecaptchaProvider } from "@/components/recaptcha-provider";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -54,13 +55,15 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <I18nProvider>
-            <NotificationProvider>
-              <AppContent>
-                {children}
-              </AppContent>
-            </NotificationProvider>
-          </I18nProvider>
+          <RecaptchaProvider>
+            <I18nProvider>
+              <NotificationProvider>
+                <AppContent>
+                  {children}
+                </AppContent>
+              </NotificationProvider>
+            </I18nProvider>
+          </RecaptchaProvider>
         </ThemeProvider>
         <script
           dangerouslySetInnerHTML={{

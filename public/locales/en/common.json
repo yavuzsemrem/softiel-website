@@ -106,6 +106,52 @@
   "brand": {
     "name": "Softiel"
   },
+  "chatbot": {
+    "welcome": {
+      "greeting": "Hello! 👋",
+      "description": "I am Softiel's AI assistant. How can I help you?"
+    },
+    "initialMessage": "Hello! Welcome to Softiel! 👋 How can I help you?",
+    "quickReplies": {
+      "services": "What are your services?",
+      "pricing": "Get pricing information",
+      "projects": "I want to see your projects",
+      "contact": "Contact information"
+    },
+    "status": {
+      "online": "Online",
+      "waiting": "Please wait",
+      "securityCheck": "Security check...",
+      "contentAnalysis": "Content analysis...",
+      "behaviorAnalysis": "Behavior analysis...",
+      "blocked": "Blocked for security reasons"
+    },
+    "placeholders": {
+      "typeMessage": "Type your message...",
+      "waiting": "Please wait...",
+      "securityCheck": "Security check...",
+      "contentAnalysis": "Content analysis...",
+      "behaviorAnalysis": "Behavior analysis...",
+      "blocked": "Blocked for security reasons"
+    },
+    "errors": {
+      "behaviorSuspicious": "🤖 Behavior analysis result: Suspicious activity detected. Please interact more naturally.",
+      "honeypotBot": "🛡️ Cannot send message for security reasons. Bot activity detected.",
+      "cooldownActive": "⏰ Cooldown active. Remaining time: {time}s",
+      "contentBlocked": "🚫 Your message failed security check. {reasons}",
+      "suggestions": "💡 Suggestions: {suggestions}",
+      "suspiciousActivity": "🛡️ Cannot send message for security reasons. Risk score: {score}%",
+      "rateLimited": "⚠️ {reason}",
+      "recaptchaFailed": "🛡️ Security check failed: {error}",
+      "quotaExceeded": "ℹ️ Note: AI service is currently busy, so I'm using fallback response. Normal service will resume soon! 😊",
+      "recaptchaError": "🛡️ An error occurred during security check. Please try again."
+    },
+    "contactInfo": {
+      "phone": "+90 (555) 123 45 67",
+      "email": "info@softiel.com",
+      "workingHours": "Monday - Friday: 09:00 - 18:00"
+    }
+  },
   "quote": {
     "title": "Get Quote",
     "subtitle": "Get a free quote for your project",

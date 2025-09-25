@@ -123,6 +123,52 @@
   "brand": {
     "name": "Softiel"
   },
+  "chatbot": {
+    "welcome": {
+      "greeting": "Merhaba! 👋",
+      "description": "Ben Softiel yapay zeka asistanıyım. Size nasıl yardımcı olabilirim?"
+    },
+    "initialMessage": "Merhaba! Softiel'e hoş geldiniz! 👋 Size nasıl yardımcı olabilirim?",
+    "quickReplies": {
+      "services": "Hizmetleriniz neler?",
+      "pricing": "Fiyat bilgisi al",
+      "projects": "Projelerinizi görmek istiyorum",
+      "contact": "İletişim bilgileri"
+    },
+    "status": {
+      "online": "Çevrimiçi",
+      "waiting": "Bekleyin",
+      "securityCheck": "Güvenlik kontrolü...",
+      "contentAnalysis": "İçerik analizi...",
+      "behaviorAnalysis": "Davranış analizi...",
+      "blocked": "Güvenlik nedeniyle engellendi"
+    },
+    "placeholders": {
+      "typeMessage": "Mesajınızı yazın...",
+      "waiting": "Bekleyin...",
+      "securityCheck": "Güvenlik kontrolü...",
+      "contentAnalysis": "İçerik analizi...",
+      "behaviorAnalysis": "Davranış analizi...",
+      "blocked": "Güvenlik nedeniyle engellendi"
+    },
+    "errors": {
+      "behaviorSuspicious": "🤖 Davranış analizi sonucu: Şüpheli aktivite tespit edildi. Lütfen daha doğal bir şekilde etkileşim kurun.",
+      "honeypotBot": "🛡️ Güvenlik nedeniyle mesaj gönderemezsiniz. Bot aktivitesi tespit edildi.",
+      "cooldownActive": "⏰ Bekleme süresi aktif. Kalan süre: {time}s",
+      "contentBlocked": "🚫 Mesajınız güvenlik kontrolünden geçemedi. {reasons}",
+      "suggestions": "💡 Öneriler: {suggestions}",
+      "suspiciousActivity": "🛡️ Güvenlik nedeniyle mesaj gönderemezsiniz. Risk skoru: {score}%",
+      "rateLimited": "⚠️ {reason}",
+      "recaptchaFailed": "🛡️ Güvenlik kontrolü başarısız: {error}",
+      "quotaExceeded": "ℹ️ Not: AI servisi şu anda yoğun olduğu için fallback yanıt kullanıyorum. Normal hizmet yakında devam edecek! 😊",
+      "recaptchaError": "🛡️ Güvenlik kontrolü sırasında bir hata oluştu. Lütfen tekrar deneyin."
+    },
+    "contactInfo": {
+      "phone": "+90 (555) 123 45 67",
+      "email": "info@softiel.com",
+      "workingHours": "Pazartesi - Cuma: 09:00 - 18:00"
+    }
+  },
   "quote": {
     "title": "Teklif Al",
     "subtitle": "Projeniz için ücretsiz teklif alın",

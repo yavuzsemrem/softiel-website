@@ -14,7 +14,8 @@ import {
   Globe,
   FileText,
   Share2,
-  ArrowRight
+  ArrowRight,
+  Sparkles
 } from "lucide-react"
 
 const services = [
@@ -24,7 +25,7 @@ const services = [
     description: "Modern, kullanıcı dostu ve responsive web tasarımları",
     features: ["UI/UX Tasarım", "Responsive Design", "Prototipleme"],
     href: "/hizmetlerimiz/web-tasarim",
-    color: "from-blue-500 to-cyan-500"
+    color: "from-blue-500 to-blue-600"
   },
   {
     icon: Code,
@@ -32,7 +33,7 @@ const services = [
     description: "Hızlı, güvenli ve ölçeklenebilir web uygulamaları",
     features: ["Frontend Geliştirme", "Backend Geliştirme", "API Entegrasyonu"],
     href: "/hizmetlerimiz/web-gelistirme",
-    color: "from-blue-500 to-cyan-500"
+    color: "from-cyan-500 to-cyan-600"
   },
   {
     icon: Smartphone,
@@ -40,7 +41,7 @@ const services = [
     description: "iOS ve Android için native ve cross-platform uygulamalar",
     features: ["Native Uygulama", "React Native", "Flutter"],
     href: "/hizmetlerimiz/mobil-uygulama",
-    color: "from-sky-500 to-blue-500"
+    color: "from-sky-500 to-sky-600"
   },
   {
     icon: Search,
@@ -48,7 +49,7 @@ const services = [
     description: "Arama motorlarında üst sıralarda yer alın",
     features: ["Teknik SEO", "İçerik Optimizasyonu", "Link Building"],
     href: "/hizmetlerimiz/seo-optimizasyonu",
-    color: "from-indigo-500 to-blue-500"
+    color: "from-purple-500 to-purple-600"
   },
   {
     icon: Target,
@@ -56,53 +57,21 @@ const services = [
     description: "Hedefli reklam kampanyaları ile müşteri kazanın",
     features: ["Kampanya Yönetimi", "A/B Testing", "ROI Optimizasyonu"],
     href: "/hizmetlerimiz/google-ads",
-    color: "from-blue-500 to-cyan-500"
+    color: "from-indigo-500 to-indigo-600"
   },
   {
     icon: Bot,
-    title: "Yapay Zeka Entegrasyonu",
+    title: "Yapay Zeka",
     description: "AI teknolojileri ile işinizi geleceğe taşıyın",
     features: ["Chatbot Geliştirme", "Makine Öğrenmesi", "Otomasyon"],
     href: "/hizmetlerimiz/yapay-zeka",
-    color: "from-cyan-500 to-blue-500"
-  },
-  {
-    icon: PenTool,
-    title: "Logo Tasarım",
-    description: "Markanızı yansıtan profesyonel logo tasarımları",
-    features: ["Kurumsal Kimlik", "Logo Tasarım", "Brand Guidelines"],
-    href: "/hizmetlerimiz/logo-tasarim",
-    color: "from-sky-500 to-indigo-500"
-  },
-  {
-    icon: Globe,
-    title: "WordPress",
-    description: "Kolay yönetilebilir WordPress siteleri",
-    features: ["Tema Geliştirme", "Plugin Özelleştirme", "Güvenlik"],
-    href: "/hizmetlerimiz/wordpress",
-    color: "from-cyan-500 to-sky-500"
-  },
-  {
-    icon: FileText,
-    title: "İçerik Üretimi",
-    description: "SEO uyumlu ve etkili içerik stratejileri",
-    features: ["Blog Yazıları", "Sosyal Medya İçerik", "Video İçerik"],
-    href: "/hizmetlerimiz/icerik-uretimi",
-    color: "from-blue-500 to-indigo-500"
-  },
-  {
-    icon: Share2,
-    title: "Sosyal Medya Yönetimi",
-    description: "Sosyal medyada güçlü bir varlık oluşturun",
-    features: ["İçerik Planlama", "Topluluk Yönetimi", "Analiz"],
-    href: "/hizmetlerimiz/sosyal-medya",
-    color: "from-indigo-500 to-blue-500"
+    color: "from-pink-500 to-pink-600"
   }
 ]
 
-export function Services() {
+export function ServicesNew() {
   return (
-    <section className="py-16 lg:py-24">
+    <section id="services" className="py-16 lg:py-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         {/* Header */}
         <motion.div
@@ -119,7 +88,7 @@ export function Services() {
             viewport={{ once: true }}
             className="inline-flex items-center space-x-2 glass rounded-full px-6 py-3 shadow-modern mb-8"
           >
-            <Palette className="h-5 w-5 text-cyan-500 fill-current" />
+            <Sparkles className="h-5 w-5 text-cyan-500 fill-current" />
             <span className="text-sm font-semibold text-neutral-700 dark:text-neutral-300">
               Hizmetlerimiz
             </span>
@@ -147,7 +116,7 @@ export function Services() {
               className="group"
             >
               <Link href={service.href}>
-                <div className="glass rounded-xl p-6 lg:p-8 shadow-modern border border-white/50 dark:border-white/40 text-center group cursor-pointer block backdrop-blur-lg dark:[border:1px_solid_rgba(255,255,255,0.2)] hover:bg-white/15 dark:hover:bg-gray-800 transition-all duration-300 h-full"
+                <div className="glass rounded-xl p-6 lg:p-8 shadow-modern border border-white/50 dark:border-white/40 group cursor-pointer block backdrop-blur-lg dark:[border:1px_solid_rgba(255,255,255,0.2)] hover:bg-white/15 dark:hover:bg-gray-800 transition-all duration-300 h-full"
                      style={{ background: 'rgba(148, 148, 148, 0.1)' }}>
                   {/* Icon */}
                   <div className={`w-12 h-12 lg:w-16 lg:h-16 bg-gradient-to-r ${service.color} rounded-xl flex items-center justify-center mx-auto mb-4 lg:mb-6 shadow-modern group-hover:scale-110 transition-transform duration-300`}>
@@ -155,11 +124,11 @@ export function Services() {
                   </div>
 
                   {/* Content */}
-                  <h3 className="text-lg lg:text-xl font-semibold text-neutral-900 dark:text-white mb-3 lg:mb-4 group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">
+                  <h3 className="text-lg lg:text-xl font-semibold text-neutral-900 dark:text-white mb-3 lg:mb-4 group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors text-center">
                     {service.title}
                   </h3>
                   
-                  <p className="text-neutral-600 dark:text-neutral-400 mb-4 lg:mb-6 leading-relaxed text-sm lg:text-base">
+                  <p className="text-neutral-600 dark:text-neutral-400 mb-4 lg:mb-6 leading-relaxed text-sm lg:text-base text-center">
                     {service.description}
                   </p>
 
@@ -217,4 +186,3 @@ export function Services() {
     </section>
   )
 }
-
