@@ -119,6 +119,10 @@
       "projects": "أريد أن أرى مشاريعكم",
       "contact": "معلومات الاتصال"
     },
+    "whatsappButton": "تواصل معنا الآن",
+    "servicesButton": "عرض خدماتنا",
+    "pricingButton": "عرض الأسعار",
+    "projectsButton": "عرض مشاريعنا",
     "status": {
       "online": "متصل",
       "waiting": "يرجى الانتظار",

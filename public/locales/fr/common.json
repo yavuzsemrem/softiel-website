@@ -119,6 +119,10 @@
       "projects": "Je veux voir vos projets",
       "contact": "Informations de contact"
     },
+    "whatsappButton": "Contactez-nous Maintenant",
+    "servicesButton": "Voir nos services",
+    "pricingButton": "Voir les prix",
+    "projectsButton": "Voir nos projets",
     "status": {
       "online": "En ligne",
       "waiting": "Veuillez patienter",

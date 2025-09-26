@@ -4,273 +4,181 @@ import React from "react"
 import Link from "next/link"
 import { motion } from "framer-motion"
 import { 
-  Target, 
-  Users, 
-  Lightbulb, 
-  Award, 
-  CheckCircle,
-  ArrowRight,
-  Play,
-  Sparkles,
-  Shield,
-  Clock
+  Rocket, 
+  Zap, 
+  Globe, 
+  Shield, 
+  Users,
+  Award,
+  Cpu
 } from "lucide-react"
 
-const values = [
+const features = [
   {
-    icon: Target,
-    title: "Hedef Odaklı",
-    description: "Her projede müşterinin hedeflerine ulaşmasını sağlıyoruz"
+    icon: Rocket,
+    title: "Hızlı Teslimat",
+    description: "Projelerinizi zamanında ve kaliteli şekilde teslim ediyoruz",
+    color: "from-blue-500 to-blue-600"
+  },
+  {
+    icon: Zap,
+    title: "Modern Teknoloji",
+    description: "En güncel teknolojileri kullanarak geleceğe uygun çözümler sunuyoruz",
+    color: "from-yellow-500 to-orange-500"
+  },
+  {
+    icon: Globe,
+    title: "Global Standart",
+    description: "Uluslararası kalite standartlarında hizmet veriyoruz",
+    color: "from-green-500 to-emerald-500"
+  },
+  {
+    icon: Shield,
+    title: "Güvenli Çözümler",
+    description: "Verilerinizi koruyan güvenli ve şifreli sistemler geliştiriyoruz",
+    color: "from-purple-500 to-violet-500"
   },
   {
     icon: Users,
-    title: "Müşteri Memnuniyeti",
-    description: "Müşteri memnuniyeti bizim önceliğimizdir"
-  },
-  {
-    icon: Lightbulb,
-    title: "İnovasyon",
-    description: "Sürekli gelişen teknolojileri takip ediyoruz"
+    title: "Uzman Ekip",
+    description: "Deneyimli ve uzman kadromuzla en iyi çözümleri sunuyoruz",
+    color: "from-cyan-500 to-teal-500"
   },
   {
     icon: Award,
-    title: "Kalite",
-    description: "En yüksek kalite standartlarında çalışıyoruz"
+    title: "Kalite Garantisi",
+    description: "Her projede en yüksek kalite standartlarını uyguluyoruz",
+    color: "from-pink-500 to-rose-500"
   }
 ]
 
-const achievements = [
-  "500+ Başarılı Proje",
-  "50+ Mutlu Müşteri",
-  "5+ Yıl Deneyim",
-  "99% Müşteri Memnuniyeti"
+const processSteps = [
+  { step: "01", title: "Analiz & Planlama", description: "Projenizi detaylı analiz eder, strateji geliştiririz" },
+  { step: "02", title: "Tasarım & Geliştirme", description: "Modern tasarım ve kodlama ile hayata geçiririz" },
+  { step: "03", title: "Test & Optimizasyon", description: "Kalite kontrolü ve performans optimizasyonu yaparız" },
+  { step: "04", title: "Teslimat & Destek", description: "Projeyi teslim eder, sürekli destek sağlarız" },
+  { step: "05", title: "İzleme & Raporlama", description: "Proje performansını takip eder, detaylı raporlar sunarız" },
+  { step: "06", title: "Sürekli İyileştirme", description: "Kullanıcı geri bildirimlerine göre sürekli güncelleme yaparız" }
 ]
 
 export function AboutNew() {
   return (
-    <section className="py-16 lg:py-24">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-          {/* Left Content */}
+    <section className="relative py-20 lg:py-32 overflow-hidden">
+      {/* Background Effects */}
+      <div className="absolute inset-0">
+        <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-cyan-500/10 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-purple-500/10 rounded-full blur-3xl"></div>
+      </div>
+      
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+          className="text-center mb-20"
+        >
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1, duration: 0.6 }}
+            viewport={{ once: true }}
+            className="inline-flex items-center space-x-2 glass rounded-full px-6 py-3 shadow-modern mb-8"
+            style={{ background: 'rgba(255, 255, 255, 0.1)' }}
+          >
+            <Cpu className="h-5 w-5 text-cyan-500 fill-current" />
+            <span className="text-sm font-semibold text-neutral-700 dark:text-neutral-300">
+              Teknoloji & İnovasyon
+            </span>
+          </motion.div>
+
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-display font-bold text-neutral-900 dark:text-white mb-8 leading-tight">
+            Geleceği{" "}
+            <span className="bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 bg-clip-text text-transparent">
+              İnşa Ediyoruz
+            </span>
+          </h2>
+          <p className="text-base sm:text-lg lg:text-xl text-neutral-600 dark:text-neutral-400 mb-16 max-w-4xl mx-auto leading-relaxed">
+            Cutting-edge teknolojiler ve yaratıcı çözümlerle markanızı dijital dünyada öne çıkarıyoruz. 
+            Her proje bir hikaye, her kod satırı bir adım daha yakın geleceğe.
+          </p>
+        </motion.div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-20">
+          {/* Left Content - Features */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
+            className="space-y-6"
           >
-            {/* Badge */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2, duration: 0.6 }}
-              viewport={{ once: true }}
-              className="inline-flex items-center space-x-2 glass rounded-full px-6 py-3 shadow-modern mb-8"
-            >
-              <Award className="h-5 w-5 text-cyan-500 fill-current" />
-              <span className="text-sm font-semibold text-neutral-700 dark:text-neutral-300">Güvenilir Partner</span>
-            </motion.div>
-
-            {/* Title */}
-            <motion.h2
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3, duration: 0.6 }}
-              viewport={{ once: true }}
-              className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold text-neutral-900 dark:text-white mb-6"
-            >
-              Dijital Dünyada{" "}
-              <span className="bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 bg-clip-text text-transparent">
-                Güvenilir Partneriniz
-              </span>
-            </motion.h2>
-
-            {/* Description */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4, duration: 0.6 }}
-              viewport={{ once: true }}
-              className="space-y-4 mb-8"
-            >
-              <p className="text-lg text-neutral-600 dark:text-neutral-400 leading-relaxed">
-                2019 yılından beri dijital dünyada faaliyet gösteren Softiel, 
-                müşterilerinin dijital dönüşüm yolculuğunda güvenilir bir partner olarak 
-                hizmet vermektedir.
-              </p>
-              <p className="text-lg text-neutral-600 dark:text-neutral-400 leading-relaxed">
-                Modern teknolojiler, yaratıcı tasarım anlayışı ve deneyimli ekibimizle 
-                markanızı dijital dünyada öne çıkarıyor, hedeflerinize ulaşmanızı sağlıyoruz.
-              </p>
-            </motion.div>
-
-            {/* Values */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5, duration: 0.6 }}
-              viewport={{ once: true }}
-              className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8"
-            >
-              {values.map((value, index) => (
-                <div key={index} className="flex items-start space-x-4">
-                  <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-lg flex items-center justify-center shadow-modern">
-                    <value.icon className="h-6 w-6 text-white" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-neutral-900 dark:text-white mb-1">
-                      {value.title}
-                    </h3>
-                    <p className="text-sm text-neutral-600 dark:text-neutral-400">
-                      {value.description}
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </motion.div>
-
-            {/* CTA Buttons */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.7, duration: 0.6 }}
-              viewport={{ once: true }}
-              className="flex flex-col sm:flex-row gap-4"
-            >
-              <Link href="/hakkimizda">
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="group flex items-center space-x-2 text-white px-6 py-3 rounded-2xl font-semibold shadow-modern hover:shadow-modern-lg transition-all duration-200"
-                  style={{ background: 'linear-gradient(to right, #06b6d4, #3b82f6)' }}
+            {/* Features Grid */}
+            <div className="grid grid-cols-1 gap-6">
+              {features.map((feature, index) => (
+                <motion.div
+                  key={feature.title}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.1, duration: 0.6 }}
+                  viewport={{ once: true }}
+                  className="glass rounded-2xl p-6 shadow-modern border border-white/50 dark:border-white/40 backdrop-blur-lg dark:[border:1px_solid_rgba(255,255,255,0.2)] hover:bg-white/20 dark:hover:bg-white/10 transition-all duration-300 group"
+                  style={{ background: 'rgba(255, 255, 255, 0.1)' }}
                 >
-                  <span>Daha Fazla Bilgi</span>
-                  <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                </motion.button>
-              </Link>
-
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="group flex items-center space-x-2 glass px-6 py-3 rounded-2xl font-semibold text-neutral-700 dark:text-neutral-300 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-200 border border-white/20"
-                style={{ background: 'rgba(148, 148, 148, 0.1)' }}
-              >
-                <Play className="h-4 w-4 group-hover:scale-110 transition-transform" />
-                <span>Hikayemizi İzleyin</span>
-              </motion.button>
-            </motion.div>
+                  <div className="flex items-center space-x-4">
+                    <div className={`w-16 h-16 bg-gradient-to-r ${feature.color} rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 flex-shrink-0`}>
+                      <feature.icon className="h-8 w-8 text-white" />
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="text-xl font-bold text-neutral-900 dark:text-white mb-2">
+                        {feature.title}
+                      </h3>
+                      <p className="text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">
+                        {feature.description}
+                      </p>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
           </motion.div>
 
-          {/* Right Content - Stats Cards */}
+          {/* Right Content - Process Steps */}
           <motion.div
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.4, duration: 0.8 }}
             viewport={{ once: true }}
-            className="relative"
+            className="space-y-6"
           >
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              {/* Main Stats Card */}
-              <div className="sm:col-span-2 glass rounded-2xl p-8 shadow-modern-lg border border-white/50 dark:border-white/40 backdrop-blur-lg dark:[border:1px_solid_rgba(255,255,255,0.2)]"
-                   style={{ background: 'rgba(255, 255, 255, 0.1)' }}>
-                <div className="text-center mb-6">
-                  <div className="w-20 h-20 bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 rounded-full mx-auto mb-4 flex items-center justify-center shadow-modern">
-                    <span className="text-2xl font-bold text-white">S</span>
-                  </div>
-                  <h3 className="text-xl font-semibold text-neutral-900 dark:text-white mb-2">
-                    Softiel Ekibi
-                  </h3>
-                  <p className="text-neutral-600 dark:text-neutral-400">
-                    Uzman ve deneyimli kadromuz
-                  </p>
-                </div>
-
-                {/* Team Stats */}
-                <div className="grid grid-cols-2 gap-4 mb-6">
-                  <div className="text-center p-4 glass rounded-lg"
-                       style={{ background: 'rgba(148, 148, 148, 0.1)' }}>
-                    <div className="text-2xl font-bold text-cyan-600 dark:text-cyan-400">15+</div>
-                    <div className="text-sm text-neutral-600 dark:text-neutral-400">Uzman</div>
-                  </div>
-                  <div className="text-center p-4 glass rounded-lg"
-                       style={{ background: 'rgba(148, 148, 148, 0.1)' }}>
-                    <div className="text-2xl font-bold text-cyan-600 dark:text-cyan-400">5+</div>
-                    <div className="text-sm text-neutral-600 dark:text-neutral-400">Yıl</div>
-                  </div>
-                </div>
-
-                {/* Skills */}
-                <div className="space-y-3">
-                  <div className="flex justify-between text-sm">
-                    <span className="text-neutral-600 dark:text-neutral-400">Web Tasarım</span>
-                    <span className="text-neutral-900 dark:text-white font-semibold">95%</span>
-                  </div>
-                  <div className="w-full bg-neutral-200 dark:bg-neutral-600 rounded-full h-2">
-                    <div className="bg-gradient-to-r from-cyan-500 to-blue-500 h-2 rounded-full" style={{ width: '95%' }}></div>
-                  </div>
-
-                  <div className="flex justify-between text-sm">
-                    <span className="text-neutral-600 dark:text-neutral-400">Web Geliştirme</span>
-                    <span className="text-neutral-900 dark:text-white font-semibold">90%</span>
-                  </div>
-                  <div className="w-full bg-neutral-200 dark:bg-neutral-600 rounded-full h-2">
-                    <div className="bg-gradient-to-r from-blue-500 to-purple-500 h-2 rounded-full" style={{ width: '90%' }}></div>
-                  </div>
-
-                  <div className="flex justify-between text-sm">
-                    <span className="text-neutral-600 dark:text-neutral-400">SEO</span>
-                    <span className="text-neutral-900 dark:text-white font-semibold">88%</span>
-                  </div>
-                  <div className="w-full bg-neutral-200 dark:bg-neutral-600 rounded-full h-2">
-                    <div className="bg-gradient-to-r from-purple-500 to-pink-500 h-2 rounded-full" style={{ width: '88%' }}></div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Achievement Cards */}
-              <div className="glass rounded-xl p-6 shadow-modern border border-white/50 dark:border-white/40 backdrop-blur-lg dark:[border:1px_solid_rgba(255,255,255,0.2)]"
-                   style={{ background: 'rgba(148, 148, 148, 0.1)' }}>
-                <div className="flex items-center space-x-3 mb-4">
-                  <div className="w-8 h-8 bg-gradient-to-r from-green-500 to-emerald-500 rounded-lg flex items-center justify-center">
-                    <CheckCircle className="h-4 w-4 text-white" />
-                  </div>
-                  <h3 className="font-semibold text-neutral-900 dark:text-white">Başarılarımız</h3>
-                </div>
-                <div className="space-y-2">
-                  {achievements.map((achievement, index) => (
-                    <div key={index} className="flex items-center space-x-2">
-                      <div className="w-1.5 h-1.5 bg-cyan-500 rounded-full"></div>
-                      <span className="text-sm text-neutral-600 dark:text-neutral-400">
-                        {achievement}
-                      </span>
+            {/* Process Steps */}
+            <div className="space-y-6">
+              {processSteps.map((step, index) => (
+                <motion.div
+                  key={step.step}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.1, duration: 0.6 }}
+                  viewport={{ once: true }}
+                  className="glass rounded-2xl p-6 shadow-modern border border-white/50 dark:border-white/40 backdrop-blur-lg dark:[border:1px_solid_rgba(255,255,255,0.2)] hover:bg-white/20 dark:hover:bg-white/10 transition-all duration-300 group"
+                  style={{ background: 'rgba(255, 255, 255, 0.1)' }}
+                >
+                  <div className="flex items-center space-x-4">
+                    <div className="w-16 h-16 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 flex-shrink-0">
+                      <span className="text-xl font-bold text-white">{step.step}</span>
                     </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Trust Indicators */}
-              <div className="glass rounded-xl p-6 shadow-modern border border-white/50 dark:border-white/40 backdrop-blur-lg dark:[border:1px_solid_rgba(255,255,255,0.2)]"
-                   style={{ background: 'rgba(148, 148, 148, 0.1)' }}>
-                <div className="flex items-center space-x-3 mb-4">
-                  <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-lg flex items-center justify-center">
-                    <Shield className="h-4 w-4 text-white" />
+                    <div className="flex-1">
+                      <h3 className="text-xl font-bold text-neutral-900 dark:text-white mb-2">
+                        {step.title}
+                      </h3>
+                      <p className="text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">
+                        {step.description}
+                      </p>
+                    </div>
                   </div>
-                  <h3 className="font-semibold text-neutral-900 dark:text-white">Güvenilirlik</h3>
-                </div>
-                <div className="space-y-3">
-                  <div className="flex items-center space-x-2">
-                    <Clock className="h-4 w-4 text-cyan-500" />
-                    <span className="text-sm text-neutral-600 dark:text-neutral-400">7/24 Destek</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <Shield className="h-4 w-4 text-cyan-500" />
-                    <span className="text-sm text-neutral-600 dark:text-neutral-400">Güvenli Ödeme</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <Award className="h-4 w-4 text-cyan-500" />
-                    <span className="text-sm text-neutral-600 dark:text-neutral-400">Garantili Hizmet</span>
-                  </div>
-                </div>
-              </div>
+                </motion.div>
+              ))}
             </div>
           </motion.div>
         </div>
@@ -278,3 +186,5 @@ export function AboutNew() {
     </section>
   )
 }
+
+

@@ -235,3 +235,5 @@ export function rotateHoneypotFields(): Array<{
   const randomCount = Math.floor(Math.random() * 3) + 2; // 2-4 arası
   return getRandomHoneypotFields(randomCount);
 }
+
+

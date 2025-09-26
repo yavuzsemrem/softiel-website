@@ -135,6 +135,10 @@
       "projects": "Projelerinizi görmek istiyorum",
       "contact": "İletişim bilgileri"
     },
+    "whatsappButton": "Şimdi Bize Ulaşın",
+    "servicesButton": "Hizmetlerimizi İncele",
+    "pricingButton": "Fiyatlandırmayı İncele",
+    "projectsButton": "Projelerimizi İncele",
     "status": {
       "online": "Çevrimiçi",
       "waiting": "Bekleyin",

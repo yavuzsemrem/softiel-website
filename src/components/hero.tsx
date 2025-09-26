@@ -1,9 +1,9 @@
 "use client"
 
-import React, { useEffect, useState } from "react"
+import React from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { motion, useScroll, useTransform } from "framer-motion"
+import { motion } from "framer-motion"
 import { 
   ArrowRight, 
   Play, 
@@ -20,462 +20,381 @@ import {
   Award,
   Target,
   Lightbulb,
-  Layers,
-  Cpu,
-  Database,
-  Cloud
+  MessageCircle,
+  Phone
 } from "lucide-react"
 
 export function Hero() {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
-  const { scrollYProgress } = useScroll()
-  
-  // Parallax transforms
-  const y1 = useTransform(scrollYProgress, [0, 1], [0, -300])
-  const y2 = useTransform(scrollYProgress, [0, 1], [0, -150])
-  const y3 = useTransform(scrollYProgress, [0, 1], [0, -100])
-  const y4 = useTransform(scrollYProgress, [0, 1], [0, -200])
-  const y5 = useTransform(scrollYProgress, [0, 1], [0, -250])
-  
-  // Logo parallax
-  const logoY = useTransform(scrollYProgress, [0, 1], [0, -100])
-  const logoScale = useTransform(scrollYProgress, [0, 1], [1, 0.8])
-  const logoRotate = useTransform(scrollYProgress, [0, 1], [0, 360])
-  
-  // Background elements parallax
-  const bgY1 = useTransform(scrollYProgress, [0, 1], [0, -400])
-  const bgY2 = useTransform(scrollYProgress, [0, 1], [0, -200])
-  const bgY3 = useTransform(scrollYProgress, [0, 1], [0, -300])
-  
-  // Mouse tracking for interactive parallax
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({
-        x: (e.clientX - window.innerWidth / 2) / 50,
-        y: (e.clientY - window.innerHeight / 2) / 50
-      })
-    }
-    
-    window.addEventListener('mousemove', handleMouseMove)
-    return () => window.removeEventListener('mousemove', handleMouseMove)
-  }, [])
-
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Parallax Background Layers */}
-      <div className="absolute inset-0 overflow-hidden">
-        {/* Background Gradient Orbs with Parallax */}
+      {/* Cinematic Background */}
+      <div className="absolute inset-0">
+        {/* Hero Image Background with Cinematic Effect */}
+        <div className="absolute inset-0">
+          <Image
+            src="/images/hero1.png"
+            alt="Softiel Hero"
+            fill
+            className="object-cover object-center"
+            priority
+            quality={100}
+          />
+          
+          {/* Cinematic Dark Overlay */}
+          <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/60 to-black/90"></div>
+          
+          {/* Film Grain Effect */}
+          <div className="absolute inset-0 opacity-20 mix-blend-overlay animate-pulse bg-noise"></div>
+        </div>
+
+        {/* Cinematic Light Beams */}
         <motion.div
-          style={{ y: bgY1, x: mousePosition.x * 0.5 }}
-          className="absolute -top-40 -right-40 w-96 h-96 bg-gradient-to-r from-cyan-400/30 via-blue-500/20 to-purple-500/30 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl"
-        />
-        <motion.div
-          style={{ y: bgY2, x: mousePosition.x * -0.3 }}
-          className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-r from-purple-400/30 via-pink-500/20 to-rose-500/30 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl"
-        />
-        <motion.div
-          style={{ y: bgY3, x: mousePosition.x * 0.2 }}
-          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-gradient-to-r from-sky-400/20 via-cyan-500/15 to-teal-500/20 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-2xl"
-        />
-        
-        {/* Additional Parallax Elements */}
-        <motion.div
-          style={{ y: y1, x: mousePosition.x * 0.4 }}
-          className="absolute top-1/4 left-1/4 w-32 h-32 bg-gradient-to-r from-yellow-400/15 to-orange-500/15 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-2xl"
-        />
-        <motion.div
-          style={{ y: y2, x: mousePosition.x * -0.2 }}
-          className="absolute bottom-1/4 right-1/4 w-24 h-24 bg-gradient-to-r from-emerald-400/15 to-green-500/15 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-2xl"
-        />
-        
-        {/* Grid Pattern with Parallax */}
-        <motion.div
-          style={{ 
-            y: y3,
-            backgroundImage: "url('data:image/svg+xml,%3Csvg width=\"60\" height=\"60\" viewBox=\"0 0 60 60\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Cg fill=\"none\" fill-rule=\"evenodd\"%3E%3Cg fill=\"%23ffffff\" fill-opacity=\"0.03\"%3E%3Ccircle cx=\"30\" cy=\"30\" r=\"1\"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')"
+          animate={{ 
+            opacity: [0.1, 0.4, 0.1],
+            scale: [0.8, 1.2, 0.8],
+            rotate: [0, 10, -10, 0]
           }}
-          className="absolute inset-0 opacity-40"
+          transition={{ 
+            duration: 8,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+          className="absolute top-0 left-1/4 w-96 h-full bg-gradient-to-b from-cyan-500/30 via-transparent to-transparent transform -skew-x-12 blur-sm"
         />
         
-        {/* Floating Tech Icons with Parallax */}
         <motion.div
-          style={{ 
-            y: y4, 
-            x: mousePosition.x * 0.3,
-            background: 'rgba(255, 255, 255, 0.1)'
+          animate={{ 
+            opacity: [0.1, 0.3, 0.1],
+            scale: [1, 1.1, 1],
+            rotate: [0, -5, 5, 0]
           }}
-          className="absolute top-20 left-20 w-16 h-16 glass rounded-2xl flex items-center justify-center shadow-2xl border border-white/20 backdrop-blur-lg"
-        >
-          <Code className="h-8 w-8 text-cyan-400" />
-        </motion.div>
+          transition={{ 
+            duration: 12,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 2
+          }}
+          className="absolute top-0 right-1/3 w-80 h-full bg-gradient-to-b from-blue-500/20 via-transparent to-transparent transform skew-x-6 blur-sm"
+        />
+
+        {/* Floating Cinematic Particles */}
+        {[...Array(25)].map((_, i) => (
+        <motion.div
+            key={i}
+            initial={{ 
+              x: Math.random() * (typeof window !== 'undefined' ? window.innerWidth : 1920),
+              y: Math.random() * (typeof window !== 'undefined' ? window.innerHeight : 1080),
+              opacity: 0
+            }}
+          animate={{ 
+              y: [null, -300],
+              x: [null, Math.random() * 100 - 50],
+              opacity: [0, 0.8, 0],
+              scale: [0, 1, 0]
+          }}
+          transition={{ 
+              duration: Math.random() * 5 + 4,
+            repeat: Infinity,
+              delay: Math.random() * 4,
+              ease: "easeOut"
+            }}
+            className="absolute w-1 h-8 bg-gradient-to-t from-cyan-400/60 to-transparent rounded-full shadow-lg"
+            style={{
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+              boxShadow: '0 0 20px rgba(34, 211, 238, 0.4)'
+            }}
+          />
+        ))}
+
+        {/* Cinematic Vignette */}
+        <div className="absolute inset-0 bg-gradient-radial from-transparent via-transparent to-black/60"></div>
         
+        {/* Animated Spotlight Effect */}
         <motion.div
-          style={{ 
-            y: y5, 
-            x: mousePosition.x * -0.4,
-            background: 'rgba(255, 255, 255, 0.1)'
+          animate={{ 
+            opacity: [0.2, 0.5, 0.2],
+            scale: [1, 1.3, 1]
           }}
-          className="absolute top-32 right-20 w-16 h-16 glass rounded-2xl flex items-center justify-center shadow-2xl border border-white/20 backdrop-blur-lg"
-        >
-          <Database className="h-8 w-8 text-blue-400" />
-        </motion.div>
-        
-        <motion.div
-          style={{ 
-            y: y1, 
-            x: mousePosition.x * 0.6,
-            background: 'rgba(255, 255, 255, 0.1)'
+          transition={{ 
+            duration: 6,
+            repeat: Infinity,
+            ease: "easeInOut"
           }}
-          className="absolute bottom-40 left-20 w-16 h-16 glass rounded-2xl flex items-center justify-center shadow-2xl border border-white/20 backdrop-blur-lg"
-        >
-          <Cloud className="h-8 w-8 text-purple-400" />
-        </motion.div>
-        
-        <motion.div
-          style={{ 
-            y: y2, 
-            x: mousePosition.x * -0.5,
-            background: 'rgba(255, 255, 255, 0.1)'
-          }}
-          className="absolute bottom-20 right-10 w-16 h-16 glass rounded-2xl flex items-center justify-center shadow-2xl border border-white/20 backdrop-blur-lg"
-        >
-          <Cpu className="h-8 w-8 text-pink-400" />
-        </motion.div>
+          className="absolute inset-0 bg-gradient-radial from-white/5 via-transparent to-transparent"
+        />
       </div>
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 w-full">
-        <div className="text-center">
-          {/* Parallax Logo Section */}
+      {/* Main Content */}
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 sm:pt-40 lg:pt-48 pb-16 sm:pb-20 lg:pb-24 w-full">
+        <div className="text-center space-y-8 sm:space-y-12 lg:space-y-16">
+
+          {/* Main Hero Title with Enhanced Cinematic Effects */}
           <motion.div
-            style={{ y: logoY, scale: logoScale, rotate: logoRotate }}
-            className="mb-16"
+            initial={{ opacity: 0, y: 60 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ 
+              duration: 1.8, 
+              delay: 0.2,
+              ease: [0.25, 0.46, 0.45, 0.94]
+            }}
+            className="space-y-4"
           >
-            <div className="relative inline-block">
-              {/* Logo Container with Parallax Effects */}
-              <div className="w-40 h-40 mx-auto mb-8 relative">
-                {/* Animated Glow Rings */}
-                <motion.div
-                  animate={{ 
-                    scale: [1, 1.2, 1],
-                    opacity: [0.3, 0.7, 0.3]
-                  }}
-                  transition={{ 
-                    duration: 4,
-                    repeat: Infinity,
-                    ease: "easeInOut"
-                  }}
-                  className="absolute inset-0 bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 rounded-full blur-2xl opacity-40"
-                />
-                <motion.div
-                  animate={{ 
-                    scale: [1, 1.1, 1],
-                    opacity: [0.5, 0.9, 0.5]
-                  }}
-                  transition={{ 
-                    duration: 3,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                    delay: 1
-                  }}
-                  className="absolute inset-2 bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 rounded-full blur-xl opacity-60"
-                />
-                
-                {/* Logo with Parallax */}
-                <motion.div
-                  style={{ 
-                    x: mousePosition.x * 0.1,
-                    y: mousePosition.y * 0.1,
-                    background: 'rgba(255, 255, 255, 0.15)'
-                  }}
-                  className="relative w-full h-full glass rounded-full flex items-center justify-center backdrop-blur-lg border border-white/30 shadow-2xl"
-                >
-                  <Image
-                    src="/transparent.png"
-                    alt="Softiel Logo"
-                    width={80}
-                    height={80}
-                    className="w-20 h-20 object-contain"
-                    priority
-                  />
-                </motion.div>
-                
-                {/* Floating Particles with Parallax */}
-                {[...Array(8)].map((_, i) => (
-                  <motion.div
-                    key={i}
-                    style={{
-                      x: mousePosition.x * (0.2 + i * 0.05),
-                      y: mousePosition.y * (0.1 + i * 0.03),
-                      top: '50%',
-                      left: '50%',
-                      transformOrigin: `${70 + i * 15}px 0px`,
-                      transform: 'translate(-50%, -50%)'
-                    }}
-                    animate={{ 
-                      rotate: 360,
-                      scale: [0.8, 1.3, 0.8]
-                    }}
-                    transition={{ 
-                      duration: 6 + i * 1.5,
-                      repeat: Infinity,
-                      ease: "linear"
-                    }}
-                    className="absolute w-2 h-2 bg-cyan-400 rounded-full"
-                  />
-                ))}
-              </div>
-              
-              {/* Badge with Parallax */}
-              <motion.div
-                style={{ 
-                  y: logoY * 0.5,
-                  x: mousePosition.x * 0.05,
-                  background: 'rgba(255, 255, 255, 0.15)'
-                }}
-                className="inline-flex items-center space-x-3 glass rounded-full px-8 py-4 shadow-modern-lg border border-white/30 backdrop-blur-lg"
-              >
-            <motion.div
-                  animate={{ 
-                    rotate: [0, 360],
-                    scale: [1, 1.2, 1]
-                  }}
-                  transition={{ 
-                    duration: 4,
-                    repeat: Infinity,
-                    ease: "easeInOut"
-                  }}
-                >
-                  <Sparkles className="h-6 w-6 text-cyan-400 fill-current" />
-                </motion.div>
-                <span className="text-lg font-bold bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 bg-clip-text text-transparent">
-                Türkiye'nin En İyi Web Ajansı
-              </span>
-                <motion.div
-                  animate={{ 
-                    scale: [1, 1.3, 1],
-                    opacity: [0.7, 1, 0.7]
-                  }}
-                  transition={{ 
-                    duration: 2.5,
-                    repeat: Infinity,
-                    ease: "easeInOut"
-                  }}
-                >
-                  <Award className="h-6 w-6 text-yellow-400" />
-                </motion.div>
-              </motion.div>
-            </div>
-            </motion.div>
-
-          {/* Main Heading - KORUNAN BAŞLIK */}
             <motion.h1
-            style={{ y: logoY * 0.3 }}
-            className="text-6xl sm:text-7xl lg:text-8xl xl:text-9xl font-display font-black text-neutral-900 dark:text-white mb-8 leading-[0.9] tracking-tight"
-          >
-            <motion.span
-              style={{ x: mousePosition.x * 0.02 }}
-              className="block"
-            >
-              Dijital Dünyada
-            </motion.span>
-            <motion.span
-              style={{ x: mousePosition.x * -0.02 }}
-              className="block bg-gradient-to-r from-cyan-400 via-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent"
-            >
-                Fark Yaratın
-            </motion.span>
-            </motion.h1>
-
-          {/* Parallax Subtitle */}
-            <motion.p
-            style={{ y: logoY * 0.2 }}
-            className="text-2xl sm:text-3xl lg:text-4xl text-neutral-600 dark:text-neutral-300 mb-16 max-w-5xl mx-auto leading-relaxed font-light"
-          >
-            <motion.span
-              style={{ x: mousePosition.x * 0.01 }}
-              className="bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 bg-clip-text text-transparent"
-            >
-              Modern web tasarımı
-            </motion.span>
-            , gelişmiş web geliştirme ve 
-            <br />
-            <motion.span
-              style={{ x: mousePosition.x * -0.01 }}
-              className="bg-gradient-to-r from-purple-500 via-pink-500 to-cyan-500 bg-clip-text text-transparent"
-            >
-              etkili dijital pazarlama
-            </motion.span>
-            çözümleriyle markanızı öne çıkarın.
-            </motion.p>
-
-          {/* Parallax Feature Cards */}
-            <motion.div
-            style={{ y: logoY * 0.1 }}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16"
-          >
-            {[
-              { text: "Modern Tasarım", icon: Palette, color: "from-pink-500 to-rose-500", delay: 0 },
-              { text: "Hızlı Geliştirme", icon: Zap, color: "from-yellow-500 to-orange-500", delay: 0.2 },
-              { text: "SEO Optimizasyonu", icon: Search, color: "from-green-500 to-emerald-500", delay: 0.4 },
-              { text: "7/24 Destek", icon: Shield, color: "from-blue-500 to-cyan-500", delay: 0.6 }
-              ].map((feature, index) => (
-              <motion.div
-                key={feature.text}
-                style={{ 
-                  y: logoY * (0.05 + index * 0.02),
-                  x: mousePosition.x * (0.01 + index * 0.005)
-                }}
-                whileHover={{ 
-                  scale: 1.05, 
-                  y: -10,
-                  rotateY: 5
-                }}
-                className="group relative"
-              >
-                <div className="glass rounded-2xl p-6 shadow-modern-lg border border-white/30 backdrop-blur-lg h-full"
-                     style={{ background: 'rgba(255, 255, 255, 0.15)' }}>
-                  <div className="text-center">
-                    <motion.div
-                      whileHover={{ rotate: 360, scale: 1.1 }}
-                      transition={{ duration: 0.6 }}
-                      className={`w-12 h-12 rounded-xl bg-gradient-to-r ${feature.color} flex items-center justify-center mx-auto mb-4 shadow-lg`}
-                    >
-                      <feature.icon className="h-6 w-6 text-white" />
-                    </motion.div>
-                    <h3 className="text-lg font-semibold text-neutral-700 dark:text-neutral-200 mb-2">
-                      {feature.text}
-                    </h3>
-                    <p className="text-sm text-neutral-600 dark:text-neutral-400">
-                      Profesyonel çözümler
-                    </p>
-                  </div>
-                </div>
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  whileHover={{ opacity: 1, scale: 1.1 }}
-                  className={`absolute inset-0 rounded-2xl bg-gradient-to-r ${feature.color} blur-xl opacity-20 -z-10`}
-                />
-              </motion.div>
-              ))}
-            </motion.div>
-
-          {/* Parallax CTA Buttons */}
-            <motion.div
-            style={{ y: logoY * 0.05 }}
-            className="flex flex-col sm:flex-row gap-8 justify-center items-center mb-20"
-            >
-              <Link href="/iletisim">
-                <motion.button
-                style={{ x: mousePosition.x * 0.01 }}
-                whileHover={{ 
-                  scale: 1.05, 
-                  y: -5,
-                  boxShadow: "0 20px 40px rgba(6, 182, 212, 0.3)"
-                }}
-                  whileTap={{ scale: 0.95 }}
-                className="group relative overflow-hidden text-white px-12 py-6 rounded-3xl font-bold text-2xl shadow-2xl transition-all duration-500"
-                style={{ 
-                  background: 'linear-gradient(135deg, #06b6d4, #3b82f6, #8b5cf6)',
-                  backgroundSize: '200% 200%'
-                }}
-              >
-                <motion.div
-                  animate={{ 
-                    backgroundPosition: ['0% 50%', '100% 50%', '0% 50%']
-                  }}
-                  transition={{ 
-                    duration: 3,
-                    repeat: Infinity,
-                    ease: "easeInOut"
-                  }}
-                  className="absolute inset-0 bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                />
-                <div className="relative flex items-center space-x-4">
-                  <span>Projenizi Başlatın</span>
-                  <motion.div
-                    whileHover={{ x: 5, rotate: 5 }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    <ArrowRight className="h-7 w-7" />
-                  </motion.div>
-                </div>
-                <motion.div
-                  initial={{ x: '-100%' }}
-                  whileHover={{ x: '100%' }}
-                  transition={{ duration: 0.6 }}
-                  className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12"
-                />
-                </motion.button>
-              </Link>
-
-              <motion.button
-              style={{ x: mousePosition.x * -0.01 }}
-              whileHover={{ 
-                scale: 1.05, 
-                y: -5,
-                boxShadow: "0 20px 40px rgba(59, 130, 246, 0.2)"
+              className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-display font-bold text-white leading-[0.9] tracking-tight"
+              style={{
+                textShadow: '0 0 40px rgba(6, 182, 212, 0.6), 0 0 80px rgba(6, 182, 212, 0.4), 0 0 120px rgba(6, 182, 212, 0.2)'
               }}
-                whileTap={{ scale: 0.95 }}
-              className="group glass px-12 py-6 rounded-3xl font-bold text-2xl text-neutral-700 dark:text-neutral-200 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-500 border border-white/30 backdrop-blur-lg shadow-2xl"
-              style={{ background: 'rgba(255, 255, 255, 0.15)' }}
             >
-              <div className="flex items-center space-x-4">
-                <motion.div
-                  whileHover={{ scale: 1.2, rotate: 360 }}
-                  transition={{ duration: 0.6 }}
-                >
-                  <Play className="h-7 w-7" />
-                </motion.div>
-                <span>Demo İzleyin</span>
-              </div>
-            </motion.button>
+              <motion.span
+                initial={{ opacity: 0, x: -30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 1.2, delay: 0.6 }}
+                className="block"
+              >
+                Dijital Dünyada
+              </motion.span>
+              <motion.span 
+                className="block bg-gradient-to-r from-blue-500 to-cyan-500 bg-clip-text text-transparent"
+                initial={{ opacity: 0, scale: 0.7, y: 30 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                transition={{ 
+                  duration: 1.5, 
+                  delay: 1,
+                  ease: "easeOut"
+                }}
+                style={{
+                  filter: 'drop-shadow(0 0 30px rgba(59, 130, 246, 0.8))',
+                  textShadow: '0 0 50px rgba(59, 130, 246, 0.5)'
+                }}
+              >
+                Fark Yaratın
+              </motion.span>
+            </motion.h1>
+            
+            {/* Decorative Line */}
+            <motion.div
+              initial={{ width: 0 }}
+              animate={{ width: "100%" }}
+              transition={{ duration: 2, delay: 1.8 }}
+              className="h-1 bg-gradient-to-r from-transparent via-blue-500 to-transparent mx-auto max-w-md rounded-full"
+              style={{
+                boxShadow: '0 0 20px rgba(59, 130, 246, 0.6)'
+              }}
+            />
           </motion.div>
 
-          {/* Parallax Stats Section */}
+          {/* Enhanced Cinematic Subtitle */}
           <motion.div
-            style={{ y: logoY * 0.1 }}
-            className="glass rounded-3xl shadow-2xl p-12 lg:p-16 max-w-6xl mx-auto border border-white/30 backdrop-blur-lg"
-            style={{ background: 'rgba(255, 255, 255, 0.15)' }}
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ 
+              duration: 1.4, 
+              delay: 2.2,
+              ease: "easeOut"
+            }}
+            className="max-w-5xl mx-auto px-4"
           >
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-12">
-              {[
-                { number: "500+", label: "Başarılı Proje", icon: Rocket, color: "from-cyan-500 to-blue-500" },
-                { number: "98%", label: "Müşteri Memnuniyeti", icon: Star, color: "from-yellow-500 to-orange-500" },
-                { number: "24/7", label: "Teknik Destek", icon: Shield, color: "from-green-500 to-emerald-500" }
-              ].map((stat, index) => (
+            <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-gray-200 leading-relaxed font-light"
+               style={{
+                 textShadow: '0 0 30px rgba(0, 0, 0, 0.9)',
+                 backdropFilter: 'blur(3px)'
+               }}
+            >
+              <motion.span
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 1, delay: 2.6 }}
+          >
+            Web tasarımından yapay zeka entegrasyonuna, mobil uygulamalardan SEO optimizasyonuna kadar 
+            tüm dijital ihtiyaçlarınız için profesyonel çözümler sunuyoruz.
+              </motion.span>
+            </p>
+          </motion.div>
+
+          {/* Enhanced Quick Stats */}
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.2, delay: 3 }}
+            className="grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-6xl mx-auto"
+          >
+            {[
+              { icon: Rocket, number: "Hızlı", label: "Teslimat", color: "cyan" },
+              { icon: Star, number: "5.0", label: "Müşteri Memnuniyeti", color: "blue" },
+              { icon: Shield, number: "24/7", label: "Teknik Destek", color: "purple" }
+            ].map((stat, index) => (
+              <motion.div
+                key={stat.label}
+                initial={{ opacity: 0, y: 30, scale: 0.8 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ 
+                  duration: 0.8, 
+                  delay: 3.2 + index * 0.2,
+                  ease: "easeOut"
+                }}
+                whileHover={{ 
+                  scale: 1.05, 
+                  y: -8,
+                  boxShadow: `0 0 40px rgba(${stat.color === 'cyan' ? '6, 182, 212' : stat.color === 'blue' ? '59, 130, 246' : '139, 92, 246'}, 0.6)`
+                }}
+                className="relative backdrop-blur-xl rounded-2xl p-8 overflow-hidden group cursor-pointer"
+                style={{ 
+                  background: 'rgba(255, 255, 255, 0.08)',
+                  boxShadow: '0 0 30px rgba(255, 255, 255, 0.1)'
+                }}
+              >
+                {/* Hover Glow Effect */}
                 <motion.div
-                  key={stat.label}
-                  style={{ 
-                    y: logoY * (0.02 + index * 0.01),
-                    x: mousePosition.x * (0.005 + index * 0.002)
+                  className={`absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-300 bg-gradient-to-br ${
+                    stat.color === 'cyan' ? 'from-cyan-400 to-blue-500' :
+                    stat.color === 'blue' ? 'from-blue-400 to-purple-500' :
+                    'from-purple-400 to-pink-500'
+                  }`}
+                />
+                
+                <stat.icon 
+                  className={`h-12 w-12 mx-auto mb-4 relative z-10 ${
+                    stat.color === 'cyan' ? 'text-cyan-400' :
+                    stat.color === 'blue' ? 'text-blue-400' :
+                    'text-purple-400'
+                  }`}
+                  style={{
+                    filter: `drop-shadow(0 0 15px rgba(${stat.color === 'cyan' ? '6, 182, 212' : stat.color === 'blue' ? '59, 130, 246' : '139, 92, 246'}, 0.8))`
                   }}
-                  whileHover={{ 
-                    scale: 1.05, 
-                    y: -5,
-                    rotateY: 5
+                />
+                <div className="text-4xl font-bold text-white mb-2 relative z-10">
+                  {stat.number}
+                </div>
+                <div className="text-lg text-gray-300 relative z-10">
+                  {stat.label}
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+
+          {/* Enhanced Cinematic CTA Buttons */}
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.2, delay: 3.8 }}
+            className="flex flex-col sm:flex-row gap-8 justify-center items-center"
+          >
+            <Link href="/tr/iletisim">
+              <motion.button
+                initial={{ opacity: 0, scale: 0.7 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 1, delay: 4 }}
+                whileHover={{ 
+                  scale: 1.08, 
+                  y: -5,
+                  boxShadow: '0 0 50px rgba(6, 182, 212, 0.8)'
+                }}
+                whileTap={{ scale: 0.95 }}
+                className="group relative flex items-center space-x-3 text-white px-12 py-6 rounded-3xl font-bold text-xl overflow-hidden transition-all duration-300 cursor-pointer"
+                style={{ 
+                  background: 'linear-gradient(to right, #3b82f6, #06b6d4)',
+                  boxShadow: '0 0 40px rgba(59, 130, 246, 0.6)'
+                }}
+              >
+                {/* Enhanced Button Shine Effect */}
+                <motion.div
+                  className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent"
+                  animate={{ x: [-200, 300] }}
+                  transition={{ duration: 3, repeat: Infinity, delay: 4.5 }}
+                />
+                <span className="relative z-10">Ücretsiz Teklif Al</span>
+                <ArrowRight className="relative z-10 h-6 w-6 group-hover:translate-x-2 transition-transform duration-300" />
+              </motion.button>
+            </Link>
+            
+            <Link href="/tr/hizmetlerimiz">
+              <motion.button
+                initial={{ opacity: 0, scale: 0.7 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 1, delay: 4.2 }}
+                whileHover={{ 
+                  scale: 1.08, 
+                  y: -5,
+                  backgroundColor: 'rgba(255, 255, 255, 0.2)',
+                  borderColor: 'rgba(6, 182, 212, 0.8)',
+                  boxShadow: '0 0 40px rgba(255, 255, 255, 0.3)'
+                }}
+                whileTap={{ scale: 0.95 }}
+                className="group flex items-center space-x-3 px-12 py-6 rounded-3xl font-bold text-xl text-white transition-all duration-300 border-2 border-white/40 backdrop-blur-xl cursor-pointer"
+                style={{ 
+                  background: 'rgba(255, 255, 255, 0.12)',
+                  boxShadow: '0 0 30px rgba(255, 255, 255, 0.15)'
+                }}
+              >
+                <span>Hizmetlerimizi İncele</span>
+                <ArrowRight className="h-6 w-6 group-hover:translate-x-2 transition-transform duration-300" />
+              </motion.button>
+            </Link>
+          </motion.div>
+
+          {/* Enhanced Cinematic Features */}
+          <motion.div
+            initial={{ opacity: 0, y: 60 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.2, delay: 4.6 }}
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto"
+          >
+            {[
+              { icon: Code, text: "Web Geliştirme", color: "cyan" },
+              { icon: Palette, text: "UI/UX Tasarım", color: "blue" },
+              { icon: Search, text: "SEO Optimizasyonu", color: "purple" },
+              { icon: Zap, text: "Yapay Zeka", color: "pink" }
+            ].map((feature, index) => (
+              <motion.div
+                key={feature.text}
+                initial={{ opacity: 0, y: 40, scale: 0.7 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ 
+                  duration: 1, 
+                  delay: 4.8 + index * 0.15,
+                  ease: "easeOut"
+                }}
+                whileHover={{ 
+                  scale: 1.08, 
+                  y: -8,
+                  boxShadow: `0 0 50px rgba(${feature.color === 'cyan' ? '6, 182, 212' : feature.color === 'blue' ? '59, 130, 246' : feature.color === 'purple' ? '139, 92, 246' : '236, 72, 153'}, 0.7)`
+                }}
+                className={`relative flex flex-col items-center space-y-4 backdrop-blur-xl rounded-3xl p-8 transition-all duration-300 border border-white/30 overflow-hidden group cursor-pointer`}
+                style={{ 
+                  background: 'rgba(255, 255, 255, 0.08)',
+                  boxShadow: '0 0 30px rgba(255, 255, 255, 0.1)'
+                }}
+              >
+                {/* Enhanced Hover Glow Effect */}
+                <motion.div
+                  className={`absolute inset-0 opacity-0 group-hover:opacity-25 transition-opacity duration-300 bg-gradient-to-br ${
+                    feature.color === 'cyan' ? 'from-cyan-400 to-blue-500' :
+                    feature.color === 'blue' ? 'from-blue-400 to-purple-500' :
+                    feature.color === 'purple' ? 'from-purple-400 to-pink-500' :
+                    'from-pink-400 to-rose-500'
+                  }`}
+                />
+                
+                <feature.icon 
+                  className={`h-12 w-12 flex-shrink-0 relative z-10 ${
+                    feature.color === 'cyan' ? 'text-cyan-400' :
+                    feature.color === 'blue' ? 'text-blue-400' :
+                    feature.color === 'purple' ? 'text-purple-400' :
+                    'text-pink-400'
+                  }`}
+                  style={{
+                    filter: `drop-shadow(0 0 20px rgba(${feature.color === 'cyan' ? '6, 182, 212' : feature.color === 'blue' ? '59, 130, 246' : feature.color === 'purple' ? '139, 92, 246' : '236, 72, 153'}, 0.8))`
                   }}
-                  className="text-center group"
-                >
-                  <motion.div
-                    whileHover={{ scale: 1.1, rotate: 10 }}
-                    transition={{ duration: 0.3 }}
-                    className={`w-20 h-20 bg-gradient-to-r ${stat.color} rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-2xl`}
-                  >
-                    <stat.icon className="h-10 w-10 text-white" />
-                  </motion.div>
-                  <div className="text-4xl lg:text-5xl font-black bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500 bg-clip-text text-transparent mb-3">
-                    {stat.number}
-                  </div>
-                  <div className="text-xl text-neutral-600 dark:text-neutral-300 font-semibold">
-                    {stat.label}
-                  </div>
-                </motion.div>
-              ))}
-            </div>
+                />
+                <span className="text-lg font-bold text-white relative z-10 text-center">
+                  {feature.text}
+                </span>
+              </motion.div>
+            ))}
           </motion.div>
         </div>
       </div>
     </section>
   )
 }
-

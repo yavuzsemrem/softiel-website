@@ -6,10 +6,11 @@ import { motion } from "framer-motion"
 import { 
   ArrowRight, 
   Phone, 
-  Mail, 
+  Mail,
   MessageCircle,
   Sparkles,
-  Rocket
+  Rocket,
+  CheckCircle
 } from "lucide-react"
 
 export function CTANew() {
@@ -29,6 +30,7 @@ export function CTANew() {
             transition={{ delay: 0.1, duration: 0.6 }}
             viewport={{ once: true }}
             className="inline-flex items-center space-x-2 glass rounded-full px-6 py-3 shadow-modern mb-8"
+            style={{ background: 'rgba(255, 255, 255, 0.1)' }}
           >
             <Rocket className="h-5 w-5 text-cyan-500 fill-current" />
             <span className="text-sm font-semibold text-neutral-700 dark:text-neutral-300">
@@ -36,16 +38,46 @@ export function CTANew() {
             </span>
           </motion.div>
 
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold text-neutral-900 dark:text-white mb-6">
-            Dijital Dönüşümünüze{" "}
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-display font-bold text-neutral-900 dark:text-white mb-8 leading-tight">
+            Projenizi{" "}
             <span className="bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 bg-clip-text text-transparent">
-              Hemen Başlayın
+              Hayata Geçirin
             </span>
           </h2>
-          <p className="text-lg sm:text-xl text-neutral-600 dark:text-neutral-400 max-w-3xl mx-auto leading-relaxed">
-            Uzman ekibimizle birlikte projenizi hayata geçirelim. 
-            Ücretsiz danışmanlık için hemen iletişime geçin.
+          <p className="text-base sm:text-lg lg:text-xl text-neutral-600 dark:text-neutral-400 mb-20 max-w-4xl mx-auto leading-relaxed">
+            Dijital dünyada fark yaratacak projeniz için bugün başlayın. 
+            Uzman ekibimizle birlikte hayalinizdeki projeyi gerçeğe dönüştürün.
           </p>
+
+          {/* Quick Benefits */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2, duration: 0.6 }}
+            viewport={{ once: true }}
+            className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8"
+          >
+            {[
+              { icon: CheckCircle, text: "100% Memnuniyet Garantisi", color: "text-green-500" },
+              { icon: Phone, text: "Hızlı Teslimat", color: "text-blue-500" },
+              { icon: ArrowRight, text: "7/24 Destek", color: "text-purple-500" }
+            ].map((benefit, index) => (
+              <motion.div
+                key={benefit.text}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 + index * 0.1, duration: 0.6 }}
+                viewport={{ once: true }}
+                className="flex items-center justify-center space-x-2 glass rounded-lg p-3 shadow-modern border border-white/30 dark:border-white/20 backdrop-blur-lg"
+                style={{ background: 'rgba(255, 255, 255, 0.1)' }}
+              >
+                <benefit.icon className={`h-5 w-5 ${benefit.color} flex-shrink-0`} />
+                <span className="text-neutral-700 dark:text-neutral-300 font-medium text-sm">
+                  {benefit.text}
+                </span>
+              </motion.div>
+            ))}
+          </motion.div>
         </motion.div>
 
         {/* Main CTA Card */}
@@ -74,8 +106,7 @@ export function CTANew() {
                 className="group flex items-center space-x-2 text-white px-8 py-4 rounded-2xl font-semibold text-lg shadow-modern hover:shadow-modern-lg transition-all duration-200"
                 style={{ background: 'linear-gradient(to right, #06b6d4, #3b82f6)' }}
               >
-                <MessageCircle className="h-5 w-5" />
-                <span>İletişim Formu</span>
+                <span>Ücretsiz Teklif Al</span>
                 <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
               </motion.button>
             </Link>
@@ -88,18 +119,7 @@ export function CTANew() {
               style={{ background: 'rgba(148, 148, 148, 0.1)' }}
             >
               <Phone className="h-5 w-5" />
-              <span>Hemen Arayın</span>
-            </motion.a>
-
-            <motion.a
-              href="mailto:info@softiel.com"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="group flex items-center space-x-2 glass px-8 py-4 rounded-2xl font-semibold text-lg text-neutral-700 dark:text-neutral-300 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-200 border border-white/20"
-              style={{ background: 'rgba(148, 148, 148, 0.1)' }}
-            >
-              <Mail className="h-5 w-5" />
-              <span>E-posta Gönder</span>
+              <span>Hemen Ara</span>
             </motion.a>
           </div>
         </motion.div>
@@ -161,3 +181,5 @@ export function CTANew() {
     </section>
   )
 }
+
+

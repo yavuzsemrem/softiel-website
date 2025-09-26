@@ -12,7 +12,8 @@ import {
   Phone,
   Mail,
   Clock,
-  CheckCircle
+  CheckCircle,
+  MessageSquare
 } from "lucide-react"
 import aiIcon from "@/images/ai.PNG"
 import { generateGeminiResponse, getFallbackResponse } from "@/lib/gemini"
@@ -53,6 +54,42 @@ const getContactInfo = (t: (key: string) => string) => ({
   workingHours: t('chatbot.contactInfo.workingHours')
 })
 
+// WhatsApp ikonu komponenti
+const WhatsAppIcon = ({ className }: { className?: string }) => (
+  <svg 
+    className={className} 
+    viewBox="0 0 24 24" 
+    fill="currentColor"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488"/>
+  </svg>
+)
+
+// WhatsApp butonu için fonksiyon
+const openWhatsApp = (locale: string) => {
+  const phoneNumber = '905411883045' // WhatsApp formatında telefon numarası
+  
+  // Dil bazlı mesajlar
+  const messages = {
+    tr: 'Merhaba! Softiel hizmetleri hakkında bilgi almak istiyorum.',
+    en: 'Hello! I would like to get information about Softiel services.',
+    de: 'Hallo! Ich möchte Informationen über Softiel-Dienstleistungen erhalten.',
+    fr: 'Bonjour! Je voudrais obtenir des informations sur les services de Softiel.',
+    ru: 'Привет! Я хотел бы получить информацию об услугах Softiel.',
+    ar: 'مرحبا! أود الحصول على معلومات حول خدمات Softiel.'
+  }
+
+  const message = encodeURIComponent(messages[locale as keyof typeof messages] || messages.tr)
+  const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`
+  window.open(whatsappUrl, '_blank')
+}
+
+// Sayfa yönlendirme fonksiyonları
+const navigateToPage = (page: string) => {
+  window.open(`/${page}`, '_blank')
+}
+
 export function Chatbot() {
   const { t, locale } = useI18n()
   const [isOpen, setIsOpen] = useState(false)
@@ -90,14 +127,29 @@ export function Chatbot() {
 
   // Dil değiştiğinde initial message'ı güncelle
   useEffect(() => {
-    if (messages.length === 0) {
-      setMessages([{
-        id: '1',
-        text: t('chatbot.initialMessage'),
-        sender: 'bot',
-        timestamp: new Date()
-      }])
+    // Her dil için fallback mesajları
+    const fallbackMessages = {
+      tr: 'Merhaba! Softiel\'e hoş geldiniz! 👋 Size nasıl yardımcı olabilirim?',
+      en: 'Hello! Welcome to Softiel! 👋 How can I help you?',
+      de: 'Hallo! Willkommen bei Softiel! 👋 Wie kann ich Ihnen helfen?',
+      fr: 'Bonjour! Bienvenue chez Softiel! 👋 Comment puis-je vous aider?',
+      ru: 'Привет! Добро пожаловать в Softiel! 👋 Как я могу вам помочь?',
+      ar: 'مرحبا! أهلا بك في Softiel! 👋 كيف يمكنني مساعدتك؟'
     }
+    
+    // Çeviri anahtarını kontrol et, eğer anahtarın kendisi dönüyorsa fallback kullan
+    const translatedMessage = t('chatbot.initialMessage')
+    const finalMessage = translatedMessage === 'chatbot.initialMessage' 
+      ? fallbackMessages[locale as keyof typeof fallbackMessages] || fallbackMessages.tr
+      : translatedMessage
+    
+    // İlk mesajı her zaman güncelle (dil değiştiğinde de)
+    setMessages([{
+      id: '1',
+      text: finalMessage,
+      sender: 'bot',
+      timestamp: new Date()
+    }])
   }, [locale, t])
 
 
@@ -278,7 +330,7 @@ export function Chatbot() {
           setMessages(prev => [...prev, botMessage])
         } else {
           // API başarısız olursa fallback kullan
-          const fallbackResponse = getFallbackResponse(text)
+          const fallbackResponse = getFallbackResponse(text, locale)
           const botMessage: Message = {
             id: (Date.now() + 1).toString(),
             text: fallbackResponse,
@@ -302,7 +354,7 @@ export function Chatbot() {
         }
       } catch (error) {
         // Hata durumunda fallback kullan
-        const fallbackResponse = getFallbackResponse(text)
+        const fallbackResponse = getFallbackResponse(text, locale)
         const botMessage: Message = {
           id: (Date.now() + 1).toString(),
           text: fallbackResponse,
@@ -330,8 +382,62 @@ export function Chatbot() {
   }
 
 
-  const handleQuickReply = (reply: QuickReply) => {
-    handleSendMessage(reply.text)
+  const handleQuickReply = async (reply: QuickReply) => {
+    // Kullanıcı mesajını ekle
+    const userMessage: Message = {
+      id: Date.now().toString(),
+      text: reply.text,
+      sender: 'user',
+      timestamp: new Date(),
+      type: 'quick_reply'
+    }
+    
+    setMessages(prev => [...prev, userMessage])
+    setIsTyping(true)
+    
+    try {
+      // Gemini API'yi dene
+      const geminiResponse = await generateGeminiResponse(reply.text, locale)
+      
+      if (geminiResponse.success) {
+        const botMessage: Message = {
+          id: (Date.now() + 1).toString(),
+          text: geminiResponse.text,
+          sender: 'bot',
+          timestamp: new Date()
+        }
+        setMessages(prev => [...prev, botMessage])
+      } else {
+        // API başarısız olursa fallback kullan
+        const fallbackResponse = getFallbackResponse(reply.text, locale)
+        
+        const botMessage: Message = {
+          id: (Date.now() + 1).toString(),
+          text: fallbackResponse,
+          sender: 'bot',
+          timestamp: new Date()
+        }
+        
+        setMessages(prev => [...prev, botMessage])
+      }
+    } catch (error) {
+      // Fallback yanıtı al
+      const fallbackResponse = getFallbackResponse(reply.text, locale)
+      
+      // Fallback response'un string olduğundan emin ol
+      const fallbackText = typeof fallbackResponse === 'string' ? fallbackResponse : JSON.stringify(fallbackResponse)
+      
+      const botMessage: Message = {
+        id: (Date.now() + 1).toString(),
+        text: fallbackText,
+        sender: 'bot',
+        timestamp: new Date()
+      }
+      
+      setMessages(prev => [...prev, botMessage])
+    } finally {
+      setIsTyping(false)
+    }
   }
 
   // Dinamik quick replies ve contact info
@@ -494,7 +600,7 @@ export function Chatbot() {
             transition={{ duration: 0.3, ease: "easeOut" }}
           >
              <div
-               className="bg-gradient-to-br from-slate-900/98 via-slate-800/98 to-slate-900/98 backdrop-blur-xl rounded-3xl shadow-2xl w-80 sm:w-96 h-96 sm:h-[500px] flex flex-col overflow-hidden chatbot-window"
+               className="bg-gradient-to-br from-slate-900/98 via-slate-800/98 to-slate-900/98 backdrop-blur-xl rounded-3xl shadow-2xl w-80 sm:w-[420px] h-96 sm:h-[550px] flex flex-col overflow-hidden chatbot-window"
                style={{
                  boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.1)'
                }}
@@ -619,7 +725,9 @@ export function Chatbot() {
                           background: 'var(--chatbot-user-bg)',
                           boxShadow: 'var(--chatbot-user-shadow)'
                         } : {}}>
-                          <p className="text-base leading-relaxed">{message.text}</p>
+                          <p className="text-base leading-relaxed">
+                            {typeof message.text === 'string' ? message.text : JSON.stringify(message.text)}
+                          </p>
                           {message.type === 'contact_info' && (
                             <div className="mt-4 space-y-3">
                               <div className="flex items-center space-x-3 text-sm">
@@ -636,6 +744,101 @@ export function Chatbot() {
                               </div>
                             </div>
                           )}
+                          {/* Kısayol butonları - sadece bot mesajlarında göster */}
+                          {message.sender === 'bot' && (() => {
+                            const text = typeof message.text === 'string' ? message.text : JSON.stringify(message.text)
+                            
+                            // Hizmetler kısayolu
+                            if (text.includes('hizmetlerimiz sayfasını') || text.includes('services page') || 
+                                text.includes('Dienstleistungsseite') || text.includes('page de services') ||
+                                text.includes('страницу услуг') || text.includes('صفحة خدماتنا') ||
+                                text.includes('Hizmetleriniz neler?') || text.includes('What are your services?') ||
+                                text.includes('Was sind Ihre Dienstleistungen?') || text.includes('Quels sont vos services ?') ||
+                                text.includes('Какие у вас услуги?') || text.includes('ما هي خدماتكم؟')) {
+                              return (
+                                <div className="mt-4">
+                                  <button
+                                    onClick={() => navigateToPage('hizmetlerimiz')}
+                                    className="flex items-center space-x-2 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors duration-200 shadow-md hover:shadow-lg"
+                                  >
+                                    <span>{t('chatbot.servicesButton', 'Hizmetlerimizi İncele')}</span>
+                                  </button>
+                                </div>
+                              )
+                            }
+                            
+                            // Fiyatlandırma kısayolu
+                            if (text.includes('fiyatlandırma sayfamızı') || text.includes('pricing page') ||
+                                text.includes('Preisseite') || text.includes('page de tarification') ||
+                                text.includes('страницу цен') || text.includes('صفحة الأسعار') ||
+                                text.includes('Fiyat bilgisi al') || text.includes('Get pricing information') ||
+                                text.includes('Preisinformationen erhalten') || text.includes('Obtenir des informations sur les prix') ||
+                                text.includes('Получить информацию о ценах') || text.includes('احصل على معلومات الأسعار')) {
+                              return (
+                                <div className="mt-4">
+                                  <button
+                                    onClick={() => navigateToPage('fiyatlandirma')}
+                                    className="flex items-center space-x-2 px-4 py-2 bg-purple-500 hover:bg-purple-600 text-white rounded-lg transition-colors duration-200 shadow-md hover:shadow-lg"
+                                  >
+                                    <span>{t('chatbot.pricingButton', 'Fiyatlandırmayı İncele')}</span>
+                                  </button>
+                                </div>
+                              )
+                            }
+                            
+                            // Projeler kısayolu
+                            if (text.includes('portföy sayfamızı') || text.includes('portfolio page') ||
+                                text.includes('Portfolio-Seite') || text.includes('page portfolio') ||
+                                text.includes('страницу портфолио') || text.includes('صفحة المحفظة') ||
+                                text.includes('Projelerinizi görmek istiyorum') || text.includes('I want to see your projects') ||
+                                text.includes('Ich möchte Ihre Projekte sehen') || text.includes('Je veux voir vos projets') ||
+                                text.includes('Я хочу посмотреть ваши проекты') || text.includes('أريد أن أرى مشاريعكم')) {
+                              return (
+                                <div className="mt-4">
+                                  <button
+                                    onClick={() => navigateToPage('projeler')}
+                                    className="flex items-center space-x-2 px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-lg transition-colors duration-200 shadow-md hover:shadow-lg"
+                                  >
+                                    <span>{t('chatbot.projectsButton', 'Projelerimizi İncele')}</span>
+                                  </button>
+                                </div>
+                              )
+                            }
+                            
+                            // İletişim kısayolu - WhatsApp butonu
+                            if (text.includes('detaylı sorularınız için') || text.includes('detailed questions') ||
+                                text.includes('detaillierte Fragen') || text.includes('questions détaillées') ||
+                                text.includes('подробных вопросов') || text.includes('الأسئلة المفصلة') ||
+                                text.includes('İletişim bilgileri') || text.includes('Contact information') ||
+                                text.includes('Kontaktinformationen') || text.includes('Informations de contact') ||
+                                text.includes('Контактная информация') || text.includes('معلومات الاتصال') ||
+                                text.includes('detaylı bilgi') || text.includes('ulaşabilirsiniz') || 
+                                text.includes('contact') || text.includes('iletişim') || 
+                                text.includes('telefon') || text.includes('mail') ||
+                                text.includes('kontakt') || text.includes('kontaktieren') ||
+                                text.includes('téléphone') || text.includes('téléphoner') ||
+                                text.includes('контакт') || text.includes('телефон') ||
+                                text.includes('اتصال') || text.includes('هاتف') ||
+                                text.includes('phone') || text.includes('email') ||
+                                text.includes('adresse') || text.includes('адрес') ||
+                                text.includes('عنوان') || text.includes('informations') ||
+                                text.includes('informationen') || text.includes('informations') ||
+                                text.includes('информация') || text.includes('معلومات')) {
+                              return (
+                                <div className="mt-4">
+                                  <button
+                                    onClick={() => openWhatsApp(locale)}
+                                    className="flex items-center space-x-2 px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-lg transition-colors duration-200 shadow-md hover:shadow-lg"
+                                  >
+                                    <WhatsAppIcon className="w-4 h-4" />
+                                    <span>{t('chatbot.whatsappButton', 'Şimdi Bize Ulaşın')}</span>
+                                  </button>
+                                </div>
+                              )
+                            }
+                            
+                            return null
+                          })()}
                         </div>
                       </div>
                     </motion.div>
@@ -677,16 +880,16 @@ export function Chatbot() {
 
                 {/* Quick Replies */}
                 {messages.length === 1 && !isRateLimited && !isFingerprintLoading && !isContentAnalyzing && !(isSuspicious && riskScore > 0.7) && canSendMessage && !(!isBehaviorHuman && behaviorRiskScore > 0.7) && (
-                  <div className="px-5 pb-3 chatbot-quick-replies">
-                    <div className="flex flex-wrap gap-3">
+                  <div className="px-4 pb-2 chatbot-quick-replies">
+                    <div className="flex flex-wrap gap-2">
                       {quickReplies.map((reply) => (
                         <button
                           key={reply.id}
                           onClick={() => handleQuickReply(reply)}
-                          className="px-4 py-2.5 text-slate-200 hover:text-white text-sm rounded-xl chatbot-quick-reply shadow-md hover:shadow-lg backdrop-blur-sm border border-slate-600/30 hover:border-blue-400/50 transition-all duration-300 ease-out hover:scale-105 hover:-translate-y-1"
+                          className="px-3 py-1.5 text-slate-200 hover:text-white text-sm rounded-lg chatbot-quick-reply shadow-sm hover:shadow-md backdrop-blur-sm border border-slate-600/30 hover:border-blue-400/50 transition-all duration-200 ease-out hover:scale-102"
                           style={{
-                            background: 'linear-gradient(135deg, rgba(30, 41, 59, 0.9) 0%, rgba(59, 130, 246, 0.2) 25%, rgba(14, 165, 233, 0.15) 50%, rgba(59, 130, 246, 0.2) 75%, rgba(30, 41, 59, 0.9) 100%)',
-                            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1)'
+                            background: 'linear-gradient(135deg, rgba(30, 41, 59, 0.8) 0%, rgba(59, 130, 246, 0.15) 25%, rgba(14, 165, 233, 0.1) 50%, rgba(59, 130, 246, 0.15) 75%, rgba(30, 41, 59, 0.8) 100%)',
+                            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.05)'
                           }}
                         >
                           {reply.text}

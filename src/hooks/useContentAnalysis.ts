@@ -94,3 +94,5 @@ export function useContentAnalysis(): ContentAnalysisHookResult {
     isAnalyzing
   };
 }
+
+

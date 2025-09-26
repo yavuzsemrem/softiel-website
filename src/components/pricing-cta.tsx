@@ -2,11 +2,11 @@
 
 import React from "react"
 import { motion } from "framer-motion"
-import { ArrowRight, CheckCircle, Phone } from "lucide-react"
+import { ArrowRight, CheckCircle, MessageCircle, Phone } from "lucide-react"
 
 export function PricingCTA() {
   return (
-    <section className="relative py-16 lg:py-20">
+    <section className="relative py-32 lg:py-20">
       <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Main CTA */}
         <motion.div
@@ -61,7 +61,7 @@ export function PricingCTA() {
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <motion.a
-                href="/iletisim"
+                href="/tr/iletisim"
                 whileHover={{ scale: 1.01, y: -2 }}
                 whileTap={{ scale: 0.99 }}
                 transition={{ duration: 0.1 }}
@@ -71,16 +71,18 @@ export function PricingCTA() {
                 <ArrowRight className="h-5 w-5" />
               </motion.a>
               
-              <motion.a
-                href="tel:+905411883045"
+              <motion.div
                 whileHover={{ scale: 1.01, y: -2 }}
                 whileTap={{ scale: 0.99 }}
                 transition={{ duration: 0.1 }}
-                className="inline-flex items-center space-x-2 glass px-8 py-4 rounded-2xl font-semibold text-lg text-white/90 hover:text-white transition-all duration-75 border border-white/20"
+                className="inline-flex items-center space-x-2 bg-gradient-to-r from-green-500 to-green-600 text-white px-8 py-4 rounded-2xl font-semibold text-lg shadow-2xl hover:shadow-green-500/25 transition-all duration-75 cursor-pointer"
+                onClick={() => {
+                  window.open('https://wa.me/905411883045', '_blank');
+                }}
               >
-                <Phone className="h-5 w-5" />
-                <span>Hemen Ara</span>
-              </motion.a>
+                <MessageCircle className="h-5 w-5" />
+                <span>Hemen İletişime Geç</span>
+              </motion.div>
             </div>
           </div>
         </motion.div>

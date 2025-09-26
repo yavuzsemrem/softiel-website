@@ -103,3 +103,5 @@ export function isRecaptchaAvailable(): boolean {
 export function generateMockToken(): string {
   return `mock_token_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 }
+
+

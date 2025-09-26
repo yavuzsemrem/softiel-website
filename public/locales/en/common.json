@@ -118,6 +118,10 @@
       "projects": "I want to see your projects",
       "contact": "Contact information"
     },
+    "whatsappButton": "Contact Us Now",
+    "servicesButton": "View Our Services",
+    "pricingButton": "View Pricing",
+    "projectsButton": "View Our Projects",
     "status": {
       "online": "Online",
       "waiting": "Please wait",
