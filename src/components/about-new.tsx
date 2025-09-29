@@ -1,6 +1,6 @@
 "use client"
 
-import React from "react"
+import React, { useEffect, useState } from "react"
 import Link from "next/link"
 import { motion } from "framer-motion"
 import { 
@@ -62,6 +62,16 @@ const processSteps = [
 ]
 
 export function AboutNew() {
+  const [isVisible, setIsVisible] = useState(false)
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsVisible(true)
+    }, 500)
+
+    return () => clearTimeout(timer)
+  }, [])
+
   return (
     <section className="relative py-20 lg:py-32 overflow-hidden">
       {/* Background Effects */}
@@ -74,16 +84,14 @@ export function AboutNew() {
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 20 }}
           transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
           className="text-center mb-20"
         >
           <motion.div
             initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 20 }}
             transition={{ delay: 0.1, duration: 0.6 }}
-            viewport={{ once: true }}
             className="inline-flex items-center space-x-2 glass rounded-full px-6 py-3 shadow-modern mb-8"
             style={{ background: 'rgba(255, 255, 255, 0.1)' }}
           >
@@ -109,9 +117,8 @@ export function AboutNew() {
           {/* Left Content - Features */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            animate={{ opacity: isVisible ? 1 : 0, x: isVisible ? 0 : -50 }}
             transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
             className="space-y-6"
           >
             {/* Features Grid */}
@@ -120,9 +127,8 @@ export function AboutNew() {
                 <motion.div
                   key={feature.title}
                   initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1, duration: 0.6 }}
-                  viewport={{ once: true }}
+                  animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 20 }}
+                  transition={{ delay: isVisible ? index * 0.1 : 0, duration: 0.6 }}
                   className="glass rounded-2xl p-6 shadow-modern border border-white/50 dark:border-white/40 backdrop-blur-lg dark:[border:1px_solid_rgba(255,255,255,0.2)] hover:bg-white/20 dark:hover:bg-white/10 transition-all duration-300 group"
                   style={{ background: 'rgba(255, 255, 255, 0.1)' }}
                 >
@@ -147,9 +153,8 @@ export function AboutNew() {
           {/* Right Content - Process Steps */}
           <motion.div
             initial={{ opacity: 0, x: 50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.4, duration: 0.8 }}
-            viewport={{ once: true }}
+            animate={{ opacity: isVisible ? 1 : 0, x: isVisible ? 0 : 50 }}
+            transition={{ delay: isVisible ? 0.4 : 0, duration: 0.8 }}
             className="space-y-6"
           >
             {/* Process Steps */}
@@ -158,9 +163,8 @@ export function AboutNew() {
                 <motion.div
                   key={step.step}
                   initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1, duration: 0.6 }}
-                  viewport={{ once: true }}
+                  animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 20 }}
+                  transition={{ delay: isVisible ? index * 0.1 : 0, duration: 0.6 }}
                   className="glass rounded-2xl p-6 shadow-modern border border-white/50 dark:border-white/40 backdrop-blur-lg dark:[border:1px_solid_rgba(255,255,255,0.2)] hover:bg-white/20 dark:hover:bg-white/10 transition-all duration-300 group"
                   style={{ background: 'rgba(255, 255, 255, 0.1)' }}
                 >

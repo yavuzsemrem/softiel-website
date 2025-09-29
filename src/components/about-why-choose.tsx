@@ -346,7 +346,7 @@ const testimonials = [
 
 export function AboutWhyChoose() {
   return (
-    <section id="why-choose" className="relative py-20 lg:py-24">
+    <section id="why-choose" className="relative pt-20 pb-16 lg:pt-32 lg:pb-20">
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <motion.div
@@ -370,7 +370,7 @@ export function AboutWhyChoose() {
              </span>
            </motion.div>
 
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold text-neutral-900 dark:text-white mb-6">
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-display font-bold text-neutral-900 dark:text-white mb-6">
             Neden{" "}
             <span className="bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 bg-clip-text text-transparent">
               Bizi Seçmelisiniz?
@@ -440,7 +440,7 @@ export function AboutWhyChoose() {
                </span>
              </motion.div>
              
-             <h3 className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold text-neutral-900 dark:text-white mb-6">
+             <h3 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-display font-bold text-neutral-900 dark:text-white mb-6">
                Müşterilerimiz{" "}
                <span className="bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 bg-clip-text text-transparent">
                  Ne Diyor?

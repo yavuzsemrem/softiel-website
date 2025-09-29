@@ -1,7 +1,7 @@
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { Hero } from "@/components/hero"
-import { ServicesNew } from "@/components/services-new"
+import { ServicesHome } from "@/components/services-home"
 import { AboutNew } from "@/components/about-new"
 import { Testimonials } from "@/components/testimonials"
 import { PricingCTA } from "@/components/pricing-cta"
@@ -19,7 +19,7 @@ export default function Home() {
         </div>
         
         <Hero />
-        <ServicesNew />
+        <ServicesHome />
         <AboutNew />
         <Testimonials />
         <PricingCTA />

@@ -65,38 +65,6 @@ const services = [
     features: ["Chatbot Geliştirme", "Makine Öğrenmesi", "Otomasyon"],
     href: "/hizmetlerimiz/yapay-zeka",
     color: "from-cyan-500 to-blue-500"
-  },
-  {
-    icon: PenTool,
-    title: "Logo Tasarım",
-    description: "Markanızı yansıtan profesyonel logo tasarımları",
-    features: ["Kurumsal Kimlik", "Logo Tasarım", "Brand Guidelines"],
-    href: "/hizmetlerimiz/logo-tasarim",
-    color: "from-sky-500 to-indigo-500"
-  },
-  {
-    icon: Globe,
-    title: "WordPress",
-    description: "Kolay yönetilebilir WordPress siteleri",
-    features: ["Tema Geliştirme", "Plugin Özelleştirme", "Güvenlik"],
-    href: "/hizmetlerimiz/wordpress",
-    color: "from-cyan-500 to-sky-500"
-  },
-  {
-    icon: FileText,
-    title: "İçerik Üretimi",
-    description: "SEO uyumlu ve etkili içerik stratejileri",
-    features: ["Blog Yazıları", "Sosyal Medya İçerik", "Video İçerik"],
-    href: "/hizmetlerimiz/icerik-uretimi",
-    color: "from-blue-500 to-indigo-500"
-  },
-  {
-    icon: Share2,
-    title: "Sosyal Medya Yönetimi",
-    description: "Sosyal medyada güçlü bir varlık oluşturun",
-    features: ["İçerik Planlama", "Topluluk Yönetimi", "Analiz"],
-    href: "/hizmetlerimiz/sosyal-medya",
-    color: "from-indigo-500 to-blue-500"
   }
 ]
 

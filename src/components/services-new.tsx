@@ -14,7 +14,12 @@ import {
   Globe,
   Share2,
   ArrowRight,
-  Sparkles
+  Sparkles,
+  FileText,
+  Zap,
+  Users,
+  Wrench,
+  BookOpen
 } from "lucide-react"
 
 const services = [
@@ -72,6 +77,69 @@ const services = [
     color: "from-violet-500 to-violet-600",
     badge: null
   },
+  {
+    icon: FileText,
+    title: "WordPress & CMS Çözümleri",
+    description: "Kolay yönetilebilir içerik yönetim sistemleri ile web sitenizi güncel tutun",
+    features: ["WordPress Kurulum", "Tema Geliştirme", "Plugin Entegrasyonu", "Güvenlik Optimizasyonu"],
+    href: "/tr/hizmetlerimiz/wordpress-cms-cozumleri",
+    color: "from-indigo-500 to-indigo-600",
+    badge: null
+  },
+  {
+    icon: PenTool,
+    title: "Logo & Kurumsal Kimlik Tasarımı",
+    description: "Markanızı yansıtan profesyonel logo ve kurumsal kimlik tasarımları",
+    features: ["Logo Tasarımı", "Kurumsal Kimlik", "Brand Guidelines", "Materyal Tasarımı"],
+    href: "/tr/hizmetlerimiz/logo-kurumsal-kimlik-tasarimi",
+    color: "from-pink-500 to-pink-600",
+    badge: null
+  },
+  {
+    icon: Share2,
+    title: "Sosyal Medya Yönetimi",
+    description: "Sosyal medya hesaplarınızı profesyonel şekilde yönetin ve takipçi sayınızı artırın",
+    features: ["İçerik Planlama", "Görsel Tasarım", "Etkileşim Yönetimi", "Analiz & Raporlama"],
+    href: "/tr/hizmetlerimiz/sosyal-medya-yonetimi",
+    color: "from-rose-500 to-rose-600",
+    badge: null
+  },
+  {
+    icon: Zap,
+    title: "Otomasyon & Entegrasyon",
+    description: "İş süreçlerinizi otomatikleştirin ve sistemlerinizi entegre edin",
+    features: ["İş Akışı Otomasyonu", "API Entegrasyonları", "Veri Senkronizasyonu", "Süreç Optimizasyonu"],
+    href: "/tr/hizmetlerimiz/otomasyon-entegrasyon",
+    color: "from-yellow-500 to-yellow-600",
+    badge: null
+  },
+  {
+    icon: Users,
+    title: "Dijital Danışmanlık",
+    description: "Dijital dönüşüm yolculuğunuzda stratejik rehberlik ve danışmanlık hizmetleri",
+    features: ["Dijital Strateji", "Teknoloji Seçimi", "Süreç Analizi", "Eğitim & Destek"],
+    href: "/tr/hizmetlerimiz/dijital-danismanlik",
+    color: "from-teal-500 to-teal-600",
+    badge: null
+  },
+  {
+    icon: Wrench,
+    title: "No-Code / Low-Code Çözümleri",
+    description: "Kod yazmadan hızlı ve etkili uygulamalar geliştirin",
+    features: ["No-Code Platformlar", "Low-Code Geliştirme", "Hızlı Prototipleme", "Kullanıcı Eğitimi"],
+    href: "/tr/hizmetlerimiz/no-code-low-code-cozumleri",
+    color: "from-lime-500 to-lime-600",
+    badge: null
+  },
+  {
+    icon: BookOpen,
+    title: "Eğitim & Mentorluk",
+    description: "Dijital becerilerinizi geliştirin ve uzman rehberliğinde ilerleyin",
+    features: ["Teknik Eğitimler", "Birebir Mentorluk", "Workshop'lar", "Sertifika Programları"],
+    href: "/tr/hizmetlerimiz/egitim-mentorluk",
+    color: "from-purple-500 to-purple-600",
+    badge: null
+  },
 ]
 
 export function ServicesNew() {
@@ -126,7 +194,7 @@ export function ServicesNew() {
               className="group relative"
             >
               <Link href={service.href}>
-                <div className="relative glass rounded-2xl p-6 lg:p-8 shadow-modern border border-white/20 dark:border-white/10 group cursor-pointer block backdrop-blur-lg hover:bg-white/10 dark:hover:bg-white/5 transition-all duration-300 h-full overflow-hidden"
+                <div className="relative glass rounded-2xl p-6 lg:p-8 shadow-modern border border-white/20 dark:border-white/10 group cursor-pointer block backdrop-blur-lg hover:bg-white/10 dark:hover:bg-white/5 transition-all duration-300 h-full overflow-hidden flex flex-col"
                      style={{ background: 'rgba(255, 255, 255, 0.08)' }}>
                   
                   {/* Badge */}
@@ -147,29 +215,18 @@ export function ServicesNew() {
                   </div>
 
                   {/* Content */}
-                  <div className="relative z-10 text-center">
+                  <div className="relative z-10 text-center flex flex-col flex-grow">
                     <h3 className="text-xl lg:text-2xl font-display font-bold text-neutral-900 dark:text-white mb-4 group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors leading-tight">
                       {service.title}
                     </h3>
                     
-                    <p className="text-neutral-600 dark:text-neutral-400 mb-6 leading-relaxed text-sm lg:text-base line-clamp-3">
+                    <p className="text-neutral-600 dark:text-neutral-400 mb-6 leading-relaxed text-sm lg:text-base line-clamp-3 flex-grow">
                       {service.description}
                     </p>
 
-                    {/* Features */}
-                    <div className="mb-6">
-                      <ul className="space-y-2 inline-block">
-                        {service.features.slice(0, 3).map((feature, featureIndex) => (
-                          <li key={featureIndex} className="flex items-center space-x-3 text-neutral-500 dark:text-neutral-400">
-                            <div className={`w-1.5 h-1.5 bg-gradient-to-r ${service.color} rounded-full flex-shrink-0`}></div>
-                            <span className="text-xs lg:text-sm font-medium">{feature}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
 
                     {/* CTA */}
-                    <div className="flex items-center justify-center space-x-2 text-cyan-600 dark:text-cyan-400 font-semibold py-3 px-6 rounded-xl group-hover:shadow-modern transition-all duration-300 hover:text-blue-600 dark:hover:text-blue-400">
+                    <div className="flex items-center justify-center space-x-2 text-cyan-600 dark:text-cyan-400 font-semibold py-3 px-6 rounded-xl group-hover:shadow-modern transition-all duration-300 hover:text-blue-600 dark:hover:text-blue-400 mt-auto">
                       <span className="text-sm lg:text-base">Detayları İncele</span>
                       <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform duration-300" />
                     </div>

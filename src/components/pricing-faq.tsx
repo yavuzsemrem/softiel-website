@@ -62,7 +62,7 @@ export function PricingFAQ() {
             </span>
           </motion.div>
 
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold text-white mb-4">
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-display font-bold text-white mb-4">
             Merak{" "}
             <span className="bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 bg-clip-text text-transparent">
               Ettikleriniz

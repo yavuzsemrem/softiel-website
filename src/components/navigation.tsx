@@ -74,18 +74,19 @@ export function Navigation({ isMobile = false, onClose }: NavigationProps) {
           <div key={item.name}>
             {item.dropdown ? (
               <div>
-                <motion.button
-                  onClick={() => handleDropdownToggle(item.name)}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  className={`relative flex items-center justify-between w-full px-4 py-3 text-left rounded-xl transition-all duration-300 overflow-hidden ${
-                    isActive(item.href)
-                      ? 'text-white bg-gradient-to-r from-blue-500/20 to-cyan-500/20 backdrop-blur-sm shadow-lg shadow-blue-500/10'
-                      : 'text-slate-300 hover:text-white hover:bg-gradient-to-r hover:from-blue-500/10 hover:to-cyan-500/10 hover:shadow-md hover:shadow-blue-500/10'
-                  }`}
-                >
-                  <div className="flex items-center justify-center flex-1 relative z-10">
-                    <span className="font-medium">{item.name}</span>
+                <div className="flex items-center justify-between w-full">
+                  <Link
+                    href={item.href}
+                    onClick={handleLinkClick}
+                    className={`relative flex items-center justify-center flex-1 px-4 py-3 text-left rounded-xl transition-all duration-300 overflow-hidden ${
+                      isActive(item.href)
+                        ? 'text-white bg-gradient-to-r from-blue-500/20 to-cyan-500/20 backdrop-blur-sm shadow-lg shadow-blue-500/10'
+                        : 'text-slate-300 hover:text-white hover:bg-gradient-to-r hover:from-blue-500/10 hover:to-cyan-500/10 hover:shadow-md hover:shadow-blue-500/10'
+                    }`}
+                  >
+                    <div className="flex items-center justify-center flex-1 relative z-10">
+                      <span className="font-medium">{item.name}</span>
+                    </div>
                     {isActive(item.href) && (
                       <motion.div
                         initial={{ scale: 0, opacity: 0 }}
@@ -93,13 +94,20 @@ export function Navigation({ isMobile = false, onClose }: NavigationProps) {
                         className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-cyan-500/10 rounded-xl z-0"
                       />
                     )}
-                  </div>
-                  <ChevronDown 
-                    className={`h-4 w-4 transition-transform ${
-                      activeDropdown === item.name ? 'rotate-180' : ''
-                    }`} 
-                  />
-                </motion.button>
+                  </Link>
+                  <motion.button
+                    onClick={() => handleDropdownToggle(item.name)}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    className="p-2 text-slate-300 hover:text-white transition-colors"
+                  >
+                    <ChevronDown 
+                      className={`h-4 w-4 transition-transform ${
+                        activeDropdown === item.name ? 'rotate-180' : ''
+                      }`} 
+                    />
+                  </motion.button>
+                </div>
                 <AnimatePresence>
                   {activeDropdown === item.name && (
                     <motion.div
@@ -172,11 +180,11 @@ export function Navigation({ isMobile = false, onClose }: NavigationProps) {
         <div key={item.name} className="relative group">
           {item.dropdown ? (
             <div className="relative">
-              <motion.button
+              <Link
+                href={item.href}
+                onClick={handleLinkClick}
                 onMouseEnter={() => setActiveDropdown(item.name)}
                 onMouseLeave={() => setActiveDropdown(null)}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
                 className={`relative flex items-center justify-center space-x-1 px-1.5 lg:px-2 xl:px-3 py-1.5 lg:py-2 rounded-lg font-medium text-xs lg:text-sm xl:text-base transition-all duration-300 overflow-hidden whitespace-nowrap ${
                   isActive(item.href)
                     ? 'text-white bg-gradient-to-r from-blue-500/20 to-cyan-500/20 backdrop-blur-sm shadow-lg shadow-blue-500/10'
@@ -196,7 +204,7 @@ export function Navigation({ isMobile = false, onClose }: NavigationProps) {
                     className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-cyan-500/10 rounded-xl z-0"
                   />
                 )}
-              </motion.button>
+              </Link>
               
               <AnimatePresence>
                 {activeDropdown === item.name && (

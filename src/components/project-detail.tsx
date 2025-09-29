@@ -188,7 +188,7 @@ export function ProjectDetail({ slug }: ProjectDetailProps) {
             </span>
           </motion.div>
 
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-display font-bold text-neutral-900 dark:text-white mb-8 leading-tight break-words hyphens-auto">
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-display font-bold text-neutral-900 dark:text-white mb-8 leading-tight break-words hyphens-auto">
             {project.title.split(' ').slice(0, -2).join(' ')} {project.title.split(' ').length > 2 && (
               <span className="bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 bg-clip-text text-transparent">
                 {project.title.split(' ').slice(-2).join(' ')}
@@ -409,7 +409,7 @@ export function ProjectDetail({ slug }: ProjectDetailProps) {
                 </span>
               </motion.div>
 
-              <h3 className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold text-neutral-900 dark:text-white mb-6">
+              <h3 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-display font-bold text-neutral-900 dark:text-white mb-6">
                 Proje{" "}
                 <span className="bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 bg-clip-text text-transparent">
                   Galerisi

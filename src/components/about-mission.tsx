@@ -33,7 +33,7 @@ const values = [
 
 export function AboutMission() {
   return (
-    <section id="our-mission" className="relative py-20 lg:py-24">
+    <section id="our-mission" className="relative pt-20 pb-16 lg:pt-32 lg:pb-20">
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <motion.div
@@ -56,7 +56,7 @@ export function AboutMission() {
             </span>
           </motion.div>
 
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold text-neutral-900 dark:text-white mb-6">
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-display font-bold text-neutral-900 dark:text-white mb-6">
             Misyonumuz ve{" "}
             <span className="bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 bg-clip-text text-transparent">
               Vizyonumuz
@@ -152,7 +152,7 @@ export function AboutMission() {
             </span>
           </motion.div>
           
-          <h3 className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold text-neutral-900 dark:text-white mb-6">
+          <h3 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-display font-bold text-neutral-900 dark:text-white mb-6">
             Çalışma{" "}
             <span className="bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 bg-clip-text text-transparent">
               Prensiplerimiz
@@ -164,7 +164,7 @@ export function AboutMission() {
         </motion.div>
 
         {/* Values Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-6 max-w-4xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-6 max-w-6xl mx-auto">
           {values.map((value, index) => (
             <motion.div
               key={value.title}
@@ -172,45 +172,63 @@ export function AboutMission() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1, duration: 0.6 }}
               viewport={{ once: true }}
-              className="group w-full max-w-md h-full"
+              className="group w-full h-full"
             >
-              <div className="glass rounded-2xl p-6 shadow-modern border border-white/50 dark:border-white/40 hover:bg-white/15 dark:hover:bg-gray-800 transition-all duration-300 hover:scale-105 backdrop-blur-lg dark:[border:1px_solid_rgba(255,255,255,0.2)] text-center sm:text-left h-full flex flex-col"
-                   style={{ background: 'rgba(255, 255, 255, 0.1)' }}>
-                {/* Icon */}
-                <motion.div
-                  whileHover={{ scale: 1.1, rotate: 5 }}
-                  className="w-16 h-16 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-2xl flex items-center justify-center mb-6 group-hover:shadow-lg group-hover:shadow-cyan-500/25 mx-auto sm:mx-0"
-                >
-                  <value.icon className="h-8 w-8 text-white" />
-                </motion.div>
+              <div className="relative overflow-hidden rounded-3xl p-8 shadow-2xl border border-white/20 dark:border-white/30 hover:border-cyan-500/50 dark:hover:border-cyan-400/50 transition-all duration-500 hover:scale-[1.02] backdrop-blur-xl h-full flex flex-col"
+                   style={{ 
+                     background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)',
+                     boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.1)'
+                   }}>
+                
+                {/* Background Gradient */}
+                <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 via-transparent to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                
+                {/* Animated Border */}
+                <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-cyan-500/20 via-blue-500/20 to-purple-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm"></div>
+                
+                {/* Content */}
+                <div className="relative z-10">
+                  {/* Icon */}
+                  <motion.div
+                    whileHover={{ scale: 1.15, rotate: 10 }}
+                    className="w-20 h-20 bg-gradient-to-br from-cyan-500 via-blue-500 to-purple-500 rounded-3xl flex items-center justify-center mb-6 group-hover:shadow-2xl group-hover:shadow-cyan-500/30 mx-auto sm:mx-0 transition-all duration-300"
+                    style={{
+                      boxShadow: '0 10px 25px -5px rgba(6, 182, 212, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.1)'
+                    }}
+                  >
+                    <value.icon className="h-10 w-10 text-white" />
+                  </motion.div>
 
-                {/* Title */}
-                <h4 className="text-xl font-bold text-neutral-900 dark:text-white mb-4">
-                  {value.title}
-                </h4>
+                  {/* Title */}
+                  <h4 className="text-2xl font-bold text-white mb-4 group-hover:text-cyan-300 transition-colors duration-300">
+                    {value.title}
+                  </h4>
 
-                {/* Description */}
-                <p className="text-neutral-600 dark:text-neutral-400 mb-6 leading-relaxed">
-                  {value.description}
-                </p>
+                  {/* Description */}
+                  <p className="text-neutral-300 dark:text-neutral-400 mb-8 leading-relaxed text-lg group-hover:text-neutral-200 transition-colors duration-300">
+                    {value.description}
+                  </p>
 
-                {/* Features */}
-                <div className="space-y-2 flex flex-col items-center sm:items-start max-w-44 sm:max-w-none mx-auto sm:mx-0 pl-2 sm:pl-0 flex-grow">
-                  {value.features.map((feature, featureIndex) => (
-                    <motion.div
-                      key={featureIndex}
-                      initial={{ opacity: 0, x: -10 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      transition={{ delay: index * 0.1 + featureIndex * 0.1, duration: 0.4 }}
-                      viewport={{ once: true }}
-                      className="flex items-center space-x-2 justify-start w-full"
-                    >
-                      <div className="flex-shrink-0 w-4 h-4 flex items-center justify-center">
-                        <CheckCircle className="h-4 w-4 text-green-500" />
-                      </div>
-                      <span className="text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed text-left">{feature}</span>
-                    </motion.div>
-                  ))}
+                  {/* Features */}
+                  <div className="space-y-3 flex flex-col items-center sm:items-start flex-grow">
+                    {value.features.map((feature, featureIndex) => (
+                      <motion.div
+                        key={featureIndex}
+                        initial={{ opacity: 0, x: -20 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        transition={{ delay: index * 0.1 + featureIndex * 0.1, duration: 0.5 }}
+                        viewport={{ once: true }}
+                        className="flex items-center space-x-3 justify-start w-full group/feature"
+                      >
+                        <div className="flex-shrink-0 w-6 h-6 bg-gradient-to-r from-green-400 to-emerald-500 rounded-full flex items-center justify-center group-hover/feature:scale-110 transition-transform duration-200">
+                          <CheckCircle className="h-4 w-4 text-white" />
+                        </div>
+                        <span className="text-sm text-neutral-300 dark:text-neutral-400 leading-relaxed text-left group-hover/feature:text-white transition-colors duration-200 font-medium">
+                          {feature}
+                        </span>
+                      </motion.div>
+                    ))}
+                  </div>
                 </div>
               </div>
             </motion.div>

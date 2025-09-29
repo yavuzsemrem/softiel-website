@@ -10,10 +10,10 @@ import {
   LogOut,
   MessageSquare,
   Database,
-  ChevronRight,
   X,
   Tag,
-  Briefcase
+  Briefcase,
+  ChevronDown
 } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -30,11 +30,35 @@ interface DashboardSidebarProps {
 export function DashboardSidebar({ isOpen, onClose, collapsed, onToggle, user: propUser }: DashboardSidebarProps) {
   const pathname = usePathname()
   const { user: hookUser, loading } = useCurrentUser()
+  const [openDropdowns, setOpenDropdowns] = React.useState<string[]>([])
   
   // Prop'tan gelen user'ı öncelikle kullan, yoksa hook'tan geleni kullan
   const user = propUser || hookUser
   
   // User data is available from props or hook
+
+  // Alt sayfalar açıkken ilgili dropdown'ları aç (sadece yeni blog/proje sayfaları için)
+  React.useEffect(() => {
+    const shouldOpenDropdowns: string[] = []
+    
+    // Sadece alt sayfalar için dropdown aç
+    if (pathname === '/content-management-system-2024/blogs/new') {
+      shouldOpenDropdowns.push('Blog Yazıları')
+    }
+    if (pathname === '/content-management-system-2024/projects/new') {
+      shouldOpenDropdowns.push('Projelerimiz')
+    }
+    
+    setOpenDropdowns(shouldOpenDropdowns)
+  }, [pathname])
+
+  const toggleDropdown = (dropdownName: string) => {
+    setOpenDropdowns(prev => 
+      prev.includes(dropdownName) 
+        ? prev.filter(name => name !== dropdownName)
+        : [...prev, dropdownName]
+    )
+  }
 
   const navigation = [
     {
@@ -47,25 +71,31 @@ export function DashboardSidebar({ isOpen, onClose, collapsed, onToggle, user: p
       name: 'Blog Yazıları',
       href: '/content-management-system-2024/blogs',
       icon: FileText,
-      current: pathname.startsWith('/content-management-system-2024/blogs') && !pathname.startsWith('/content-management-system-2024/blogs/new')
-    },
-    {
-      name: 'Yeni Blog',
-      href: '/content-management-system-2024/blogs/new',
-      icon: Plus,
-      current: pathname.startsWith('/content-management-system-2024/blogs/new')
+      current: pathname === '/content-management-system-2024/blogs',
+      hasDropdown: true,
+      dropdownItems: [
+        {
+          name: 'Yeni Blog',
+          href: '/content-management-system-2024/blogs/new',
+          icon: Plus,
+          current: pathname === '/content-management-system-2024/blogs/new'
+        }
+      ]
     },
     {
       name: 'Projelerimiz',
       href: '/content-management-system-2024/projects',
       icon: Briefcase,
-      current: pathname.startsWith('/content-management-system-2024/projects') && !pathname.startsWith('/content-management-system-2024/projects/new')
-    },
-    {
-      name: 'Yeni Proje',
-      href: '/content-management-system-2024/projects/new',
-      icon: Plus,
-      current: pathname.startsWith('/content-management-system-2024/projects/new')
+      current: pathname === '/content-management-system-2024/projects',
+      hasDropdown: true,
+      dropdownItems: [
+        {
+          name: 'Yeni Proje',
+          href: '/content-management-system-2024/projects/new',
+          icon: Plus,
+          current: pathname === '/content-management-system-2024/projects/new'
+        }
+      ]
     },
     {
       name: 'Kategoriler',
@@ -162,25 +192,89 @@ export function DashboardSidebar({ isOpen, onClose, collapsed, onToggle, user: p
                 Ana Menü
               </h3>
               {navigation.map((item) => (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  className={`group flex items-center justify-between px-4 py-3 text-sm font-medium rounded-xl transition-all duration-200 ${
-                    item.current
-                      ? 'bg-gradient-to-r from-cyan-500/20 to-blue-500/20 text-white shadow-lg '
-                      : 'text-neutral-300 hover:bg-white/10 hover:text-white hover:shadow-md'
-                  }`}
-                >
-                  <div className="flex items-center space-x-3">
-                    <item.icon className={`h-5 w-5 flex-shrink-0 transition-colors ${
-                      item.current ? 'text-cyan-400' : 'text-neutral-400 group-hover:text-white'
-                    }`} />
-                    <span className="font-medium">{item.name}</span>
-                  </div>
-                  {item.current && (
-                    <ChevronRight className="h-4 w-4 flex-shrink-0 text-cyan-400" />
+                <div key={item.name}>
+                  {item.hasDropdown ? (
+                    <div>
+                      <div className={`group transition-all duration-200 ${
+                        item.current
+                          ? 'bg-gradient-to-r from-cyan-500/20 to-blue-500/20 text-white shadow-lg rounded-xl'
+                          : 'text-neutral-300 hover:bg-white/10 hover:text-white hover:shadow-md rounded-xl'
+                      } ${openDropdowns.includes(item.name) ? 'rounded-b-none' : ''}`}>
+                        <div className="flex items-center justify-between px-4 py-3">
+                          <Link
+                            href={item.href}
+                            className="flex items-center space-x-3 flex-1"
+                          >
+                            <item.icon className={`h-5 w-5 flex-shrink-0 transition-colors ${
+                              item.current ? 'text-cyan-400' : 'text-neutral-400 group-hover:text-white'
+                            }`} />
+                            <span className="font-medium">{item.name}</span>
+                          </Link>
+                          <button
+                            onClick={() => toggleDropdown(item.name)}
+                            className={`p-2 transition-colors ${
+                              item.current
+                                ? 'text-cyan-400 hover:text-white' 
+                                : 'text-neutral-400 group-hover:text-white'
+                            }`}
+                          >
+                            <ChevronDown 
+                              className={`h-4 w-4 transition-transform ${
+                                openDropdowns.includes(item.name) ? 'rotate-180' : ''
+                              }`} 
+                            />
+                          </button>
+                        </div>
+                      </div>
+                      {openDropdowns.includes(item.name) && (
+                        <motion.div
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{ opacity: 1, height: "auto" }}
+                          exit={{ opacity: 0, height: 0 }}
+                          transition={{ duration: 0.2 }}
+                          className="overflow-hidden rounded-b-xl"
+                        >
+                          <div className="bg-white/5 backdrop-blur-sm">
+                            {item.dropdownItems?.map((dropdownItem, index) => (
+                                <Link
+                                  key={dropdownItem.name}
+                                  href={dropdownItem.href}
+                                  className={`flex items-center space-x-3 px-4 py-3 text-sm font-medium transition-all duration-300 ${
+                                    dropdownItem.current 
+                                      ? 'bg-gradient-to-r from-cyan-500/20 to-blue-500/20 text-cyan-400 shadow-lg' 
+                                      : 'text-neutral-400 hover:text-cyan-400 hover:bg-white/5'
+                                  }`}
+                                >
+                                  <dropdownItem.icon className={`h-4 w-4 transition-colors ${
+                                    dropdownItem.current 
+                                      ? 'text-cyan-400' 
+                                      : 'text-cyan-400/70 hover:text-cyan-400'
+                                  }`} />
+                                <span>{dropdownItem.name}</span>
+                              </Link>
+                            ))}
+                          </div>
+                        </motion.div>
+                      )}
+                    </div>
+                  ) : (
+                    <Link
+                      href={item.href}
+                      className={`group flex items-center justify-between px-4 py-3 text-sm font-medium rounded-xl transition-all duration-200 ${
+                        item.current
+                          ? 'bg-gradient-to-r from-cyan-500/20 to-blue-500/20 text-white shadow-lg '
+                          : 'text-neutral-300 hover:bg-white/10 hover:text-white hover:shadow-md'
+                      }`}
+                    >
+                      <div className="flex items-center space-x-3">
+                        <item.icon className={`h-5 w-5 flex-shrink-0 transition-colors ${
+                          item.current ? 'text-cyan-400' : 'text-neutral-400 group-hover:text-white'
+                        }`} />
+                        <span className="font-medium">{item.name}</span>
+                      </div>
+                    </Link>
                   )}
-                </Link>
+                </div>
               ))}
             </div>
 
@@ -256,32 +350,140 @@ export function DashboardSidebar({ isOpen, onClose, collapsed, onToggle, user: p
                 </h3>
               )}
               {navigation.map((item) => (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  className={`group flex items-center ${
-                    collapsed ? 'justify-center px-1 py-3 w-full' : 'justify-between px-4 py-3'
-                  } text-sm font-medium rounded-xl transition-all duration-200 ${
-                    item.current
-                      ? collapsed 
-                        ? 'text-cyan-400' 
-                        : 'bg-gradient-to-r from-cyan-500/20 to-blue-500/20 text-white shadow-lg '
-                      : 'text-neutral-300 hover:bg-white/10 hover:text-white hover:shadow-md'
-                  }`}
-                  title={collapsed ? item.name : undefined}
-                >
-                  <div className={`flex items-center ${collapsed ? '' : 'space-x-3'}`}>
-                    <item.icon className={`h-5 w-5 flex-shrink-0 transition-colors ${
-                      item.current 
-                        ? 'text-cyan-400' 
-                        : 'text-neutral-400 group-hover:text-white'
-                    } ${collapsed ? 'lg:h-6 lg:w-6' : ''}`} />
-                    {!collapsed && <span className="font-medium">{item.name}</span>}
-                  </div>
-                  {!collapsed && item.current && (
-                    <ChevronRight className="h-4 w-4 flex-shrink-0 text-cyan-400" />
+                <div key={item.name}>
+                  {item.hasDropdown ? (
+                    <div>
+                      {collapsed ? (
+                        <div>
+                          <Link
+                            href={item.href}
+                            className={`group flex items-center justify-center px-1 py-3 w-full text-sm font-medium rounded-xl transition-all duration-200 ${
+                              item.current
+                                ? 'text-cyan-400' 
+                                : 'text-neutral-300 hover:bg-white/10 hover:text-white hover:shadow-md'
+                            }`}
+                            title={item.name}
+                          >
+                            <item.icon className={`h-5 w-5 flex-shrink-0 transition-colors ${
+                              item.current 
+                                ? 'text-cyan-400' 
+                                : 'text-neutral-400 group-hover:text-white'
+                            } lg:h-6 lg:w-6`} />
+                          </Link>
+                          {openDropdowns.includes(item.name) && (
+                            <div className="mt-1 space-y-1">
+                              {item.dropdownItems?.map((dropdownItem) => (
+                                <Link
+                                  key={dropdownItem.name}
+                                  href={dropdownItem.href}
+                                  className={`group flex items-center justify-center px-1 py-2 w-full text-sm font-medium rounded-lg transition-all duration-200 ${
+                                    dropdownItem.current
+                                      ? 'text-cyan-400 bg-cyan-500/20' 
+                                      : 'text-neutral-400 hover:text-cyan-400 hover:bg-white/10'
+                                  }`}
+                                  title={dropdownItem.name}
+                                >
+                                  <dropdownItem.icon className={`h-4 w-4 flex-shrink-0 transition-colors ${
+                                    dropdownItem.current 
+                                      ? 'text-cyan-400' 
+                                      : 'text-cyan-400/70 group-hover:text-cyan-400'
+                                  }`} />
+                                </Link>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      ) : (
+                        <div className={`group transition-all duration-200 ${
+                          item.current
+                            ? 'bg-gradient-to-r from-cyan-500/20 to-blue-500/20 text-white shadow-lg rounded-xl'
+                            : 'text-neutral-300 hover:bg-white/10 hover:text-white hover:shadow-md rounded-xl'
+                        } ${openDropdowns.includes(item.name) ? 'rounded-b-none' : ''}`}>
+                          <div className="flex items-center justify-between px-4 py-3">
+                            <Link
+                              href={item.href}
+                              className="flex items-center space-x-3 flex-1"
+                            >
+                              <item.icon className={`h-5 w-5 flex-shrink-0 transition-colors ${
+                                item.current
+                                  ? 'text-cyan-400' 
+                                  : 'text-neutral-400 group-hover:text-white'
+                              }`} />
+                              <span className="font-medium">{item.name}</span>
+                            </Link>
+                            <button
+                              onClick={() => toggleDropdown(item.name)}
+                              className={`p-2 transition-colors ${
+                                item.current
+                                  ? 'text-cyan-400 hover:text-white' 
+                                  : 'text-neutral-400 group-hover:text-white'
+                              }`}
+                            >
+                              <ChevronDown 
+                                className={`h-4 w-4 transition-transform ${
+                                  openDropdowns.includes(item.name) ? 'rotate-180' : ''
+                                }`} 
+                              />
+                            </button>
+                          </div>
+                        </div>
+                      )}
+                      {!collapsed && openDropdowns.includes(item.name) && (
+                          <motion.div
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: "auto" }}
+                            exit={{ opacity: 0, height: 0 }}
+                            transition={{ duration: 0.2 }}
+                            className="overflow-hidden rounded-b-xl"
+                          >
+                            <div className="bg-white/5 backdrop-blur-sm">
+                              {item.dropdownItems?.map((dropdownItem, index) => (
+                                <Link
+                                  key={dropdownItem.name}
+                                  href={dropdownItem.href}
+                                  className={`flex items-center space-x-3 px-4 py-3 text-sm font-medium transition-all duration-300 ${
+                                    dropdownItem.current 
+                                      ? 'bg-gradient-to-r from-cyan-500/20 to-blue-500/20 text-cyan-400 shadow-lg' 
+                                      : 'text-neutral-400 hover:text-cyan-400 hover:bg-white/5'
+                                  }`}
+                                >
+                                  <dropdownItem.icon className={`h-4 w-4 transition-colors ${
+                                    dropdownItem.current 
+                                      ? 'text-cyan-400' 
+                                      : 'text-cyan-400/70 hover:text-cyan-400'
+                                  }`} />
+                                  <span>{dropdownItem.name}</span>
+                                </Link>
+                              ))}
+                            </div>
+                          </motion.div>
+                        )}
+                    </div>
+                  ) : (
+                    <Link
+                      href={item.href}
+                      className={`group flex items-center ${
+                        collapsed ? 'justify-center px-1 py-3 w-full' : 'justify-between px-4 py-3'
+                      } text-sm font-medium rounded-xl transition-all duration-200 ${
+                        item.current
+                          ? collapsed 
+                            ? 'text-cyan-400' 
+                            : 'bg-gradient-to-r from-cyan-500/20 to-blue-500/20 text-white shadow-lg '
+                          : 'text-neutral-300 hover:bg-white/10 hover:text-white hover:shadow-md'
+                      }`}
+                      title={collapsed ? item.name : undefined}
+                    >
+                      <div className={`flex items-center ${collapsed ? '' : 'space-x-3'}`}>
+                        <item.icon className={`h-5 w-5 flex-shrink-0 transition-colors ${
+                          item.current 
+                            ? 'text-cyan-400' 
+                            : 'text-neutral-400 group-hover:text-white'
+                        } ${collapsed ? 'lg:h-6 lg:w-6' : ''}`} />
+                        {!collapsed && <span className="font-medium">{item.name}</span>}
+                      </div>
+                    </Link>
                   )}
-                </Link>
+                </div>
               ))}
             </div>
 

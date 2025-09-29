@@ -1,9 +1,9 @@
 "use client"
 
-import React from "react"
+import React, { useEffect, useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { motion } from "framer-motion"
+import { motion, useScroll, useTransform } from "framer-motion"
 import { 
   ArrowRight, 
   Play, 
@@ -25,19 +25,72 @@ import {
 } from "lucide-react"
 
 export function Hero() {
+  const { scrollY } = useScroll()
+  const [isLoaded, setIsLoaded] = useState(false)
+  const [isPageReady, setIsPageReady] = useState(false)
+  
+  // Minimal parallax - sadece arka plan için
+  const backgroundY = useTransform(scrollY, [0, 100], [0, -10], { clamp: true })
+  const lightBeam1Y = useTransform(scrollY, [0, 100], [0, -5], { clamp: true })
+  const lightBeam2Y = useTransform(scrollY, [0, 100], [0, -5], { clamp: true })
+
+  // Sayfa yükleme durumunu kontrol et
+  useEffect(() => {
+    const handleLoad = () => {
+      // Tüm kaynaklar yüklendi
+      setIsPageReady(true)
+      // Yüklenme ekranını daha uzun göster (2 saniye)
+      setTimeout(() => {
+        setIsLoaded(true)
+      }, 2000)
+    }
+
+    // Sayfa zaten yüklenmişse
+    if (document.readyState === 'complete') {
+      handleLoad()
+    } else {
+      // Sayfa yüklenme olaylarını dinle
+      window.addEventListener('load', handleLoad)
+      document.addEventListener('DOMContentLoaded', handleLoad)
+    }
+
+    return () => {
+      window.removeEventListener('load', handleLoad)
+      document.removeEventListener('DOMContentLoaded', handleLoad)
+    }
+  }, [])
+
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+        <section 
+          className="relative flex items-center justify-center overflow-hidden" 
+          style={{ 
+            minHeight: '100vh',
+            opacity: isLoaded ? 1 : 0,
+            visibility: isLoaded ? 'visible' : 'hidden',
+            transform: 'translateZ(0)',
+            backfaceVisibility: 'hidden',
+            WebkitBackfaceVisibility: 'hidden',
+            transition: 'opacity 0.5s ease-in-out, visibility 0.5s ease-in-out'
+          }}
+        >
       {/* Cinematic Background */}
       <div className="absolute inset-0">
         {/* Hero Image Background with Cinematic Effect */}
-        <div className="absolute inset-0">
+        <motion.div 
+          className="absolute inset-0"
+          style={{ y: backgroundY }}
+        >
           <Image
-            src="/images/hero1.png"
+            src="/images/hero-new.png"
             alt="Softiel Hero"
             fill
             className="object-cover object-center"
             priority
             quality={100}
+            style={{
+              filter: 'blur(5px)',
+              transform: 'scale(1.1)'
+            }}
           />
           
           {/* Cinematic Dark Overlay */}
@@ -45,7 +98,7 @@ export function Hero() {
           
           {/* Film Grain Effect */}
           <div className="absolute inset-0 opacity-20 mix-blend-overlay animate-pulse bg-noise"></div>
-        </div>
+        </motion.div>
 
         {/* Cinematic Light Beams */}
         <motion.div
@@ -59,6 +112,7 @@ export function Hero() {
             repeat: Infinity,
             ease: "easeInOut"
           }}
+          style={{ y: lightBeam1Y }}
           className="absolute top-0 left-1/4 w-96 h-full bg-gradient-to-b from-cyan-500/30 via-transparent to-transparent transform -skew-x-12 blur-sm"
         />
         
@@ -74,6 +128,7 @@ export function Hero() {
             ease: "easeInOut",
             delay: 2
           }}
+          style={{ y: lightBeam2Y }}
           className="absolute top-0 right-1/3 w-80 h-full bg-gradient-to-b from-blue-500/20 via-transparent to-transparent transform skew-x-6 blur-sm"
         />
 
@@ -126,97 +181,191 @@ export function Hero() {
       </div>
 
       {/* Main Content */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 sm:pt-40 lg:pt-48 pb-16 sm:pb-20 lg:pb-24 w-full">
-        <div className="text-center space-y-8 sm:space-y-12 lg:space-y-16">
+          <div 
+            className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 sm:pt-40 lg:pt-48 pb-8 sm:pb-12 lg:pb-16 w-full"
+            style={{
+              opacity: isLoaded ? 1 : 0,
+              visibility: isLoaded ? 'visible' : 'hidden',
+              transform: 'translateZ(0)',
+              willChange: 'auto',
+              transition: 'opacity 0.5s ease-in-out, visibility 0.5s ease-in-out'
+            }}
+          >
+        <div className="text-center space-y-8 sm:space-y-12 lg:space-y-16" 
+             style={{
+               transform: 'translate3d(0, 0, 0)',
+               willChange: 'auto',
+               backfaceVisibility: 'hidden',
+               perspective: '1000px',
+               WebkitTransform: 'translate3d(0, 0, 0)',
+               WebkitBackfaceVisibility: 'hidden'
+             }}>
 
-          {/* Main Hero Title with Enhanced Cinematic Effects */}
+          {/* Enhanced Hero Title with Modern Design */}
           <motion.div
-            initial={{ opacity: 0, y: 60 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: isLoaded ? 1 : 0, y: 0 }}
             transition={{ 
-              duration: 1.8, 
-              delay: 0.2,
+              duration: 0.4, 
+              delay: isLoaded ? 0 : 0,
               ease: [0.25, 0.46, 0.45, 0.94]
             }}
-            className="space-y-4"
+            style={{ 
+              transform: 'translate3d(0, 0, 0)',
+              willChange: 'transform',
+              WebkitTransform: 'translate3d(0, 0, 0)'
+            }}
+            className="relative"
           >
+            
+            <div className="relative space-y-6">
             <motion.h1
               className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-display font-bold text-white leading-[0.9] tracking-tight"
               style={{
-                textShadow: '0 0 40px rgba(6, 182, 212, 0.6), 0 0 80px rgba(6, 182, 212, 0.4), 0 0 120px rgba(6, 182, 212, 0.2)'
+                textShadow: '0 0 40px rgba(6, 182, 212, 0.6), 0 0 80px rgba(6, 182, 212, 0.4), 0 0 120px rgba(6, 182, 212, 0.2)',
+                opacity: isLoaded ? 1 : 0,
+                visibility: isLoaded ? 'visible' : 'hidden',
+                transform: 'translateZ(0)',
+                transition: 'opacity 0.3s ease-in-out, visibility 0.3s ease-in-out'
               }}
             >
               <motion.span
-                initial={{ opacity: 0, x: -30 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 1.2, delay: 0.6 }}
+                initial={{ opacity: 0, x: -15 }}
+                animate={{ opacity: isLoaded ? 1 : 0, x: 0 }}
+                transition={{ 
+                  duration: 0.3, 
+                  delay: isLoaded ? 0.1 : 0, 
+                  ease: [0.25, 0.46, 0.45, 0.94]
+                }}
                 className="block"
+                style={{
+                  transform: 'translate3d(0, 0, 0)',
+                  willChange: 'transform'
+                }}
               >
                 Dijital Dünyada
               </motion.span>
               <motion.span 
-                className="block bg-gradient-to-r from-blue-500 to-cyan-500 bg-clip-text text-transparent"
-                initial={{ opacity: 0, scale: 0.7, y: 30 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
+                className="block bg-gradient-to-r from-blue-400 via-cyan-400 to-purple-400 bg-clip-text text-transparent"
+                initial={{ opacity: 0, scale: 0.95, y: 15 }}
+                animate={{ opacity: isLoaded ? 1 : 0, scale: 1, y: 0 }}
                 transition={{ 
-                  duration: 1.5, 
-                  delay: 1,
-                  ease: "easeOut"
+                  duration: 0.4, 
+                  delay: isLoaded ? 0.15 : 0,
+                  ease: [0.25, 0.46, 0.45, 0.94]
                 }}
                 style={{
-                  filter: 'drop-shadow(0 0 30px rgba(59, 130, 246, 0.8))',
-                  textShadow: '0 0 50px rgba(59, 130, 246, 0.5)'
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  transform: 'translate3d(0, 0, 0)',
+                  willChange: 'transform'
                 }}
               >
                 Fark Yaratın
               </motion.span>
             </motion.h1>
             
-            {/* Decorative Line */}
-            <motion.div
-              initial={{ width: 0 }}
-              animate={{ width: "100%" }}
-              transition={{ duration: 2, delay: 1.8 }}
-              className="h-1 bg-gradient-to-r from-transparent via-blue-500 to-transparent mx-auto max-w-md rounded-full"
-              style={{
-                boxShadow: '0 0 20px rgba(59, 130, 246, 0.6)'
-              }}
-            />
+              {/* Enhanced Decorative Elements */}
+              <div className="flex items-center justify-center space-x-4">
+                <motion.div
+                  initial={{ width: 0 }}
+                  animate={{ width: isLoaded ? "60px" : 0 }}
+                  transition={{ 
+                    duration: 0.5, 
+                    delay: isLoaded ? 0.2 : 0, 
+                    ease: [0.25, 0.46, 0.45, 0.94]
+                  }}
+                  className="h-0.5 bg-gradient-to-r from-transparent to-blue-500 rounded-full"
+                  style={{
+                    boxShadow: '0 0 10px rgba(59, 130, 246, 0.6)',
+                    willChange: 'width'
+                  }}
+                />
+                <motion.div
+                  initial={{ scale: 0 }}
+                  animate={{ scale: isLoaded ? 1 : 0 }}
+                  transition={{ 
+                    duration: 0.3, 
+                    delay: isLoaded ? 0.25 : 0, 
+                    ease: [0.25, 0.46, 0.45, 0.94]
+                  }}
+                  className="w-2 h-2 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full"
+                  style={{
+                    boxShadow: '0 0 20px rgba(59, 130, 246, 0.8)',
+                    willChange: 'transform'
+                  }}
+                />
+                <motion.div
+                  initial={{ width: 0 }}
+                  animate={{ width: isLoaded ? "60px" : 0 }}
+                  transition={{ 
+                    duration: 0.5, 
+                    delay: isLoaded ? 0.2 : 0, 
+                    ease: [0.25, 0.46, 0.45, 0.94]
+                  }}
+                  className="h-0.5 bg-gradient-to-l from-transparent to-purple-500 rounded-full"
+                  style={{
+                    boxShadow: '0 0 10px rgba(139, 92, 246, 0.6)',
+                    willChange: 'width'
+                  }}
+                />
+              </div>
+            </div>
           </motion.div>
 
-          {/* Enhanced Cinematic Subtitle */}
+          {/* Enhanced Modern Subtitle */}
           <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: isLoaded ? 1 : 0, y: 0 }}
             transition={{ 
-              duration: 1.4, 
-              delay: 2.2,
-              ease: "easeOut"
+              duration: 0.4, 
+              delay: isLoaded ? 0.3 : 0,
+              ease: [0.25, 0.46, 0.45, 0.94]
             }}
-            className="max-w-5xl mx-auto px-4"
-          >
-            <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-gray-200 leading-relaxed font-light"
+            style={{ 
+              transform: 'translate3d(0, 0, 0)',
+              willChange: 'transform'
+            }}
+            className="max-w-5xl mx-auto px-4 relative p-8 rounded-2xl backdrop-blur-xl"
                style={{
-                 textShadow: '0 0 30px rgba(0, 0, 0, 0.9)',
-                 backdropFilter: 'blur(3px)'
-               }}
-            >
-              <motion.span
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 1, delay: 2.6 }}
+              background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.02) 0%, rgba(255, 255, 255, 0.05) 50%, rgba(255, 255, 255, 0.02) 100%), linear-gradient(135deg, rgba(59, 130, 246, 0.03) 0%, rgba(6, 182, 212, 0.03) 50%, rgba(139, 92, 246, 0.03) 100%)'
+            }}
           >
-            Web tasarımından yapay zeka entegrasyonuna, mobil uygulamalardan SEO optimizasyonuna kadar 
-            tüm dijital ihtiyaçlarınız için profesyonel çözümler sunuyoruz.
-              </motion.span>
-            </p>
+            {/* Background Blur Effect */}
+            <div className="absolute inset-0 bg-gradient-to-r from-white/5 via-white/10 to-white/5 rounded-2xl blur-sm -z-10"></div>
+            
+            <motion.p 
+              className="text-sm sm:text-base md:text-lg lg:text-xl leading-relaxed font-light text-center relative z-10 text-white"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: isLoaded ? 1 : 0 }}
+              transition={{ 
+                duration: 0.3, 
+                delay: isLoaded ? 0.35 : 0, 
+                ease: [0.25, 0.46, 0.45, 0.94]
+              }}
+              style={{
+                textShadow: '0 0 30px rgba(0, 0, 0, 0.8), 0 0 60px rgba(6, 182, 212, 0.3)',
+                willChange: 'opacity'
+              }}
+            >
+              <span className="text-white">Web tasarımından </span>
+              <span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent font-medium" style={{ WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>yapay zeka</span>
+              <span className="text-white"> entegrasyonuna, mobil uygulamalardan </span>
+              <span className="bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent font-medium" style={{ WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>SEO optimizasyonuna</span>
+              <span className="text-white"> kadar tüm </span>
+              <span className="text-white">dijital</span>
+              <span className="text-white"> ihtiyaçlarınız için </span>
+              <span className="bg-gradient-to-r from-blue-400 via-cyan-400 to-purple-400 bg-clip-text text-transparent font-medium" style={{ WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>profesyonel çözümler</span>
+              <span className="text-white"> sunuyoruz.</span>
+            </motion.p>
           </motion.div>
 
           {/* Enhanced Quick Stats */}
           <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.2, delay: 3 }}
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: isLoaded ? 1 : 0, y: 0 }}
+            transition={{ duration: 0.4, delay: isLoaded ? 0.4 : 0, ease: "easeOut" }}
+            style={{ transform: 'translate3d(0, 0, 0)' }}
             className="grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-6xl mx-auto"
           >
             {[
@@ -226,16 +375,14 @@ export function Hero() {
             ].map((stat, index) => (
               <motion.div
                 key={stat.label}
-                initial={{ opacity: 0, y: 30, scale: 0.8 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
+                initial={{ opacity: 0, y: 20, scale: 0.9 }}
+                animate={{ opacity: isLoaded ? 1 : 0, y: 0, scale: 1 }}
                 transition={{ 
-                  duration: 0.8, 
-                  delay: 3.2 + index * 0.2,
+                  duration: 0.3, 
+                  delay: isLoaded ? 0.5 + index * 0.05 : 0,
                   ease: "easeOut"
                 }}
                 whileHover={{ 
-                  scale: 1.05, 
-                  y: -8,
                   boxShadow: `0 0 40px rgba(${stat.color === 'cyan' ? '6, 182, 212' : stat.color === 'blue' ? '59, 130, 246' : '139, 92, 246'}, 0.6)`
                 }}
                 className="relative backdrop-blur-xl rounded-2xl p-8 overflow-hidden group cursor-pointer"
@@ -275,19 +422,18 @@ export function Hero() {
 
           {/* Enhanced Cinematic CTA Buttons */}
           <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.2, delay: 3.8 }}
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: isLoaded ? 1 : 0, y: 0 }}
+            transition={{ duration: 0.4, delay: isLoaded ? 0.6 : 0, ease: "easeOut" }}
+            style={{ transform: 'translate3d(0, 0, 0)' }}
             className="flex flex-col sm:flex-row gap-8 justify-center items-center"
           >
             <Link href="/tr/iletisim">
               <motion.button
-                initial={{ opacity: 0, scale: 0.7 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 1, delay: 4 }}
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: isLoaded ? 1 : 0, scale: 1 }}
+                transition={{ duration: 0.3, delay: isLoaded ? 0.7 : 0, ease: "easeOut" }}
                 whileHover={{ 
-                  scale: 1.08, 
-                  y: -5,
                   boxShadow: '0 0 50px rgba(6, 182, 212, 0.8)'
                 }}
                 whileTap={{ scale: 0.95 }}
@@ -310,21 +456,20 @@ export function Hero() {
             
             <Link href="/tr/hizmetlerimiz">
               <motion.button
-                initial={{ opacity: 0, scale: 0.7 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 1, delay: 4.2 }}
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: isLoaded ? 1 : 0, scale: 1 }}
+                transition={{ duration: 0.3, delay: isLoaded ? 0.75 : 0, ease: "easeOut" }}
                 whileHover={{ 
-                  scale: 1.08, 
-                  y: -5,
                   backgroundColor: 'rgba(255, 255, 255, 0.2)',
                   borderColor: 'rgba(6, 182, 212, 0.8)',
                   boxShadow: '0 0 40px rgba(255, 255, 255, 0.3)'
                 }}
                 whileTap={{ scale: 0.95 }}
-                className="group flex items-center space-x-3 px-12 py-6 rounded-3xl font-bold text-xl text-white transition-all duration-300 border-2 border-white/40 backdrop-blur-xl cursor-pointer"
+                className="group flex items-center space-x-3 px-12 py-6 rounded-3xl font-bold text-xl text-white transition-all duration-300 border-2 backdrop-blur-xl cursor-pointer"
                 style={{ 
                   background: 'rgba(255, 255, 255, 0.12)',
-                  boxShadow: '0 0 30px rgba(255, 255, 255, 0.15)'
+                  boxShadow: '0 0 30px rgba(255, 255, 255, 0.15)',
+                  borderColor: 'rgba(156, 163, 175, 0.4)'
                 }}
               >
                 <span>Hizmetlerimizi İncele</span>
@@ -335,9 +480,10 @@ export function Hero() {
 
           {/* Enhanced Cinematic Features */}
           <motion.div
-            initial={{ opacity: 0, y: 60 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.2, delay: 4.6 }}
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: isLoaded ? 1 : 0, y: 0 }}
+            transition={{ duration: 0.4, delay: isLoaded ? 0.8 : 0, ease: "easeOut" }}
+            style={{ transform: 'translate3d(0, 0, 0)' }}
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto"
           >
             {[
@@ -348,40 +494,35 @@ export function Hero() {
             ].map((feature, index) => (
               <motion.div
                 key={feature.text}
-                initial={{ opacity: 0, y: 40, scale: 0.7 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
+                initial={{ opacity: 0, y: 20, scale: 0.9 }}
+                animate={{ opacity: isLoaded ? 1 : 0, y: 0, scale: 1 }}
                 transition={{ 
-                  duration: 1, 
-                  delay: 4.8 + index * 0.15,
+                  duration: 0.3, 
+                  delay: isLoaded ? 0.9 + index * 0.05 : 0,
                   ease: "easeOut"
                 }}
-                whileHover={{ 
-                  scale: 1.08, 
-                  y: -8,
-                  boxShadow: `0 0 50px rgba(${feature.color === 'cyan' ? '6, 182, 212' : feature.color === 'blue' ? '59, 130, 246' : feature.color === 'purple' ? '139, 92, 246' : '236, 72, 153'}, 0.7)`
-                }}
-                className={`relative flex flex-col items-center space-y-4 backdrop-blur-xl rounded-3xl p-8 transition-all duration-300 border border-white/30 overflow-hidden group cursor-pointer`}
+                className={`relative flex flex-col items-center justify-center backdrop-blur-xl rounded-3xl p-8 transition-all duration-500 overflow-hidden group cursor-pointer hover:shadow-2xl`}
                 style={{ 
                   background: 'rgba(255, 255, 255, 0.08)',
                   boxShadow: '0 0 30px rgba(255, 255, 255, 0.1)'
                 }}
               >
                 {/* Enhanced Hover Glow Effect */}
-                <motion.div
-                  className={`absolute inset-0 opacity-0 group-hover:opacity-25 transition-opacity duration-300 bg-gradient-to-br ${
-                    feature.color === 'cyan' ? 'from-cyan-400 to-blue-500' :
-                    feature.color === 'blue' ? 'from-blue-400 to-purple-500' :
-                    feature.color === 'purple' ? 'from-purple-400 to-pink-500' :
-                    'from-pink-400 to-rose-500'
+                <div
+                  className={`absolute inset-0 opacity-0 group-hover:opacity-50 transition-all duration-500 bg-gradient-to-br ${
+                    feature.color === 'cyan' ? 'from-cyan-400/30 to-blue-500/30' :
+                    feature.color === 'blue' ? 'from-blue-400/30 to-purple-500/30' :
+                    feature.color === 'purple' ? 'from-purple-400/30 to-pink-500/30' :
+                    'from-pink-400/30 to-rose-500/30'
                   }`}
                 />
                 
                 <feature.icon 
-                  className={`h-12 w-12 flex-shrink-0 relative z-10 ${
-                    feature.color === 'cyan' ? 'text-cyan-400' :
-                    feature.color === 'blue' ? 'text-blue-400' :
-                    feature.color === 'purple' ? 'text-purple-400' :
-                    'text-pink-400'
+                  className={`h-12 w-12 flex-shrink-0 relative z-10 transition-all duration-500 mb-4 ${
+                    feature.color === 'cyan' ? 'text-cyan-400 group-hover:text-cyan-300' :
+                    feature.color === 'blue' ? 'text-blue-400 group-hover:text-blue-300' :
+                    feature.color === 'purple' ? 'text-purple-400 group-hover:text-purple-300' :
+                    'text-pink-400 group-hover:text-pink-300'
                   }`}
                   style={{
                     filter: `drop-shadow(0 0 20px rgba(${feature.color === 'cyan' ? '6, 182, 212' : feature.color === 'blue' ? '59, 130, 246' : feature.color === 'purple' ? '139, 92, 246' : '236, 72, 153'}, 0.8))`
@@ -393,6 +534,7 @@ export function Hero() {
               </motion.div>
             ))}
           </motion.div>
+
         </div>
       </div>
     </section>
