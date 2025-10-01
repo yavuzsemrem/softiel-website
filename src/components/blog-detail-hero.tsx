@@ -328,12 +328,12 @@ export function BlogDetailHero({ slug }: BlogDetailHeroProps) {
 
           <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-display font-bold text-neutral-900 dark:text-white mb-8 leading-tight blog-hero-title">
             {post.title.split(' ').slice(0, -2).join(' ')} {post.title.split(' ').length > 2 && (
-              <span className="bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 bg-clip-text text-transparent">
                 {post.title.split(' ').slice(-2).join(' ')}
               </span>
             )}
             {post.title.split(' ').length <= 2 && (
-              <span className="bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 bg-clip-text text-transparent">
                 {post.title}
               </span>
             )}
