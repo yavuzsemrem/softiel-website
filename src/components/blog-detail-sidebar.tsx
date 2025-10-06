@@ -162,7 +162,7 @@ export function BlogDetailSidebar({ currentSlug }: BlogDetailSidebarProps) {
         <div className="space-y-2 lg:space-y-3">
             {displayPosts.map((post, index) => {
               // URL oluşturma - daha güvenli
-              const blogUrl = post.slug ? `/blog/${post.slug}` : post.id ? `/blog/${post.id}` : '#'
+              const blogUrl = post.slug ? `/tr/blog/${post.slug}` : post.id ? `/tr/blog/${post.id}` : '#'
               
               return (
             <Link

@@ -118,7 +118,7 @@ export function NotFoundContent() {
 
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold text-neutral-900 dark:text-white mb-6">
               Belki{" "}
-              <span className="bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 bg-clip-text text-transparent">
                 Bunları Arıyorsunuz
               </span>
             </h2>
@@ -235,7 +235,7 @@ export function NotFoundContent() {
           <div className="glass rounded-3xl p-8 lg:p-12 shadow-modern-lg border border-white/50 dark:border-white/40 backdrop-blur-lg dark:[border:1px_solid_rgba(255,255,255,0.2)]"
                style={{ background: 'rgba(255, 255, 255, 0.1)' }}>
             <div className="max-w-3xl mx-auto">
-              <div className="w-20 h-20 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-modern">
+              <div className="w-20 h-20 bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-modern">
                 <Mail className="h-10 w-10 text-white" />
               </div>
               
@@ -249,11 +249,11 @@ export function NotFoundContent() {
               
               <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
                 <motion.a
-                  href="/iletisim"
+                  href="/tr/iletisim"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   transition={{ duration: 0.15 }}
-                  className="inline-flex items-center space-x-2 bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white px-8 py-4 rounded-2xl font-semibold text-lg shadow-modern hover:shadow-modern-lg transition-all duration-75"
+                  className="inline-flex items-center space-x-2 bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 hover:from-cyan-600 hover:via-blue-600 hover:to-blue-700 text-white px-8 py-4 rounded-2xl font-semibold text-lg shadow-modern hover:shadow-modern-lg transition-all duration-75"
                 >
                   <Mail className="h-5 w-5" />
                   <span>İletişime Geç</span>

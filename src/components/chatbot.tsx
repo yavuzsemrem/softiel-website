@@ -72,12 +72,12 @@ const openWhatsApp = (locale: string) => {
   
   // Dil bazlı mesajlar
   const messages = {
-    tr: 'Merhaba! Softiel hizmetleri hakkında bilgi almak istiyorum.',
-    en: 'Hello! I would like to get information about Softiel services.',
-    de: 'Hallo! Ich möchte Informationen über Softiel-Dienstleistungen erhalten.',
-    fr: 'Bonjour! Je voudrais obtenir des informations sur les services de Softiel.',
-    ru: 'Привет! Я хотел бы получить информацию об услугах Softiel.',
-    ar: 'مرحبا! أود الحصول على معلومات حول خدمات Softiel.'
+    tr: 'Merhaba! Web sitesi tasarımı hakkında bilgi almak istiyorum.',
+    en: 'Hello! I would like to get information about website design.',
+    de: 'Hallo! Ich möchte Informationen über Website-Design erhalten.',
+    fr: 'Bonjour! Je voudrais obtenir des informations sur la conception de sites web.',
+    ru: 'Привет! Я хотел бы получить информацию о дизайне веб-сайтов.',
+    ar: 'مرحبا! أود الحصول على معلومات حول تصميم المواقع الإلكترونية.'
   }
 
   const message = encodeURIComponent(messages[locale as keyof typeof messages] || messages.tr)

@@ -401,7 +401,7 @@ export function CategoryDetailView({ categoryId }: CategoryDetailViewProps) {
             {blogs.map((blog, index) => (
               <Link
                 key={blog.id}
-                href={`/blog/${blog.slug || blog.id}?from=${encodeURIComponent(window.location.pathname)}`}
+                href={`/tr/blog/${blog.slug || blog.id}?from=${encodeURIComponent(window.location.pathname)}`}
                 className="group block p-4 glass rounded-xl hover:bg-white/20 transition-all duration-200"
                 style={{ background: 'rgba(255, 255, 255, 0.05)' }}
               >

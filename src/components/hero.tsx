@@ -81,7 +81,7 @@ export function Hero() {
           style={{ y: backgroundY }}
         >
           <Image
-            src="/images/hero-new.png"
+            src="/images/hero1.webp"
             alt="Softiel Hero"
             fill
             className="object-cover object-center"
@@ -230,117 +230,72 @@ export function Hero() {
               }}
             >
               <motion.span
-                initial={{ opacity: 0, x: -15 }}
-                animate={{ opacity: isLoaded ? 1 : 0, x: 0 }}
+                initial={{ opacity: 0, x: -30, rotateX: -15 }}
+                animate={{ opacity: isLoaded ? 1 : 0, x: 0, rotateX: 0 }}
                 transition={{ 
-                  duration: 0.3, 
-                  delay: isLoaded ? 0.1 : 0, 
+                  duration: 0.8, 
+                  delay: isLoaded ? 0.2 : 0, 
                   ease: [0.25, 0.46, 0.45, 0.94]
                 }}
                 className="block"
                 style={{
                   transform: 'translate3d(0, 0, 0)',
-                  willChange: 'transform'
+                  willChange: 'transform',
+                  transformStyle: 'preserve-3d'
                 }}
               >
                 Dijital Dünyada
               </motion.span>
               <motion.span 
-                className="block bg-gradient-to-r from-blue-400 via-cyan-400 to-purple-400 bg-clip-text text-transparent"
-                initial={{ opacity: 0, scale: 0.95, y: 15 }}
-                animate={{ opacity: isLoaded ? 1 : 0, scale: 1, y: 0 }}
+                className="block bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 bg-clip-text text-transparent"
+                initial={{ opacity: 0, scale: 0.8, y: 30, rotateX: 15 }}
+                animate={{ opacity: isLoaded ? 1 : 0, scale: 1, y: 0, rotateX: 0 }}
                 transition={{ 
-                  duration: 0.4, 
-                  delay: isLoaded ? 0.15 : 0,
+                  duration: 0.8, 
+                  delay: isLoaded ? 0.4 : 0,
                   ease: [0.25, 0.46, 0.45, 0.94]
                 }}
                 style={{
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
                   transform: 'translate3d(0, 0, 0)',
-                  willChange: 'transform'
+                  willChange: 'transform',
+                  transformStyle: 'preserve-3d'
                 }}
               >
                 Fark Yaratın
               </motion.span>
             </motion.h1>
             
-              {/* Enhanced Decorative Elements */}
-              <div className="flex items-center justify-center space-x-4">
-                <motion.div
-                  initial={{ width: 0 }}
-                  animate={{ width: isLoaded ? "60px" : 0 }}
-                  transition={{ 
-                    duration: 0.5, 
-                    delay: isLoaded ? 0.2 : 0, 
-                    ease: [0.25, 0.46, 0.45, 0.94]
-                  }}
-                  className="h-0.5 bg-gradient-to-r from-transparent to-blue-500 rounded-full"
-                  style={{
-                    boxShadow: '0 0 10px rgba(59, 130, 246, 0.6)',
-                    willChange: 'width'
-                  }}
-                />
-                <motion.div
-                  initial={{ scale: 0 }}
-                  animate={{ scale: isLoaded ? 1 : 0 }}
-                  transition={{ 
-                    duration: 0.3, 
-                    delay: isLoaded ? 0.25 : 0, 
-                    ease: [0.25, 0.46, 0.45, 0.94]
-                  }}
-                  className="w-2 h-2 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full"
-                  style={{
-                    boxShadow: '0 0 20px rgba(59, 130, 246, 0.8)',
-                    willChange: 'transform'
-                  }}
-                />
-                <motion.div
-                  initial={{ width: 0 }}
-                  animate={{ width: isLoaded ? "60px" : 0 }}
-                  transition={{ 
-                    duration: 0.5, 
-                    delay: isLoaded ? 0.2 : 0, 
-                    ease: [0.25, 0.46, 0.45, 0.94]
-                  }}
-                  className="h-0.5 bg-gradient-to-l from-transparent to-purple-500 rounded-full"
-                  style={{
-                    boxShadow: '0 0 10px rgba(139, 92, 246, 0.6)',
-                    willChange: 'width'
-                  }}
-                />
-              </div>
             </div>
           </motion.div>
 
           {/* Enhanced Modern Subtitle */}
           <motion.div
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: isLoaded ? 1 : 0, y: 0 }}
+            initial={{ opacity: 0, y: 20, scale: 0.95 }}
+            animate={{ opacity: isLoaded ? 1 : 0, y: 0, scale: 1 }}
             transition={{ 
-              duration: 0.4, 
-              delay: isLoaded ? 0.3 : 0,
+              duration: 0.6, 
+              delay: isLoaded ? 0.6 : 0,
               ease: [0.25, 0.46, 0.45, 0.94]
             }}
             style={{ 
               transform: 'translate3d(0, 0, 0)',
-              willChange: 'transform'
-            }}
-            className="max-w-5xl mx-auto px-4 relative p-8 rounded-2xl backdrop-blur-xl"
-               style={{
+              willChange: 'transform',
               background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.02) 0%, rgba(255, 255, 255, 0.05) 50%, rgba(255, 255, 255, 0.02) 100%), linear-gradient(135deg, rgba(59, 130, 246, 0.03) 0%, rgba(6, 182, 212, 0.03) 50%, rgba(139, 92, 246, 0.03) 100%)'
             }}
+            className="max-w-5xl mx-auto px-4 relative p-8 rounded-2xl backdrop-blur-xl"
           >
             {/* Background Blur Effect */}
             <div className="absolute inset-0 bg-gradient-to-r from-white/5 via-white/10 to-white/5 rounded-2xl blur-sm -z-10"></div>
             
             <motion.p 
               className="text-sm sm:text-base md:text-lg lg:text-xl leading-relaxed font-light text-center relative z-10 text-white"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: isLoaded ? 1 : 0 }}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: isLoaded ? 1 : 0, y: 0 }}
               transition={{ 
-                duration: 0.3, 
-                delay: isLoaded ? 0.35 : 0, 
+                duration: 0.5, 
+                delay: isLoaded ? 0.8 : 0, 
                 ease: [0.25, 0.46, 0.45, 0.94]
               }}
               style={{
@@ -349,13 +304,13 @@ export function Hero() {
               }}
             >
               <span className="text-white">Web tasarımından </span>
-              <span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent font-medium" style={{ WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>yapay zeka</span>
+              <span className="bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 bg-clip-text text-transparent font-medium" style={{ WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>yapay zeka</span>
               <span className="text-white"> entegrasyonuna, mobil uygulamalardan </span>
-              <span className="bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent font-medium" style={{ WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>SEO optimizasyonuna</span>
+              <span className="bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 bg-clip-text text-transparent font-medium" style={{ WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>SEO optimizasyonuna</span>
               <span className="text-white"> kadar tüm </span>
               <span className="text-white">dijital</span>
               <span className="text-white"> ihtiyaçlarınız için </span>
-              <span className="bg-gradient-to-r from-blue-400 via-cyan-400 to-purple-400 bg-clip-text text-transparent font-medium" style={{ WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>profesyonel çözümler</span>
+              <span className="bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 bg-clip-text text-transparent font-medium" style={{ WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>profesyonel çözümler</span>
               <span className="text-white"> sunuyoruz.</span>
             </motion.p>
           </motion.div>
@@ -395,7 +350,7 @@ export function Hero() {
                 <motion.div
                   className={`absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-300 bg-gradient-to-br ${
                     stat.color === 'cyan' ? 'from-cyan-400 to-blue-500' :
-                    stat.color === 'blue' ? 'from-blue-400 to-purple-500' :
+                    stat.color === 'blue' ? 'from-blue-400 to-blue-600' :
                     'from-purple-400 to-pink-500'
                   }`}
                 />
@@ -430,11 +385,12 @@ export function Hero() {
           >
             <Link href="/tr/iletisim">
               <motion.button
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: isLoaded ? 1 : 0, scale: 1 }}
-                transition={{ duration: 0.3, delay: isLoaded ? 0.7 : 0, ease: "easeOut" }}
+                initial={{ opacity: 0, scale: 0.8, y: 20 }}
+                animate={{ opacity: isLoaded ? 1 : 0, scale: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: isLoaded ? 1.0 : 0, ease: [0.25, 0.46, 0.45, 0.94] }}
                 whileHover={{ 
-                  boxShadow: '0 0 50px rgba(6, 182, 212, 0.8)'
+                  boxShadow: '0 0 50px rgba(6, 182, 212, 0.8)',
+                  scale: 1.05
                 }}
                 whileTap={{ scale: 0.95 }}
                 className="group relative flex items-center space-x-3 text-white px-12 py-6 rounded-3xl font-bold text-xl overflow-hidden transition-all duration-300 cursor-pointer"
@@ -456,13 +412,14 @@ export function Hero() {
             
             <Link href="/tr/hizmetlerimiz">
               <motion.button
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: isLoaded ? 1 : 0, scale: 1 }}
-                transition={{ duration: 0.3, delay: isLoaded ? 0.75 : 0, ease: "easeOut" }}
+                initial={{ opacity: 0, scale: 0.8, y: 20 }}
+                animate={{ opacity: isLoaded ? 1 : 0, scale: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: isLoaded ? 1.1 : 0, ease: [0.25, 0.46, 0.45, 0.94] }}
                 whileHover={{ 
                   backgroundColor: 'rgba(255, 255, 255, 0.2)',
                   borderColor: 'rgba(6, 182, 212, 0.8)',
-                  boxShadow: '0 0 40px rgba(255, 255, 255, 0.3)'
+                  boxShadow: '0 0 40px rgba(255, 255, 255, 0.3)',
+                  scale: 1.05
                 }}
                 whileTap={{ scale: 0.95 }}
                 className="group flex items-center space-x-3 px-12 py-6 rounded-3xl font-bold text-xl text-white transition-all duration-300 border-2 backdrop-blur-xl cursor-pointer"
@@ -487,7 +444,7 @@ export function Hero() {
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto"
           >
             {[
-              { icon: Code, text: "Web Geliştirme", color: "cyan" },
+              { icon: Code, text: "Web Uygulaması Geliştirme", color: "cyan" },
               { icon: Palette, text: "UI/UX Tasarım", color: "blue" },
               { icon: Search, text: "SEO Optimizasyonu", color: "purple" },
               { icon: Zap, text: "Yapay Zeka", color: "pink" }
@@ -511,7 +468,7 @@ export function Hero() {
                 <div
                   className={`absolute inset-0 opacity-0 group-hover:opacity-50 transition-all duration-500 bg-gradient-to-br ${
                     feature.color === 'cyan' ? 'from-cyan-400/30 to-blue-500/30' :
-                    feature.color === 'blue' ? 'from-blue-400/30 to-purple-500/30' :
+                    feature.color === 'blue' ? 'from-blue-400/30 to-blue-600/30' :
                     feature.color === 'purple' ? 'from-purple-400/30 to-pink-500/30' :
                     'from-pink-400/30 to-rose-500/30'
                   }`}

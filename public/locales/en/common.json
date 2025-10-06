@@ -19,7 +19,7 @@
     "title": "Our Services",
     "subtitle": "We offer customized solutions for you",
     "webDesign": "Website Design",
-    "webDevelopment": "Web Development",
+    "webDevelopment": "Web Application Development",
     "seo": "SEO Optimization",
     "digitalMarketing": "Digital Marketing",
     "mobileApp": "Mobile Application",
@@ -366,7 +366,7 @@
       "categories": {
         "all": "All",
         "webDesign": "Web Design",
-        "webDevelopment": "Web Development",
+        "webDevelopment": "Web Application Development",
         "mobileApp": "Mobile App",
         "ecommerce": "E-commerce",
         "seo": "SEO & Marketing",

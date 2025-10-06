@@ -28,7 +28,7 @@ const services = [
   },
   {
     icon: Code,
-    title: "Web Geliştirme",
+    title: "Web Uygulaması Geliştirme",
     description: "Hızlı, güvenli ve ölçeklenebilir web uygulamaları",
     features: ["Frontend Geliştirme", "Backend Geliştirme", "API Entegrasyonu"],
     href: "/hizmetlerimiz/web-gelistirme",

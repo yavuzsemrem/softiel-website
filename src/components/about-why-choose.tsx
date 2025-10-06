@@ -372,7 +372,7 @@ export function AboutWhyChoose() {
 
           <h2 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-display font-bold text-neutral-900 dark:text-white mb-6">
             Neden{" "}
-            <span className="bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 bg-clip-text text-transparent">
               Bizi Seçmelisiniz?
             </span>
           </h2>
@@ -423,7 +423,7 @@ export function AboutWhyChoose() {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 0.6 }}
           viewport={{ once: true }}
-          className="mt-40 -mb-16"
+          className="mt-40 -mb-16 mb-8"
         >
            <div className="text-center mb-20">
              <motion.div
@@ -442,7 +442,7 @@ export function AboutWhyChoose() {
              
              <h3 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-display font-bold text-neutral-900 dark:text-white mb-6">
                Müşterilerimiz{" "}
-               <span className="bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 bg-clip-text text-transparent">
+               <span className="bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 bg-clip-text text-transparent">
                  Ne Diyor?
                </span>
              </h3>

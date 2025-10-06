@@ -37,7 +37,7 @@ export function PricingCTA() {
           <div className="relative z-10">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold text-white mb-6">
               Projenizi{" "}
-              <span className="bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 bg-clip-text text-transparent">
                 Hayata Geçirin
               </span>
             </h2>
@@ -77,7 +77,7 @@ export function PricingCTA() {
                 whileHover={{ scale: 1.01, y: -2 }}
                 whileTap={{ scale: 0.99 }}
                 transition={{ duration: 0.1 }}
-                className="inline-flex items-center space-x-2 bg-gradient-to-r from-cyan-500 to-blue-500 text-white px-8 py-4 rounded-2xl font-semibold text-lg shadow-2xl hover:shadow-cyan-500/25 transition-all duration-75"
+                className="inline-flex items-center space-x-2 bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 text-white px-8 py-4 rounded-2xl font-semibold text-lg shadow-2xl hover:shadow-cyan-500/25 transition-all duration-75"
               >
                 <span>Ücretsiz Teklif Al</span>
                 <ArrowRight className="h-5 w-5" />

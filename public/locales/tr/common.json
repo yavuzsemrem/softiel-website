@@ -19,7 +19,7 @@
     "title": "Hizmetlerimiz",
     "subtitle": "Size özel çözümler sunuyoruz",
     "webDesign": "Web Sitesi Tasarımı",
-    "webDevelopment": "Web Geliştirme",
+    "webDevelopment": "Web Uygulaması Geliştirme",
     "seo": "SEO Optimizasyonu",
     "digitalMarketing": "Dijital Pazarlama",
     "mobileApp": "Mobil Uygulama",
@@ -30,7 +30,7 @@
     "socialMedia": "Sosyal Medya Yönetimi",
     "automation": "Otomasyon & Entegrasyon",
     "digitalConsulting": "Dijital Danışmanlık",
-    "noCode": "No-Code / Low-Code Çözümleri",
+    "noCode": "No-Code Çözümleri",
     "education": "Eğitim & Mentorluk"
   },
   "blog": {
@@ -47,7 +47,7 @@
     "hero": {
       "title": "Dijital Dünyada",
       "subtitle": "Bilgi ve İlham",
-      "description": "Web tasarımından yapay zekaya, SEO'dan mobil uygulama geliştirmeye kadar dijital dünyadaki son gelişmeler, ipuçları ve uzman görüşlerimizi keşfedin. İşinizi büyütecek stratejiler ve teknolojiler hakkında güncel içerikler.",
+      "description": "Dijital dünyadaki son gelişmeler ve uzman görüşlerimizi keşfedin.\nTeknoloji, pazarlama ve web geliştirme konularında derinlemesine içerikler.",
       "cta": "Yazıları Keşfet"
     },
     "stats": {
@@ -353,7 +353,7 @@
   "references": {
     "title": "Projelerimiz",
     "subtitle": "Başarılı",
-    "description": "Dijital dünyada fark yaratan projelerimizi keşfedin. Web tasarımından mobil uygulama geliştirmeye, e-ticaret çözümlerinden kurumsal sistemlere kadar geniş bir yelpazede başarılı projelerimizi inceleyin.",
+    "description": "Dijital dünyada fark yaratan başarılı projelerimizi keşfedin ve inceleyin. Modern teknolojiler ve yaratıcı çözümlerle hayata geçirdiğimiz projelerimizi keşfedin.",
     "badge": "Projelerimiz",
     "ctaTitle": "Projeleri İncele",
     "ctaSecondary": "Proje Başlat",
@@ -383,7 +383,7 @@
       "categories": {
         "all": "Tümü",
         "webDesign": "Web Tasarımı",
-        "webDevelopment": "Web Geliştirme",
+        "webDevelopment": "Web Uygulaması Geliştirme",
         "mobileApp": "Mobil Uygulama",
         "ecommerce": "E-ticaret",
         "seo": "SEO & Pazarlama",

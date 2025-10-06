@@ -23,7 +23,7 @@ export function Map() {
             className="inline-flex items-center space-x-2 glass rounded-full px-6 py-3 shadow-modern mb-8"
             style={{ background: 'rgba(255, 255, 255, 0.1)' }}
           >
-            <MapPin className="h-5 w-5 text-blue-500 fill-current" />
+            <MapPin className="h-5 w-5 text-cyan-500 fill-current" />
             <span className="text-sm font-semibold text-neutral-700 dark:text-neutral-300">
               Ofis Konumu
             </span>
@@ -31,7 +31,7 @@ export function Map() {
 
           <h2 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-display font-bold text-neutral-900 dark:text-white mb-6">
             Ofisimizi{" "}
-            <span className="bg-gradient-to-r from-blue-500 via-cyan-500 to-purple-500 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 bg-clip-text text-transparent">
               Ziyaret Edin
             </span>
           </h2>
@@ -98,7 +98,7 @@ export function Map() {
                          {/* Address */}
              <div className="glass rounded-2xl p-6 shadow-modern border border-white/50 dark:border-white/40 flex-1 backdrop-blur-lg dark:[border:1px_solid_rgba(255,255,255,0.2)]" style={{ background: 'rgba(255, 255, 255, 0.1)' }}>
                <div className="flex items-start space-x-4 h-full">
-                 <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center flex-shrink-0">
+                 <div className="w-12 h-12 bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 rounded-xl flex items-center justify-center flex-shrink-0">
                    <MapPin className="h-6 w-6 text-white" />
                  </div>
                  <div className="flex-1 flex flex-col justify-center">

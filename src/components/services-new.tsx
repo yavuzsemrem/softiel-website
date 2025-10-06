@@ -34,7 +34,7 @@ const services = [
   },
   {
     icon: Code,
-    title: "Web Geliştirme",
+    title: "Web Uygulaması Geliştirme",
     description: "Hızlı, güvenli ve ölçeklenebilir web uygulamaları ile dijital hedeflerinize ulaşın",
     features: ["Frontend Geliştirme", "Backend Geliştirme", "API Entegrasyonu", "Cloud Deployment"],
     href: "/tr/hizmetlerimiz/web-gelistirme",
@@ -52,7 +52,7 @@ const services = [
   },
   {
     icon: Search,
-    title: "SEO & Arama Motoru Optimizasyonu",
+    title: "SEO Optimizasyonu",
     description: "Arama motorlarında üst sıralarda yer alarak organik trafik ve müşteri kazanın",
     features: ["Teknik SEO", "İçerik Optimizasyonu", "Link Building", "Local SEO"],
     href: "/tr/hizmetlerimiz/seo-arama-motoru-optimizasyonu",
@@ -61,10 +61,10 @@ const services = [
   },
   {
     icon: Target,
-    title: "Google Ads & Meta Ads Yönetimi",
+    title: "Google Ads Yönetimi",
     description: "Hedefli reklam kampanyaları ile müşteri kazanın ve satışlarınızı artırın",
     features: ["Kampanya Yönetimi", "A/B Testing", "ROI Optimizasyonu", "Retargeting"],
-    href: "/tr/hizmetlerimiz/google-ads-meta-ads-yonetimi",
+      href: "/tr/hizmetlerimiz/google-ads-yonetimi",
     color: "from-orange-500 to-orange-600",
     badge: null
   },
@@ -79,10 +79,10 @@ const services = [
   },
   {
     icon: FileText,
-    title: "WordPress & CMS Çözümleri",
+    title: "WordPress Çözümleri",
     description: "Kolay yönetilebilir içerik yönetim sistemleri ile web sitenizi güncel tutun",
     features: ["WordPress Kurulum", "Tema Geliştirme", "Plugin Entegrasyonu", "Güvenlik Optimizasyonu"],
-    href: "/tr/hizmetlerimiz/wordpress-cms-cozumleri",
+    href: "/tr/hizmetlerimiz/wordpress-cozumleri",
     color: "from-indigo-500 to-indigo-600",
     badge: null
   },
@@ -105,39 +105,12 @@ const services = [
     badge: null
   },
   {
-    icon: Zap,
-    title: "Otomasyon & Entegrasyon",
-    description: "İş süreçlerinizi otomatikleştirin ve sistemlerinizi entegre edin",
-    features: ["İş Akışı Otomasyonu", "API Entegrasyonları", "Veri Senkronizasyonu", "Süreç Optimizasyonu"],
-    href: "/tr/hizmetlerimiz/otomasyon-entegrasyon",
-    color: "from-yellow-500 to-yellow-600",
-    badge: null
-  },
-  {
     icon: Users,
     title: "Dijital Danışmanlık",
     description: "Dijital dönüşüm yolculuğunuzda stratejik rehberlik ve danışmanlık hizmetleri",
     features: ["Dijital Strateji", "Teknoloji Seçimi", "Süreç Analizi", "Eğitim & Destek"],
     href: "/tr/hizmetlerimiz/dijital-danismanlik",
     color: "from-teal-500 to-teal-600",
-    badge: null
-  },
-  {
-    icon: Wrench,
-    title: "No-Code / Low-Code Çözümleri",
-    description: "Kod yazmadan hızlı ve etkili uygulamalar geliştirin",
-    features: ["No-Code Platformlar", "Low-Code Geliştirme", "Hızlı Prototipleme", "Kullanıcı Eğitimi"],
-    href: "/tr/hizmetlerimiz/no-code-low-code-cozumleri",
-    color: "from-lime-500 to-lime-600",
-    badge: null
-  },
-  {
-    icon: BookOpen,
-    title: "Eğitim & Mentorluk",
-    description: "Dijital becerilerinizi geliştirin ve uzman rehberliğinde ilerleyin",
-    features: ["Teknik Eğitimler", "Birebir Mentorluk", "Workshop'lar", "Sertifika Programları"],
-    href: "/tr/hizmetlerimiz/egitim-mentorluk",
-    color: "from-purple-500 to-purple-600",
     badge: null
   },
 ]
@@ -170,14 +143,13 @@ export function ServicesNew() {
 
           <h2 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-display font-bold text-neutral-900 dark:text-white mb-8 leading-tight">
             Dijital{" "}
-            <span className="bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 bg-clip-text text-transparent">
               Hizmetlerimiz
             </span>
           </h2>
           <p className="text-base sm:text-lg lg:text-xl text-neutral-600 dark:text-neutral-400 mb-20 max-w-4xl mx-auto leading-relaxed">
-            Markanızı dijital dünyada öne çıkaran kapsamlı çözümler. Web tasarımından yapay zeka entegrasyonuna, 
-            mobil uygulama geliştirmeden SEO optimizasyonuna kadar tüm dijital ihtiyaçlarınız için 
-            tek durak noktanızız.
+            Markanızı dijital dünyada öne çıkaran kapsamlı çözümler.<br/>
+            Web tasarımından yapay zeka entegrasyonuna, mobil uygulama geliştirmeden SEO optimizasyonuna kadar tüm dijital ihtiyaçlarınız için tek durak noktanızız.
           </p>
         </motion.div>
 

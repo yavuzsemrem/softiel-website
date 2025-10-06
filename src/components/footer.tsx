@@ -88,20 +88,20 @@ export function Footer() {
   const footerLinks = {
     services: [
       { name: t('services.webDesign', 'Web Sitesi Tasarımı'), href: getLocalizedUrl("/hizmetlerimiz/web-sitesi-tasarimi") },
-      { name: t('services.webDevelopment', 'Web Geliştirme'), href: getLocalizedUrl("/hizmetlerimiz/web-gelistirme") },
+      { name: t('services.webDevelopment', 'Web Uygulaması Geliştirme'), href: getLocalizedUrl("/hizmetlerimiz/web-gelistirme") },
       { name: t('services.mobileApp', 'Mobil Uygulama'), href: getLocalizedUrl("/hizmetlerimiz/mobil-uygulama-gelistirme") },
       { name: t('services.seo', 'SEO Optimizasyonu'), href: getLocalizedUrl("/hizmetlerimiz/seo-arama-motoru-optimizasyonu") },
-      { name: t('services.googleAds', 'Google Ads Yönetimi'), href: getLocalizedUrl("/hizmetlerimiz/google-ads-meta-ads-yonetimi") },
+        { name: t('services.googleAds', 'Google Ads Yönetimi'), href: getLocalizedUrl("/hizmetlerimiz/google-ads-yonetimi") },
       { name: t('services.aiIntegration', 'Yapay Zeka Entegrasyonu'), href: getLocalizedUrl("/hizmetlerimiz/yapay-zeka-entegrasyonlari") },
-      { name: t('services.wordpress', 'WordPress Çözümleri'), href: getLocalizedUrl("/hizmetlerimiz/wordpress-cms-cozumleri") },
+      { name: t('services.wordpress', 'WordPress Çözümleri'), href: getLocalizedUrl("/hizmetlerimiz/wordpress-cozumleri") },
       { name: t('services.logoDesign', 'Logo & Kurumsal Kimlik'), href: getLocalizedUrl("/hizmetlerimiz/logo-kurumsal-kimlik-tasarimi") },
     ],
     pages: [
       { name: t('navigation.home', 'Ana Sayfa'), href: getLocalizedUrl("/") },
       { name: t('navigation.about', 'Hakkımızda'), href: getLocalizedUrl("/hakkimizda") },
       { name: t('navigation.services', 'Hizmetlerimiz'), href: getLocalizedUrl("/hizmetlerimiz") },
-      { name: t('navigation.references', 'Projelerimiz'), href: getLocalizedUrl("/projelerimiz") },
       { name: t('navigation.pricing', 'Fiyatlandırma'), href: getLocalizedUrl("/fiyatlandirma") },
+      { name: t('navigation.references', 'Projelerimiz'), href: getLocalizedUrl("/projelerimiz") },
       { name: t('navigation.blog', 'Blog'), href: getLocalizedUrl("/blog") },
       { name: t('navigation.contact', 'İletişim'), href: getLocalizedUrl("/iletisim") },
     ]
@@ -264,7 +264,7 @@ export function Footer() {
                     style={{ border: '1px solid rgba(178, 178, 178, 0.1)' }}
                   >
                     <div className="flex flex-col md:flex-row items-center md:items-start space-y-2 md:space-y-0 md:space-x-3">
-                      <div className="w-8 h-8 md:w-10 md:h-10 rounded-lg bg-gradient-to-r from-blue-500 to-cyan-500 flex items-center justify-center flex-shrink-0">
+                      <div className="w-8 h-8 md:w-10 md:h-10 rounded-lg bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 flex items-center justify-center flex-shrink-0">
                         <Mail className="h-4 w-4 md:h-5 md:w-5 text-white" />
                       </div>
                       <div className="flex-1 text-center md:text-left">
@@ -282,7 +282,7 @@ export function Footer() {
                     style={{ border: '1px solid rgba(178, 178, 178, 0.1)' }}
                   >
                     <div className="flex flex-col md:flex-row items-center md:items-start space-y-2 md:space-y-0 md:space-x-3">
-                      <div className="w-8 h-8 md:w-10 md:h-10 rounded-lg bg-gradient-to-r from-blue-500 to-cyan-500 flex items-center justify-center flex-shrink-0">
+                      <div className="w-8 h-8 md:w-10 md:h-10 rounded-lg bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 flex items-center justify-center flex-shrink-0">
                         <Phone className="h-4 w-4 md:h-5 md:w-5 text-white" />
                       </div>
                       <div className="flex-1 text-center md:text-left">
@@ -299,7 +299,7 @@ export function Footer() {
                     style={{ border: '1px solid rgba(178, 178, 178, 0.1)' }}
                   >
                     <div className="flex flex-col md:flex-row items-center md:items-start space-y-2 md:space-y-0 md:space-x-3">
-                      <div className="w-8 h-8 md:w-10 md:h-10 rounded-lg bg-gradient-to-r from-blue-500 to-cyan-500 flex items-center justify-center flex-shrink-0">
+                      <div className="w-8 h-8 md:w-10 md:h-10 rounded-lg bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 flex items-center justify-center flex-shrink-0">
                         <MapPin className="h-4 w-4 md:h-5 md:w-5 text-white" />
                       </div>
                       <div className="flex-1 text-center md:text-left">
@@ -348,7 +348,7 @@ export function Footer() {
               onClick={scrollToTop}
               whileHover={{ scale: 1.05, y: -2 }}
               whileTap={{ scale: 0.95 }}
-              className="flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white text-sm font-medium rounded-lg hover:shadow-lg transition-all duration-200"
+              className="flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 hover:from-cyan-600 hover:via-blue-600 hover:to-blue-700 text-white text-sm font-medium rounded-lg hover:shadow-lg transition-all duration-200"
             >
               <span>{t('common.scrollToTop', 'Yukarı Çık')}</span>
               <ArrowUpRight className="h-4 w-4 rotate-[-45deg]" />

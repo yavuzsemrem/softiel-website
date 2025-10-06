@@ -205,12 +205,13 @@ export function BlogPosts() {
 
           <h2 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-display font-bold text-neutral-900 dark:text-white mb-6">
             Blog{" "}
-            <span className="bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 bg-clip-text text-transparent">
               Yazıları
             </span>
           </h2>
           <p className="text-lg sm:text-xl text-neutral-600 dark:text-neutral-400 max-w-3xl mx-auto leading-relaxed">
-            Dijital dünyadaki son gelişmeler ve uzman görüşlerimizi takip edin.
+            Dijital dünyadaki son gelişmeler ve uzman görüşlerimizi takip edin.<br/>
+            Teknoloji, pazarlama ve web geliştirme konularında derinlemesine içerikler.
           </p>
         </motion.div>
 
@@ -623,7 +624,7 @@ export function BlogPosts() {
                 </div>
 
                 {/* Read More */}
-                <Link href={`/blog/${post.slug || post.id}`}>
+                <Link href={`/tr/blog/${post.slug || post.id}`}>
                   <div className="flex items-center text-cyan-600 dark:text-cyan-400 font-medium transition-transform duration-200 cursor-pointer">
                   <span className="text-sm">Devamını Oku</span>
                   <ArrowRight className="h-4 w-4 ml-2" />

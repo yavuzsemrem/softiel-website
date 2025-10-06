@@ -12,6 +12,7 @@ export default function SosyalMedyaYonetimiPage() {
     subtitle: "Etkili Sosyal Medya Stratejisi",
     description: "Instagram, Facebook, LinkedIn ve diğer sosyal medya platformlarında profesyonel içerik üretimi ve yönetimi yapıyoruz. Marka bilinirliğinizi artırıp müşteri etkileşiminizi güçlendiriyoruz.",
     icon: "📱",
+    serviceType: "sosyal-medya",
     features: [
       {
         title: "İçerik Üretimi",

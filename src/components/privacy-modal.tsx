@@ -73,7 +73,7 @@ export function PrivacyModal({ isOpen, onClose }: PrivacyModalProps) {
                 style={{ background: 'rgba(255, 255, 255, 0.1)' }}
               >
                 {/* Header */}
-                <div className="relative bg-gradient-to-r from-blue-500 via-cyan-500 to-purple-500 p-8 text-white">
+                <div className="relative bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 p-8 text-white">
                   {/* Decorative Elements */}
                   <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-16 translate-x-16"></div>
                   <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/5 rounded-full translate-y-12 -translate-x-12"></div>
@@ -114,7 +114,7 @@ export function PrivacyModal({ isOpen, onClose }: PrivacyModalProps) {
                     {/* Section 1 */}
                     <div className="mb-8">
                       <div className="flex items-center space-x-3 mb-4">
-                        <div className="w-8 h-8 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-lg flex items-center justify-center">
+                        <div className="w-8 h-8 bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 rounded-lg flex items-center justify-center">
                           <FileText className="h-4 w-4 text-white" />
                         </div>
                         <h3 className="text-xl font-bold text-neutral-900 dark:text-white">{t('privacy.section1.title', '1. Toplanan Veriler')}</h3>
@@ -293,7 +293,7 @@ export function PrivacyModal({ isOpen, onClose }: PrivacyModalProps) {
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                       onClick={onClose}
-                      className="px-6 py-2 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-xl font-medium text-sm shadow-modern hover:shadow-modern-lg transition-all duration-200"
+                      className="px-6 py-2 bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 text-white rounded-xl font-medium text-sm shadow-modern hover:shadow-modern-lg transition-all duration-200"
                     >
                       {t('privacy.understood', 'Anladım')}
                     </motion.button>

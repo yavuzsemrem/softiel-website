@@ -273,7 +273,7 @@ export function HeroNew() {
                 repeat: Infinity,
                 ease: "easeInOut"
               }}
-              className="bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 bg-clip-text text-transparent bg-[length:200%_100%]"
+              className="bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 bg-clip-text text-transparent bg-[length:200%_100%]"
             >
               Modern web tasarımı
             </motion.span>

@@ -107,7 +107,7 @@ export function Header() {
               onClick={toggleQuoteModal}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="flex items-center justify-center w-auto h-auto space-x-1 xl:space-x-1.5 px-2 xl:px-3 py-1.5 lg:py-2 bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white rounded-lg hover:shadow-lg transition-all duration-200 shadow-lg"
+              className="flex items-center justify-center w-auto h-auto space-x-1 xl:space-x-1.5 px-2 xl:px-3 py-1.5 lg:py-2 bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 hover:from-cyan-600 hover:via-blue-600 hover:to-blue-700 text-white rounded-lg hover:shadow-lg transition-all duration-200 shadow-lg"
             >
               <FileText className="h-4 w-4" />
               <span className="text-xs lg:text-sm xl:text-base font-medium">{t('common.getQuote', 'Teklif Al')}</span>
@@ -121,7 +121,7 @@ export function Header() {
               onClick={toggleQuoteModal}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="lg:hidden flex items-center justify-center w-10 h-10 bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white rounded-lg hover:shadow-lg transition-all duration-200 shadow-lg mr-3"
+              className="lg:hidden flex items-center justify-center w-10 h-10 bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 hover:from-cyan-600 hover:via-blue-600 hover:to-blue-700 text-white rounded-lg hover:shadow-lg transition-all duration-200 shadow-lg mr-3"
             >
               <FileText className="h-4 w-4" />
             </motion.button>

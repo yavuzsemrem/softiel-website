@@ -7,30 +7,86 @@ import { ServicePricing } from "@/components/service-pricing"
 import { CTA } from "@/components/cta"
 
 export default function LogoKurumsalKimlikTasarimiPage() {
+  // Pricing packages'ı önce tanımlıyoruz
+  const pricing = [
+    {
+      name: "Starter (Sadece Logo)",
+      price: "₺5.000",
+      period: "başlangıç",
+      features: [
+        "3 logo konsepti (farklı tasarım yönleri)",
+        "2 revizyon hakkı",
+        "Renk varyasyonları (renkli, siyah-beyaz, negatif)",
+        "Farklı formatlarda teslim (PNG, SVG, PDF, JPG)",
+        "Basit kullanım kılavuzu (renk kodları + tipografi önerisi)"
+      ],
+      popular: false,
+      icon: "Zap",
+      color: "from-green-500 to-emerald-500"
+    },
+    {
+      name: "Pro (Logo + Temel Kimlik)",
+      price: "₺10.000",
+      period: "başlangıç",
+      features: [
+        "Starter'daki her şey +",
+        "Kartvizit tasarımı",
+        "E-posta imza tasarımı",
+        "Antetli kağıt & fatura tasarımı",
+        "Sosyal medya profil görselleri (Facebook, Instagram, LinkedIn kapakları)",
+        "3 revizyon hakkı"
+      ],
+      popular: true,
+      icon: "Star",
+      color: "from-yellow-500 to-orange-500"
+    },
+    {
+      name: "Enterprise (Tam Kurumsal Kimlik)",
+      price: "₺20.000",
+      period: "başlangıç",
+      features: [
+        "Pro'daki her şey +",
+        "Kurumsal kimlik kılavuzu (brandbook) → renk paleti, tipografi, logo kullanımı, ikonografi, görsel stil",
+        "Sunum şablonu (PowerPoint/Google Slides)",
+        "Broşür/katolog şablonu",
+        "Sosyal medya post şablonları",
+        "Dijital & basılı kullanım kuralları (logo boyut, aralık, yanlış kullanım örnekleri)",
+        "4 revizyon hakkı",
+        "3 ay destek (küçük uyarlamalar)"
+      ],
+      popular: false,
+      icon: "Shield",
+      color: "from-blue-500 to-indigo-500"
+    }
+  ]
+
   const serviceData = {
     title: "Logo & Kurumsal Kimlik Tasarımı",
     subtitle: "Güçlü Marka Kimliği",
     description: "Markanızı en iyi şekilde temsil eden logo ve kurumsal kimlik tasarımları oluşturuyoruz. Profesyonel, unutulmaz ve etkili marka kimliği tasarlıyoruz.",
+    detailDescription: "Logo ve kurumsal kimlik tasarımı, markanızın görsel DNA'sını oluşturur. Sadece bir logo değil, markanızın her platformda tutarlı ve profesyonel görünmesini sağlayan kapsamlı bir kimlik sistemi tasarlıyoruz. Rakiplerinizden ayrışmanızı sağlayacak özgün tasarımlar ile marka gücünüzü artırıyoruz.",
     icon: "🎨",
+    serviceType: "logo-kimlik",
+    packagesTitle: "Paketlerde neler olmalı?",
     features: [
       {
-        title: "Logo Tasarımı",
-        description: "Özgün ve etkileyici logolar",
+        title: "Özgün Logo Tasarımı",
+        description: "Markanızı en iyi temsil eden özgün logolar",
         icon: "✨"
       },
       {
-        title: "Kurumsal Renkler",
-        description: "Marka renk paleti",
+        title: "Kurumsal Renk Paleti",
+        description: "Marka kimliği için profesyonel renk sistemi",
         icon: "🎨"
       },
       {
-        title: "Tipografi",
-        description: "Marka yazı tipi seçimi",
+        title: "Tipografi Seçimi",
+        description: "Marka karakterine uygun yazı tipi",
         icon: "📝"
       },
       {
-        title: "Uygulama Rehberi",
-        description: "Kullanım kılavuzu",
+        title: "Brandbook Kılavuzu",
+        description: "Logo kullanım kuralları ve rehberi",
         icon: "📋"
       }
     ],
@@ -56,47 +112,44 @@ export default function LogoKurumsalKimlikTasarimiPage() {
         description: "Son halini verip tüm formatlarda teslim ediyoruz."
       }
     ],
-    pricing: [
+    addOnServices: [
       {
-        name: "Logo Paketi",
-        price: "₺3.000",
-        period: "başlangıç",
-        features: [
-          "3 Logo Konsepti",
-          "2 Revizyon",
-          "Vektör Format",
-          "PNG & JPG",
-          "1 Hafta Teslim"
-        ],
-        popular: false
+        name: "Ek Logo Konsepti",
+        description: "Her yeni yön için ek logo konsepti",
+        price: "₺2.500"
       },
       {
-        name: "Kurumsal Kimlik",
-        price: "₺8.000",
-        period: "başlangıç",
-        features: [
-          "Logo Tasarımı",
-          "Renk Paleti",
-          "Tipografi",
-          "Kartvizit Tasarımı",
-          "Uygulama Rehberi"
-        ],
-        popular: true
+        name: "Ek Revizyon Turu",
+        description: "Ek revizyon turu",
+        price: "₺1.000"
       },
       {
-        name: "Tam Kimlik Paketi",
-        price: "₺15.000",
-        period: "başlangıç",
-        features: [
-          "Kurumsal Kimlik",
-          "Antetli Kağıt",
-          "Zarf Tasarımı",
-          "Sosyal Medya Paketi",
-          "Web Tasarım Uyumu"
-        ],
-        popular: false
+        name: "Ek Dil Desteği",
+        description: "Brandbook çevirisi (EN/TR vb.)",
+        price: "₺1.500"
+      },
+      {
+        name: "Kurumsal Giydirme",
+        description: "Kıyafet ve araç giydirme tasarımı",
+        price: "₺5.000"
+      },
+      {
+        name: "Animasyonlu Logo",
+        description: "Motion logo, intro animasyonu",
+        price: "₺3.500"
+      },
+      {
+        name: "Web İkon Seti",
+        description: "Web için favicon & app icon seti",
+        price: "₺1.000"
+      },
+      {
+        name: "Marka Kimliği Eğitimi",
+        description: "Marka kimliği uygulama eğitimi",
+        price: "₺5.000"
       }
-    ]
+    ],
+    pricing: pricing, // packages array'i doğrudan kullanacağız
   }
 
   return (
@@ -112,8 +165,8 @@ export default function LogoKurumsalKimlikTasarimiPage() {
         
         <ServiceHero data={serviceData} />
         <ServiceDetails data={serviceData} />
-        <ServiceProcess data={serviceData} />
-        <ServicePricing data={serviceData} />
+        <ServiceProcess data={serviceData} duration="1 - 5 Gün" />
+        <ServicePricing data={serviceData} showAddOnServices={true} />
         <CTA />
       </main>
       <Footer />

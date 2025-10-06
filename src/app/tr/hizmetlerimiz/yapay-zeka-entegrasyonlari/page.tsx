@@ -7,11 +7,66 @@ import { ServicePricing } from "@/components/service-pricing"
 import { CTA } from "@/components/cta"
 
 export default function YapayZekaEntegrasyonlariPage() {
+  // Pricing packages'ı önce tanımlıyoruz
+  const pricing = [
+    {
+      name: "Starter (Chatbot & Destek AI)",
+      price: "₺20.000",
+      period: "başlangıç",
+      features: [
+        "Web sitesi veya WhatsApp/Telegram chatbot entegrasyonu",
+        "SSS (sık sorulan sorular) tabanlı yanıt sistemi",
+        "Temel NLP (kullanıcı niyetini anlama)",
+        "Basit dashboard → soru-cevap kayıtları",
+        "1 revizyon hakkı"
+      ],
+      popular: false,
+      icon: "Zap",
+      color: "from-green-500 to-emerald-500"
+    },
+    {
+      name: "Pro (İş Süreçleri & Raporlama AI)",
+      price: "₺60.000",
+      period: "başlangıç",
+      features: [
+        "Starter'daki her şey +",
+        "CRM/ERP entegrasyonu (müşteri bilgileri, sipariş durumu, fatura sorgulama)",
+        "AI destekli raporlama (Excel, Power BI, özel dashboard entegrasyonu)",
+        "Öneri sistemleri (ör. ürün tavsiyesi, upsell/cross-sell)",
+        "Çok dilli destek (TR/EN)",
+        "2 revizyon hakkı"
+      ],
+      popular: true,
+      icon: "Star",
+      color: "from-yellow-500 to-orange-500"
+    },
+    {
+      name: "Enterprise (Özel AI Çözümleri & Gelişmiş Entegrasyon)",
+      price: "₺100.000",
+      period: "başlangıç",
+      features: [
+        "Pro'daki her şey +",
+        "Özel AI modelleri (OpenAI, Azure AI, HuggingFace entegrasyonu)",
+        "Sesli asistan entegrasyonu (IVR / Voice bot)",
+        "Görüntü işleme (ürün tanıma, kalite kontrol)",
+        "Gerçek zamanlı öneri motoru (reklam optimizasyonu, satış tahmini)",
+        "Güvenlik + loglama (KVKK/GDPR uyumlu)",
+        "3 revizyon hakkı + 6 ay SLA desteği"
+      ],
+      popular: false,
+      icon: "Shield",
+      color: "from-blue-500 to-indigo-500"
+    }
+  ]
+
   const serviceData = {
     title: "Yapay Zeka Entegrasyonları",
     subtitle: "Geleceğin Teknolojisi Bugün",
     description: "Chatbot, makine öğrenmesi, doğal dil işleme ve diğer AI teknolojilerini işletmenize entegre ediyoruz. Otomasyon ve verimlilik artışı sağlıyoruz.",
+    detailDescription: "Yapay zeka entegrasyonları, işletmenizi geleceğe taşır. İş süreçlerinizi optimize eden akıllı çözümler sunuyoruz. Chatbot'lardan makine öğrenmesine kadar geniş bir AI ekosistemi ile verimliliğinizi artırıyoruz.",
     icon: "🤖",
+    serviceType: "yapay-zeka",
+    packagesTitle: "Paketlerde neler olmalı?",
     features: [
       {
         title: "Chatbot Geliştirme",
@@ -29,8 +84,8 @@ export default function YapayZekaEntegrasyonlariPage() {
         icon: "📝"
       },
       {
-        title: "Otomasyon",
-        description: "İş süreçlerini otomatikleştirme",
+        title: "İş Süreci Otomasyonu",
+        description: "Rutin işleri otomatikleştirme",
         icon: "⚙️"
       }
     ],
@@ -56,47 +111,39 @@ export default function YapayZekaEntegrasyonlariPage() {
         description: "Mevcut sistemlere entegre edip test ediyoruz."
       }
     ],
-    pricing: [
+    addOnServices: [
       {
-        name: "Chatbot Entegrasyonu",
-        price: "₺10.000",
-        period: "başlangıç",
-        features: [
-          "Temel Chatbot",
-          "Web Entegrasyonu",
-          "Türkçe Destek",
-          "3 Ay Destek",
-          "Temel Eğitim"
-        ],
-        popular: false
+        name: "Ek Dil Desteği",
+        description: "İngilizce + Almanca vb. dil desteği",
+        price: "₺2.500"
       },
       {
-        name: "AI Otomasyon",
-        price: "₺25.000",
-        period: "başlangıç",
-        features: [
-          "Gelişmiş AI",
-          "API Entegrasyonu",
-          "Veri Analizi",
-          "6 Ay Destek",
-          "Kapsamlı Eğitim"
-        ],
-        popular: true
+        name: "Özel Model Eğitimi",
+        description: "Müşteri e-postalarıyla fine-tuning",
+        price: "₺7.500"
       },
       {
-        name: "Özel AI Çözümü",
-        price: "₺50.000+",
-        period: "başlangıç",
-        features: [
-          "Özel Geliştirme",
-          "Makine Öğrenmesi",
-          "Sınırsız Destek",
-          "Kaynak Kod",
-          "Sürekli Güncelleme"
-        ],
-        popular: false
+        name: "AI İçerik Üretimi",
+        description: "Blog, sosyal medya, ürün açıklaması",
+        price: "₺8.000"
+      },
+      {
+        name: "Görüntü İşleme Modülü",
+        description: "Ürün görselleri, kalite kontrol",
+        price: "₺20.000"
+      },
+      {
+        name: "Sesli Asistan Modülü",
+        description: "Çağrı merkezi entegrasyonu",
+        price: "₺25.000"
+      },
+      {
+        name: "Kullanıcı Eğitimi",
+        description: "Ekibinize AI kullanım eğitimi",
+        price: "₺5.000"
       }
-    ]
+    ],
+    pricing: pricing, // packages array'i doğrudan kullanacağız
   }
 
   return (
@@ -112,8 +159,8 @@ export default function YapayZekaEntegrasyonlariPage() {
         
         <ServiceHero data={serviceData} />
         <ServiceDetails data={serviceData} />
-        <ServiceProcess data={serviceData} />
-        <ServicePricing data={serviceData} />
+        <ServiceProcess data={serviceData} duration="2 - 4 Hafta" />
+        <ServicePricing data={serviceData} showAddOnServices={true} />
         <CTA />
       </main>
       <Footer />

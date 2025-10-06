@@ -27,23 +27,20 @@ export function Navigation({ isMobile = false, onClose }: NavigationProps) {
       href: getLocalizedUrl("/hizmetlerimiz"),
       dropdown: [
         { name: t('services.webDesign', 'Web Sitesi Tasarımı'), href: getLocalizedUrl("/hizmetlerimiz/web-sitesi-tasarimi"), icon: Globe },
-        { name: t('services.webDevelopment', 'Web Geliştirme'), href: getLocalizedUrl("/hizmetlerimiz/web-gelistirme"), icon: Code },
+        { name: t('services.webDevelopment', 'Web Uygulaması Geliştirme'), href: getLocalizedUrl("/hizmetlerimiz/web-gelistirme"), icon: Code },
         { name: t('services.mobileApp', 'Mobil Uygulama Geliştirme'), href: getLocalizedUrl("/hizmetlerimiz/mobil-uygulama-gelistirme"), icon: Smartphone },
-        { name: t('services.seo', 'SEO & Arama Motoru Optimizasyonu'), href: getLocalizedUrl("/hizmetlerimiz/seo-arama-motoru-optimizasyonu"), icon: Search },
-        { name: t('services.googleAds', 'Google Ads & Meta Ads Yönetimi'), href: getLocalizedUrl("/hizmetlerimiz/google-ads-meta-ads-yonetimi"), icon: Target },
-        { name: t('services.wordpress', 'WordPress & CMS Çözümleri'), href: getLocalizedUrl("/hizmetlerimiz/wordpress-cms-cozumleri"), icon: FileText },
+        { name: t('services.seo', 'SEO Optimizasyonu'), href: getLocalizedUrl("/hizmetlerimiz/seo-optimizasyonu"), icon: Search },
+        { name: t('services.googleAds', 'Google Ads & Meta Ads Yönetimi'), href: getLocalizedUrl("/hizmetlerimiz/google-ads-yonetimi"), icon: Target },
+        { name: t('services.wordpress', 'WordPress & CMS Çözümleri'), href: getLocalizedUrl("/hizmetlerimiz/wordpress-cozumleri"), icon: FileText },
         { name: t('services.logoDesign', 'Logo & Kurumsal Kimlik Tasarımı'), href: getLocalizedUrl("/hizmetlerimiz/logo-kurumsal-kimlik-tasarimi"), icon: Palette },
         { name: t('services.socialMedia', 'Sosyal Medya Yönetimi'), href: getLocalizedUrl("/hizmetlerimiz/social-media-yonetimi"), icon: Share2 },
         { name: t('services.aiIntegration', 'Yapay Zeka Entegrasyonları'), href: getLocalizedUrl("/hizmetlerimiz/yapay-zeka-entegrasyonlari"), icon: Bot },
-        { name: t('services.automation', 'Otomasyon & Entegrasyon'), href: getLocalizedUrl("/hizmetlerimiz/otomasyon-entegrasyon"), icon: Zap },
         { name: t('services.digitalConsulting', 'Dijital Danışmanlık'), href: getLocalizedUrl("/hizmetlerimiz/dijital-danismanlik"), icon: Users },
-        { name: t('services.noCode', 'No-Code / Low-Code Çözümleri'), href: getLocalizedUrl("/hizmetlerimiz/no-code-low-code-cozumleri"), icon: Wrench },
-        { name: t('services.education', 'Eğitim & Mentorluk'), href: getLocalizedUrl("/hizmetlerimiz/egitim-mentorluk"), icon: BookOpen },
       ]
     },
     { name: t('navigation.about', 'Hakkımızda'), href: getLocalizedUrl("/hakkimizda") },
-    { name: t('navigation.references', 'Projelerimiz'), href: getLocalizedUrl("/projelerimiz") },
     { name: t('navigation.pricing', 'Fiyatlandırma'), href: getLocalizedUrl("/fiyatlandirma") },
+    { name: t('navigation.references', 'Projelerimiz'), href: getLocalizedUrl("/projelerimiz") },
     { name: t('navigation.blog', 'Blog'), href: getLocalizedUrl("/blog") },
     { name: t('navigation.contact', 'İletişim'), href: getLocalizedUrl("/iletisim") },
   ]
@@ -63,8 +60,23 @@ export function Navigation({ isMobile = false, onClose }: NavigationProps) {
       // Ana sayfa sadece tam olarak ana sayfa URL'sinde aktif olmalı
       return pathname === href
     }
-    // Diğer sayfalar için pathname'in href ile başlaması yeterli
-    return pathname.startsWith(href)
+    
+    // Tam eşleşme kontrolü
+    if (pathname === href) {
+      return true
+    }
+    
+    // Başlangıç kontrolü
+    if (pathname.startsWith(href)) {
+      return true
+    }
+    
+    // SEO optimizasyonu için özel kontrol - hem eski hem yeni URL'leri destekle
+    if (href.includes('/seo-optimizasyonu') || href.includes('/seo-arama-motoru-optimizasyonu')) {
+      return pathname.includes('/seo-optimizasyonu') || pathname.includes('/seo-arama-motoru-optimizasyonu')
+    }
+    
+    return false
   }
 
   if (isMobile) {
@@ -130,9 +142,17 @@ export function Navigation({ isMobile = false, onClose }: NavigationProps) {
                 <Link
                   href={subItem.href}
                   onClick={handleLinkClick}
-                  className="group flex items-center space-x-3 px-4 py-2.5 text-sm text-slate-400 hover:text-blue-400 hover:bg-gradient-to-r hover:from-blue-400/8 hover:to-cyan-400/8 transition-all duration-300 rounded-lg"
+                  className={`group flex items-center space-x-3 px-4 py-2.5 text-sm transition-all duration-300 rounded-lg ${
+                    isActive(subItem.href)
+                      ? 'text-blue-400 bg-gradient-to-r from-blue-400/15 to-cyan-400/15 shadow-md shadow-blue-400/10'
+                      : 'text-slate-400 hover:text-blue-400 hover:bg-gradient-to-r hover:from-blue-400/8 hover:to-cyan-400/8'
+                  }`}
                 >
-                                <IconComponent className="h-4 w-4 text-blue-400/70 group-hover:text-blue-400 transition-colors" />
+                                <IconComponent className={`h-4 w-4 transition-colors ${
+                                  isActive(subItem.href)
+                                    ? 'text-blue-400'
+                                    : 'text-blue-400/70 group-hover:text-blue-400'
+                                }`} />
                                 <span>{subItem.name}</span>
                               </Link>
                             </motion.div>
@@ -236,9 +256,17 @@ export function Navigation({ isMobile = false, onClose }: NavigationProps) {
                               <Link
                                 href={subItem.href}
                                 onClick={handleLinkClick}
-                                className="group flex items-center space-x-3 px-3 py-2.5 text-sm text-slate-300 hover:bg-gradient-to-r hover:from-blue-400/8 hover:to-cyan-400/8 hover:text-blue-400 transition-all duration-300 rounded-lg"
+                                className={`group flex items-center space-x-3 px-3 py-2.5 text-sm transition-all duration-300 rounded-lg ${
+                                  isActive(subItem.href)
+                                    ? 'text-blue-400 bg-gradient-to-r from-blue-400/15 to-cyan-400/15 shadow-md shadow-blue-400/10'
+                                    : 'text-slate-300 hover:bg-gradient-to-r hover:from-blue-400/8 hover:to-cyan-400/8 hover:text-blue-400'
+                                }`}
                               >
-                                <IconComponent className="h-4 w-4 text-blue-400/70 group-hover:text-blue-400 transition-colors" />
+                                <IconComponent className={`h-4 w-4 transition-colors ${
+                                  isActive(subItem.href)
+                                    ? 'text-blue-400'
+                                    : 'text-blue-400/70 group-hover:text-blue-400'
+                                }`} />
                                 <span className="flex-1">{subItem.name}</span>
                               </Link>
                             </motion.div>

@@ -52,15 +52,12 @@ const urlMappings = {
     '/hizmetlerimiz/web-gelistirme': '/tr/hizmetlerimiz/web-gelistirme',
     '/hizmetlerimiz/mobil-uygulama-gelistirme': '/tr/hizmetlerimiz/mobil-uygulama-gelistirme',
     '/hizmetlerimiz/seo-arama-motoru-optimizasyonu': '/tr/hizmetlerimiz/seo-arama-motoru-optimizasyonu',
-    '/hizmetlerimiz/google-ads-meta-ads-yonetimi': '/tr/hizmetlerimiz/google-ads-meta-ads-yonetimi',
-    '/hizmetlerimiz/wordpress-cms-cozumleri': '/tr/hizmetlerimiz/wordpress-cms-cozumleri',
+    '/hizmetlerimiz/google-ads-yonetimi': '/tr/hizmetlerimiz/google-ads-yonetimi',
+    '/hizmetlerimiz/wordpress-cozumleri': '/tr/hizmetlerimiz/wordpress-cozumleri',
     '/hizmetlerimiz/logo-kurumsal-kimlik-tasarimi': '/tr/hizmetlerimiz/logo-kurumsal-kimlik-tasarimi',
     '/hizmetlerimiz/social-media-yonetimi': '/tr/hizmetlerimiz/social-media-yonetimi',
     '/hizmetlerimiz/yapay-zeka-entegrasyonlari': '/tr/hizmetlerimiz/yapay-zeka-entegrasyonlari',
-    '/hizmetlerimiz/otomasyon-entegrasyon': '/tr/hizmetlerimiz/otomasyon-entegrasyon',
     '/hizmetlerimiz/dijital-danismanlik': '/tr/hizmetlerimiz/dijital-danismanlik',
-    '/hizmetlerimiz/no-code-low-code-cozumleri': '/tr/hizmetlerimiz/no-code-low-code-cozumleri',
-    '/hizmetlerimiz/egitim-mentorluk': '/tr/hizmetlerimiz/egitim-mentorluk',
     '/projelerimiz': '/tr/projelerimiz'
   },
   en: {
@@ -74,15 +71,12 @@ const urlMappings = {
     '/hizmetlerimiz/web-gelistirme': '/en/services/web-development',
     '/hizmetlerimiz/mobil-uygulama-gelistirme': '/en/services/mobile-app-development',
     '/hizmetlerimiz/seo-arama-motoru-optimizasyonu': '/en/services/seo-search-engine-optimization',
-    '/hizmetlerimiz/google-ads-meta-ads-yonetimi': '/en/services/google-ads-meta-ads-management',
-    '/hizmetlerimiz/wordpress-cms-cozumleri': '/en/services/wordpress-cms-solutions',
+    '/hizmetlerimiz/google-ads-yonetimi': '/en/services/google-ads-management',
+    '/hizmetlerimiz/wordpress-cozumleri': '/en/services/wordpress-solutions',
     '/hizmetlerimiz/logo-kurumsal-kimlik-tasarimi': '/en/services/logo-corporate-identity-design',
     '/hizmetlerimiz/social-media-yonetimi': '/en/services/social-media-management',
     '/hizmetlerimiz/yapay-zeka-entegrasyonlari': '/en/services/ai-integrations',
-    '/hizmetlerimiz/otomasyon-entegrasyon': '/en/services/automation-integration',
     '/hizmetlerimiz/dijital-danismanlik': '/en/services/digital-consulting',
-    '/hizmetlerimiz/no-code-low-code-cozumleri': '/en/services/no-code-low-code-solutions',
-    '/hizmetlerimiz/egitim-mentorluk': '/en/services/education-mentoring',
     '/projelerimiz': '/en/projects'
   },
   de: {
@@ -96,15 +90,12 @@ const urlMappings = {
     '/hizmetlerimiz/web-gelistirme': '/de/dienstleistungen/webentwicklung',
     '/hizmetlerimiz/mobil-uygulama-gelistirme': '/de/dienstleistungen/mobile-app-entwicklung',
     '/hizmetlerimiz/seo-arama-motoru-optimizasyonu': '/de/dienstleistungen/seo-suchmaschinenoptimierung',
-    '/hizmetlerimiz/google-ads-meta-ads-yonetimi': '/de/dienstleistungen/google-ads-meta-ads-verwaltung',
-    '/hizmetlerimiz/wordpress-cms-cozumleri': '/de/dienstleistungen/wordpress-cms-losungen',
+    '/hizmetlerimiz/google-ads-yonetimi': '/de/dienstleistungen/google-ads-verwaltung',
+    '/hizmetlerimiz/wordpress-cozumleri': '/de/dienstleistungen/wordpress-loesungen',
     '/hizmetlerimiz/logo-kurumsal-kimlik-tasarimi': '/de/dienstleistungen/logo-corporate-identity-design',
     '/hizmetlerimiz/social-media-yonetimi': '/de/dienstleistungen/social-media-management',
     '/hizmetlerimiz/yapay-zeka-entegrasyonlari': '/de/dienstleistungen/ki-integrationen',
-    '/hizmetlerimiz/otomasyon-entegrasyon': '/de/dienstleistungen/automatisierung-integration',
     '/hizmetlerimiz/dijital-danismanlik': '/de/dienstleistungen/digitale-beratung',
-    '/hizmetlerimiz/no-code-low-code-cozumleri': '/de/dienstleistungen/no-code-low-code-losungen',
-    '/hizmetlerimiz/egitim-mentorluk': '/de/dienstleistungen/bildung-mentoring',
     '/projelerimiz': '/de/projekte'
   },
   fr: {
@@ -118,15 +109,12 @@ const urlMappings = {
     '/hizmetlerimiz/web-gelistirme': '/fr/services/developpement-web',
     '/hizmetlerimiz/mobil-uygulama-gelistirme': '/fr/services/developpement-app-mobile',
     '/hizmetlerimiz/seo-arama-motoru-optimizasyonu': '/fr/services/optimisation-moteurs-recherche-seo',
-    '/hizmetlerimiz/google-ads-meta-ads-yonetimi': '/fr/services/gestion-google-ads-meta-ads',
-    '/hizmetlerimiz/wordpress-cms-cozumleri': '/fr/services/solutions-wordpress-cms',
+    '/hizmetlerimiz/google-ads-yonetimi': '/fr/services/gestion-google-ads',
+    '/hizmetlerimiz/wordpress-cozumleri': '/fr/services/solutions-wordpress',
     '/hizmetlerimiz/logo-kurumsal-kimlik-tasarimi': '/fr/services/design-logo-identite-corporative',
     '/hizmetlerimiz/social-media-yonetimi': '/fr/services/gestion-reseaux-sociaux',
     '/hizmetlerimiz/yapay-zeka-entegrasyonlari': '/fr/services/integrations-ia',
-    '/hizmetlerimiz/otomasyon-entegrasyon': '/fr/services/automatisation-integration',
     '/hizmetlerimiz/dijital-danismanlik': '/fr/services/conseil-numerique',
-    '/hizmetlerimiz/no-code-low-code-cozumleri': '/fr/services/solutions-no-code-low-code',
-    '/hizmetlerimiz/egitim-mentorluk': '/fr/services/formation-mentorat',
     '/projelerimiz': '/fr/projets'
   },
   ru: {
@@ -140,15 +128,12 @@ const urlMappings = {
     '/hizmetlerimiz/web-gelistirme': '/ru/uslugi/veb-razrabotka',
     '/hizmetlerimiz/mobil-uygulama-gelistirme': '/ru/uslugi/razrabotka-mobilnyh-prilozhenij',
     '/hizmetlerimiz/seo-arama-motoru-optimizasyonu': '/ru/uslugi/seo-optimizaciya-poiskovyh-sistem',
-    '/hizmetlerimiz/google-ads-meta-ads-yonetimi': '/ru/uslugi/upravlenie-google-ads-meta-ads',
-    '/hizmetlerimiz/wordpress-cms-cozumleri': '/ru/uslugi/resheniya-wordpress-cms',
+    '/hizmetlerimiz/google-ads-yonetimi': '/ru/uslugi/upravlenie-google-ads',
+    '/hizmetlerimiz/wordpress-cozumleri': '/ru/uslugi/resheniya-wordpress',
     '/hizmetlerimiz/logo-kurumsal-kimlik-tasarimi': '/ru/uslugi/dizajn-logo-korporativnogo-identiteta',
     '/hizmetlerimiz/social-media-yonetimi': '/ru/uslugi/upravlenie-socsetyami',
     '/hizmetlerimiz/yapay-zeka-entegrasyonlari': '/ru/uslugi/integracii-iskusstvennogo-intellekta',
-    '/hizmetlerimiz/otomasyon-entegrasyon': '/ru/uslugi/avtomatizaciya-integraciya',
     '/hizmetlerimiz/dijital-danismanlik': '/ru/uslugi/cifrovoe-konsultirovanie',
-    '/hizmetlerimiz/no-code-low-code-cozumleri': '/ru/uslugi/resheniya-no-code-low-code',
-    '/hizmetlerimiz/egitim-mentorluk': '/ru/uslugi/obrazovanie-mentoring',
     '/projelerimiz': '/ru/proekty'
   },
   ar: {
@@ -162,15 +147,12 @@ const urlMappings = {
     '/hizmetlerimiz/web-gelistirme': '/ar/خدماتنا/تطوير-المواقع',
     '/hizmetlerimiz/mobil-uygulama-gelistirme': '/ar/خدماتنا/تطوير-التطبيقات-المحمولة',
     '/hizmetlerimiz/seo-arama-motoru-optimizasyonu': '/ar/خدماتنا/تحسين-محركات-البحث',
-    '/hizmetlerimiz/google-ads-meta-ads-yonetimi': '/ar/خدماتنا/إدارة-إعلانات-جوجل-وميتا',
-    '/hizmetlerimiz/wordpress-cms-cozumleri': '/ar/خدماتنا/حلول-ووردبريس-و-نظام-إدارة-المحتوى',
+    '/hizmetlerimiz/google-ads-yonetimi': '/ar/خدماتنا/إدارة-إعلانات-جوجل',
+    '/hizmetlerimiz/wordpress-cozumleri': '/ar/خدماتنا/حلول-ووردبريس',
     '/hizmetlerimiz/logo-kurumsal-kimlik-tasarimi': '/ar/خدماتنا/تصميم-الشعار-والهوية-الشركاتية',
     '/hizmetlerimiz/social-media-yonetimi': '/ar/خدماتنا/إدارة-وسائل-التواصل-الاجتماعي',
     '/hizmetlerimiz/yapay-zeka-entegrasyonlari': '/ar/خدماتنا/تكاملات-الذكاء-الاصطناعي',
-    '/hizmetlerimiz/otomasyon-entegrasyon': '/ar/خدماتنا/الأتمتة-والتكامل',
     '/hizmetlerimiz/dijital-danismanlik': '/ar/خدماتنا/الاستشارات-الرقمية',
-    '/hizmetlerimiz/no-code-low-code-cozumleri': '/ar/خدماتنا/حلول-لا-كود-قليل-الكود',
-    '/hizmetlerimiz/egitim-mentorluk': '/ar/خدماتنا/التعليم-والإرشاد',
     '/projelerimiz': '/ar/مشاريعنا'
   }
 };
@@ -195,12 +177,22 @@ const getTranslatedUrl = (currentPath: string, targetLocale: string): string => 
 };
 
 const getCurrentLocaleFromUrl = (pathname: string): string => {
-  // URL'den dil tespit et
+  // URL'den dil tespit et - önce tam eşleşme kontrol et
   for (const [locale, mappings] of Object.entries(urlMappings)) {
     if (Object.values(mappings).includes(pathname)) {
       return locale;
     }
   }
+  
+  // Tam eşleşme bulunamazsa, URL'nin başındaki dil kodunu kontrol et
+  const pathSegments = pathname.split('/').filter(Boolean);
+  if (pathSegments.length > 0) {
+    const firstSegment = pathSegments[0];
+    if (supportedLocales.includes(firstSegment)) {
+      return firstSegment;
+    }
+  }
+  
   return defaultLocale;
 };
 
@@ -219,25 +211,29 @@ export function I18nProvider({ children }: { children: React.ReactNode }) {
 
     // URL'den dil tespit et
     const urlLocale = getCurrentLocaleFromUrl(pathname);
-    if (urlLocale !== defaultLocale) {
+    
+    // URL'den tespit edilen dil ile mevcut locale'i karşılaştır
+    if (urlLocale !== locale) {
       setLocaleState(urlLocale);
       // URL'den tespit edilen dili localStorage'a kaydet
       if (typeof window !== 'undefined') {
         localStorage.setItem('preferred-locale', urlLocale);
       }
     } else {
-      // localStorage'dan dil tercihini oku
+      // localStorage'dan dil tercihini oku (sadece ilk yüklemede)
       const savedLocale = localStorage.getItem('preferred-locale');
-      if (savedLocale && supportedLocales.includes(savedLocale)) {
-        setLocaleState(savedLocale);
-      } else {
-        setLocaleState(defaultLocale);
+      if (savedLocale && supportedLocales.includes(savedLocale) && savedLocale !== urlLocale) {
+        // Eğer localStorage'daki dil URL'deki dilden farklıysa, URL'yi güncelle
+        const translatedUrl = getTranslatedUrl(pathname, savedLocale);
+        if (translatedUrl !== pathname) {
+          router.replace(translatedUrl);
+        }
       }
     }
 
     // Çeviri dosyalarını önceden yükle
     preloadTranslations();
-  }, [pathname]);
+  }, [pathname, locale, router]);
 
   // Çeviri dosyalarını yükle (sadece client-side)
   useEffect(() => {
@@ -303,9 +299,9 @@ export function I18nProvider({ children }: { children: React.ReactNode }) {
         const currentPath = pathname;
         const translatedUrl = getTranslatedUrl(currentPath, newLocale);
 
-        // Eğer URL değiştiyse yönlendir
+        // Eğer URL değiştiyse yönlendir (replace kullanarak history'ye yeni entry ekleme)
         if (translatedUrl !== currentPath) {
-          router.push(translatedUrl);
+          router.replace(translatedUrl);
         } else {
           // URL aynıysa sadece state'i güncelle
           setLocaleState(newLocale);

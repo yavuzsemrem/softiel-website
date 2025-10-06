@@ -2,7 +2,8 @@
 
 import React from "react"
 import { motion } from "framer-motion"
-import { ArrowRight, CheckCircle, Clock, Users, Code, Rocket } from "lucide-react"
+import Image from "next/image"
+import { ArrowRight, CheckCircle, Clock, Users, Code, Rocket, Settings, Workflow } from "lucide-react"
 
 interface ServiceProcessProps {
   data: {
@@ -13,10 +14,17 @@ interface ServiceProcessProps {
       description: string
     }>
   }
+  duration?: string
 }
 
-export function ServiceProcess({ data }: ServiceProcessProps) {
+export function ServiceProcess({ data, duration = "2 - 4 Hafta" }: ServiceProcessProps) {
   const processIcons = [Users, Code, CheckCircle, Rocket]
+  const processColors = [
+    "from-blue-500 to-cyan-500",
+    "from-cyan-500 to-sky-500", 
+    "from-sky-500 to-indigo-500",
+    "from-indigo-500 to-purple-500"
+  ]
 
   return (
     <section className="relative py-16 lg:py-24">
@@ -26,7 +34,7 @@ export function ServiceProcess({ data }: ServiceProcessProps) {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="text-center mb-20"
         >
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -36,15 +44,15 @@ export function ServiceProcess({ data }: ServiceProcessProps) {
             className="inline-flex items-center space-x-2 glass rounded-full px-6 py-3 shadow-modern mb-8"
             style={{ background: 'rgba(255, 255, 255, 0.1)' }}
           >
-            <Clock className="h-5 w-5 text-blue-500 fill-current" />
+            <Workflow className="h-5 w-5 text-cyan-500" />
             <span className="text-sm font-semibold text-neutral-700 dark:text-neutral-300">
               Çalışma Süreci
             </span>
           </motion.div>
 
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold text-neutral-900 dark:text-white mb-6">
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-display font-bold text-neutral-900 dark:text-white mb-6">
             Nasıl{" "}
-            <span className="bg-gradient-to-r from-blue-500 via-cyan-500 to-purple-500 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 bg-clip-text text-transparent">
               Çalışıyoruz
             </span>
           </h2>
@@ -56,12 +64,11 @@ export function ServiceProcess({ data }: ServiceProcessProps) {
 
         {/* Process Steps */}
         <div className="relative">
-          {/* Connection Line */}
-          <div className="hidden lg:block absolute top-1/2 left-0 right-0 h-0.5 bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 transform -translate-y-1/2 z-0"></div>
-          
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 lg:gap-4">
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 lg:gap-6">
             {data.process.map((step, index) => {
               const IconComponent = processIcons[index] || CheckCircle
+              const stepColor = processColors[index] || "from-cyan-500 to-blue-500"
+              
               return (
                 <motion.div
                   key={step.step}
@@ -69,26 +76,30 @@ export function ServiceProcess({ data }: ServiceProcessProps) {
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.2, duration: 0.6 }}
                   viewport={{ once: true }}
-                  className="relative z-10"
+                   className="relative"
                 >
-                  <div className="glass rounded-2xl p-6 lg:p-8 shadow-modern border border-white/50 dark:border-white/40 backdrop-blur-lg dark:[border:1px_solid_rgba(255,255,255,0.2)] text-center group hover:bg-white/15 dark:hover:bg-gray-800 transition-all duration-300"
+                  <div className="glass rounded-xl p-8 lg:p-10 shadow-modern border border-white/50 dark:border-white/40 text-center backdrop-blur-lg dark:[border:1px_solid_rgba(255,255,255,0.2)] hover:bg-white/15 dark:hover:bg-gray-800 transition-all duration-300 h-full"
                        style={{ background: 'rgba(255, 255, 255, 0.1)' }}>
-                    {/* Step Number & Icon */}
-                    <div className="relative mb-6">
-                      <div className="w-16 h-16 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-2xl flex items-center justify-center mx-auto shadow-modern group-hover:scale-110 transition-transform duration-300">
-                        <IconComponent className="h-8 w-8 text-white" />
-                      </div>
-                      <div className="absolute -top-2 -right-2 w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white font-bold text-sm">
-                        {step.step}
-                      </div>
+                    
+                    {/* Step Number */}
+                    <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 w-8 h-8 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full flex items-center justify-center text-white font-bold text-sm shadow-modern z-20">
+                      {step.step}
                     </div>
 
-                    <h3 className="text-xl font-bold text-neutral-900 dark:text-white mb-3">
+                    {/* Icon */}
+                    <div className={`w-20 h-20 bg-gradient-to-r ${stepColor} rounded-xl flex items-center justify-center mx-auto mb-8 shadow-modern`}>
+                      <IconComponent className="h-10 w-10 text-white" />
+                    </div>
+
+                    {/* Content */}
+                    <h3 className="text-xl lg:text-2xl font-semibold text-neutral-900 dark:text-white mb-6">
                       {step.title}
                     </h3>
-                    <p className="text-neutral-600 dark:text-neutral-400 leading-relaxed">
+                    
+                    <p className="text-neutral-600 dark:text-neutral-400 leading-relaxed text-sm lg:text-base">
                       {step.description}
                     </p>
+
                   </div>
                 </motion.div>
               )
@@ -108,7 +119,7 @@ export function ServiceProcess({ data }: ServiceProcessProps) {
                style={{ background: 'rgba(255, 255, 255, 0.1)' }}>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="text-center">
-                <div className="text-2xl lg:text-3xl font-bold text-cyan-500 mb-2">2-4 Hafta</div>
+                <div className="text-2xl lg:text-3xl font-bold text-cyan-500 mb-2">{duration}</div>
                 <div className="text-sm text-neutral-600 dark:text-neutral-400">Ortalama Süre</div>
               </div>
               <div className="text-center">

@@ -1,3 +1,5 @@
+"use client"
+
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { ServiceHero } from "@/components/service-hero"
@@ -5,96 +7,143 @@ import { ServiceDetails } from "@/components/service-details"
 import { ServiceProcess } from "@/components/service-process"
 import { ServicePricing } from "@/components/service-pricing"
 import { CTA } from "@/components/cta"
+import { motion } from "framer-motion"
+import { Plus, Smartphone, BarChart3, Shield, Zap, Database } from "lucide-react"
 
 export default function WebGelistirmePage() {
   const serviceData = {
-    title: "Web Geliştirme",
-    subtitle: "Profesyonel Web Uygulamaları",
-    description: "Modern teknolojiler kullanarak ölçeklenebilir, hızlı ve güvenli web uygulamaları geliştiriyoruz. React, Next.js, Node.js ve diğer güncel teknolojilerle performanslı çözümler sunuyoruz.",
+    title: "Web Uygulaması Geliştirme",
+    subtitle: "Özel İhtiyaçlarınıza Özel Çözümler",
+    description: "Modern teknolojilerle özel web uygulamaları geliştiriyoruz. Kullanıcı dostu, hızlı ve güvenli çözümlerle profesyonel sonuçlar elde ediyorsunuz.",
+    detailDescription: "Web uygulamaları artık işletmeler için vazgeçilmez araçlar haline geldi. Doğru yaklaşım ve teknoloji seçimiyle müşteri memnuniyetini artırır, operasyonel verimliliği yükseltirsiniz.",
     icon: "💻",
+    serviceType: "web-gelistirme",
     features: [
       {
-        title: "Modern Teknolojiler",
-        description: "React, Next.js, Node.js",
-        icon: "⚡"
+        title: "Özel Çözüm",
+        description: "İhtiyaçlarınıza tam uyum",
+        icon: "🎯"
       },
       {
-        title: "Ölçeklenebilir Mimari",
-        description: "Büyüyen işletmeler için",
-        icon: "📈"
-      },
-      {
-        title: "API Geliştirme",
-        description: "RESTful ve GraphQL API'ler",
+        title: "Entegrasyon Kabiliyeti",
+        description: "ERP, CRM, ödeme, API'lerle sorunsuz çalışma",
         icon: "🔗"
       },
       {
-        title: "Veritabanı Optimizasyonu",
-        description: "Hızlı ve güvenli veri yönetimi",
-        icon: "🗄️"
+        title: "Ölçeklenebilirlik",
+        description: "İleride büyümeye hazır altyapı",
+        icon: "📈"
+      },
+      {
+        title: "Güvenlik & Hız",
+        description: "Modern framework, yüksek performans",
+        icon: "⚡"
       }
     ],
     process: [
       {
         step: "1",
-        title: "Teknik Analiz",
-        description: "Proje gereksinimlerini analiz ediyor, en uygun teknoloji stack'ini belirliyoruz."
+        title: "İhtiyaç Analizi",
+        description: "İş gereksinimlerinizi detaylı analiz edip proje kapsamını belirliyoruz."
       },
       {
         step: "2", 
-        title: "Mimari Tasarım",
-        description: "Ölçeklenebilir ve sürdürülebilir sistem mimarisi tasarlıyoruz."
+        title: "Teknoloji Stack Seçimi",
+        description: "Projenize en uygun teknoloji kombinasyonunu seçip mimariyi tasarlıyoruz."
       },
       {
         step: "3",
-        title: "Geliştirme",
-        description: "Agile metodoloji ile adım adım uygulamayı geliştiriyoruz."
+        title: "Agile Geliştirme",
+        description: "Sürekli test ve geri bildirimle adım adım uygulamayı geliştiriyoruz."
       },
       {
         step: "4",
-        title: "Test & Deploy",
-        description: "Kapsamlı testler yapıp production ortamına deploy ediyoruz."
+        title: "Deploy & Bakım",
+        description: "Production ortamına deploy edip uzun vadeli destek sağlıyoruz."
       }
     ],
     pricing: [
       {
-        name: "Kurumsal Web App",
-        price: "₺25.000",
-        period: "başlangıç",
-        features: [
-          "Admin Paneli",
-          "Kullanıcı Yönetimi",
-          "API Entegrasyonu",
-          "Responsive Tasarım",
-          "6 Ay Destek"
-        ],
-        popular: false
-      },
-      {
-        name: "E-Ticaret Platformu",
+        name: "Starter",
         price: "₺40.000",
         period: "başlangıç",
         features: [
-          "Ürün Yönetimi",
-          "Ödeme Sistemi",
-          "Stok Takibi",
-          "Raporlama",
-          "1 Yıl Destek"
+          "Basit CRUD uygulamaları",
+          "Kullanıcı giriş/rol bazlı yetkilendirme",
+          "Responsive tasarım (modern UI)",
+          "Basit raporlama (tablolar, grafikler)",
+          "1 entegrasyon (ör. e-posta veya SMS API)",
+          "1 revizyon turu"
         ],
-        popular: true
+        popular: false,
+        icon: "Zap",
+        color: "from-green-500 to-emerald-500"
       },
       {
-        name: "Özel Uygulama",
-        price: "₺75.000+",
+        name: "Pro",
+        price: "₺60.000",
         period: "başlangıç",
         features: [
-          "Özel Geliştirme",
-          "Mikroservis Mimari",
-          "Cloud Deploy",
-          "Sınırsız Destek",
-          "Kaynak Kod Teslimi"
+          "Kapsamlı dashboard ve modüller",
+          "Çoklu rol & izin yönetimi",
+          "Gelişmiş raporlama (grafikler, filtreler, export)",
+          "2–3 entegrasyon (ERP, CRM, ödeme sistemleri)",
+          "Gelişmiş güvenlik (2FA, loglama)",
+          "2 revizyon turu"
         ],
-        popular: false
+        popular: true,
+        icon: "Star",
+        color: "from-yellow-500 to-orange-500"
+      },
+      {
+        name: "Enterprise",
+        price: "₺100.000+",
+        period: "başlangıç",
+        features: [
+          "Büyük ölçekli kurumsal çözümler",
+          "Çoklu kullanıcı desteği",
+          "Gelişmiş erişim kontrolü (RBAC, LDAP, SSO)",
+          "Mikro servis / API tabanlı yapı",
+          "Ölçeklenebilirlik (yük dengeleme, cache)",
+          "CI/CD entegrasyonu",
+          "SLA + 3–6 ay bakım",
+          "3 revizyon turu"
+        ],
+        popular: false,
+        icon: "Shield",
+        color: "from-blue-500 to-indigo-500"
+      }
+    ],
+    addOnServices: [
+      {
+        name: "Ek Modül",
+        description: "Özel iş süreçleriniz için ek modüller",
+        price: "₺7.500"
+      },
+      {
+        name: "Progressive Web App",
+        description: "Mobil uyumlu offline uygulama",
+        price: "₺10.000"
+      },
+      {
+        name: "Analitik / BI",
+        description: "İş zekası ve analitik entegrasyonu",
+        price: "₺7.500"
+      },
+      {
+        name: "Gelişmiş Güvenlik",
+        description: "Penetrasyon testi ve loglama",
+        price: "₺7.500"
+      },
+      {
+        name: "CI/CD Kurulumu",
+        description: "GitHub Actions pipeline kurulumu",
+        price: "₺5.000"
+      },
+      {
+        name: "Yedekleme & Monitoring",
+        description: "Otomatik yedekleme ve izleme",
+        price: "₺5.000"
       }
     ]
   }
@@ -112,8 +161,9 @@ export default function WebGelistirmePage() {
         
         <ServiceHero data={serviceData} />
         <ServiceDetails data={serviceData} />
-        <ServiceProcess data={serviceData} />
-        <ServicePricing data={serviceData} />
+        <ServiceProcess data={serviceData} duration="2 - 4 Hafta" />
+        <ServicePricing data={serviceData} showDomainNotice={true} showAddOnServices={true} serviceType="web-gelistirme" />
+
         <CTA />
       </main>
       <Footer />

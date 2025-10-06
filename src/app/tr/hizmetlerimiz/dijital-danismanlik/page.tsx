@@ -7,11 +7,67 @@ import { ServicePricing } from "@/components/service-pricing"
 import { CTA } from "@/components/cta"
 
 export default function DijitalDanismanlikPage() {
+  // Pricing packages'ı önce tanımlıyoruz
+  const pricing = [
+    {
+      name: "Starter (Hızlı Yol Haritası)",
+      price: "₺7.500",
+      period: "başlangıç",
+      features: [
+        "1 defalık dijital durum analizi (web sitesi, sosyal medya, SEO, reklamlar)",
+        "SWOT analizi (güçlü, zayıf yönler, fırsatlar, tehditler)",
+        "Temel iyileştirme önerileri",
+        "Basit yol haritası (3–6 aylık plan)",
+        "1 revizyon hakkı"
+      ],
+      popular: false,
+      icon: "Zap",
+      color: "from-green-500 to-emerald-500"
+    },
+    {
+      name: "Pro (Düzenli Danışmanlık)",
+      price: "₺15.000",
+      period: "aylık",
+      features: [
+        "Starter'daki her şey +",
+        "Aylık 2 toplantı (Zoom/Meet)",
+        "Reklam, SEO, sosyal medya için düzenli yönlendirmeler",
+        "KPI belirleme ve performans takibi",
+        "Rakip analizi (çeyreklik rapor)",
+        "2 revizyon hakkı"
+      ],
+      popular: true,
+      icon: "Star",
+      color: "from-yellow-500 to-orange-500"
+    },
+    {
+      name: "Enterprise (Tam Stratejik Partnerlik)",
+      price: "₺25.000",
+      period: "aylık",
+      features: [
+        "Pro'daki her şey +",
+        "Haftalık/aylık düzenli danışmanlık görüşmeleri",
+        "Dijital dönüşüm yol haritası (1 yıllık plan)",
+        "Teknoloji seçimi (ERP, CRM, e-ticaret platformları)",
+        "Eğitim oturumları (ekip için)",
+        "Raporlama & strateji güncellemeleri",
+        "3 revizyon hakkı",
+        "6 ay SLA desteği"
+      ],
+      popular: false,
+      icon: "Shield",
+      color: "from-blue-500 to-indigo-500"
+    }
+  ]
+
   const serviceData = {
     title: "Dijital Danışmanlık",
     subtitle: "Dijital Dönüşüm Rehberliği",
-    description: "İşletmenizin dijital dönüşüm sürecinde rehberlik ediyoruz. Strateji geliştirme, teknoloji seçimi ve uygulama konularında uzman danışmanlık hizmeti sunuyoruz.",
+    description: "İşletmenizin dijital dönüşüm sürecinde rehberlik ediyoruz. Strateji geliştirme ve teknoloji seçimi konularında uzman danışmanlık sunuyoruz.",
+    detailDescription: "Dijital danışmanlık, işletmenizin dijital dünyada başarılı olması için stratejik rehberlik sağlar. Mevcut durumunuzu analiz ederek, hedeflerinize ulaşmanız için en uygun yolu belirliyoruz.",
     icon: "💡",
+    serviceType: "danismanlik",
+    packagesTitle: "Paketlerde neler olmalı?",
     features: [
       {
         title: "Strateji Geliştirme",
@@ -56,47 +112,29 @@ export default function DijitalDanismanlikPage() {
         description: "Planı uygularken sürekli destek veriyoruz."
       }
     ],
-    pricing: [
+    addOnServices: [
       {
-        name: "Temel Danışmanlık",
-        price: "₺3.000",
-        period: "aylık",
-        features: [
-          "4 Saat Danışmanlık",
-          "Temel Analiz",
-          "E-posta Destek",
-          "Aylık Rapor",
-          "Telefon Görüşmesi"
-        ],
-        popular: false
+        name: "Ekstra Toplantı",
+        description: "Aylık paket dışında ekstra toplantı",
+        price: "₺1.000"
       },
       {
-        name: "Profesyonel Danışmanlık",
-        price: "₺6.000",
-        period: "aylık",
-        features: [
-          "8 Saat Danışmanlık",
-          "Detaylı Analiz",
-          "Strateji Geliştirme",
-          "Haftalık Rapor",
-          "Video Görüşme"
-        ],
-        popular: true
+        name: "Eğitim Modülü",
+        description: "SEO, sosyal medya, dijital pazarlama eğitimi",
+        price: "₺3.000"
       },
       {
-        name: "Kurumsal Danışmanlık",
-        price: "₺12.000+",
-        period: "aylık",
-        features: [
-          "Sınırsız Danışmanlık",
-          "Kapsamlı Analiz",
-          "Özel Strateji",
-          "Günlük Rapor",
-          "Yüz Yüze Toplantı"
-        ],
-        popular: false
+        name: "Teknoloji Seçimi",
+        description: "ERP/CRM/e-ticaret platformu seçimi",
+        price: "₺5.000"
+      },
+      {
+        name: "Rakip Analizi",
+        description: "Derinlemesine rakip analiz raporu",
+        price: "₺5.000"
       }
-    ]
+    ],
+    pricing: pricing, // packages array'i doğrudan kullanacağız
   }
 
   return (
@@ -112,8 +150,8 @@ export default function DijitalDanismanlikPage() {
         
         <ServiceHero data={serviceData} />
         <ServiceDetails data={serviceData} />
-        <ServiceProcess data={serviceData} />
-        <ServicePricing data={serviceData} />
+        <ServiceProcess data={serviceData} duration="1 - 2 Hafta" />
+        <ServicePricing data={serviceData} showAddOnServices={true} />
         <CTA />
       </main>
       <Footer />

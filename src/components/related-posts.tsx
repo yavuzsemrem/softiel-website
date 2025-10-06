@@ -76,7 +76,7 @@ export function RelatedPosts({ currentSlug }: PopularPostsProps) {
         >
           <h2 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-display font-bold text-neutral-900 dark:text-white mb-6">
             Popüler{" "}
-            <span className="bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 bg-clip-text text-transparent">
               Yazılar
             </span>
           </h2>
@@ -191,7 +191,7 @@ export function RelatedPosts({ currentSlug }: PopularPostsProps) {
                 </div>
 
                 {/* Read More */}
-                <Link href={`/blog/${post.slug || post.id}`}>
+                <Link href={`/tr/blog/${post.slug || post.id}`}>
                   <div className="flex items-center text-cyan-600 dark:text-cyan-400 font-medium transition-transform duration-200 cursor-pointer">
                     <span className="text-sm">Devamını Oku</span>
                     <ArrowRight className="h-4 w-4 ml-2" />
@@ -214,8 +214,7 @@ export function RelatedPosts({ currentSlug }: PopularPostsProps) {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="text-white px-8 py-4 rounded-2xl font-semibold text-lg shadow-modern hover:shadow-modern-lg transition-all duration-200 inline-flex items-center space-x-2"
-              style={{ background: 'linear-gradient(to right, #06b6d4, #3b82f6)' }}
+              className="text-white px-8 py-4 rounded-2xl font-semibold text-lg shadow-modern hover:shadow-modern-lg transition-all duration-200 inline-flex items-center space-x-2 bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600"
             >
               <span>Tüm Blog Yazılarını Gör</span>
               <ArrowRight className="h-5 w-5" />

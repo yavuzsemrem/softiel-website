@@ -7,7 +7,7 @@ import { Plus, Minus } from "lucide-react"
 const faqs = [
   {
     question: "Proje süresi ne kadar?",
-    answer: "Proje süresi projenin karmaşıklığına göre değişir. Basit web siteleri 2-4 hafta, karmaşık web uygulamaları 2-6 ay sürebilir. Detaylı süre tahmini için ücretsiz danışmanlık alabilirsiniz."
+    answer: "Proje süresi projenin karmaşıklığına göre değişir. Basit web siteleri 7-14 gün, karmaşık web uygulamaları 2-6 ay sürebilir. Detaylı süre tahmini için ücretsiz danışmanlık alabilirsiniz."
   },
   {
     question: "Ödeme koşulları nasıl?",

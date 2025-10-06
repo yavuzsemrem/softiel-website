@@ -109,7 +109,7 @@ function ContactFormContent() {
 
           <h2 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-display font-bold text-neutral-900 dark:text-white mb-6">
             İletişim{" "}
-            <span className="bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 bg-clip-text text-transparent">
               Formu
             </span>
           </h2>
@@ -148,7 +148,7 @@ function ContactFormContent() {
             {/* Personal Information */}
             <div className="space-y-4">
               <div className="flex items-center space-x-3 pb-3">
-                <div className="w-8 h-8 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-lg flex items-center justify-center">
+                <div className="w-8 h-8 bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 rounded-lg flex items-center justify-center">
                   <User className="h-4 w-4 text-white" />
                 </div>
                 <h3 className="text-lg font-bold text-neutral-900 dark:text-white">
@@ -239,18 +239,15 @@ function ContactFormContent() {
                     >
                       <option value="">Hizmet seçiniz</option>
                       <option value="web-sitesi-tasarimi">Web Sitesi Tasarımı</option>
-                      <option value="web-gelistirme">Web Geliştirme</option>
+                      <option value="web-gelistirme">Web Uygulaması Geliştirme</option>
                       <option value="mobil-uygulama-gelistirme">Mobil Uygulama Geliştirme</option>
-                      <option value="seo-arama-motoru-optimizasyonu">SEO & Arama Motoru Optimizasyonu</option>
-                      <option value="google-ads-meta-ads-yonetimi">Google Ads & Meta Ads Yönetimi</option>
-                      <option value="wordpress-cms-cozumleri">WordPress & CMS Çözümleri</option>
+                      <option value="seo-arama-motoru-optimizasyonu">SEO Optimizasyonu</option>
+                      <option value="google-ads-yonetimi">Google Ads & Meta Ads Yönetimi</option>
+                      <option value="wordpress-cozumleri">WordPress & CMS Çözümleri</option>
                       <option value="logo-kurumsal-kimlik-tasarimi">Logo & Kurumsal Kimlik Tasarımı</option>
                       <option value="sosyal-medya-yonetimi">Sosyal Medya Yönetimi</option>
                       <option value="yapay-zeka-entegrasyonlari">Yapay Zeka Entegrasyonları</option>
-                      <option value="otomasyon-entegrasyon">Otomasyon & Entegrasyon</option>
                       <option value="dijital-danismanlik">Dijital Danışmanlık</option>
-                      <option value="no-code-low-code-cozumleri">No-Code / Low-Code Çözümleri</option>
-                      <option value="egitim-mentorluk">Eğitim & Mentorluk</option>
                       <option value="diger">Diğer</option>
                     </select>
                     <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
@@ -301,8 +298,7 @@ function ContactFormContent() {
               disabled={isLoading}
               whileHover={{ scale: isLoading ? 1 : 1.01 }}
               whileTap={{ scale: isLoading ? 1 : 0.99 }}
-              className={`w-full text-white py-3 rounded-xl font-semibold text-lg shadow-modern hover:shadow-modern-lg transition-all duration-200 flex items-center justify-center space-x-2 ${isLoading ? 'opacity-75 cursor-not-allowed' : ''}`}
-              style={{ background: 'linear-gradient(to right, #06b6d4, #3b82f6)' }}
+              className={`w-full text-white py-3 rounded-xl font-semibold text-lg shadow-modern hover:shadow-modern-lg transition-all duration-200 flex items-center justify-center space-x-2 bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 ${isLoading ? 'opacity-75 cursor-not-allowed' : ''}`}
             >
               {isLoading ? (
                 <>

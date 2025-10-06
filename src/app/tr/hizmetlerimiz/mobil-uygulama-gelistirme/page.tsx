@@ -10,91 +10,147 @@ export default function MobilUygulamaGelistirmePage() {
   const serviceData = {
     title: "Mobil Uygulama Geliştirme",
     subtitle: "iOS & Android Uygulamaları",
-    description: "React Native, Flutter ve native teknolojiler kullanarak performanslı mobil uygulamalar geliştiriyoruz. App Store ve Google Play Store'da yayınlanmaya hazır uygulamalar oluşturuyoruz.",
+    description: "Tek kod tabanıyla iOS ve Android uygulamaları geliştiriyoruz. MVP'den Enterprise'a kadar her seviyede çözüm sunuyoruz.",
+    detailDescription: "Mobil uygulamalar artık işletmeler için kritik önem taşıyor. Kullanıcılar zamanlarının %90'ını mobil cihazlarda geçirirken, doğru mobil strateji müşterilerinize 7/24 erişim sağlar ve rekabette avantaj kazandırır.",
     icon: "📱",
+    serviceType: "mobil-uygulama",
     features: [
       {
-        title: "Cross-Platform",
-        description: "iOS ve Android tek kod",
-        icon: "🔄"
-      },
-      {
-        title: "Native Performans",
-        description: "Yüksek performanslı uygulamalar",
+        title: "Hızlı MVP",
+        description: "3-6 haftada yayına alabilirsiniz",
         icon: "⚡"
       },
       {
-        title: "App Store Yayın",
-        description: "Store'larda yayınlama desteği",
-        icon: "🏪"
+        title: "Tek Kod Tabanı",
+        description: "iOS + Android aynı anda",
+        icon: "🔄"
       },
       {
-        title: "Push Notification",
-        description: "Anlık bildirim sistemi",
-        icon: "🔔"
+        title: "Özelleştirilebilir",
+        description: "İşinize özel modüller",
+        icon: "🎯"
+      },
+      {
+        title: "Uzun Vadeli Destek",
+        description: "SLA ile bakım garantisi",
+        icon: "🛡️"
       }
     ],
     process: [
       {
         step: "1",
-        title: "Uygulama Analizi",
-        description: "Hedef kitle ve platform analizi yapıp uygulama konseptini belirliyoruz."
+        title: "İhtiyaç Analizi",
+        description: "Fikirlerinizi analiz edip MVP'den Enterprise'a uygun çözüm belirliyoruz."
       },
       {
         step: "2", 
-        title: "UI/UX Tasarım",
-        description: "Mobil platformlara özel kullanıcı arayüzü tasarlıyoruz."
+        title: "Prototip & Tasarım",
+        description: "Kullanıcı deneyimi odaklı tasarım ve interaktif prototipler oluşturuyoruz."
       },
       {
         step: "3",
-        title: "Geliştirme",
-        description: "Modern teknolojilerle uygulamayı geliştiriyoruz."
+        title: "Cross-Platform Geliştirme",
+        description: "Tek kod tabanıyla iOS ve Android uygulamasını eş zamanlı geliştiriyoruz."
       },
       {
         step: "4",
-        title: "Test & Yayın",
-        description: "Kapsamlı testler yapıp store'larda yayınlıyoruz."
+        title: "Test & Store Yayın",
+        description: "Kapsamlı testler yapıp App Store ve Google Play'de yayınlıyoruz."
       }
     ],
     pricing: [
       {
-        name: "Basit Uygulama",
-        price: "₺30.000",
-        period: "başlangıç",
-        features: [
-          "5-10 Ekran",
-          "Offline Çalışma",
-          "Push Notification",
-          "App Store Yayın",
-          "3 Ay Destek"
-        ],
-        popular: false
-      },
-      {
-        name: "E-Ticaret Uygulaması",
+        name: "Starter (MVP)",
         price: "₺50.000",
         period: "başlangıç",
         features: [
-          "Ürün Kataloğu",
-          "Sepet Sistemi",
-          "Ödeme Entegrasyonu",
-          "Admin Paneli",
-          "6 Ay Destek"
+          "iOS + Android (Flutter/React Native)",
+          "Kullanıcı girişi (e-posta/şifre)",
+          "Profil sayfası + temel CRUD",
+          "Basit push notification",
+          "Backend: Firebase/REST API",
+          "1 revizyon turu"
         ],
-        popular: true
+        popular: false,
+        icon: "Zap",
+        color: "from-green-500 to-emerald-500"
       },
       {
-        name: "Kurumsal Uygulama",
-        price: "₺80.000+",
+        name: "Pro",
+        price: "₺80.000",
         period: "başlangıç",
         features: [
-          "Özel Geliştirme",
-          "API Entegrasyonu",
-          "Güvenlik Önlemleri",
-          "Sınırsız Destek",
-          "Kaynak Kod Teslimi"
+          "Tüm Starter özellikleri",
+          "Gelişmiş kullanıcı yönetimi (roller, izinler)",
+          "Ödeme entegrasyonu (Iyzico, Stripe)",
+          "Harita/konum tabanlı özellikler",
+          "Gerçek zamanlı bildirim",
+          "Basit admin paneli",
+          "2 revizyon turu"
         ],
-        popular: false
+        popular: true,
+        icon: "Star",
+        color: "from-yellow-500 to-orange-500"
+      },
+      {
+        name: "Enterprise",
+        price: "₺150.000+",
+        period: "başlangıç",
+        features: [
+          "Tüm Pro özellikleri",
+          "Çoklu dil desteği",
+          "İleri seviye güvenlik (2FA, şifreleme)",
+          "Gerçek zamanlı chat/socket",
+          "Mikroservis tabanlı backend",
+          "CI/CD entegrasyonu",
+          "SLA + 6 ay bakım",
+          "3 revizyon turu"
+        ],
+        popular: false,
+        icon: "Shield",
+        color: "from-blue-500 to-indigo-500"
+      }
+    ],
+    addOnServices: [
+      {
+        name: "Ek Ekran",
+        description: "Yeni ekran tasarımı ve geliştirme",
+        price: "₺1.500"
+      },
+      {
+        name: "Ödeme Entegrasyonu",
+        description: "Stripe, PayPal veya Iyzico entegrasyonu",
+        price: "₺7.500"
+      },
+      {
+        name: "Harita Servisleri",
+        description: "Google Maps, konum bazlı özellikler",
+        price: "₺7.500"
+      },
+      {
+        name: "Bildirim Sistemi",
+        description: "Firebase Cloud Messaging, OneSignal",
+        price: "₺5.000"
+      },
+      {
+        name: "Admin Panel",
+        description: "Web tabanlı içerik yönetim paneli",
+        price: "₺10.000"
+      },
+      {
+        name: "Store Optimizasyon",
+        description: "App Store & Google Play ASO danışmanlığı",
+        price: "₺5.000"
+      },
+      {
+        name: "6 Ay Bakım",
+        description: "Uygulama bakımı ve güncelleme paketi",
+        price: "₺3.000"
+      },
+      {
+        name: "12 Ay Bakım",
+        description: "Uygulama bakımı ve güncelleme paketi",
+        price: "₺6.000"
       }
     ]
   }
@@ -112,8 +168,8 @@ export default function MobilUygulamaGelistirmePage() {
         
         <ServiceHero data={serviceData} />
         <ServiceDetails data={serviceData} />
-        <ServiceProcess data={serviceData} />
-        <ServicePricing data={serviceData} />
+        <ServiceProcess data={serviceData} duration="3 - 6 Hafta" />
+        <ServicePricing data={serviceData} showAddOnServices={true} />
         <CTA />
       </main>
       <Footer />

@@ -7,11 +7,62 @@ import { ServicePricing } from "@/components/service-pricing"
 import { CTA } from "@/components/cta"
 
 export default function WordPressCMSCozumleriPage() {
+  // Pricing packages'ı önce tanımlıyoruz
+  const pricing = [
+    {
+      name: "Starter (Kurumsal Site)",
+      price: "₺8.000",
+      period: "başlangıç",
+      features: [
+        "WordPress kurulumu + hazır tema uyarlaması",
+        "5–7 sayfa (Hakkımızda, Hizmetler, İletişim vb.)",
+        "Responsive (mobil uyumlu)",
+        "SSL kurulumu",
+        "Temel SEO eklentileri (Yoast / RankMath)",
+        "1 revizyon turu"
+      ],
+      popular: false
+    },
+    {
+      name: "Pro (E-Ticaret / WooCommerce)",
+      price: "₺15.000",
+      period: "başlangıç",
+      features: [
+        "Starter'daki her şey +",
+        "WooCommerce kurulumu",
+        "10 ürüne kadar ürün yükleme (daha fazlası müşteri ya da ek hizmet)",
+        "Temel ödeme sistemi entegrasyonu (PayPal, Iyzico vb.)",
+        "Kargo modülleri entegrasyonu (Türkiye için MNG, Yurtiçi; global için DHL, FedEx vb.)",
+        "2 revizyon turu"
+      ],
+      popular: true
+    },
+    {
+      name: "Enterprise (Kurumsal CMS / İçerik Platformu)",
+      price: "₺25.000+",
+      period: "başlangıç",
+      features: [
+        "Pro'daki her şey +",
+        "Özel tema veya child theme geliştirme",
+        "Çok dilli destek (Polylang, WPML)",
+        "Gelişmiş güvenlik (Wordfence / 2FA)",
+        "Gelişmiş cache + hız optimizasyonu (LiteSpeed, CDN)",
+        "İçerik ekipleri için kullanıcı rolleri",
+        "3 revizyon turu",
+        "3 ay bakım desteği"
+      ],
+      popular: false
+    }
+  ]
+  
   const serviceData = {
     title: "WordPress & CMS Çözümleri",
     subtitle: "Kolay Yönetilebilir Web Siteleri",
     description: "WordPress ve diğer CMS platformlarında profesyonel web siteleri oluşturuyoruz. İçerik yönetimi kolay, güvenli ve hızlı çözümler sunuyoruz.",
+    detailDescription: "WordPress'in esnek yapısı sayesinde küçük blog sitelerinden büyük kurumsal e-ticaret platformlarına kadar her türlü web sitesini hızlıca ve maliyet-etkin bir şekilde oluşturabiliyorz. İçerik yönetimi konusunda müşterilerinize sınırsız özgürlük sunarken, aynı zamanda teknik altyapıyı bizim kontrolümüze bırakın.",
     icon: "🔧",
+    serviceType: "wordpress",
+    packagesTitle: "2️⃣ Paketlerde neler olmalı?",
     features: [
       {
         title: "Kolay Yönetim",
@@ -56,47 +107,39 @@ export default function WordPressCMSCozumleriPage() {
         description: "Kullanım eğitimi verip projeyi teslim ediyoruz."
       }
     ],
-    pricing: [
+    addOnServices: [
       {
-        name: "Kurumsal Site",
-        price: "₺8.000",
-        period: "başlangıç",
-        features: [
-          "5-10 Sayfa",
-          "Temel SEO",
-          "Güvenlik",
-          "1 Yıl Destek",
-          "Eğitim"
-        ],
-        popular: false
+        name: "Ek Ürün Yükleme",
+        description: "Ek ürün yükleme ve optimizasyon",
+        price: "₺500"
       },
       {
-        name: "E-Ticaret Sitesi",
-        price: "₺15.000",
-        period: "başlangıç",
-        features: [
-          "WooCommerce",
-          "Ödeme Entegrasyonu",
-          "Stok Yönetimi",
-          "SSL Sertifikası",
-          "6 Ay Destek"
-        ],
-        popular: true
+        name: "Çok Dilli Yapı",
+        description: "Çok dilli yapı kurulum paketi",
+        price: "₺800"
       },
       {
-        name: "Özel CMS",
-        price: "₺25.000+",
-        period: "başlangıç",
-        features: [
-          "Özel Geliştirme",
-          "API Entegrasyonu",
-          "Gelişmiş Özellikler",
-          "Sınırsız Destek",
-          "Kaynak Kod"
-        ],
-        popular: false
+        name: "Özel Plugin Geliştirme",
+        description: "Özel plugin geliştirme paketi",
+        price: "₺1.500"
+      },
+      {
+        name: "SEO Optimizasyonu",
+        description: "SEO optimizasyon paketi",
+        price: "₺600"
+      },
+      {
+        name: "Site Hızlandırma",
+        description: "Site hızlandırma paketi",
+        price: "₺400"
+      },
+      {
+        name: "Aylık Bakım & Güncelleme",
+        description: "Aylık bakım ve güncelleme paketi",
+        price: "₺300"
       }
-    ]
+    ],
+    pricing: pricing, // packages array'i doğrudan kullanacağız
   }
 
   return (
@@ -112,8 +155,8 @@ export default function WordPressCMSCozumleriPage() {
         
         <ServiceHero data={serviceData} />
         <ServiceDetails data={serviceData} />
-        <ServiceProcess data={serviceData} />
-        <ServicePricing data={serviceData} />
+        <ServiceProcess data={serviceData} duration="7 - 14 Gün" />
+        <ServicePricing data={serviceData} showAddOnServices={true} />
         <CTA />
       </main>
       <Footer />

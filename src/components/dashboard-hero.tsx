@@ -90,7 +90,7 @@ export function DashboardHero() {
 
           <h1 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl font-display font-bold text-neutral-900 dark:text-white mb-4 sm:mb-6 leading-tight">
             Hoş Geldiniz,{" "}
-            <span className="bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 bg-clip-text text-transparent">
               Admin
             </span>
           </h1>

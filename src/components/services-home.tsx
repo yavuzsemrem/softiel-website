@@ -17,7 +17,7 @@ import {
 const services = [
   {
     icon: Palette,
-    title: "Web Tasarım",
+    title: "Web Sitesi Tasarımı",
     description: "Modern, kullanıcı dostu ve responsive web tasarımları",
     features: ["UI/UX Tasarım", "Responsive Design", "Prototipleme"],
     href: "/tr/hizmetlerimiz/web-sitesi-tasarimi",
@@ -25,7 +25,7 @@ const services = [
   },
   {
     icon: Code,
-    title: "Web Geliştirme",
+    title: "Web Uygulaması Geliştirme",
     description: "Hızlı, güvenli ve ölçeklenebilir web uygulamaları",
     features: ["Frontend Geliştirme", "Backend Geliştirme", "API Entegrasyonu"],
     href: "/tr/hizmetlerimiz/web-gelistirme",
@@ -33,7 +33,7 @@ const services = [
   },
   {
     icon: Smartphone,
-    title: "Mobil Uygulama",
+    title: "Mobil Uygulama Geliştirme",
     description: "iOS ve Android için native ve cross-platform uygulamalar",
     features: ["Native Uygulama", "React Native", "Flutter"],
     href: "/tr/hizmetlerimiz/mobil-uygulama-gelistirme",
@@ -49,15 +49,15 @@ const services = [
   },
   {
     icon: Target,
-    title: "Google Ads",
+    title: "Google Ads Yönetimi",
     description: "Hedefli reklam kampanyaları ile müşteri kazanın",
     features: ["Kampanya Yönetimi", "A/B Testing", "ROI Optimizasyonu"],
-    href: "/tr/hizmetlerimiz/google-ads-meta-ads-yonetimi",
+    href: "/tr/hizmetlerimiz/google-ads-yonetimi",
     color: "from-orange-500 to-orange-600"
   },
   {
     icon: Bot,
-    title: "Yapay Zeka Entegrasyonu",
+    title: "Yapay Zeka Entegrasyonları",
     description: "AI teknolojileri ile işinizi geleceğe taşıyın",
     features: ["Chatbot Geliştirme", "Makine Öğrenmesi", "Otomasyon"],
     href: "/tr/hizmetlerimiz/yapay-zeka-entegrasyonlari",
@@ -93,7 +93,7 @@ export function ServicesHome() {
 
           <h2 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-display font-bold text-neutral-900 dark:text-white mb-8 leading-tight">
             Dijital{" "}
-            <span className="bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 bg-clip-text text-transparent">
               Hizmetlerimiz
             </span>
           </h2>

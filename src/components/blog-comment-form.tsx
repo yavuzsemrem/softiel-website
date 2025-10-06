@@ -252,8 +252,7 @@ export function BlogCommentForm({ blogSlug, onCommentSubmit }: BlogCommentFormPr
           <button
             type="submit"
             disabled={isSubmitting || !isReady}
-            className="flex items-center justify-center space-x-2 px-6 py-3 text-white rounded-xl hover:opacity-90 transition-all duration-200 shadow-modern-lg disabled:opacity-50 disabled:cursor-not-allowed w-full sm:w-auto"
-            style={{ background: 'linear-gradient(to right, #06b6d4, #3b82f6)' }}
+            className="flex items-center justify-center space-x-2 px-6 py-3 text-white rounded-xl hover:opacity-90 transition-all duration-200 shadow-modern-lg disabled:opacity-50 disabled:cursor-not-allowed w-full sm:w-auto bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600"
           >
             {isSubmitting ? (
               <>

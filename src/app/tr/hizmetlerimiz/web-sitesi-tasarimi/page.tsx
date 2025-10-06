@@ -10,28 +10,25 @@ export default function WebSitesiTasarimiPage() {
   const serviceData = {
     title: "Web Sitesi Tasarımı",
     subtitle: "Modern ve Etkileyici Web Tasarımları",
-    description: "Markanızı en iyi şekilde yansıtan, kullanıcı dostu ve dönüşüm odaklı web siteleri tasarlıyoruz. Responsive tasarım, hızlı yükleme süreleri ve SEO uyumlu yapı ile dijital varlığınızı güçlendiriyoruz.",
-    icon: "🎨",
+    description: "Profesyonel web siteleri ile dijital dünyada öne çıkarın. Responsive tasarım, hızlı yükleme ve SEO uyumlu yapı ile en iyi deneyimi sunun.",
+    detailDescription: "Bir web sitesi artık sadece bilgi paylaşımı değil, markanızın dijital yüzü haline geldi. Doğru tasarım ve kullanıcı deneyimi müşterilerinizi etkiler ve işinizin güvenilirliğini artırır.",
+    serviceType: "web-tasarimi",
     features: [
       {
-        title: "Responsive Tasarım",
-        description: "Tüm cihazlarda mükemmel görünüm",
-        icon: "📱"
+        title: "7-14 Gün İçinde Yayında",
+        description: "Hızlı teslimat garantisi"
       },
       {
-        title: "Modern UI/UX",
-        description: "Kullanıcı deneyimi odaklı tasarım",
-        icon: "✨"
+        title: "Mobil Uyumlu & Hızlı",
+        description: "Performans odaklı tasarım"
       },
       {
-        title: "Hızlı Yükleme",
-        description: "Optimize edilmiş performans",
-        icon: "⚡"
+        title: "SEO Altyapısı Hazır",
+        description: "Arama motorları için optimize"
       },
       {
-        title: "SEO Uyumlu",
-        description: "Arama motorları için optimize",
-        icon: "🔍"
+        title: "Revizyon Hakkı",
+        description: "Müşteri memnuniyeti garantisi"
       }
     ],
     process: [
@@ -58,43 +55,84 @@ export default function WebSitesiTasarimiPage() {
     ],
     pricing: [
       {
-        name: "Kurumsal Web Sitesi",
-        price: "₺15.000",
+        name: "Basic",
+        price: "₺20.000",
         period: "başlangıç",
         features: [
-          "5-10 Sayfa",
-          "Responsive Tasarım",
-          "SEO Optimizasyonu",
-          "İçerik Yönetim Sistemi",
-          "1 Yıl Destek"
+          "5-7 sayfa (Ana sayfa, Hakkımızda, Hizmetler, İletişim vb.)",
+          "Responsive (mobil uyumlu)",
+          "Temel SEO (meta, site haritası, robots.txt)",
+          "1 iletişim formu + Google Maps entegrasyonu",
+          "1 revizyon turu",
         ],
-        popular: false
+        popular: false,
+        icon: "Zap",
+        color: "from-green-500 to-emerald-500"
       },
       {
-        name: "E-Ticaret Sitesi",
-        price: "₺25.000",
+        name: "Pro",
+        price: "₺50.000",
         period: "başlangıç",
         features: [
-          "Sınırsız Ürün",
-          "Ödeme Entegrasyonu",
-          "Stok Yönetimi",
-          "Mobil Uyumlu",
-          "SSL Sertifikası"
+          "8-12 sayfa",
+          "Özel ana sayfa tasarımı",
+          "Blog altyapısı",
+          "2 revizyon turu",
+          "Çok dilli altyapıya hazır (opsiyon)",
+          "Gelişmiş hız optimizasyonu (WebP, lazy load, font preload)",
         ],
-        popular: true
+        popular: true,
+        icon: "Star",
+        color: "from-yellow-500 to-orange-500"
       },
       {
-        name: "Özel Proje",
-        price: "₺50.000+",
+        name: "Enterprise",
+        price: "₺80.000+",
         period: "başlangıç",
         features: [
-          "Özel Tasarım",
-          "Gelişmiş Özellikler",
-          "API Entegrasyonları",
-          "Özel Geliştirme",
-          "Sınırsız Destek"
+          "12+ sayfa",
+          "Çok dilli destek",
+          "İçerik yönetim sistemi (WordPress, Headless CMS vb.)",
+          "Özel entegrasyon (CRM, ödeme, API)",
+          "3 revizyon turu",
+          "Erişilebilirlik standartları (WCAG uyumu)",
+          "3 ay ücretsiz bakım ve destek",
         ],
-        popular: false
+        popular: false,
+        icon: "Shield",
+        color: "from-blue-500 to-indigo-500"
+      }
+    ],
+    addOnServices: [
+      {
+        name: "Ek Sayfa",
+        description: "Ek sayfa tasarımı ve geliştirme",
+        price: "₺1.500"
+      },
+      {
+        name: "Çok Dil Desteği",
+        description: "Web sitenizi birden fazla dilde yayınlayın",
+        price: "₺5.000"
+      },
+      {
+        name: "İçerik Yazarlığı",
+        description: "Sayfa metinleri profesyonel yazılsın",
+        price: "₺500"
+      },
+      {
+        name: "Logo Tasarımı / Yenileme",
+        description: "Logo tasarımı veya mevcut logo yenileme",
+        price: "₺2.500"
+      },
+      {
+        name: "Hız Optimizasyonu",
+        description: "Mevcut site için hız optimizasyonu",
+        price: "₺2.500"
+      },
+      {
+        name: "Aylık Bakım",
+        description: "Site bakımı ve güncelleme",
+        price: "₺500/ay"
       }
     ]
   }
@@ -112,8 +150,8 @@ export default function WebSitesiTasarimiPage() {
         
         <ServiceHero data={serviceData} />
         <ServiceDetails data={serviceData} />
-        <ServiceProcess data={serviceData} />
-        <ServicePricing data={serviceData} />
+        <ServiceProcess data={serviceData} duration="7 - 14 Gün" />
+        <ServicePricing data={serviceData} showDomainNotice={true} showAddOnServices={true} />
         <CTA />
       </main>
       <Footer />

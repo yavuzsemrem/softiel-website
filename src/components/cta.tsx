@@ -14,7 +14,7 @@ const WhatsAppIcon = ({ className }: { className?: string }) => (
 
 export function CTA() {
   return (
-    <section className="py-20 lg:py-24 bg-slate-900/95 backdrop-blur-md relative overflow-hidden mt-40">
+    <section className="py-20 lg:py-24 bg-slate-900/95 backdrop-blur-md relative overflow-hidden">
       {/* Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-white/10 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-pulse"></div>
@@ -33,7 +33,7 @@ export function CTA() {
           >
                         <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold text-neutral-900 dark:text-white mb-8 text-center">
                           Projenizi Hayata Geçirmeye{" "}
-                          <span className="bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 bg-clip-text text-transparent">
+                          <span className="bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 bg-clip-text text-transparent">
                             Hazır mısınız?
                           </span>
                         </h2>
@@ -55,7 +55,7 @@ export function CTA() {
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="group flex items-center justify-center space-x-2 bg-gradient-to-r from-cyan-500 to-blue-500 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-semibold text-base sm:text-lg shadow-modern hover:shadow-modern-lg transition-all duration-200 hover:from-cyan-600 hover:to-blue-600 w-full sm:w-auto"
+                className="group flex items-center justify-center space-x-2 bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-semibold text-base sm:text-lg shadow-modern hover:shadow-modern-lg transition-all duration-200 hover:from-cyan-600 hover:via-blue-600 hover:to-blue-700 w-full sm:w-auto"
               >
                 <span>Ücretsiz Danışmanlık Alın</span>
                 <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5 group-hover:translate-x-1 transition-transform" />
@@ -63,7 +63,7 @@ export function CTA() {
             </Link>
 
             <motion.a
-              href="https://wa.me/905411883045?text=Merhabalar,%20fiyatlandırmalar%20hakkında%20bilgi%20almak%20istiyorum."
+              href="https://wa.me/905411883045?text=Merhaba!%20Hizmetleriniz%20hakkında%20bilgi%20almak%20istiyorum."
               target="_blank"
               rel="noopener noreferrer"
               whileHover={{ scale: 1.05 }}

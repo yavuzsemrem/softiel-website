@@ -97,7 +97,7 @@ function QuoteFormContent({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
       style={{ background: 'rgba(255, 255, 255, 0.1)' }}
     >
         {/* Header */}
-        <div className="relative bg-gradient-to-r from-blue-500 via-cyan-500 to-purple-500 p-8 text-white">
+        <div className="relative bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 p-8 text-white">
           {/* Decorative Elements */}
           <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-16 translate-x-16"></div>
           <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/5 rounded-full translate-y-12 -translate-x-12"></div>
@@ -257,16 +257,13 @@ function QuoteFormContent({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
                   <option value="web-design">{t('services.webDesign', 'Web Sitesi Tasarımı')}</option>
                   <option value="web-development">{t('services.webDevelopment', 'Web Geliştirme')}</option>
                   <option value="mobile-app">{t('services.mobileApp', 'Mobil Uygulama Geliştirme')}</option>
-                  <option value="seo">{t('services.seo', 'SEO & Arama Motoru Optimizasyonu')}</option>
+                  <option value="seo">{t('services.seo', 'SEO Optimizasyonu')}</option>
                   <option value="google-ads">{t('services.googleAds', 'Google Ads & Meta Ads Yönetimi')}</option>
                   <option value="wordpress">{t('services.wordpress', 'WordPress & CMS Çözümleri')}</option>
                   <option value="logo-design">{t('services.logoDesign', 'Logo & Kurumsal Kimlik Tasarımı')}</option>
                   <option value="social-media">{t('services.socialMedia', 'Sosyal Medya Yönetimi')}</option>
                   <option value="ai-integration">{t('services.aiIntegration', 'Yapay Zeka Entegrasyonları')}</option>
-                  <option value="automation">{t('services.automation', 'Otomasyon & Entegrasyon')}</option>
                   <option value="consulting">{t('services.digitalConsulting', 'Dijital Danışmanlık')}</option>
-                  <option value="no-code">{t('services.noCode', 'No-Code / Low-Code Çözümleri')}</option>
-                  <option value="training">{t('services.education', 'Eğitim & Mentorluk')}</option>
                   <option value="other">{t('quote.other', 'Diğer')}</option>
                 </select>
               </motion.div>
@@ -326,7 +323,7 @@ function QuoteFormContent({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
                 transition={{ delay: 0.8 }}
                 type="submit"
                 disabled={isLoading}
-                className="w-full bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 disabled:from-gray-400 disabled:to-gray-500 text-white font-semibold py-4 px-6 rounded-xl transition-all duration-200 flex items-center justify-center space-x-2 shadow-lg hover:shadow-xl disabled:cursor-not-allowed"
+                className="w-full bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 hover:from-cyan-600 hover:via-blue-600 hover:to-blue-700 disabled:from-gray-400 disabled:to-gray-500 text-white font-semibold py-4 px-6 rounded-xl transition-all duration-200 flex items-center justify-center space-x-2 shadow-lg hover:shadow-xl disabled:cursor-not-allowed"
               >
                 {isLoading ? (
                   <>
@@ -392,7 +389,7 @@ function QuoteFormContent({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               onClick={onClose}
-              className="px-6 py-2 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-xl font-medium text-sm shadow-modern hover:shadow-modern-lg transition-all duration-200"
+              className="px-6 py-2 bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 text-white rounded-xl font-medium text-sm shadow-modern hover:shadow-modern-lg transition-all duration-200"
             >
               {t('common.close', 'Kapat')}
             </motion.button>
