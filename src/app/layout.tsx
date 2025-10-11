@@ -1,21 +1,60 @@
 import type { Metadata } from "next";
 import { Inter, Poppins } from "next/font/google";
 import "./globals.css";
-import { ThemeProvider } from "@/components/theme-provider";
-import { NotificationProvider } from "@/contexts/notification-context";
-import { I18nProvider } from "@/contexts/i18n-context";
-import { AppContent } from "@/components/app-content";
-import { RecaptchaProvider } from "@/components/recaptcha-provider";
+import dynamic from "next/dynamic";
+
+// Non-critical CSS'i lazy load et
+const NonCriticalCSS = dynamic(() => {
+  if (typeof window !== 'undefined') {
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = '/non-critical.css';
+    link.media = 'print';
+    link.onload = () => {
+      link.media = 'all';
+    };
+    document.head.appendChild(link);
+  }
+  return Promise.resolve(() => null);
+}, { ssr: false });
+
+// AppContent'i lazy load et - sadece gerekli durumlarda
+const AppContent = dynamic(() => import("@/components/app-content").then(mod => ({ default: mod.AppContent })), {
+  ssr: true,
+  loading: () => <div className="min-h-screen bg-background" />
+});
+
+// reCAPTCHA'yı globalden kaldır - sadece gereken sayfalarda yükle
+
+// ThemeProvider'ı lazy load et
+const LazyThemeProvider = dynamic(() => import("@/components/theme-provider").then(mod => ({ default: mod.ThemeProvider })), {
+  ssr: true,
+  loading: () => <div className="min-h-screen bg-background" />
+});
+
+// NotificationProvider'ı lazy load et
+const LazyNotificationProvider = dynamic(() => import("@/contexts/notification-context").then(mod => ({ default: mod.NotificationProvider })), {
+  ssr: true,
+  loading: () => <div className="min-h-screen bg-background" />
+});
+
+// I18nProvider'ı lazy load et
+const LazyI18nProvider = dynamic(() => import("@/contexts/i18n-context").then(mod => ({ default: mod.I18nProvider })), {
+  ssr: true,
+  loading: () => <div className="min-h-screen bg-background" />
+});
 
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
+  display: 'swap', // Font loading optimizasyonu
 });
 
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700", "800"],
   variable: "--font-poppins",
+  display: 'swap', // Font loading optimizasyonu
 });
 
 export const metadata: Metadata = {
@@ -38,64 +77,78 @@ export default function RootLayout({
   return (
     <html lang="tr" suppressHydrationWarning>
       <head>
-        <script 
-          id="Cookiebot" 
-          src="https://consent.cookiebot.com/uc.js" 
-          data-cbid="147e1717-7906-4741-9373-2fab1630eed4" 
-          data-blockingmode="auto" 
-          type="text/javascript"
-        />
+        {/* Preconnect to critical origins - Network latency reduction */}
+        <link rel="preconnect" href="https://firestore.googleapis.com" />
+        <link rel="dns-prefetch" href="https://firestore.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        
+        
+               {/* Minimal critical JS */}
+               <script
+                 dangerouslySetInnerHTML={{
+                   __html: `
+                     // Font loading optimization
+                     if ('fonts' in document) {
+                       document.fonts.ready.then(() => {
+                         document.documentElement.classList.add('fonts-loaded');
+                       });
+                     }
+                   `,
+                 }}
+               />
+               
+               {/* Cookiebot sadece production ortamında yükle */}
+               <script
+                 dangerouslySetInnerHTML={{
+                   __html: `
+                     if (typeof window !== 'undefined' && window.location.hostname !== 'localhost') {
+                       const script = document.createElement('script');
+                       script.id = 'Cookiebot';
+                       script.src = 'https://consent.cookiebot.com/uc.js';
+                       script.setAttribute('data-cbid', '147e1717-7906-4741-9373-2fab1630eed4');
+                       script.setAttribute('data-blockingmode', 'auto');
+                       script.defer = true;
+                       document.head.appendChild(script);
+                     }
+                   `,
+                 }}
+               />
       </head>
-      <body
-        className={`${inter.variable} ${poppins.variable} font-sans antialiased`}
-      >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="light"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <RecaptchaProvider>
-            <I18nProvider>
-              <NotificationProvider>
-                <AppContent>
-                  {children}
-                </AppContent>
-              </NotificationProvider>
-            </I18nProvider>
-          </RecaptchaProvider>
-        </ThemeProvider>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              // Next.js Dev Tools butonunu kaldır
-              const removeNextJSBadge = () => {
-                const badges = document.querySelectorAll('[data-next-badge="true"], [data-nextjs-dev-tools-button="true"], #next-logo');
-                badges.forEach(badge => {
-                  badge.style.display = 'none';
-                  badge.remove();
-                });
-              };
-              
-              // Sayfa yüklendiğinde çalıştır
-              if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', removeNextJSBadge);
-              } else {
-                removeNextJSBadge();
-              }
-              
-              // MutationObserver ile dinamik olarak eklenen elementleri de kaldır
-              const observer = new MutationObserver(() => {
-                removeNextJSBadge();
-              });
-              
-              observer.observe(document.body, {
-                childList: true,
-                subtree: true
-              });
-            `,
-          }}
-        />
+             <body
+               className={`${inter.variable} ${poppins.variable} font-sans antialiased`}
+             >
+               <LazyThemeProvider
+                 attribute="class"
+                 defaultTheme="light"
+                 enableSystem
+                 disableTransitionOnChange
+               >
+                 <LazyNotificationProvider>
+                   <LazyI18nProvider>
+                     <AppContent>
+                       {children}
+                     </AppContent>
+                   </LazyI18nProvider>
+                 </LazyNotificationProvider>
+               </LazyThemeProvider>
+               <NonCriticalCSS />
+               
+               {/* Minimal non-critical JS */}
+               <script
+                 dangerouslySetInnerHTML={{
+                   __html: `
+                     // Remove Next.js dev tools badge
+                     if (typeof window !== 'undefined' && window.location.hostname === 'localhost') {
+                       setTimeout(() => {
+                         const badges = document.querySelectorAll('[data-next-badge="true"]');
+                         badges.forEach(badge => badge.remove());
+                       }, 1000);
+                     }
+                   `,
+                 }}
+               />
       </body>
     </html>
   );

@@ -298,7 +298,7 @@ export function CategoryManagement() {
 
   // Tek kategori silme onayı
   const confirmDeleteCategory = async () => {
-    if (!categoryToDelete) return
+    if (!categoryToDelete || !categoryToDelete.id) return
     
     try {
       setIsDeleting(true)
@@ -605,12 +605,13 @@ export function CategoryManagement() {
               </div>
               <div className="flex items-center space-x-1">
                 <button
-                  onClick={() => handleToggleStatus(category.id)}
+                  onClick={() => category.id && handleToggleStatus(category.id)}
+                  disabled={!category.id}
                   className={`p-2 rounded-lg transition-all duration-200 ${
                     category.status === 'active'
                       ? 'text-green-400 hover:bg-green-500/20' 
                       : 'text-red-400 hover:bg-red-500/20'
-                  }`}
+                  } disabled:opacity-50 disabled:cursor-not-allowed`}
                   title={category.status === 'active' ? 'Pasif Yap' : 'Aktif Yap'}
                 >
                   <div className={`w-2 h-2 rounded-full ${category.status === 'active' ? 'bg-green-400' : 'bg-red-400'}`} />

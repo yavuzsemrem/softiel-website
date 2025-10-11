@@ -148,7 +148,7 @@ export function OTPModal({
           className="absolute top-8 left-1/2 transform -translate-x-1/2 z-10"
         >
           <img 
-            src="/transparent.png" 
+            src="/transparent.webp" 
             alt="Logo" 
             className="h-12 w-auto opacity-90"
           />

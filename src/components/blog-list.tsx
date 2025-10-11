@@ -868,7 +868,7 @@ export function BlogList() {
                         {blog.createdAt ? (
                           blog.createdAt.toDate ? 
                             blog.createdAt.toDate().toLocaleDateString('tr-TR') : 
-                            new Date(blog.createdAt).toLocaleDateString('tr-TR')
+                            new Date(String(blog.createdAt)).toLocaleDateString('tr-TR')
                         ) : 'Tarih yok'}
                       </span>
                     </div>

@@ -6,6 +6,15 @@ import { ServiceProcess } from "@/components/service-process"
 import { ServicePricing } from "@/components/service-pricing"
 import { CTA } from "@/components/cta"
 
+// Static generation için metadata
+export const metadata = {
+  title: "SEO Optimizasyonu - Softiel",
+  description: "Arama motoru optimizasyonu, Google'da üst sıralarda yer alma ve organik trafik artırma hizmetleri.",
+}
+
+// Static generation - sayfa önceden oluşturulsun
+export const dynamic = 'force-static'
+
 export default function SEOAramaMotoruOptimizasyonuPage() {
   const serviceData = {
     title: "SEO Optimizasyonu",

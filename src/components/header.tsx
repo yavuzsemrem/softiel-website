@@ -9,7 +9,6 @@ import { Logo } from "./logo"
 import { Navigation } from "./navigation"
 import { QuoteModal } from "./quote-modal"
 import { useI18n } from "@/contexts/i18n-context"
-import Flag from "react-world-flags"
 
 const languages = [
   { code: 'tr', countryCode: 'TR' },
@@ -27,6 +26,7 @@ export function Header() {
   const [isLanguageDropdownOpen, setIsLanguageDropdownOpen] = useState(false)
   const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false)
   const [selectedLanguage, setSelectedLanguage] = useState(languages[0])
+  // Cache buster kaldırıldı: SSR/CSR srcSet mismatch önlemek için
 
   useEffect(() => {
     const handleScroll = () => {
@@ -85,7 +85,7 @@ export function Header() {
             <div className="flex items-center space-x-2 lg:space-x-3 ml-2 lg:ml-0">
               <div className="w-12 h-12 lg:w-12 lg:h-12 relative">
                 <Image 
-                  src="/transparent.png" 
+                  src="/transparent.webp" 
                   alt="Softiel Logo" 
                   width={48} 
                   height={48}
@@ -135,8 +135,11 @@ export function Header() {
                 className="flex items-center justify-center w-10 h-10 lg:w-auto lg:h-auto lg:space-x-1 xl:space-x-1.5 lg:px-1.5 xl:px-2 py-1.5 lg:py-2 text-white rounded-lg transition-all duration-200 backdrop-blur-sm bg-slate-800/60 hover:bg-slate-700/60"
                 style={{ border: '1px solid rgba(178, 178, 178, 0.1)' }}
               >
-                <Flag 
-                  code={selectedLanguage.countryCode} 
+                <Image 
+                  src={`/flags/${selectedLanguage.code}.svg`}
+                  alt={`${selectedLanguage.countryCode} flag`}
+                  width={32}
+                  height={24}
                   className="w-7 h-5 lg:w-8 lg:h-6 rounded-sm"
                 />
                 <ChevronDown className={`hidden lg:block h-4 w-4 transition-transform ${isLanguageDropdownOpen ? 'rotate-180' : ''}`} />
@@ -160,8 +163,11 @@ export function Header() {
                           selectedLanguage.code === language.code ? 'bg-slate-700/80 text-white shadow-lg' : ''
                         }`}
                       >
-                        <Flag 
-                          code={language.countryCode} 
+                        <Image 
+                          src={`/flags/${language.code}.svg`}
+                          alt={`${language.countryCode} flag`}
+                          width={32}
+                          height={24}
                           className="w-6 h-4 sm:w-8 sm:h-6 rounded-sm shadow-sm"
                         />
                       </button>

@@ -100,13 +100,14 @@ export function handleError(
 
   // Log security event for high/critical errors
   if (appError.severity === 'high' || appError.severity === 'critical') {
+    const logSeverity = appError.severity === 'critical' ? 'high' : appError.severity;
     logSecurityEvent('error_occurred', {
       code: appError.code,
       message: appError.message,
       severity: appError.severity,
       context,
       userId
-    }, appError.severity);
+    }, logSeverity);
   }
 
   return appError;

@@ -50,7 +50,7 @@ class EmailJSService {
     }
 
     try {
-      const templateParams: EmailJSTemplateParams = {
+      const templateParams: Record<string, any> = {
         to_email: data.to_email,
         to_name: data.to_name,
         otp_code: data.otp_code,

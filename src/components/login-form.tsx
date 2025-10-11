@@ -27,7 +27,7 @@ export function LoginForm() {
   const router = useRouter()
   
   // ReCAPTCHA hook
-  const { isReady, isEnabled, executeRecaptcha } = useRecaptcha()
+  const { isAvailable, executeRecaptchaAction } = useRecaptcha()
 
   // Check if already authenticated
   useEffect(() => {
@@ -70,8 +70,9 @@ export function LoginForm() {
     try {
       // ReCAPTCHA token al (production'da)
       let recaptchaToken = null
-      if (isEnabled && executeRecaptcha) {
-        recaptchaToken = await executeRecaptcha('LOGIN')
+      if (isAvailable) {
+        const result = await executeRecaptchaAction('LOGIN')
+        recaptchaToken = result.token || null
       }
 
       const result = await loginUserByUsernameOrEmail(formData.email, formData.password, recaptchaToken)
@@ -197,7 +198,7 @@ export function LoginForm() {
         <div className="text-center mb-8">
           <div className="flex items-center justify-center -mb-1">
             <img 
-              src="/transparent.png" 
+              src="/transparent.webp" 
               alt="Logo" 
               className="h-28 w-28 object-contain"
             />
@@ -240,7 +241,7 @@ export function LoginForm() {
                 type="text"
                 value={formData.email}
                 onChange={(e) => handleInputChange("email", e.target.value)}
-                className="w-full pl-10 pr-4 py-4 glass rounded-xl text-white placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/70 transition-all duration-300 border border-white/20 font-medium"
+                className="w-full pl-10 pr-4 py-4 glass rounded-xl text-white placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/70 transition-all duration-300 font-medium"
                 style={{ background: 'rgba(255, 255, 255, 0.1)' }}
                 placeholder="username or email"
                 required
@@ -256,7 +257,7 @@ export function LoginForm() {
                 type={showPassword ? "text" : "password"}
                 value={formData.password}
                 onChange={(e) => handleInputChange("password", e.target.value)}
-                className="w-full pl-10 pr-12 py-4 glass rounded-xl text-white placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/70 transition-all duration-300 border border-white/20 font-medium"
+                className="w-full pl-10 pr-12 py-4 glass rounded-xl text-white placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/70 transition-all duration-300 font-medium"
                 style={{ 
                   background: 'rgba(255, 255, 255, 0.1)',
                   WebkitTextSecurity: showPassword ? 'none' : 'disc'
@@ -349,7 +350,7 @@ export function LoginForm() {
                   className="flex justify-center pt-4 pb-1"
                 >
                   <img 
-                    src="/transparent.png" 
+                    src="/transparent.webp" 
                     alt="Logo" 
                     className="h-20 w-auto opacity-95"
                   />

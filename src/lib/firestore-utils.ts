@@ -30,7 +30,7 @@ export async function safeUpdateDoc(
 export async function documentExists(docRef: DocumentReference): Promise<boolean> {
   try {
     const docSnapshot = await getDoc(docRef);
-    return docSnapshot.exists;
+    return docSnapshot.exists();
   } catch (error) {
     console.error('Document existence check error:', error);
     return false;

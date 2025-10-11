@@ -169,7 +169,7 @@ export function Services() {
               Uzman ekibimizle birlikte projenizi hayata geçirelim. 
               Ücretsiz danışmanlık için hemen iletişime geçin.
             </p>
-            <Link href="/iletisim">
+            <Link href="/tr/iletisim">
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}

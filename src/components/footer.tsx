@@ -90,7 +90,7 @@ export function Footer() {
       { name: t('services.webDesign', 'Web Sitesi Tasarımı'), href: getLocalizedUrl("/hizmetlerimiz/web-sitesi-tasarimi") },
       { name: t('services.webDevelopment', 'Web Uygulaması Geliştirme'), href: getLocalizedUrl("/hizmetlerimiz/web-gelistirme") },
       { name: t('services.mobileApp', 'Mobil Uygulama'), href: getLocalizedUrl("/hizmetlerimiz/mobil-uygulama-gelistirme") },
-      { name: t('services.seo', 'SEO Optimizasyonu'), href: getLocalizedUrl("/hizmetlerimiz/seo-arama-motoru-optimizasyonu") },
+      { name: t('services.seo', 'SEO Optimizasyonu'), href: getLocalizedUrl("/hizmetlerimiz/seo-optimizasyonu") },
         { name: t('services.googleAds', 'Google Ads Yönetimi'), href: getLocalizedUrl("/hizmetlerimiz/google-ads-yonetimi") },
       { name: t('services.aiIntegration', 'Yapay Zeka Entegrasyonu'), href: getLocalizedUrl("/hizmetlerimiz/yapay-zeka-entegrasyonlari") },
       { name: t('services.wordpress', 'WordPress Çözümleri'), href: getLocalizedUrl("/hizmetlerimiz/wordpress-cozumleri") },
@@ -136,7 +136,7 @@ export function Footer() {
                 <div className="flex items-center justify-center md:justify-start space-x-3 mb-4">
                   <div className="w-12 h-12 relative">
                     <Image 
-                      src="/transparent.png" 
+                      src="/transparent.webp" 
                       alt="Softiel Logo" 
                       width={48} 
                       height={48}

@@ -153,7 +153,7 @@ export function ServicePricing({ data, showDomainNotice = false, showAddOnServic
                 className={`w-full py-3 px-6 rounded-xl font-semibold text-lg transition-all duration-200 flex items-center justify-center space-x-2 mt-auto ${
                   plan.popular
                     ? 'text-white shadow-modern hover:shadow-modern-lg'
-                    : 'glass text-neutral-700 dark:text-neutral-300 hover:bg-white/20 dark:hover:bg-gray-800 border border-white/20'
+                    : 'glass text-neutral-700 dark:text-neutral-300 hover:bg-white/20 dark:hover:bg-gray-800'
                 }`}
                 style={plan.popular 
                   ? { background: 'linear-gradient(to right, #06b6d4, #3b82f6, #2563eb)' }
@@ -246,7 +246,7 @@ export function ServicePricing({ data, showDomainNotice = false, showAddOnServic
                     rel="noopener noreferrer"
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
-                    className="w-full py-2 px-4 rounded-lg font-semibold text-sm transition-all duration-200 flex items-center justify-center space-x-2 glass text-neutral-700 dark:text-neutral-300 hover:bg-white/20 dark:hover:bg-gray-800 border border-white/20 mt-auto"
+                    className="w-full py-2 px-4 rounded-lg font-semibold text-sm transition-all duration-200 flex items-center justify-center space-x-2 glass text-neutral-700 dark:text-neutral-300 hover:bg-white/20 dark:hover:bg-gray-800 mt-auto"
                     style={{ background: 'rgba(255, 255, 255, 0.1)' }}
                   >
                     <span>Detay Al</span>

@@ -1,5 +1,3 @@
-"use client"
-
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { ServiceHero } from "@/components/service-hero"
@@ -7,8 +5,15 @@ import { ServiceDetails } from "@/components/service-details"
 import { ServiceProcess } from "@/components/service-process"
 import { ServicePricing } from "@/components/service-pricing"
 import { CTA } from "@/components/cta"
-import { motion } from "framer-motion"
-import { Plus, Smartphone, BarChart3, Shield, Zap, Database } from "lucide-react"
+
+// Static generation için metadata
+export const metadata = {
+  title: "Web Uygulaması Geliştirme - Softiel",
+  description: "Modern web uygulamaları, React, Next.js ve Node.js ile profesyonel web geliştirme hizmetleri.",
+}
+
+// Static generation - sayfa önceden oluşturulsun
+export const dynamic = 'force-static'
 
 export default function WebGelistirmePage() {
   const serviceData = {

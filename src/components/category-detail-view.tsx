@@ -235,7 +235,7 @@ export function CategoryDetailView({ categoryId }: CategoryDetailViewProps) {
       >
         <Link
           href={backUrl}
-          className="inline-flex items-center space-x-3 px-4 py-3 text-neutral-300 hover:text-white transition-all duration-300 group glass rounded-xl border border-white/10 hover:border-white/20 hover:bg-white/5"
+          className="inline-flex items-center space-x-3 px-4 py-3 text-neutral-300 hover:text-white transition-all duration-300 group glass rounded-xl hover:bg-white/5"
           style={{ background: 'rgba(255, 255, 255, 0.05)' }}
         >
           <div className="w-8 h-8 rounded-full bg-gradient-to-r from-cyan-500/10 to-blue-500/10 group-hover:from-cyan-500/20 group-hover:to-blue-500/20 flex items-center justify-center transition-all duration-300 group-hover:scale-110">
@@ -370,8 +370,8 @@ export function CategoryDetailView({ categoryId }: CategoryDetailViewProps) {
                 </span>
               </div>
               <div className="flex items-center space-x-2">
-                <div className={`w-2 h-2 rounded-full flex-shrink-0 ${category.isActive ? 'bg-green-400' : 'bg-red-400'}`} />
-                <span>{category.isActive ? 'Aktif' : 'Pasif'}</span>
+                <div className={`w-2 h-2 rounded-full flex-shrink-0 ${category.status === 'active' ? 'bg-green-400' : 'bg-red-400'}`} />
+                <span>{category.status === 'active' ? 'Aktif' : 'Pasif'}</span>
               </div>
             </div>
           </div>

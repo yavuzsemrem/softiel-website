@@ -1,10 +1,14 @@
 "use client"
 
 import React, { useState, useEffect } from "react"
-import { motion } from "framer-motion"
-import { BookOpen, Search, Filter, ArrowRight, Calendar, User, MessageCircle, Loader2, CheckCircle, Sparkles, Zap, Shield, Star, Globe, Headphones, Clock, Users } from "lucide-react"
+import Image from "next/image"
+import { m, LazyMotion } from "framer-motion"
+import { BookOpen, ArrowRight, Calendar, User, MessageCircle, Loader2, Star, Globe } from "lucide-react"
 import { getBlogStats, getBlogs } from "@/lib/blog-service"
 import { useI18n } from "@/contexts/i18n-context"
+
+// domAnimation'ı async yükle - Lighthouse unused JS optimizasyonu
+const loadFeatures = () => import("framer-motion").then(mod => mod.domAnimation)
 
 export function BlogHero() {
   const { t } = useI18n()
@@ -15,36 +19,79 @@ export function BlogHero() {
     satisfaction: 0
   })
   const [loading, setLoading] = useState(true)
+  const [isDecorReady, setIsDecorReady] = useState(false)
+  const [isDesktop, setIsDesktop] = useState(false)
 
   useEffect(() => {
-    loadStats()
+    let cancelled = false
+    const run = () => { if (!cancelled) loadStats() }
+    if (typeof window !== 'undefined' && (window as any).requestIdleCallback) {
+      ;(window as any).requestIdleCallback(run)
+    } else {
+      setTimeout(run, 200)
+    }
+    return () => { cancelled = true }
+  }, [])
+
+  // Ağır arka plan/dekor öğelerini ilk boyamadan sonra ve sadece desktop'ta yükle
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const media = window.matchMedia('(min-width: 1024px)')
+      setIsDesktop(media.matches)
+      const onChange = (e: MediaQueryListEvent) => setIsDesktop(e.matches)
+      if (media.addEventListener) media.addEventListener('change', onChange)
+      else if ((media as any).addListener) (media as any).addListener(onChange)
+
+      const idleCallback = (cb: () => void) => {
+        const ric = (window as any).requestIdleCallback as undefined | ((cb: () => void) => number)
+        if (ric) ric(cb)
+        else setTimeout(cb, 350)
+      }
+      idleCallback(() => setIsDecorReady(true))
+
+      return () => {
+        if (media.removeEventListener) media.removeEventListener('change', onChange)
+        else if ((media as any).removeListener) (media as any).removeListener(onChange)
+      }
+    }
   }, [])
 
   const loadStats = async () => {
     try {
       setLoading(true)
       
-      // Blog istatistiklerini al
-      const blogStats = await getBlogStats()
+      // Defer non-critical Firestore calls - reduce network chain
+      const loadData = async () => {
+        // Blog istatistiklerini al
+        const blogStats = await getBlogStats()
+        
+        // Tüm blogları al (okuma süresi hesaplamak için)
+        const allBlogs = await getBlogs({}, { page: 1, limit: 1000 })
+        
+        // Aylık ziyaretçi sayısı (toplam görüntülenme sayısının %30'u)
+        const monthlyVisitors = Math.round(blogStats.totalViews * 0.3)
+        
+        // Ortalama okuma süresi hesapla
+        const averageReadTime = calculateAverageReadTime(allBlogs.blogs)
+        
+        // Haftalık güncelleme sayısı (son 7 günde yayınlanan blog sayısı)
+        const weeklyUpdates = calculateWeeklyUpdates(allBlogs.blogs)
+        
+        setStats({
+          monthlyVisitors,
+          averageReadTime,
+          weeklyUpdates,
+          satisfaction: 98 // Sabit %98 memnuniyet oranı
+        })
+        setLoading(false)
+      }
       
-      // Tüm blogları al (okuma süresi hesaplamak için)
-      const allBlogs = await getBlogs({}, { page: 1, limit: 1000 })
-      
-      // Aylık ziyaretçi sayısı (toplam görüntülenme sayısının %30'u)
-      const monthlyVisitors = Math.round(blogStats.totalViews * 0.3)
-      
-      // Ortalama okuma süresi hesapla
-      const averageReadTime = calculateAverageReadTime(allBlogs.blogs)
-      
-      // Haftalık güncelleme sayısı (son 7 günde yayınlanan blog sayısı)
-      const weeklyUpdates = calculateWeeklyUpdates(allBlogs.blogs)
-      
-      setStats({
-        monthlyVisitors,
-        averageReadTime,
-        weeklyUpdates,
-        satisfaction: 98 // Sabit %98 memnuniyet oranı
-      })
+      // Use requestIdleCallback to defer Firestore calls
+      if (typeof window !== 'undefined' && (window as any).requestIdleCallback) {
+        (window as any).requestIdleCallback(loadData, { timeout: 2000 })
+      } else {
+        setTimeout(loadData, 100)
+      }
     } catch (error) {
       // Hata durumunda varsayılan değerler
       setStats({
@@ -53,7 +100,6 @@ export function BlogHero() {
         weeklyUpdates: 0,
         satisfaction: 98 // Sabit %98 memnuniyet oranı
       })
-    } finally {
       setLoading(false)
     }
   }
@@ -90,119 +136,41 @@ export function BlogHero() {
   }
 
   return (
+    <LazyMotion features={loadFeatures}>
     <section className="relative bg-gradient-to-b from-slate-900 via-slate-850 to-slate-900 overflow-hidden">
       {/* Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
         {/* Subtle dot pattern */}
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,rgba(59,130,246,0.15)_1px,transparent_0)] bg-[size:20px_20px]"></div>
         
-        {/* Main gradient orbs */}
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-cyan-500/20 via-blue-500/20 to-blue-500/20 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl opacity-60 animate-pulse"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-tr from-blue-500/20 via-blue-500/20 to-cyan-500/20 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl opacity-60 animate-pulse"></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-r from-cyan-500/10 via-transparent to-blue-500/10 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl opacity-40 animate-pulse"></div>
-        
-        {/* Additional gradient orbs for depth */}
-        <div className="absolute top-10 right-1/3 w-64 h-64 bg-gradient-to-bl from-sky-500/15 via-cyan-500/15 to-transparent rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-2xl opacity-50 animate-pulse" style={{ animationDelay: '1s' }}></div>
-        <div className="absolute bottom-10 left-1/3 w-72 h-72 bg-gradient-to-tr from-blue-500/15 via-cyan-500/15 to-transparent rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-2xl opacity-45 animate-pulse" style={{ animationDelay: '2s' }}></div>
-        <div className="absolute top-1/3 right-10 w-48 h-48 bg-gradient-to-l from-indigo-500/20 via-blue-500/20 to-transparent rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-xl opacity-40 animate-pulse" style={{ animationDelay: '0.5s' }}></div>
-        
-        {/* Floating geometric shapes */}
-        <div className="absolute top-20 left-20 w-4 h-4 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full opacity-60 animate-bounce" style={{ animationDelay: '0s', animationDuration: '3s' }}></div>
-        <div className="absolute top-40 right-32 w-3 h-3 bg-gradient-to-r from-blue-400 to-cyan-500 rounded-full opacity-50 animate-bounce" style={{ animationDelay: '1s', animationDuration: '4s' }}></div>
-        <div className="absolute bottom-32 left-32 w-5 h-5 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-full opacity-40 animate-bounce" style={{ animationDelay: '2s', animationDuration: '5s' }}></div>
-        <div className="absolute bottom-20 right-20 w-2 h-2 bg-gradient-to-r from-blue-500 to-cyan-600 rounded-full opacity-70 animate-bounce" style={{ animationDelay: '0.5s', animationDuration: '3.5s' }}></div>
-        
-        {/* Background icons */}
-        <div className="absolute top-1/6 left-1/6 opacity-5">
-          <BookOpen className="h-12 w-12 text-cyan-500" />
-        </div>
-        <div className="absolute top-1/3 right-1/6 opacity-5">
-          <Search className="h-10 w-10 text-blue-500" />
-        </div>
-        <div className="absolute bottom-1/3 left-1/5 opacity-5">
-          <MessageCircle className="h-14 w-14 text-cyan-400" />
-        </div>
-        <div className="absolute bottom-1/6 right-1/5 opacity-5">
-          <Calendar className="h-8 w-8 text-blue-400" />
-        </div>
-        <div className="absolute top-1/4 left-1/4 opacity-5">
-          <User className="h-6 w-6 text-cyan-300" />
-        </div>
-        <div className="absolute top-1/2 right-1/4 opacity-5">
-          <Clock className="h-8 w-8 text-blue-300" />
-        </div>
-        <div className="absolute bottom-1/4 left-1/3 opacity-5">
-          <Headphones className="h-10 w-10 text-cyan-200" />
-        </div>
-        <div className="absolute top-2/3 left-1/2 opacity-5">
-          <Globe className="h-16 w-16 text-blue-200" />
-        </div>
-        <div className="absolute top-1/5 right-1/3 opacity-5">
-          <Zap className="h-7 w-7 text-cyan-100" />
-        </div>
-        <div className="absolute bottom-1/5 right-1/3 opacity-5">
-          <Shield className="h-9 w-9 text-blue-100" />
-        </div>
-        <div className="absolute top-3/4 left-1/4 opacity-5">
-          <Star className="h-11 w-11 text-cyan-50" />
-        </div>
-        <div className="absolute bottom-1/2 right-1/2 opacity-5">
-          <Sparkles className="h-13 w-13 text-blue-50" />
-        </div>
-        <div className="absolute top-1/8 left-1/8 opacity-5">
-          <BookOpen className="h-5 w-5 text-cyan-400" />
-        </div>
-        <div className="absolute top-5/6 right-1/8 opacity-5">
-          <Search className="h-7 w-7 text-blue-400" />
-        </div>
-        <div className="absolute bottom-1/8 left-1/8 opacity-5">
-          <MessageCircle className="h-9 w-9 text-cyan-300" />
-        </div>
-        <div className="absolute top-1/2 left-1/8 opacity-5">
-          <Calendar className="h-6 w-6 text-blue-300" />
-        </div>
-        <div className="absolute top-1/12 left-1/12 opacity-5">
-          <User className="h-8 w-8 text-cyan-400" />
-        </div>
-        <div className="absolute top-1/12 right-1/12 opacity-5">
-          <Clock className="h-7 w-7 text-blue-400" />
-        </div>
-        <div className="absolute top-1/8 right-1/3 opacity-5">
-          <Headphones className="h-9 w-9 text-cyan-300" />
-        </div>
-        <div className="absolute top-1/6 right-1/2 opacity-5">
-          <Globe className="h-6 w-6 text-blue-300" />
-        </div>
-        <div className="absolute top-1/4 left-1/6 opacity-5">
-          <Zap className="h-8 w-8 text-cyan-200" />
-        </div>
-        <div className="absolute top-1/5 left-1/2 opacity-5">
-          <Shield className="h-7 w-7 text-blue-200" />
-        </div>
-        <div className="absolute top-1/3 left-1/12 opacity-5">
-          <Star className="h-9 w-9 text-cyan-100" />
-        </div>
-        <div className="absolute top-1/4 right-1/6 opacity-5">
-          <Sparkles className="h-8 w-8 text-blue-100" />
-        </div>
-        <div className="absolute top-1/6 left-1/3 opacity-5">
-          <BookOpen className="h-6 w-6 text-cyan-50" />
-        </div>
-        <div className="absolute top-1/8 left-1/2 opacity-5">
-          <Search className="h-7 w-7 text-blue-50" />
-        </div>
-        <div className="absolute top-1/5 right-1/5 opacity-5">
-          <MessageCircle className="h-5 w-5 text-cyan-300" />
-        </div>
-        <div className="absolute top-1/7 left-1/5 opacity-5">
-          <Calendar className="h-6 w-6 text-blue-300" />
-        </div>
-        <div className="absolute top-1/9 right-1/7 opacity-5">
-          <User className="h-7 w-7 text-cyan-200" />
-        </div>
-        <div className="absolute top-1/10 left-1/7 opacity-5">
-          <Clock className="h-5 w-5 text-blue-200" />
-        </div>
+        {/* Ağır dekor öğeleri: sadece desktop ve idle sonrasında yükle */}
+        {isDesktop && isDecorReady && (
+          <>
+            {/* Main gradient orbs (azaltılmış adet) */}
+            <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-cyan-500/20 via-blue-500/20 to-blue-500/20 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl opacity-60 animate-pulse"></div>
+            <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-tr from-blue-500/20 via-blue-500/20 to-cyan-500/20 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl opacity-60 animate-pulse"></div>
+            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-r from-cyan-500/10 via-transparent to-blue-500/10 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl opacity-40 animate-pulse"></div>
+            
+            {/* Floating geometric shapes (azaltılmış adet) */}
+            <div className="absolute top-20 left-20 w-4 h-4 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full opacity-60 animate-bounce" style={{ animationDelay: '0s', animationDuration: '3s' }}></div>
+            <div className="absolute bottom-32 left-32 w-5 h-5 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-full opacity-40 animate-bounce" style={{ animationDelay: '1s', animationDuration: '4s' }}></div>
+            <div className="absolute bottom-20 right-20 w-2 h-2 bg-gradient-to-r from-blue-500 to-cyan-600 rounded-full opacity-70 animate-bounce" style={{ animationDelay: '0.5s', animationDuration: '3.5s' }}></div>
+            
+            {/* Background icons (azaltılmış adet) */}
+            <div className="absolute top-1/6 left-1/6 opacity-5">
+              <BookOpen className="h-12 w-12 text-cyan-500" />
+            </div>
+            <div className="absolute bottom-1/3 left-1/5 opacity-5">
+              <MessageCircle className="h-14 w-14 text-cyan-400" />
+            </div>
+            <div className="absolute top-2/3 left-1/2 opacity-5">
+              <Globe className="h-16 w-16 text-blue-200" />
+            </div>
+            <div className="absolute top-3/4 left-1/4 opacity-5">
+              <Star className="h-11 w-11 text-cyan-50" />
+            </div>
+          </>
+        )}
       </div>
       
       {/* Hero Content Section */}
@@ -210,7 +178,7 @@ export function BlogHero() {
         {/* Mobile Layout - Alt Alta */}
         <div className="lg:hidden text-center">
           {/* Page Indicator */}
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1, duration: 0.6 }}
@@ -221,10 +189,10 @@ export function BlogHero() {
             <span className="text-sm font-semibold text-neutral-700 dark:text-neutral-300">
               {t('blog.badge', 'Blog & İçerikler')}
             </span>
-          </motion.div>
+          </m.div>
 
           {/* Main Heading */}
-          <motion.h1
+          <m.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.6 }}
@@ -235,65 +203,97 @@ export function BlogHero() {
             <span className="bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 bg-clip-text text-transparent">
               Blog Yazıları
             </span>
-          </motion.h1>
+          </m.h1>
           
           {/* Description */}
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 0.6 }}
             className="text-lg sm:text-xl text-gray-300 mb-8 space-y-2"
           >
             <p>{t('blog.hero.description', 'Dijital dünyadaki son gelişmeler ve uzman görüşlerimizi keşfedin.')}</p>
-          </motion.div>
+          </m.div>
       
           {/* CTA Buttons */}
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.6 }}
             className="flex flex-col sm:flex-row gap-4 justify-center mb-12"
           >
-            <motion.a
-              href="#blog-posts"
+            <m.button
+              onClick={(e) => {
+                e.preventDefault();
+                
+                // Element yüklenene kadar bekle ve scroll yap
+                const scrollToBlogPosts = () => {
+                  const blogPostsElement = document.getElementById('blog-posts');
+                  if (blogPostsElement) {
+                    blogPostsElement.scrollIntoView({ 
+                      behavior: 'smooth',
+                      block: 'start'
+                    });
+                    return true;
+                  }
+                  return false;
+                };
+
+                // Hemen dene
+                if (!scrollToBlogPosts()) {
+                  // Element yoksa, yüklenene kadar bekle (maksimum 3 saniye)
+                  let attempts = 0;
+                  const maxAttempts = 30; // 30 * 100ms = 3 saniye
+                  const interval = setInterval(() => {
+                    attempts++;
+                    if (scrollToBlogPosts() || attempts >= maxAttempts) {
+                      clearInterval(interval);
+                    }
+                  }, 100);
+                }
+              }}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="inline-flex items-center justify-center space-x-2 text-white px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-200 bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600"
+              className="inline-flex items-center justify-center space-x-2 text-white px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-200 bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 cursor-pointer"
             >
               <span>{t('blog.hero.cta', 'Blog Yazılarını Keşfet')}</span>
               <ArrowRight className="h-5 w-5" />
-            </motion.a>
-          </motion.div>
+            </m.button>
+          </m.div>
 
           {/* Hero Image */}
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5, duration: 0.6 }}
             className="flex justify-center mb-12"
           >
             <div className="relative w-full max-w-sm sm:max-w-md">
-              <img
-                src={`/images/blog-new.webp?v=${Date.now()}`}
+              <Image
+                src="/images/blog-new.webp"
                 alt="Blog"
+                width={896}
+                height={896}
+                priority
+                quality={70}
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 70vw, 600px"
                 className="w-full h-auto object-contain"
-                loading="eager"
               />
             </div>
-          </motion.div>
+          </m.div>
         </div>
 
         {/* Desktop Layout - Yan Yana */}
         <div className="hidden lg:flex items-center justify-between min-h-[60vh]">
           {/* Left Side - Text Content */}
-          <motion.div
+          <m.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
             className="flex-1 text-left lg:max-w-3xl xl:max-w-4xl"
           >
             {/* Page Indicator */}
-            <motion.div
+            <m.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1, duration: 0.6 }}
@@ -304,7 +304,7 @@ export function BlogHero() {
               <span className="text-sm font-semibold text-neutral-700 dark:text-neutral-300">
                 {t('blog.badge', 'Blog & İçerikler')}
               </span>
-            </motion.div>
+            </m.div>
 
             {/* Main Heading */}
             <h1 className="text-6xl lg:text-7xl xl:text-8xl font-bold text-white mb-8 leading-tight">
@@ -323,47 +323,79 @@ export function BlogHero() {
             </div>
         
             {/* CTA Buttons */}
-            <motion.div
+            <m.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3, duration: 0.6 }}
               className="flex flex-col sm:flex-row gap-4 justify-start"
             >
-              <motion.a
-                href="#blog-posts"
+              <m.button
+                onClick={(e) => {
+                  e.preventDefault();
+                  
+                  // Element yüklenene kadar bekle ve scroll yap
+                  const scrollToBlogPosts = () => {
+                    const blogPostsElement = document.getElementById('blog-posts');
+                    if (blogPostsElement) {
+                      blogPostsElement.scrollIntoView({ 
+                        behavior: 'smooth',
+                        block: 'start'
+                      });
+                      return true;
+                    }
+                    return false;
+                  };
+
+                  // Hemen dene
+                  if (!scrollToBlogPosts()) {
+                    // Element yoksa, yüklenene kadar bekle (maksimum 3 saniye)
+                    let attempts = 0;
+                    const maxAttempts = 30; // 30 * 100ms = 3 saniye
+                    const interval = setInterval(() => {
+                      attempts++;
+                      if (scrollToBlogPosts() || attempts >= maxAttempts) {
+                        clearInterval(interval);
+                      }
+                    }, 100);
+                  }
+                }}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="inline-flex items-center justify-center space-x-2 text-white px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-200 bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600"
+                className="inline-flex items-center justify-center space-x-2 text-white px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-200 bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 cursor-pointer"
               >
                 <span>{t('blog.hero.cta', 'Blog Yazılarını Keşfet')}</span>
                 <ArrowRight className="h-5 w-5" />
-              </motion.a>
-            </motion.div>
-          </motion.div>
+              </m.button>
+            </m.div>
+          </m.div>
 
           {/* Right Side - Image */}
-          <motion.div
+          <m.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.2, duration: 0.6 }}
             className="flex-none lg:max-w-md xl:max-w-lg flex justify-end"
           >
             <div className="relative w-full max-w-xl xl:max-w-2xl">
-              <img
-                src={`/images/blog-new.webp?v=${Date.now()}`}
+              <Image
+                src="/images/blog-new.webp"
                 alt="Blog"
+                width={1024}
+                height={1024}
+                priority
+                quality={70}
+                sizes="(max-width: 1024px) 80vw, (max-width: 1280px) 700px, 896px"
                 className="w-full h-auto object-contain lg:translate-x-4 xl:translate-x-6 scale-110 lg:scale-125 xl:scale-135"
-                loading="eager"
               />
             </div>
-          </motion.div>
+          </m.div>
         </div>
       </div>
 
       {/* Blog Stats Section */}
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10 pb-8">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6, duration: 0.6 }}
@@ -377,9 +409,9 @@ export function BlogHero() {
               {loading ? <Loader2 className="h-4 w-4 animate-spin mx-auto" /> : `${stats.monthlyVisitors.toLocaleString()}`}
             </p>
             <p className="text-gray-400 text-sm">Blog Okuyucuları</p>
-          </motion.div>
+          </m.div>
 
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.7, duration: 0.6 }}
@@ -393,9 +425,9 @@ export function BlogHero() {
               {loading ? <Loader2 className="h-4 w-4 animate-spin mx-auto" /> : stats.averageReadTime}
             </p>
             <p className="text-gray-400 text-sm">Süre</p>
-          </motion.div>
+          </m.div>
 
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.8, duration: 0.6 }}
@@ -409,9 +441,9 @@ export function BlogHero() {
               {loading ? <Loader2 className="h-4 w-4 animate-spin mx-auto" /> : stats.weeklyUpdates}
             </p>
             <p className="text-gray-400 text-sm">Yeni İçerik</p>
-          </motion.div>
+          </m.div>
 
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.9, duration: 0.6 }}
@@ -425,9 +457,10 @@ export function BlogHero() {
               {loading ? <Loader2 className="h-4 w-4 animate-spin mx-auto" /> : `%${stats.satisfaction}`}
             </p>
             <p className="text-gray-400 text-sm">Oranı</p>
-          </motion.div>
+          </m.div>
         </div>
       </div>
     </section>
+    </LazyMotion>
   )
 }

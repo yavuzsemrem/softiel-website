@@ -7,119 +7,108 @@ import { Sparkles, ArrowRight, CheckCircle, DollarSign, CreditCard, Calculator, 
 export function PricingHero() {
   return (
     <section className="relative bg-gradient-to-b from-slate-900 via-slate-850 to-slate-900 overflow-hidden">
-      {/* Background Elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        {/* Subtle dot pattern */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,rgba(59,130,246,0.15)_1px,transparent_0)] bg-[size:20px_20px]"></div>
-        
-        {/* Main gradient orbs */}
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-cyan-500/20 via-blue-500/20 to-blue-500/20 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl opacity-60 animate-pulse"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-tr from-blue-500/20 via-blue-500/20 to-cyan-500/20 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl opacity-60 animate-pulse"></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-r from-cyan-500/10 via-transparent to-blue-500/10 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl opacity-40 animate-pulse"></div>
-        
-        {/* Additional gradient orbs for depth */}
-        <div className="absolute top-10 right-1/3 w-64 h-64 bg-gradient-to-bl from-sky-500/15 via-cyan-500/15 to-transparent rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-2xl opacity-50 animate-pulse" style={{ animationDelay: '1s' }}></div>
-        <div className="absolute bottom-10 left-1/3 w-72 h-72 bg-gradient-to-tr from-blue-500/15 via-cyan-500/15 to-transparent rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-2xl opacity-45 animate-pulse" style={{ animationDelay: '2s' }}></div>
-        <div className="absolute top-1/3 right-10 w-48 h-48 bg-gradient-to-l from-indigo-500/20 via-blue-500/20 to-transparent rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-xl opacity-40 animate-pulse" style={{ animationDelay: '0.5s' }}></div>
-        
-        {/* Floating geometric shapes */}
-        <div className="absolute top-20 left-20 w-4 h-4 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full opacity-60 animate-bounce" style={{ animationDelay: '0s', animationDuration: '3s' }}></div>
-        <div className="absolute top-40 right-32 w-3 h-3 bg-gradient-to-r from-blue-400 to-cyan-500 rounded-full opacity-50 animate-bounce" style={{ animationDelay: '1s', animationDuration: '4s' }}></div>
-        <div className="absolute bottom-32 left-32 w-5 h-5 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-full opacity-40 animate-bounce" style={{ animationDelay: '2s', animationDuration: '5s' }}></div>
-        <div className="absolute bottom-20 right-20 w-2 h-2 bg-gradient-to-r from-blue-500 to-cyan-600 rounded-full opacity-70 animate-bounce" style={{ animationDelay: '0.5s', animationDuration: '3.5s' }}></div>
-        
-        {/* Background icons */}
-        <div className="absolute top-1/6 left-1/6 opacity-5">
-          <DollarSign className="h-12 w-12 text-cyan-500" />
+        {/* Background Elements */}
+        <div className="absolute inset-0 overflow-hidden">
+          {/* Subtle dot pattern */}
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,rgba(59,130,246,0.15)_1px,transparent_0)] bg-[size:20px_20px]"></div>
+          
+          {/* Main gradient orbs */}
+          <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-cyan-500/20 via-blue-500/20 to-blue-500/20 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl opacity-60"></div>
+          <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-tr from-blue-500/20 via-blue-500/20 to-cyan-500/20 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl opacity-60"></div>
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-r from-cyan-500/10 via-transparent to-blue-500/10 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl opacity-40"></div>
+          
+          {/* Background icons */}
+          <div className="absolute top-1/6 left-1/6 opacity-5">
+            <DollarSign className="h-12 w-12 text-cyan-500" />
+          </div>
+          <div className="absolute top-1/3 right-1/6 opacity-5">
+            <CreditCard className="h-10 w-10 text-blue-500" />
+          </div>
+          <div className="absolute bottom-1/3 left-1/5 opacity-5">
+            <Calculator className="h-14 w-14 text-cyan-400" />
+          </div>
+          <div className="absolute bottom-1/6 right-1/5 opacity-5">
+            <TrendingUp className="h-8 w-8 text-blue-400" />
+          </div>
+          <div className="absolute top-1/4 left-1/4 opacity-5">
+            <PieChart className="h-6 w-6 text-cyan-300" />
+          </div>
+          <div className="absolute top-1/2 right-1/4 opacity-5">
+            <Target className="h-8 w-8 text-blue-300" />
+          </div>
+          <div className="absolute bottom-1/4 left-1/3 opacity-5">
+            <Zap className="h-10 w-10 text-cyan-200" />
+          </div>
+          <div className="absolute top-2/3 left-1/2 opacity-5">
+            <Shield className="h-16 w-16 text-blue-200" />
+          </div>
+          <div className="absolute top-1/5 right-1/3 opacity-5">
+            <Star className="h-7 w-7 text-cyan-100" />
+          </div>
+          <div className="absolute bottom-1/5 right-1/3 opacity-5">
+            <Sparkles className="h-9 w-9 text-blue-100" />
+          </div>
+          <div className="absolute top-3/4 left-1/4 opacity-5">
+            <TrendingUp className="h-11 w-11 text-cyan-50" />
+          </div>
+          <div className="absolute bottom-1/2 right-1/2 opacity-5">
+            <PieChart className="h-13 w-13 text-blue-50" />
+          </div>
+          <div className="absolute top-1/8 left-1/8 opacity-5">
+            <Target className="h-5 w-5 text-cyan-400" />
+          </div>
+          <div className="absolute top-5/6 right-1/8 opacity-5">
+            <Zap className="h-7 w-7 text-blue-400" />
+          </div>
+          <div className="absolute bottom-1/8 left-1/8 opacity-5">
+            <Shield className="h-9 w-9 text-cyan-300" />
+          </div>
+          <div className="absolute top-1/2 left-1/8 opacity-5">
+            <Star className="h-6 w-6 text-blue-300" />
+          </div>
+          <div className="absolute top-1/12 left-1/12 opacity-5">
+            <DollarSign className="h-8 w-8 text-cyan-400" />
+          </div>
+          <div className="absolute top-1/12 right-1/12 opacity-5">
+            <CreditCard className="h-7 w-7 text-blue-400" />
+          </div>
+          <div className="absolute top-1/8 right-1/3 opacity-5">
+            <Calculator className="h-9 w-9 text-cyan-300" />
+          </div>
+          <div className="absolute top-1/6 right-1/2 opacity-5">
+            <TrendingUp className="h-6 w-6 text-blue-300" />
+          </div>
+          <div className="absolute top-1/4 left-1/6 opacity-5">
+            <PieChart className="h-8 w-8 text-cyan-200" />
+          </div>
+          <div className="absolute top-1/5 left-1/2 opacity-5">
+            <Target className="h-7 w-7 text-blue-200" />
+          </div>
+          <div className="absolute top-1/3 left-1/12 opacity-5">
+            <Zap className="h-9 w-9 text-cyan-100" />
+          </div>
+          <div className="absolute top-1/4 right-1/6 opacity-5">
+            <Shield className="h-8 w-8 text-blue-100" />
+          </div>
+          <div className="absolute top-1/6 left-1/3 opacity-5">
+            <Star className="h-6 w-6 text-cyan-50" />
+          </div>
+          <div className="absolute top-1/8 left-1/2 opacity-5">
+            <Sparkles className="h-7 w-7 text-blue-50" />
+          </div>
+          <div className="absolute top-1/5 right-1/5 opacity-5">
+            <DollarSign className="h-5 w-5 text-cyan-300" />
+          </div>
+          <div className="absolute top-1/7 left-1/5 opacity-5">
+            <CreditCard className="h-6 w-6 text-blue-300" />
+          </div>
+          <div className="absolute top-1/9 right-1/7 opacity-5">
+            <Calculator className="h-7 w-7 text-cyan-200" />
+          </div>
+          <div className="absolute top-1/10 left-1/7 opacity-5">
+            <TrendingUp className="h-5 w-5 text-blue-200" />
+          </div>
         </div>
-        <div className="absolute top-1/3 right-1/6 opacity-5">
-          <CreditCard className="h-10 w-10 text-blue-500" />
-        </div>
-        <div className="absolute bottom-1/3 left-1/5 opacity-5">
-          <Calculator className="h-14 w-14 text-cyan-400" />
-        </div>
-        <div className="absolute bottom-1/6 right-1/5 opacity-5">
-          <TrendingUp className="h-8 w-8 text-blue-400" />
-        </div>
-        <div className="absolute top-1/4 left-1/4 opacity-5">
-          <PieChart className="h-6 w-6 text-cyan-300" />
-        </div>
-        <div className="absolute top-1/2 right-1/4 opacity-5">
-          <Target className="h-8 w-8 text-blue-300" />
-        </div>
-        <div className="absolute bottom-1/4 left-1/3 opacity-5">
-          <Zap className="h-10 w-10 text-cyan-200" />
-        </div>
-        <div className="absolute top-2/3 left-1/2 opacity-5">
-          <Shield className="h-16 w-16 text-blue-200" />
-        </div>
-        <div className="absolute top-1/5 right-1/3 opacity-5">
-          <Star className="h-7 w-7 text-cyan-100" />
-        </div>
-        <div className="absolute bottom-1/5 right-1/3 opacity-5">
-          <Sparkles className="h-9 w-9 text-blue-100" />
-        </div>
-        <div className="absolute top-3/4 left-1/4 opacity-5">
-          <TrendingUp className="h-11 w-11 text-cyan-50" />
-        </div>
-        <div className="absolute bottom-1/2 right-1/2 opacity-5">
-          <PieChart className="h-13 w-13 text-blue-50" />
-        </div>
-        <div className="absolute top-1/8 left-1/8 opacity-5">
-          <Target className="h-5 w-5 text-cyan-400" />
-        </div>
-        <div className="absolute top-5/6 right-1/8 opacity-5">
-          <Zap className="h-7 w-7 text-blue-400" />
-        </div>
-        <div className="absolute bottom-1/8 left-1/8 opacity-5">
-          <Shield className="h-9 w-9 text-cyan-300" />
-        </div>
-        <div className="absolute top-1/2 left-1/8 opacity-5">
-          <Star className="h-6 w-6 text-blue-300" />
-        </div>
-        <div className="absolute top-1/12 left-1/12 opacity-5">
-          <DollarSign className="h-8 w-8 text-cyan-400" />
-        </div>
-        <div className="absolute top-1/12 right-1/12 opacity-5">
-          <CreditCard className="h-7 w-7 text-blue-400" />
-        </div>
-        <div className="absolute top-1/8 right-1/3 opacity-5">
-          <Calculator className="h-9 w-9 text-cyan-300" />
-        </div>
-        <div className="absolute top-1/6 right-1/2 opacity-5">
-          <TrendingUp className="h-6 w-6 text-blue-300" />
-        </div>
-        <div className="absolute top-1/4 left-1/6 opacity-5">
-          <PieChart className="h-8 w-8 text-cyan-200" />
-        </div>
-        <div className="absolute top-1/5 left-1/2 opacity-5">
-          <Target className="h-7 w-7 text-blue-200" />
-        </div>
-        <div className="absolute top-1/3 left-1/12 opacity-5">
-          <Zap className="h-9 w-9 text-cyan-100" />
-        </div>
-        <div className="absolute top-1/4 right-1/6 opacity-5">
-          <Shield className="h-8 w-8 text-blue-100" />
-        </div>
-        <div className="absolute top-1/6 left-1/3 opacity-5">
-          <Star className="h-6 w-6 text-cyan-50" />
-        </div>
-        <div className="absolute top-1/8 left-1/2 opacity-5">
-          <Sparkles className="h-7 w-7 text-blue-50" />
-        </div>
-        <div className="absolute top-1/5 right-1/5 opacity-5">
-          <DollarSign className="h-5 w-5 text-cyan-300" />
-        </div>
-        <div className="absolute top-1/7 left-1/5 opacity-5">
-          <CreditCard className="h-6 w-6 text-blue-300" />
-        </div>
-        <div className="absolute top-1/9 right-1/7 opacity-5">
-          <Calculator className="h-7 w-7 text-cyan-200" />
-        </div>
-        <div className="absolute top-1/10 left-1/7 opacity-5">
-          <TrendingUp className="h-5 w-5 text-blue-200" />
-        </div>
-      </div>
       
       {/* Hero Content Section */}
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10 pt-20 pb-4 lg:pt-32 lg:pb-8">
@@ -171,15 +160,48 @@ export function PricingHero() {
             transition={{ delay: 0.4, duration: 0.6 }}
             className="flex flex-col sm:flex-row gap-4 justify-center mb-12"
           >
-            <motion.a
-              href="#pricing-plans"
+            <motion.button
+              onClick={(e) => {
+                e.preventDefault();
+                
+                // Element yüklenene kadar bekle ve scroll yap
+                const scrollToPricingPlans = () => {
+                  const pricingPlansElement = document.getElementById('pricing-plans');
+                  if (pricingPlansElement) {
+                    // Element bulundu, scroll yap
+                    pricingPlansElement.scrollIntoView({ 
+                      behavior: 'smooth',
+                      block: 'start',
+                      inline: 'nearest'
+                    });
+                    return true;
+                  }
+                  return false;
+                };
+
+                // Hemen dene
+                if (!scrollToPricingPlans()) {
+                  // Element yoksa, yüklenene kadar bekle (maksimum 5 saniye)
+                  let attempts = 0;
+                  const maxAttempts = 50; // 50 * 100ms = 5 saniye
+                  const interval = setInterval(() => {
+                    attempts++;
+                    if (scrollToPricingPlans()) {
+                      clearInterval(interval);
+                    } else if (attempts >= maxAttempts) {
+                      clearInterval(interval);
+                      console.warn('Pricing plans element not found after 5 seconds');
+                    }
+                  }, 100);
+                }
+              }}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="inline-flex items-center justify-center space-x-2 text-white px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-200 bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600"
+              className="inline-flex items-center justify-center space-x-2 text-white px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-200 bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 cursor-pointer"
             >
               <span>Paketleri İncele</span>
               <ArrowRight className="h-5 w-5" />
-            </motion.a>
+            </motion.button>
               
             <motion.a
               href="/tr/iletisim"
@@ -201,7 +223,7 @@ export function PricingHero() {
           >
             <div className="relative w-full max-w-sm sm:max-w-md">
               <img
-                src={`/images/pricing-new.webp?v=${Date.now()}`}
+                src="/images/pricing-new.webp"
                 alt="Fiyatlandırma"
                 className="w-full h-auto object-contain"
                 loading="eager"
@@ -255,15 +277,48 @@ export function PricingHero() {
               transition={{ delay: 0.3, duration: 0.6 }}
               className="flex flex-col sm:flex-row gap-4 justify-start"
             >
-              <motion.a
-                href="#pricing-plans"
+              <motion.button
+                onClick={(e) => {
+                  e.preventDefault();
+                  
+                  // Element yüklenene kadar bekle ve scroll yap
+                  const scrollToPricingPlans = () => {
+                    const pricingPlansElement = document.getElementById('pricing-plans');
+                    if (pricingPlansElement) {
+                      // Element bulundu, scroll yap
+                      pricingPlansElement.scrollIntoView({ 
+                        behavior: 'smooth',
+                        block: 'start',
+                        inline: 'nearest'
+                      });
+                      return true;
+                    }
+                    return false;
+                  };
+
+                  // Hemen dene
+                  if (!scrollToPricingPlans()) {
+                    // Element yoksa, yüklenene kadar bekle (maksimum 5 saniye)
+                    let attempts = 0;
+                    const maxAttempts = 50; // 50 * 100ms = 5 saniye
+                    const interval = setInterval(() => {
+                      attempts++;
+                      if (scrollToPricingPlans()) {
+                        clearInterval(interval);
+                      } else if (attempts >= maxAttempts) {
+                        clearInterval(interval);
+                        console.warn('Pricing plans element not found after 5 seconds');
+                      }
+                    }, 100);
+                  }
+                }}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="inline-flex items-center justify-center space-x-2 text-white px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-200 bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600"
+                className="inline-flex items-center justify-center space-x-2 text-white px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-200 bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 cursor-pointer"
               >
                 <span>Paketleri İncele</span>
                 <ArrowRight className="h-5 w-5" />
-              </motion.a>
+              </motion.button>
                 
               <motion.a
                 href="/tr/iletisim"
@@ -286,7 +341,7 @@ export function PricingHero() {
           >
             <div className="relative w-full max-w-xl xl:max-w-2xl">
               <img
-                src={`/images/pricing-new.webp?v=${Date.now()}`}
+                src="/images/pricing-new.webp"
                 alt="Fiyatlandırma"
                 className="w-full h-auto object-contain lg:translate-x-4 xl:translate-x-6 scale-110 lg:scale-125 xl:scale-135"
                 loading="eager"

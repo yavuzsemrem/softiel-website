@@ -1,13 +1,17 @@
 "use client"
 
 import React, { useState, useEffect } from "react"
-import { motion } from "framer-motion"
+import { m, LazyMotion } from "framer-motion"
 import { Calendar, User, Clock, Eye, Heart, Share2, BookOpen, Tag, ArrowRight, Loader2 } from "lucide-react"
 import { getBlog, updateBlogLikes, BlogPost } from "@/lib/blog-service"
 import { logBlogLikeActivity } from "@/lib/simple-activity-logger"
 
+// domAnimation'ı async yükle - Main-thread work azaltmak için
+const loadFeatures = () => import("framer-motion").then(mod => mod.domAnimation)
+
 interface BlogDetailContentProps {
   slug: string
+  blogData?: BlogPost | null
 }
 
 const blogData = {
@@ -308,27 +312,29 @@ const blogData = {
   }
 }
 
-export function BlogDetailContent({ slug }: BlogDetailContentProps) {
-  const [post, setPost] = useState<BlogPost | null>(null)
-  const [loading, setLoading] = useState(true)
+export function BlogDetailContent({ slug, blogData }: BlogDetailContentProps) {
+  const [post, setPost] = useState<BlogPost | null>(blogData || null)
+  const [loading, setLoading] = useState(!blogData)
   const [error, setError] = useState("")
   const [isLiked, setIsLiked] = useState(false)
-  const [likeCount, setLikeCount] = useState(0)
+  const [likeCount, setLikeCount] = useState(blogData?.likes || 0)
 
-  // Blog verisini yükle
+  // Blog verisini yükle (sadece blogData yoksa)
   useEffect(() => {
-    loadBlog()
-  }, [slug])
+    if (!blogData) {
+      loadBlog()
+    }
+  }, [slug, blogData])
 
   const loadBlog = async () => {
     try {
       setLoading(true)
       setError("")
       
-      const blogData = await getBlog(slug)
-      if (blogData) {
-        setPost(blogData)
-        setLikeCount(blogData.likes || 0)
+      const data = await getBlog(slug, false) // View count'u artırma
+      if (data) {
+        setPost(data)
+        setLikeCount(data.likes || 0)
       } else {
         setError("Blog yazısı bulunamadı")
       }
@@ -423,7 +429,8 @@ export function BlogDetailContent({ slug }: BlogDetailContentProps) {
   }
 
   return (
-    <motion.article
+    <LazyMotion features={loadFeatures}>
+    <m.article
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
@@ -488,18 +495,17 @@ export function BlogDetailContent({ slug }: BlogDetailContentProps) {
         <h4 className="text-lg font-semibold text-neutral-900 dark:text-white mb-4">Etiketler</h4>
         <div className="flex flex-wrap gap-2">
           {post.tags && post.tags.length > 0 ? post.tags.map((tag) => (
-            <a
+            <span
               key={tag}
-              href={`/blog?tags=${encodeURIComponent(tag)}`}
-              className="group inline-flex items-center space-x-2 glass rounded-full px-4 py-2 text-sm font-medium text-cyan-600 dark:text-cyan-400 hover:bg-cyan-500/20 transition-all duration-200 transform hover:scale-105"
+              className="inline-flex items-center space-x-2 glass rounded-full px-4 py-2 text-sm font-medium text-cyan-600 dark:text-cyan-400"
               style={{ 
                 background: 'rgba(6, 182, 212, 0.15)',
                 border: '1px solid rgba(6, 182, 212, 0.3)'
               }}
             >
-              <Tag className="h-4 w-4 group-hover:rotate-12 transition-transform duration-200" />
+              <Tag className="h-4 w-4" />
               <span>{tag}</span>
-            </a>
+            </span>
           )) : null}
         </div>
       </div>
@@ -509,7 +515,7 @@ export function BlogDetailContent({ slug }: BlogDetailContentProps) {
         <div className="flex items-center justify-between mb-6">
           <h4 className="text-lg font-semibold text-neutral-900 dark:text-white">Etkileşim</h4>
           <div className="flex items-center space-x-4">
-            <motion.button
+            <m.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => handleLike()}
@@ -522,14 +528,14 @@ export function BlogDetailContent({ slug }: BlogDetailContentProps) {
             >
               <Heart className={`h-4 w-4 ${isLiked ? 'fill-current' : ''}`} />
               <span>{likeCount}</span>
-            </motion.button>
+            </m.button>
           </div>
         </div>
         
         <div data-share-section className="mt-8 pt-6 border-t border-white/20">
           <h4 className="text-lg font-semibold text-neutral-900 dark:text-white mb-4">Paylaş</h4>
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
-            <motion.button
+            <m.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => handleShare('twitter')}
@@ -538,8 +544,8 @@ export function BlogDetailContent({ slug }: BlogDetailContentProps) {
             >
               <Share2 className="h-4 w-4" />
               <span>Twitter</span>
-            </motion.button>
-            <motion.button
+            </m.button>
+            <m.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => handleShare('linkedin')}
@@ -548,8 +554,8 @@ export function BlogDetailContent({ slug }: BlogDetailContentProps) {
             >
               <Share2 className="h-4 w-4" />
               <span>LinkedIn</span>
-            </motion.button>
-            <motion.button
+            </m.button>
+            <m.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => handleShare('facebook')}
@@ -558,10 +564,11 @@ export function BlogDetailContent({ slug }: BlogDetailContentProps) {
             >
               <Share2 className="h-4 w-4" />
               <span>Facebook</span>
-            </motion.button>
+            </m.button>
           </div>
         </div>
       </div>
-    </motion.article>
+    </m.article>
+    </LazyMotion>
   )
 }

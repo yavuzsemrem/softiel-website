@@ -172,15 +172,48 @@ export function ReferencesHero() {
             transition={{ delay: 0.4, duration: 0.6 }}
             className="flex flex-col sm:flex-row gap-4 justify-center mb-12"
           >
-            <motion.a
-              href="#references-grid"
+            <motion.button
+              onClick={(e) => {
+                e.preventDefault();
+                
+                // Element yüklenene kadar bekle ve scroll yap
+                const scrollToReferencesGrid = () => {
+                  const referencesGridElement = document.getElementById('references-grid');
+                  if (referencesGridElement) {
+                    // Element bulundu, scroll yap
+                    referencesGridElement.scrollIntoView({ 
+                      behavior: 'smooth',
+                      block: 'start',
+                      inline: 'nearest'
+                    });
+                    return true;
+                  }
+                  return false;
+                };
+
+                // Hemen dene
+                if (!scrollToReferencesGrid()) {
+                  // Element yoksa, yüklenene kadar bekle (maksimum 5 saniye)
+                  let attempts = 0;
+                  const maxAttempts = 50; // 50 * 100ms = 5 saniye
+                  const interval = setInterval(() => {
+                    attempts++;
+                    if (scrollToReferencesGrid()) {
+                      clearInterval(interval);
+                    } else if (attempts >= maxAttempts) {
+                      clearInterval(interval);
+                      console.warn('References grid element not found after 5 seconds');
+                    }
+                  }, 100);
+                }
+              }}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="inline-flex items-center justify-center space-x-2 text-white px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-200 bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600"
+              className="inline-flex items-center justify-center space-x-2 text-white px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-200 bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 cursor-pointer"
             >
               <span>{t('references.ctaTitle')}</span>
               <ArrowRight className="h-5 w-5" />
-            </motion.a>
+            </motion.button>
               
             <motion.a
               href="/tr/iletisim"
@@ -202,7 +235,7 @@ export function ReferencesHero() {
           >
             <div className="relative w-full max-w-sm sm:max-w-md">
               <img
-                src={`/images/projects.webp?v=${Date.now()}`}
+                src="/images/projects.webp"
                 alt="Projelerimiz"
                 className="w-full h-auto object-contain"
                 loading="eager"
@@ -255,15 +288,48 @@ export function ReferencesHero() {
               transition={{ delay: 0.3, duration: 0.6 }}
               className="flex flex-col sm:flex-row gap-4 justify-start"
             >
-              <motion.a
-                href="#references-grid"
+              <motion.button
+                onClick={(e) => {
+                  e.preventDefault();
+                  
+                  // Element yüklenene kadar bekle ve scroll yap
+                  const scrollToReferencesGrid = () => {
+                    const referencesGridElement = document.getElementById('references-grid');
+                    if (referencesGridElement) {
+                      // Element bulundu, scroll yap
+                      referencesGridElement.scrollIntoView({ 
+                        behavior: 'smooth',
+                        block: 'start',
+                        inline: 'nearest'
+                      });
+                      return true;
+                    }
+                    return false;
+                  };
+
+                  // Hemen dene
+                  if (!scrollToReferencesGrid()) {
+                    // Element yoksa, yüklenene kadar bekle (maksimum 5 saniye)
+                    let attempts = 0;
+                    const maxAttempts = 50; // 50 * 100ms = 5 saniye
+                    const interval = setInterval(() => {
+                      attempts++;
+                      if (scrollToReferencesGrid()) {
+                        clearInterval(interval);
+                      } else if (attempts >= maxAttempts) {
+                        clearInterval(interval);
+                        console.warn('References grid element not found after 5 seconds');
+                      }
+                    }, 100);
+                  }
+                }}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="inline-flex items-center justify-center space-x-2 text-white px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-200 bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600"
+                className="inline-flex items-center justify-center space-x-2 text-white px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-200 bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 cursor-pointer"
               >
                 <span>{t('references.ctaTitle')}</span>
                 <ArrowRight className="h-5 w-5" />
-              </motion.a>
+              </motion.button>
                 
               <motion.a
                 href="/tr/iletisim"
@@ -286,7 +352,7 @@ export function ReferencesHero() {
           >
             <div className="relative w-full max-w-xl xl:max-w-2xl">
               <img
-                src={`/images/projects.webp?v=${Date.now()}`}
+                src="/images/projects.webp"
                 alt="Projelerimiz"
                 className="w-full h-auto object-contain lg:translate-x-4 xl:translate-x-6 scale-110 lg:scale-125 xl:scale-135"
                 loading="eager"

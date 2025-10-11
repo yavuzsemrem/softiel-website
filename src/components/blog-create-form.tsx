@@ -748,7 +748,7 @@ export function BlogCreateForm() {
                     type="number"
                     value={formData.readTime}
                     onChange={(e) => handleInputChange('readTime', e.target.value)}
-                    className="w-full px-3 sm:px-4 py-3 sm:py-4 glass rounded-xl text-white placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/70 transition-all duration-300 border border-white/20 font-medium text-sm sm:text-base"
+                    className="w-full px-3 sm:px-4 py-3 sm:py-4 glass rounded-xl text-white placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/70 transition-all duration-300 font-medium text-sm sm:text-base"
                     style={{ background: 'rgba(255, 255, 255, 0.1)' }}
                     placeholder="5"
                     min="1"
@@ -765,7 +765,7 @@ export function BlogCreateForm() {
                     type="text"
                     value={formData.slug}
                     onChange={(e) => handleInputChange('slug', e.target.value)}
-                    className="w-full px-3 sm:px-4 py-3 sm:py-4 glass rounded-xl text-white placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/70 transition-all duration-300 border border-white/20 font-medium text-sm sm:text-base"
+                    className="w-full px-3 sm:px-4 py-3 sm:py-4 glass rounded-xl text-white placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/70 transition-all duration-300 font-medium text-sm sm:text-base"
                     style={{ background: 'rgba(255, 255, 255, 0.1)' }}
                     placeholder="url-slug-formatinda"
                     required
@@ -866,7 +866,7 @@ export function BlogCreateForm() {
                       value={newTag}
                       onChange={(e) => setNewTag(e.target.value)}
                       onKeyPress={(e) => e.key === 'Enter' && handleAddTag()}
-                      className="w-full sm:flex-1 px-4 py-3 glass rounded-xl text-white placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/70 transition-all duration-300 border border-white/20 font-medium"
+                      className="w-full sm:flex-1 px-4 py-3 glass rounded-xl text-white placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/70 transition-all duration-300 font-medium"
                       style={{ background: 'rgba(255, 255, 255, 0.1)' }}
                       placeholder="Yeni etiket..."
                     />

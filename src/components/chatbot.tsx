@@ -15,7 +15,7 @@ import {
   CheckCircle,
   MessageSquare
 } from "lucide-react"
-import aiIcon from "@/images/ai.PNG"
+import aiIcon from "@/images/ai.webp"
 import { generateGeminiResponse, getFallbackResponse } from "@/lib/gemini"
 import { checkRateLimit, generateSessionId, getRateLimitStatus } from "@/lib/rateLimiter"
 import { useRecaptcha } from "@/hooks/useRecaptcha"
@@ -492,7 +492,7 @@ export function Chatbot() {
                       alt="AI Assistant" 
                       width={28}
                       height={28}
-                      className="w-5 h-5 sm:w-7 sm:h-7 object-contain"
+                      className="w-5 h-5 sm:w-7 sm:h-7 object-contain rounded-full"
                     />
                   </div>
                 </div>
@@ -570,9 +570,9 @@ export function Chatbot() {
                  <Image 
                    src={aiIcon} 
                    alt="AI Assistant" 
-                   width={40} 
-                   height={40} 
-                   className="w-10 h-10 sm:w-12 sm:h-12 md:w-11 md:h-11 object-contain"
+                   width={48} 
+                   height={48} 
+                   className="w-10 h-10 sm:w-12 sm:h-12 md:w-11 md:h-11 object-contain rounded-full"
                  />
                </motion.div>
              )}
@@ -615,13 +615,13 @@ export function Chatbot() {
               borderRadius: '24px 24px 0 0'
             }}>
               <div className="flex items-center space-x-3">
-                 <div className="bg-gradient-to-br from-slate-700 to-slate-800 rounded-full flex items-center justify-center shadow-lg w-10 h-10">
+                 <div className="bg-gradient-to-br from-slate-700 to-slate-800 rounded-full flex items-center justify-center shadow-lg w-10 h-10 overflow-hidden">
                    <Image 
                      src={aiIcon} 
                      alt="AI Assistant" 
-                     width={28} 
-                     height={28} 
-                     className="object-contain w-7 h-7"
+                     width={32} 
+                     height={32} 
+                     className="w-8 h-8 object-contain"
                    />
                  </div>
                 <div className="flex flex-col justify-center">
@@ -709,7 +709,7 @@ export function Chatbot() {
                                alt="AI Assistant" 
                                width={24} 
                                height={24} 
-                               className="w-6 h-6 object-contain"
+                               className="w-6 h-6 object-contain rounded-full"
                              />
                            )}
                          </div>
@@ -851,7 +851,7 @@ export function Chatbot() {
                       className="flex justify-start"
                     >
                       <div className="flex items-start space-x-3">
-                         <div className="w-8 h-8 rounded-full bg-gradient-to-br from-slate-700 to-slate-800 flex items-center justify-center shadow-lg">
+                         <div className="w-8 h-8 rounded-full bg-gradient-to-br from-slate-700 to-slate-800 flex items-center justify-center shadow-lg overflow-hidden">
                            <Image 
                              src={aiIcon} 
                              alt="AI Assistant" 

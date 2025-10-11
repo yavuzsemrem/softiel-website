@@ -66,7 +66,8 @@ class MonitoringService {
     this.logEvent(monitoringEvent);
     
     // Also log to security system
-    logSecurityEvent(event, data, severity);
+    const logSeverity = severity === 'critical' ? 'high' : severity;
+    logSecurityEvent(event, data, logSeverity);
   }
 
   // Track errors

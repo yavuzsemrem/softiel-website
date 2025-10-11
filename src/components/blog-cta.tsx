@@ -84,7 +84,7 @@ export function BlogCTA() {
             viewport={{ once: true }}
             className="flex flex-col sm:flex-row gap-4 justify-center items-center"
           >
-            <Link href="/iletisim">
+            <Link href="/tr/iletisim">
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -95,7 +95,7 @@ export function BlogCTA() {
               </motion.button>
             </Link>
             
-            <Link href="/hizmetlerimiz">
+            <Link href="/tr/hizmetlerimiz">
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}

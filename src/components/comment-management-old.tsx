@@ -190,12 +190,24 @@ export function CommentManagement() {
 
   const sortedComments = [...filteredComments].sort((a, b) => {
     switch (sortBy) {
-      case "newest":
-        return new Date(b.createdAt.toDate ? b.createdAt.toDate() : b.createdAt).getTime() - 
-               new Date(a.createdAt.toDate ? a.createdAt.toDate() : a.createdAt).getTime()
-      case "oldest":
-        return new Date(a.createdAt.toDate ? a.createdAt.toDate() : a.createdAt).getTime() - 
-               new Date(b.createdAt.toDate ? b.createdAt.toDate() : b.createdAt).getTime()
+      case "newest": {
+        const dateB = b.createdAt && typeof b.createdAt === 'object' && 'toDate' in b.createdAt 
+          ? b.createdAt.toDate() 
+          : new Date(b.createdAt)
+        const dateA = a.createdAt && typeof a.createdAt === 'object' && 'toDate' in a.createdAt 
+          ? a.createdAt.toDate() 
+          : new Date(a.createdAt)
+        return dateB.getTime() - dateA.getTime()
+      }
+      case "oldest": {
+        const dateA = a.createdAt && typeof a.createdAt === 'object' && 'toDate' in a.createdAt 
+          ? a.createdAt.toDate() 
+          : new Date(a.createdAt)
+        const dateB = b.createdAt && typeof b.createdAt === 'object' && 'toDate' in b.createdAt 
+          ? b.createdAt.toDate() 
+          : new Date(b.createdAt)
+        return dateA.getTime() - dateB.getTime()
+      }
       case "author":
         return a.authorName.localeCompare(b.authorName)
       default:
@@ -453,7 +465,7 @@ export function CommentManagement() {
                   }}>
                     {comment.authorEmail === 'admin@softiel.com' ? (
                       <img 
-                        src="/transparent.png" 
+                        src="/transparent.webp" 
                         alt="Admin" 
                         className="w-full h-full object-cover rounded-full"
                       />
@@ -657,10 +669,7 @@ export function CommentManagement() {
           isOpen={isReplyModalOpen}
           onClose={() => {
             setIsReplyModalOpen(false)
-            // Detaylar popup'ı açıkken cevapla modal'ı kapatıldığında selectedComment'ı sıfırlama
-            if (!isDetailModalOpen) {
-              setSelectedComment(null)
-            }
+            setSelectedComment(null)
           }}
           comment={selectedComment}
           onReplySubmit={() => {
@@ -775,7 +784,7 @@ function ReplyItem({
                      : 'linear-gradient(to right, #8b5cf6, #a855f7)' }}>
                 {reply.authorEmail === 'admin@softiel.com' ? (
                   <img 
-                    src="/transparent.png" 
+                    src="/transparent.webp" 
                     alt="Admin" 
                     className="w-full h-full object-cover rounded-full"
                   />
@@ -1077,9 +1086,13 @@ function CommentDetailModal({
       
       // Alt yanıtları tarihe göre sırala (en yeni önce)
       subReplies.sort((a, b) => {
-        const aTime = a.createdAt?.toDate ? a.createdAt.toDate().getTime() : new Date(a.createdAt).getTime()
-        const bTime = b.createdAt?.toDate ? b.createdAt.toDate().getTime() : new Date(b.createdAt).getTime()
-        return bTime - aTime
+        const dateA = a.createdAt && typeof a.createdAt === 'object' && 'toDate' in a.createdAt 
+          ? a.createdAt.toDate() 
+          : new Date(a.createdAt)
+        const dateB = b.createdAt && typeof b.createdAt === 'object' && 'toDate' in b.createdAt 
+          ? b.createdAt.toDate() 
+          : new Date(b.createdAt)
+        return dateB.getTime() - dateA.getTime()
       })
       
       // Alt yanıtları da organize et (recursive)
@@ -1185,9 +1198,13 @@ function CommentDetailModal({
           
           // Yanıtları tarihe göre sırala (en yeni önce)
           allReplies.sort((a, b) => {
-            const aTime = a.createdAt?.toDate ? a.createdAt.toDate().getTime() : new Date(a.createdAt).getTime()
-            const bTime = b.createdAt?.toDate ? b.createdAt.toDate().getTime() : new Date(b.createdAt).getTime()
-            return bTime - aTime
+            const dateA = a.createdAt && typeof a.createdAt === 'object' && 'toDate' in a.createdAt 
+              ? a.createdAt.toDate() 
+              : new Date(a.createdAt)
+            const dateB = b.createdAt && typeof b.createdAt === 'object' && 'toDate' in b.createdAt 
+              ? b.createdAt.toDate() 
+              : new Date(b.createdAt)
+            return dateB.getTime() - dateA.getTime()
           })
           
           // Yanıtları organize et (recursive)
@@ -1301,7 +1318,7 @@ function CommentDetailModal({
               }}>
                 {displayComment.authorEmail === 'admin@softiel.com' ? (
                   <img 
-                    src="/transparent.png" 
+                    src="/transparent.webp" 
                     alt="Admin" 
                     className="w-full h-full object-cover rounded-full"
                   />

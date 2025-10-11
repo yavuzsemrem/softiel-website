@@ -12,7 +12,7 @@ import {
   deleteDoc,
   writeBatch
 } from 'firebase/firestore'
-import { db } from './firebase'
+import { getFirestore } from './firebase-lazy'
 
 export interface Activity {
   id?: string
@@ -27,12 +27,16 @@ export interface Activity {
   isRead?: boolean // Okunma durumu
 }
 
-// Activity collection
-const activitiesCollection = collection(db, 'activities')
+// Activity collection - lazy loaded
+const getActivitiesCollection = async () => {
+  const db = await getFirestore();
+  return collection(db, 'activities');
+}
 
 // Create new activity
 export async function createActivity(activityData: Omit<Activity, 'id' | 'createdAt'>): Promise<string> {
   try {
+    const activitiesCollection = await getActivitiesCollection();
     const activityWithTimestamp = {
       ...activityData,
       createdAt: Timestamp.now(),
@@ -49,6 +53,7 @@ export async function createActivity(activityData: Omit<Activity, 'id' | 'create
 // Get recent activities
 export async function getRecentActivities(limitCount: number = 10): Promise<Activity[]> {
   try {
+    const activitiesCollection = await getActivitiesCollection();
     const q = query(
       activitiesCollection,
       orderBy('createdAt', 'desc'),
@@ -75,6 +80,7 @@ export async function getRecentActivities(limitCount: number = 10): Promise<Acti
 // Get unread activities count
 export async function getUnreadActivitiesCount(): Promise<number> {
   try {
+    const activitiesCollection = await getActivitiesCollection();
     const q = query(
       activitiesCollection,
       where('isRead', '==', false)
@@ -92,6 +98,7 @@ export async function getUnreadActivitiesCount(): Promise<number> {
 export async function markActivityAsRead(activityId: string): Promise<void> {
   try {
     const { doc, updateDoc } = await import('firebase/firestore')
+    const db = await getFirestore()
     const activityRef = doc(db, 'activities', activityId)
     await updateDoc(activityRef, { isRead: true })
   } catch (error) {
@@ -103,6 +110,7 @@ export async function markActivityAsRead(activityId: string): Promise<void> {
 export async function markActivityAsUnread(activityId: string): Promise<void> {
   try {
     const { doc, updateDoc } = await import('firebase/firestore')
+    const db = await getFirestore()
     const activityRef = doc(db, 'activities', activityId)
     await updateDoc(activityRef, { isRead: false })
   } catch (error) {
@@ -129,6 +137,7 @@ export async function toggleActivityReadStatus(activityId: string, currentStatus
 // Mark all activities as read
 export async function markAllActivitiesAsRead(): Promise<void> {
   try {
+    const activitiesCollection = await getActivitiesCollection();
     const q = query(
       activitiesCollection,
       where('isRead', '==', false)
@@ -136,6 +145,7 @@ export async function markAllActivitiesAsRead(): Promise<void> {
     
     const snapshot = await getDocs(q)
     const { doc, updateDoc } = await import('firebase/firestore')
+    const db = await getFirestore()
     
     const updatePromises = snapshot.docs.map(docSnapshot => 
       updateDoc(doc(db, 'activities', docSnapshot.id), { isRead: true })
@@ -150,6 +160,7 @@ export async function markAllActivitiesAsRead(): Promise<void> {
 // Delete single activity
 export async function deleteActivity(activityId: string): Promise<void> {
   try {
+    const db = await getFirestore()
     const activityRef = doc(db, 'activities', activityId)
     await deleteDoc(activityRef)
   } catch (error) {
@@ -163,6 +174,7 @@ export async function deleteActivities(activityIds: string[]): Promise<void> {
   try {
     if (activityIds.length === 0) return
     
+    const db = await getFirestore()
     const batch = writeBatch(db)
     
     activityIds.forEach(activityId => {
@@ -180,7 +192,9 @@ export async function deleteActivities(activityIds: string[]): Promise<void> {
 // Delete all activities
 export async function deleteAllActivities(): Promise<void> {
   try {
+    const activitiesCollection = await getActivitiesCollection();
     const snapshot = await getDocs(activitiesCollection)
+    const db = await getFirestore()
     const batch = writeBatch(db)
     
     snapshot.docs.forEach(docSnapshot => {

@@ -5,6 +5,15 @@ import { ServicesNew } from "@/components/services-new"
 import { ProcessNew } from "@/components/process-new"
 import { PricingCTA } from "@/components/pricing-cta"
 
+// Static generation için metadata
+export const metadata = {
+  title: "Hizmetlerimiz - Softiel",
+  description: "Web tasarım, geliştirme, SEO, dijital pazarlama ve mobil uygulama geliştirme hizmetleri. Profesyonel dijital çözümler.",
+}
+
+// Static generation - sayfa önceden oluşturulsun
+export const dynamic = 'force-static'
+
 export default function ServicesPage() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-700 via-slate-800 via-slate-900 via-slate-950 to-black dark:from-slate-800 dark:via-slate-900 dark:via-slate-950 dark:via-black dark:to-black">

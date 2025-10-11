@@ -1,7 +1,18 @@
 "use client"
 
 import React, { useState, useEffect } from "react"
-import { motion, AnimatePresence } from "framer-motion"
+import dynamic from "next/dynamic"
+
+// Framer Motion'ı lazy load et - main thread work azaltmak için
+const MotionDiv = dynamic(() => import("framer-motion").then(mod => ({ default: mod.motion.div })), { 
+  ssr: false,
+  loading: () => <div />
+})
+const AnimatePresence = dynamic(() => import("framer-motion").then(mod => ({ default: mod.AnimatePresence })), { 
+  ssr: false,
+  loading: () => <></>
+})
+
 import { 
   MessageSquare, 
   User, 
@@ -82,32 +93,35 @@ export function BlogCommentsList({
         if (hash && hash.startsWith('#comment-')) {
           const commentId = hash.replace('#comment-', '')
           
-          // Güçlendirilmiş scroll fonksiyonu
+          // Güçlendirilmiş scroll fonksiyonu (Optimized - Forced reflow önleme)
           const scrollToComment = () => {
             const commentElement = document.getElementById(`comment-${commentId}`)
             if (commentElement) {
-              // Scroll pozisyonunu hesapla - sticky header'ı dikkate al
-              const stickyHeader = document.querySelector('.sticky.top-0')
-              const headerHeight = stickyHeader ? stickyHeader.getBoundingClientRect().height : 0
-              const elementRect = commentElement.getBoundingClientRect()
-              const absoluteElementTop = elementRect.top + window.pageYOffset
-              const scrollTo = absoluteElementTop - headerHeight - 20
-              
-              window.scrollTo({
-                top: scrollTo,
-                behavior: 'smooth'
+              // RequestAnimationFrame ile reflow'u optimize et
+              requestAnimationFrame(() => {
+                // Batch DOM reads - tek seferde tüm geometrik özellikleri oku
+                const stickyHeader = document.querySelector('.sticky.top-0')
+                const headerHeight = stickyHeader ? stickyHeader.getBoundingClientRect().height : 0
+                const elementRect = commentElement.getBoundingClientRect()
+                const absoluteElementTop = elementRect.top + window.pageYOffset
+                const scrollTo = absoluteElementTop - headerHeight - 20
+                
+                // Batch DOM writes - tek seferde tüm stilleri uygula
+                requestAnimationFrame(() => {
+                  window.scrollTo({
+                    top: scrollTo,
+                    behavior: 'smooth'
+                  })
+                  
+                  // CSS class ile styling (style attribute yerine)
+                  commentElement.classList.add('comment-highlight')
+                  
+                  // CSS class ile highlight'ı kaldır
+                  setTimeout(() => {
+                    commentElement.classList.remove('comment-highlight')
+                  }, 3000)
+                })
               })
-              
-              // Yorumu vurgula
-              commentElement.style.backgroundColor = 'rgba(59, 130, 246, 0.1)'
-              commentElement.style.border = '2px solid rgba(59, 130, 246, 0.3)'
-              commentElement.style.borderRadius = '8px'
-              commentElement.style.transition = 'all 0.3s ease'
-              
-              setTimeout(() => {
-                commentElement.style.backgroundColor = ''
-                commentElement.style.border = ''
-              }, 3000)
               
               return true
             }
@@ -484,7 +498,7 @@ export function BlogCommentsList({
 
   if (loading) {
     return (
-      <motion.div
+      <MotionDiv
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
@@ -493,13 +507,13 @@ export function BlogCommentsList({
       >
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-cyan-500 mx-auto mb-4"></div>
         <p className="text-neutral-400">Yorumlar yükleniyor...</p>
-      </motion.div>
+      </MotionDiv>
     )
   }
 
   if (error) {
     return (
-      <motion.div
+      <MotionDiv
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
@@ -509,13 +523,13 @@ export function BlogCommentsList({
         <MessageSquare className="h-12 w-12 text-red-400 mx-auto mb-4" />
         <h3 className="text-lg font-semibold text-white mb-2">Hata</h3>
         <p className="text-red-400">{error}</p>
-      </motion.div>
+      </MotionDiv>
     )
   }
 
   if (comments.length === 0) {
     return (
-      <motion.div
+      <MotionDiv
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
@@ -525,12 +539,12 @@ export function BlogCommentsList({
         <MessageSquare className="h-12 w-12 text-neutral-400 mx-auto mb-4" />
         <h3 className="text-lg font-semibold text-white mb-2">Henüz yorum yok</h3>
         <p className="text-neutral-400">İlk yorumu siz yapın!</p>
-      </motion.div>
+      </MotionDiv>
     )
   }
 
   return (
-    <motion.div
+    <MotionDiv
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
@@ -551,7 +565,7 @@ export function BlogCommentsList({
       {/* Yorumlar Container - Kaybolmaz, her zaman görünür */}
       <div className="space-y-4">
         {comments.map((comment, index) => (
-          <motion.div
+          <MotionDiv
             key={comment.id}
             id={`comment-${comment.id}`}
             initial={{ opacity: 0, y: 20 }}
@@ -587,7 +601,7 @@ export function BlogCommentsList({
                   }}>
                     {comment.authorEmail === 'admin@softiel.com' ? (
                       <img 
-                        src="/transparent.png" 
+                        src="/transparent.webp" 
                         alt="Admin" 
                         className="w-full h-full object-cover rounded-full"
                       />
@@ -746,7 +760,7 @@ export function BlogCommentsList({
                 </div>
               </div>
             )}
-          </motion.div>
+          </MotionDiv>
         ))}
       </div>
 
@@ -808,7 +822,7 @@ export function BlogCommentsList({
           </div>
         </div>
       )}
-    </motion.div>
+    </MotionDiv>
   )
 }
 
@@ -839,7 +853,7 @@ function BlogReplyItem({
       {/* Yanıt Çizgisi */}
       <div className="absolute left-0 top-0 bottom-0 w-px bg-gradient-to-b from-cyan-500/30 via-cyan-500/20 to-transparent"></div>
       
-                  <motion.div
+                  <MotionDiv
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         className="ml-6 relative"
@@ -872,7 +886,7 @@ function BlogReplyItem({
                      : 'linear-gradient(to right, #8b5cf6, #a855f7)' }}>
                 {reply.authorEmail === 'admin@softiel.com' ? (
                   <img 
-                    src="/transparent.png" 
+                    src="/transparent.webp" 
                     alt="Admin" 
                     className="w-full h-full object-cover rounded-full"
                   />
@@ -986,7 +1000,7 @@ function BlogReplyItem({
                 ))}
               </div>
             )}
-          </motion.div>
+          </MotionDiv>
       </div>
   )
 }

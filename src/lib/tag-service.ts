@@ -130,7 +130,7 @@ export async function getTag(id: string): Promise<Tag | null> {
     const tagRef = doc(tagsCollection, id)
     const snapshot = await getDoc(tagRef)
     
-    if (snapshot.exists) {
+    if (snapshot.exists()) {
       const tag = {
         id: snapshot.id,
         ...snapshot.data()

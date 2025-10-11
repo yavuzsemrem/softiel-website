@@ -486,15 +486,48 @@ export function ServiceHero({ data }: ServiceHeroProps) {
               transition={{ delay: 0.3, duration: 0.6 }}
               className="flex flex-col sm:flex-row gap-4 justify-start"
             >
-              <motion.a
-                href="/tr/iletisim"
+              <motion.button
+                onClick={(e) => {
+                  e.preventDefault();
+                  
+                  // Element yüklenene kadar bekle ve scroll yap
+                  const scrollToServiceDetails = () => {
+                    const serviceDetailsElement = document.getElementById('service-details');
+                    if (serviceDetailsElement) {
+                      // Element bulundu, scroll yap
+                      serviceDetailsElement.scrollIntoView({ 
+                        behavior: 'smooth',
+                        block: 'start',
+                        inline: 'nearest'
+                      });
+                      return true;
+                    }
+                    return false;
+                  };
+
+                  // Hemen dene
+                  if (!scrollToServiceDetails()) {
+                    // Element yoksa, yüklenene kadar bekle (maksimum 5 saniye)
+                    let attempts = 0;
+                    const maxAttempts = 50; // 50 * 100ms = 5 saniye
+                    const interval = setInterval(() => {
+                      attempts++;
+                      if (scrollToServiceDetails()) {
+                        clearInterval(interval);
+                      } else if (attempts >= maxAttempts) {
+                        clearInterval(interval);
+                        console.warn('Service details element not found after 5 seconds');
+                      }
+                    }, 100);
+                  }
+                }}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="inline-flex items-center justify-center space-x-2 text-white px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-200 bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600"
+                className="inline-flex items-center justify-center space-x-2 text-white px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-200 bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 cursor-pointer"
               >
                 <span>Hemen Başlayın</span>
                 <ArrowRight className="h-5 w-5" />
-              </motion.a>
+              </motion.button>
                 
               <motion.a
                 href={`https://wa.me/905411883045?text=${getWhatsAppMessage(data.serviceType)}`}

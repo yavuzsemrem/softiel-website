@@ -2,10 +2,16 @@
 
 import { useI18n } from "@/contexts/i18n-context";
 import { LoadingScreen } from "@/components/loading-screen";
-import { Chatbot } from "@/components/chatbot";
 import { usePathname } from "next/navigation";
-import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
+import dynamic from "next/dynamic";
+import { motion } from "framer-motion";
+
+// Chatbot'u lazy load et
+const Chatbot = dynamic(() => import("@/components/lazy-chatbot").then(mod => ({ default: mod.default })), {
+  ssr: false,
+  loading: () => null
+});
 
 interface AppContentProps {
   children: React.ReactNode;
@@ -51,8 +57,15 @@ export function AppContent({ children }: AppContentProps) {
           <motion.div 
             className="relative mb-6"
             initial={{ scale: 0.5, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
+            animate={{ 
+              scale: [0.5, 1.1, 1],
+              opacity: [0, 1, 1]
+            }}
+            transition={{ 
+              duration: 1.2,
+              ease: "easeOut",
+              times: [0, 0.7, 1]
+            }}
           >
             <div className="w-32 h-32 mx-auto relative">
               {/* Outer rotating ring */}
@@ -80,78 +93,78 @@ export function AppContent({ children }: AppContentProps) {
                 }}
               />
               
-              {/* Inner glow effect */}
-              <motion.div 
-                className="absolute inset-4 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 rounded-full"
-                animate={{ 
-                  scale: [1, 1.3, 1],
-                  opacity: [0.2, 0.6, 0.2]
+            {/* Inner glow effect */}
+            <motion.div 
+              className="absolute inset-4 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 rounded-full"
+              animate={{ 
+                scale: [1, 1.3, 1],
+                opacity: [0.2, 0.6, 0.2]
+              }}
+              transition={{ 
+                duration: 2.5,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+            />
+            
+            {/* Logo with floating animation */}
+            <motion.img 
+              src="/transparent.webp" 
+              alt="Softiel Logo" 
+              className="w-full h-full object-contain relative z-10"
+              animate={{ 
+                scale: [1, 1.05, 1],
+                opacity: [0.9, 1, 0.9],
+                y: [0, -2, 0]
+              }}
+              transition={{ 
+                duration: 2.5,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+            />
+            
+            {/* Floating particles */}
+            {[0, 1, 2, 3].map((i) => (
+              <motion.div
+                key={i}
+                className="absolute w-1 h-1 bg-cyan-400 rounded-full"
+                style={{
+                  left: '50%',
+                  top: '50%',
+                  transformOrigin: '0 0'
                 }}
-                transition={{ 
-                  duration: 2.5,
+                animate={{
+                  x: [0, Math.cos(i * Math.PI / 2) * 60, 0],
+                  y: [0, Math.sin(i * Math.PI / 2) * 60, 0],
+                  opacity: [0, 1, 0]
+                }}
+                transition={{
+                  duration: 3,
                   repeat: Infinity,
+                  delay: i * 0.5,
                   ease: "easeInOut"
                 }}
               />
-              
-              {/* Logo with floating animation */}
-              <motion.img 
-                src="/transparent.png" 
-                alt="Softiel Logo" 
-                className="w-full h-full object-contain relative z-10"
-                animate={{ 
-                  scale: [1, 1.05, 1],
-                  opacity: [0.9, 1, 0.9],
-                  y: [0, -2, 0]
-                }}
-                transition={{ 
-                  duration: 2.5,
-                  repeat: Infinity,
-                  ease: "easeInOut"
-                }}
-              />
-              
-              {/* Floating particles */}
-              {[0, 1, 2, 3].map((i) => (
-                <motion.div
-                  key={i}
-                  className="absolute w-1 h-1 bg-cyan-400 rounded-full"
-                  style={{
-                    left: '50%',
-                    top: '50%',
-                    transformOrigin: '0 0'
-                  }}
-                  animate={{
-                    x: [0, Math.cos(i * Math.PI / 2) * 60, 0],
-                    y: [0, Math.sin(i * Math.PI / 2) * 60, 0],
-                    opacity: [0, 1, 0]
-                  }}
-                  transition={{
-                    duration: 3,
-                    repeat: Infinity,
-                    delay: i * 0.5,
-                    ease: "easeInOut"
-                  }}
-                />
-              ))}
+            ))}
             </div>
           </motion.div>
+
           
           {/* Loading dots */}
-          <div className="flex justify-center space-x-2">
+          <div className="flex justify-center space-x-1">
             {[0, 1, 2].map((i) => (
               <motion.div
                 key={i}
-                className="w-3 h-3 bg-gradient-to-r from-cyan-400 to-blue-400 rounded-full"
+                className="w-2 h-2 bg-cyan-400 rounded-full"
                 animate={{
-                  scale: [1, 1.5, 1],
+                  scale: [1, 1.2, 1],
                   opacity: [0.5, 1, 0.5]
                 }}
                 transition={{
-                  duration: 1.5,
+                  duration: 1,
                   repeat: Infinity,
-                  delay: i * 0.2,
-                  ease: "easeInOut"
+                  delay: i * 0.2
                 }}
               />
             ))}
@@ -161,10 +174,12 @@ export function AppContent({ children }: AppContentProps) {
     );
   }
 
+  const isBlogPage = pathname.startsWith('/tr/blog') || pathname.startsWith('/en/blog');
+
   return (
     <>
       {children}
-      {!isDashboardPage && !isPageLoading && !isChangingLocale && <Chatbot />}
+      {!isDashboardPage && !isBlogPage && !isPageLoading && !isChangingLocale && <Chatbot />}
     </>
   );
 }

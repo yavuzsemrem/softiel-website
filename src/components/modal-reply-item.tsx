@@ -87,7 +87,7 @@ export function ModalReplyItem({
                  : 'linear-gradient(135deg, #8b5cf6, #a855f7)' }}>
             {reply.authorEmail === 'admin@softiel.com' ? (
               <img 
-                src="/transparent.png" 
+                src="/transparent.webp" 
                 alt="Admin" 
                 className="w-full h-full object-cover rounded-full"
               />
@@ -266,7 +266,7 @@ export function ModalReplyItem({
                       <div className="w-8 h-8 rounded-full flex items-center justify-center overflow-hidden ring-1 ring-cyan-500/30" 
                            style={{ background: 'rgba(6, 182, 212, 0.1)' }}>
                         <img 
-                          src="/transparent.png" 
+                          src="/transparent.webp" 
                           alt="Admin" 
                           className="w-full h-full object-cover rounded-full"
                         />
@@ -296,16 +296,16 @@ export function ModalReplyItem({
                   </div>
 
                   {/* Admin yanıtının alt yanıtları */}
-                  {adminReply.subReplies && adminReply.subReplies.length > 0 && (
+                  {adminReply.replies && adminReply.replies.length > 0 && (
                     <div className="mt-4 space-y-3">
                       <div className="flex items-center space-x-2 mb-3">
                         <div className="h-px bg-gradient-to-r from-cyan-500/30 to-transparent flex-1"></div>
                         <span className="text-xs text-cyan-300 px-2 py-1 bg-cyan-500/5 rounded-full border border-cyan-500/20 font-medium">
-                          {adminReply.subReplies.length} alt yanıt
+                          {adminReply.replies.length} alt yanıt
                         </span>
                         <div className="h-px bg-gradient-to-l from-cyan-500/30 to-transparent flex-1"></div>
                       </div>
-                      {adminReply.subReplies.map((subReply, subIndex) => (
+                      {adminReply.replies.map((subReply, subIndex) => (
                         <div key={`sub-${subReply.id}-${subIndex}`} className="relative">
                           <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-gradient-to-b from-cyan-500/30 via-cyan-500/15 to-transparent"></div>
                           
@@ -324,7 +324,7 @@ export function ModalReplyItem({
                                 <div className="w-6 h-6 rounded-full flex items-center justify-center overflow-hidden ring-1 ring-cyan-500/20" 
                                      style={{ background: 'rgba(6, 182, 212, 0.08)' }}>
                                   <img 
-                                    src="/transparent.png" 
+                                    src="/transparent.webp" 
                                     alt="Admin" 
                                     className="w-full h-full object-cover rounded-full"
                                   />
@@ -410,7 +410,7 @@ export function ModalReplyItem({
                              : 'linear-gradient(135deg, #8b5cf6, #a855f7)' }}>
                         {subReply.authorEmail === 'admin@softiel.com' ? (
                           <img 
-                            src="/transparent.png" 
+                            src="/transparent.webp" 
                             alt="Admin" 
                             className="w-full h-full object-cover rounded-full"
                           />

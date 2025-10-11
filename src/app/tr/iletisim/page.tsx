@@ -1,8 +1,30 @@
-import { Header } from "@/components/header"
-import { Footer } from "@/components/footer"
-import { ContactHero } from "@/components/contact-hero"
-import { ContactForm } from "@/components/contact-form"
-import { Map } from "@/components/map"
+import dynamic from "next/dynamic"
+
+// Bileşenleri lazy load et - bfcache için SSR aktif
+const Header = dynamic(() => import("@/components/header").then(mod => ({ default: mod.Header })), {
+  ssr: true,
+  loading: () => <div className="h-16 bg-slate-800 animate-pulse" />
+})
+
+const Footer = dynamic(() => import("@/components/footer").then(mod => ({ default: mod.Footer })), {
+  ssr: true,
+  loading: () => <div className="h-32 bg-slate-800 animate-pulse" />
+})
+
+const ContactHero = dynamic(() => import("@/components/contact-hero").then(mod => ({ default: mod.ContactHero })), {
+  ssr: true,
+  loading: () => <div className="h-96 bg-slate-800 animate-pulse" />
+})
+
+const ContactForm = dynamic(() => import("@/components/contact-form").then(mod => ({ default: mod.ContactForm })), {
+  ssr: true,
+  loading: () => <div className="h-96 bg-slate-800 animate-pulse" />
+})
+
+const Map = dynamic(() => import("@/components/map").then(mod => ({ default: mod.Map })), {
+  ssr: true,
+  loading: () => <div className="h-96 bg-slate-800 animate-pulse" />
+})
 
 export default function ContactPage() {
   return (

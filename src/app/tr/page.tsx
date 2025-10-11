@@ -1,10 +1,12 @@
+import dynamic from "next/dynamic"
 import { Header } from "@/components/header"
-import { Footer } from "@/components/footer"
 import { Hero } from "@/components/hero"
-import { ServicesHome } from "@/components/services-home"
-import { AboutNew } from "@/components/about-new"
-import { Testimonials } from "@/components/testimonials"
-import { PricingCTA } from "@/components/pricing-cta"
+
+// Sadece ağır bileşenleri lazy load et
+const LazyHomeContent = dynamic(() => import("@/components/lazy-home-content"), {
+  ssr: false,
+  loading: () => <div className="min-h-screen bg-slate-800 animate-pulse" />
+})
 
 export default function Home() {
   return (
@@ -19,12 +21,8 @@ export default function Home() {
         </div>
         
         <Hero />
-        <ServicesHome />
-        <AboutNew />
-        <Testimonials />
-        <PricingCTA />
+        <LazyHomeContent />
       </main>
-      <Footer />
     </div>
   )
 }

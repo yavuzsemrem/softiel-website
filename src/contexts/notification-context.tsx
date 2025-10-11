@@ -1,7 +1,7 @@
 "use client"
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react'
-import { getUnreadActivitiesCount, markAllActivitiesAsRead, markActivityAsRead } from '@/lib/activity-service'
+import { usePathname } from 'next/navigation'
 
 interface NotificationContextType {
   unreadCount: number
@@ -14,9 +14,20 @@ const NotificationContext = createContext<NotificationContextType | undefined>(u
 
 export function NotificationProvider({ children }: { children: ReactNode }) {
   const [unreadCount, setUnreadCount] = useState(0)
+  const pathname = usePathname()
+  
+  // Sadece dashboard sayfalarında Firebase'i yükle
+  const isDashboardPage = pathname?.includes('/content-management-system-2024') || pathname?.includes('/admin')
 
   const updateUnreadCount = async () => {
+    // Dashboard sayfası değilse Firebase'i yükleme
+    if (!isDashboardPage) {
+      return
+    }
+    
     try {
+      // Firebase'i sadece gerektiğinde import et
+      const { getUnreadActivitiesCount } = await import('@/lib/activity-service')
       const count = await getUnreadActivitiesCount()
       
       // Sadece sayı değiştiyse state'i güncelle
@@ -32,7 +43,12 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
   }
 
   const markAllAsRead = async () => {
+    if (!isDashboardPage) {
+      return
+    }
+    
     try {
+      const { markAllActivitiesAsRead } = await import('@/lib/activity-service')
       await markAllActivitiesAsRead()
       setUnreadCount(0)
     } catch (error) {
@@ -41,7 +57,12 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
   }
 
   const markAsRead = async (activityId: string) => {
+    if (!isDashboardPage) {
+      return
+    }
+    
     try {
+      const { markActivityAsRead } = await import('@/lib/activity-service')
       await markActivityAsRead(activityId)
       await updateUnreadCount()
     } catch (error) {
@@ -49,23 +70,32 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
     }
   }
 
-
-  // Sayfa yüklendiğinde sayıyı güncelle
+  // Sadece dashboard sayfalarında Firebase'i başlat
   useEffect(() => {
-    updateUnreadCount()
-  }, [])
+    if (isDashboardPage) {
+      updateUnreadCount()
+    }
+  }, [isDashboardPage])
 
-  // Periyodik güncelleme - daha az sıklıkta güncelle
+  // Periyodik güncelleme - sadece dashboard sayfalarında
   useEffect(() => {
+    if (!isDashboardPage) {
+      return
+    }
+    
     const interval = setInterval(() => {
       updateUnreadCount()
-    }, 30000) // 30 saniyede bir güncelle (daha az sıklıkta)
+    }, 30000) // 30 saniyede bir güncelle
 
     return () => clearInterval(interval)
-  }, [])
+  }, [isDashboardPage])
 
-  // Custom event listener - yeni aktivite oluştuğunda güncelle
+  // Custom event listener - sadece dashboard sayfalarında
   useEffect(() => {
+    if (!isDashboardPage) {
+      return
+    }
+    
     const handleNotificationUpdate = () => {
       updateUnreadCount()
     }
@@ -75,7 +105,7 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
     return () => {
       window.removeEventListener('notification-updated', handleNotificationUpdate)
     }
-  }, [])
+  }, [isDashboardPage])
 
   return (
     <NotificationContext.Provider value={{ unreadCount, updateUnreadCount, markAllAsRead, markAsRead }}>

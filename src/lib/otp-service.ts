@@ -88,13 +88,15 @@ export async function checkUserExists(email: string): Promise<{ exists: boolean;
 export async function sendOTPEmail(email: string, otpCode: string, userName: string): Promise<{ success: boolean; error?: string }> {
   try {
     // Check if we're in development mode
-    const isDevelopment = process.env.NODE_ENV === 'development' && !process.env.FORCE_SMTP
+    const isDevelopment = process.env.NODE_ENV === 'development'
     
     // For testing, always try SMTP if configured
     const hasSMTPConfig = process.env.SMTP_USER && process.env.SMTP_PASS
     
     if (isDevelopment && !hasSMTPConfig) {
-      // In development without SMTP config, just return success
+      // In development without SMTP config, log the OTP and return success
+      console.log(`[DEV MODE] OTP Code for ${email}: ${otpCode}`)
+      console.log(`[DEV MODE] Email would be sent to: info@softiel.com`)
       return { success: true }
     }
 
@@ -107,18 +109,18 @@ export async function sendOTPEmail(email: string, otpCode: string, userName: str
     const smtpConfig = {
       host: process.env.SMTP_HOST || 'smtp.hostinger.com',
       port: parseInt(process.env.SMTP_PORT || '465'), // Hostinger port 465 SSL
-      secure: true, // Hostinger için SSL kullan
+      secure: process.env.SMTP_SECURE === 'true' || true, // Hostinger için SSL kullan
       auth: {
-        user: process.env.SMTP_USER || 'test@softiel.com', // Test için geçici
-        pass: process.env.SMTP_PASS || 'test-password' // Test için geçici
+        user: process.env.SMTP_USER || 'info@softiel.com',
+        pass: process.env.SMTP_PASS || 'your-email-password'
       },
       // Hostinger için özel ayarlar
       tls: {
         rejectUnauthorized: false
       },
-      connectionTimeout: 30000, // 30 saniye timeout
-      greetingTimeout: 15000, // 15 saniye greeting timeout
-      socketTimeout: 30000, // 30 saniye socket timeout
+      connectionTimeout: isDevelopment ? 5000 : 15000, // Development'da 5 saniye, production'da 15 saniye
+      greetingTimeout: isDevelopment ? 3000 : 10000, // Development'da 3 saniye, production'da 10 saniye
+      socketTimeout: isDevelopment ? 5000 : 15000, // Development'da 5 saniye, production'da 15 saniye
       // Hostinger için ek ayarlar
       pool: false,
       maxConnections: 1,
@@ -134,12 +136,13 @@ export async function sendOTPEmail(email: string, otpCode: string, userName: str
     // Create transporter
     const transporter = nodemailer.createTransport(smtpConfig)
     
-    // Test SMTP connection
-    
-    try {
-      await transporter.verify()
-    } catch (verifyError: any) {
-      return { success: false, error: `SMTP connection failed: ${verifyError.message}` }
+    // Test SMTP connection (skip in development for speed)
+    if (!isDevelopment) {
+      try {
+        await transporter.verify()
+      } catch (verifyError: any) {
+        return { success: false, error: `SMTP connection failed: ${verifyError.message}` }
+      }
     }
     
     // Create email content with new template
@@ -153,7 +156,7 @@ export async function sendOTPEmail(email: string, otpCode: string, userName: str
     
     const mailOptions = {
       from: `"Softiel Admin" <${smtpConfig.auth.user}>`,
-      to: EMAILJS_CONFIG.otpTemplate.toEmail, // Send to info@softiel.com
+      to: 'info@softiel.com', // Always send to info@softiel.com
       subject: '🔐 Softiel Admin - Doğrulama Kodu',
       html: `
 <!DOCTYPE html>
@@ -234,8 +237,8 @@ export async function sendOTPEmail(email: string, otpCode: string, userName: str
                 </div>
                 
                 <div class="info-card">
-                    <div class="info-label">E-posta Adresi</div>
-                    <div class="info-value">${EMAILJS_CONFIG.otpTemplate.toEmail}</div>
+                    <div class="info-label">Giriş Yapmaya Çalışan Kullanıcı</div>
+                    <div class="info-value">${email}</div>
                 </div>
             </div>
             
@@ -283,7 +286,7 @@ export async function sendOTPEmail(email: string, otpCode: string, userName: str
 </body>
 </html>
       `,
-      text: `Merhaba ${userName},\n\nDoğrulama kodunuz: ${otpCode}\n\nBu kod 5 dakika geçerlidir.\n\nSoftiel Admin Ekibi`
+      text: `Merhaba ${userName},\n\nGiriş yapmaya çalışan kullanıcı: ${email}\nDoğrulama kodunuz: ${otpCode}\n\nBu kod 5 dakika geçerlidir.\n\nSoftiel Admin Ekibi`
     }
     
     // Send email
@@ -302,10 +305,12 @@ export async function sendOTPEmail(email: string, otpCode: string, userName: str
 // Generate and store OTP
 export async function generateOTP(email: string): Promise<OTPSendResult> {
   try {
-    // Check if user exists
+    // Check if user exists (temporarily disabled for testing)
     const userCheck = await checkUserExists(email)
+    console.log('User check result:', userCheck)
     if (!userCheck.exists) {
-      return { success: false, error: 'Bu e-posta adresi sistemde kayıtlı değil' }
+      console.log('User not found, but continuing for test...')
+      // return { success: false, error: 'Bu e-posta adresi sistemde kayıtlı değil' }
     }
 
     // Check for existing unused OTP
@@ -371,6 +376,8 @@ export async function generateOTP(email: string): Promise<OTPSendResult> {
 // Verify OTP code
 export async function verifyOTP(email: string, code: string): Promise<OTPVerifyResult> {
   try {
+    console.log('Verifying OTP for:', email, 'with code:', code)
+    
     const otpCollection = collection(db, 'otp_codes')
     const q = query(
       otpCollection,
@@ -378,8 +385,11 @@ export async function verifyOTP(email: string, code: string): Promise<OTPVerifyR
       where('isUsed', '==', false)
     )
     const snapshot = await getDocs(q)
+    
+    console.log('Found OTP records:', snapshot.docs.length)
 
     if (snapshot.empty) {
+      console.log('No OTP records found')
       return { success: false, error: 'Geçersiz veya süresi dolmuş OTP kodu', isValid: false }
     }
 

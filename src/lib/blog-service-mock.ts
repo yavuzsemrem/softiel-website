@@ -110,9 +110,10 @@ export async function createBlog(blogData: Omit<BlogPost, 'id' | 'createdAt' | '
     .replace(/-+/g, '-')
     .replace(/(^-|-$)/g, '')
   
+  const newId = Date.now().toString()
   const newBlog: BlogPost = {
     ...blogData,
-    id: Date.now().toString(),
+    id: newId,
     views: 0,
     likes: 0,
     comments: 0,
@@ -123,7 +124,7 @@ export async function createBlog(blogData: Omit<BlogPost, 'id' | 'createdAt' | '
   }
   
   mockBlogs.unshift(newBlog)
-  return { id: newBlog.id, slug: slug }
+  return { id: newId, slug: slug }
 }
 
 export async function updateBlog(id: string, blogData: Partial<BlogPost>): Promise<void> {

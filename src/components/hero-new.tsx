@@ -23,7 +23,10 @@ import {
 } from "lucide-react"
 
 export function HeroNew() {
+  const patternBg = "data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Ccircle cx='30' cy='30' r='1'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"
+  
   return (
+    <>
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       <div className="absolute inset-0 overflow-hidden">
         <motion.div
@@ -95,7 +98,7 @@ export function HeroNew() {
           }}
           className="absolute bottom-1/4 right-1/4 w-24 h-24 bg-gradient-to-r from-emerald-400/20 to-green-500/20 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-2xl"
         />
-        <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width=\"60\" height=\"60\" viewBox=\"0 0 60 60\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Cg fill=\"none\" fill-rule=\"evenodd\"%3E%3Cg fill=\"%23ffffff\" fill-opacity=\"0.03\"%3E%3Ccircle cx=\"30\" cy=\"30\" r=\"1\"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-60"></div>
+        <div className="absolute inset-0 opacity-60" style={{ backgroundImage: `url('${patternBg}')` }}></div>
         <div className="absolute inset-0">
           <motion.div
             animate={{ 
@@ -163,7 +166,7 @@ export function HeroNew() {
                 <div className="relative w-full h-full glass rounded-full flex items-center justify-center backdrop-blur-lg border border-white/30 shadow-2xl"
                      style={{ background: 'rgba(255, 255, 255, 0.15)' }}>
                   <Image
-                    src="/transparent.png"
+                    src="/transparent.webp"
                     alt="Softiel Logo"
                     width={80}
                     height={80}
@@ -346,7 +349,7 @@ export function HeroNew() {
             transition={{ delay: 1.8, duration: 1 }}
             className="flex flex-col sm:flex-row gap-8 justify-center items-center mb-20"
           >
-            <Link href="/iletisim">
+            <Link href="/tr/iletisim">
               <motion.button
                 whileHover={{ scale: 1.05, y: -3 }}
                 whileTap={{ scale: 0.95 }}
@@ -471,6 +474,7 @@ export function HeroNew() {
         </div>
       </div>
     </section>
+    </>
   )
 }
 

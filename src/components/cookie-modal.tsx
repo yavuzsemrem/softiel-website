@@ -70,8 +70,8 @@ export function CookieModal({ isOpen, onClose }: CookieModalProps) {
             >
               {/* Modal Container */}
               <div 
-                className="glass rounded-3xl shadow-modern-lg border border-white/50 dark:border-white/40 backdrop-blur-lg overflow-hidden flex flex-col"
-                style={{ background: 'rgba(255, 255, 255, 0.1)' }}
+                className="glass rounded-3xl shadow-modern-lg backdrop-blur-lg overflow-hidden flex flex-col"
+                style={{ background: 'rgba(255, 255, 255, 0.1)', border: 'none' }}
               >
                 {/* Header */}
                 <div className="relative bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 p-8 text-white">
@@ -106,7 +106,7 @@ export function CookieModal({ isOpen, onClose }: CookieModalProps) {
                 <div className="flex-1 p-8 overflow-y-auto scrollbar-thin scrollbar-thumb-emerald-500 scrollbar-track-transparent" style={{ maxHeight: 'calc(90vh - 200px)' }}>
                   <div className="prose prose-lg max-w-none text-neutral-700 dark:text-neutral-300">
                     {/* Introduction */}
-                    <div className="mb-8 p-6 bg-gradient-to-r from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20 rounded-2xl border border-emerald-200 dark:border-emerald-800">
+                    <div className="mb-8 p-6 bg-gradient-to-r from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20 rounded-2xl" style={{ border: 'none' }}>
                       <p className="text-base leading-relaxed mb-0">
                         {t('cookie.introduction', 'Softiel olarak, web sitemizi ziyaret eden kullanıcıların deneyimini geliştirmek, site performansını ölçmek ve hizmetlerimizi iyileştirmek amacıyla çerezler kullanmaktayız. Bu Çerez Politikası, 6698 sayılı Kişisel Verilerin Korunması Kanunu (KVKK) ve Avrupa Birliği Genel Veri Koruma Tüzüğü (GDPR) kapsamında hazırlanmıştır.')}
                       </p>
@@ -135,7 +135,7 @@ export function CookieModal({ isOpen, onClose }: CookieModalProps) {
                       </div>
                       
                       {/* Zorunlu Çerezler */}
-                      <div className="mb-6 p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-xl">
+                      <div className="mb-6 p-4 bg-green-50 dark:bg-green-900/20 rounded-xl" style={{ border: 'none' }}>
                         <h4 className="font-semibold text-green-800 dark:text-green-200 mb-2 flex items-center">
                           <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
                           {t('cookie.section2.essential', 'Zorunlu Çerezler')}
@@ -146,7 +146,7 @@ export function CookieModal({ isOpen, onClose }: CookieModalProps) {
                       </div>
 
                       {/* İşlevsel Çerezler */}
-                      <div className="mb-6 p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-xl">
+                      <div className="mb-6 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-xl" style={{ border: 'none' }}>
                         <h4 className="font-semibold text-blue-800 dark:text-blue-200 mb-2 flex items-center">
                           <div className="w-2 h-2 bg-blue-500 rounded-full mr-2"></div>
                           {t('cookie.section2.functional', 'İşlevsel Çerezler')}
@@ -157,7 +157,7 @@ export function CookieModal({ isOpen, onClose }: CookieModalProps) {
                       </div>
 
                       {/* Analitik Çerezler */}
-                      <div className="mb-6 p-4 bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-800 rounded-xl">
+                      <div className="mb-6 p-4 bg-purple-50 dark:bg-purple-900/20 rounded-xl" style={{ border: 'none' }}>
                         <h4 className="font-semibold text-purple-800 dark:text-purple-200 mb-2 flex items-center">
                           <div className="w-2 h-2 bg-purple-500 rounded-full mr-2"></div>
                           {t('cookie.section2.analytics', 'Analitik / Performans Çerezleri')}
@@ -168,7 +168,7 @@ export function CookieModal({ isOpen, onClose }: CookieModalProps) {
                       </div>
 
                       {/* Pazarlama Çerezleri */}
-                      <div className="mb-6 p-4 bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-800 rounded-xl">
+                      <div className="mb-6 p-4 bg-orange-50 dark:bg-orange-900/20 rounded-xl" style={{ border: 'none' }}>
                         <h4 className="font-semibold text-orange-800 dark:text-orange-200 mb-2 flex items-center">
                           <div className="w-2 h-2 bg-orange-500 rounded-full mr-2"></div>
                           {t('cookie.section2.marketing', 'Pazarlama / İzleme Çerezleri')}
@@ -269,7 +269,7 @@ export function CookieModal({ isOpen, onClose }: CookieModalProps) {
                         <h3 className="text-xl font-bold text-neutral-900 dark:text-white">{t('cookie.section8.title', '8. İletişim')}</h3>
                       </div>
                       <p className="mb-4">{t('cookie.section8.description', 'Çerez Politikamız hakkında sorularınız için bizimle iletişime geçebilirsiniz:')}</p>
-                      <div className="bg-gradient-to-r from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20 p-6 rounded-2xl border border-emerald-200 dark:border-emerald-800">
+                      <div className="bg-gradient-to-r from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20 p-6 rounded-2xl" style={{ border: 'none' }}>
                         <div className="space-y-2">
                           <p className="font-semibold text-neutral-900 dark:text-white mb-2">Softiel</p>
                           <p className="flex items-center space-x-2 text-neutral-700 dark:text-neutral-300">
@@ -283,7 +283,7 @@ export function CookieModal({ isOpen, onClose }: CookieModalProps) {
                 </div>
 
                 {/* Footer */}
-                <div className="px-8 py-6 bg-gradient-to-r from-neutral-50 to-neutral-100 dark:from-neutral-900 dark:to-neutral-800 border-t border-neutral-200 dark:border-neutral-700">
+                <div className="px-8 py-6 bg-gradient-to-r from-neutral-50 to-neutral-100 dark:from-neutral-900 dark:to-neutral-800" style={{ borderTop: 'none' }}>
                   <div className="flex items-center justify-between">
                     <p className="text-sm text-neutral-600 dark:text-neutral-400">
                       {t('cookie.lastUpdated', 'Son güncelleme:')} {new Date().toLocaleDateString('tr-TR')}

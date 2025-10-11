@@ -336,7 +336,7 @@ export function Sidebar({ isOpen, onClose, collapsed, onToggle }: SidebarProps) 
               <div className="flex items-center space-x-3 mb-4">
                 <div className="w-10 h-10 rounded-full flex items-center justify-center overflow-hidden">
                   <img 
-                    src="/transparent.png" 
+                    src="/transparent.webp" 
                     alt="Admin Avatar" 
                     className="w-full h-full object-cover"
                   />

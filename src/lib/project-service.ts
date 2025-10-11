@@ -126,7 +126,8 @@ export async function deleteProject(id: string): Promise<void> {
 
     // Activity log
     await logProjectActivity(id, 'deleted', {
-      title: 'Deleted Project'
+      title: 'Deleted Project',
+      status: 'deleted'
     })
   } catch (error) {
     console.error('Error deleting project:', error)

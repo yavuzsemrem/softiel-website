@@ -1,14 +1,19 @@
 "use client"
 
 import React, { useState, useEffect } from "react"
-import { motion } from "framer-motion"
+import { m, LazyMotion } from "framer-motion"
+import dynamic from "next/dynamic"
 import { Calendar, User, Clock, Eye, Heart, Share2, ArrowLeft, BookOpen, Tag, Loader2 } from "lucide-react"
 import Link from "next/link"
 import { getBlog, incrementBlogViews, updateBlogLikes, BlogPost } from "@/lib/blog-service"
 import { logBlogLikeActivity } from "@/lib/simple-activity-logger"
 
+// domAnimation'ı async yükle - Main-thread work azaltmak için
+const loadFeatures = () => import("framer-motion").then(mod => mod.domAnimation)
+
 interface BlogDetailHeroProps {
   slug: string
+  blogData?: BlogPost | null
 }
 
 const blogData = {
@@ -170,34 +175,33 @@ const blogData = {
   }
 }
 
-export function BlogDetailHero({ slug }: BlogDetailHeroProps) {
-  const [post, setPost] = useState<BlogPost | null>(null)
-  const [loading, setLoading] = useState(true)
+export function BlogDetailHero({ slug, blogData }: BlogDetailHeroProps) {
+  const [post, setPost] = useState<BlogPost | null>(blogData || null)
+  const [loading, setLoading] = useState(!blogData)
   const [error, setError] = useState("")
-  const [viewCount, setViewCount] = useState(0)
+  const [viewCount, setViewCount] = useState(blogData?.views || 0)
   const [hasViewed, setHasViewed] = useState(false)
   const [isLiked, setIsLiked] = useState(false)
-  const [likeCount, setLikeCount] = useState(0)
+  const [likeCount, setLikeCount] = useState(blogData?.likes || 0)
   const [showCopied, setShowCopied] = useState(false)
 
-  // Blog verisini yükle
+  // Blog verisini yükle (sadece blogData yoksa)
   useEffect(() => {
-    loadBlog()
-  }, [slug])
+    if (!blogData) {
+      loadBlog()
+    }
+  }, [slug, blogData])
 
   const loadBlog = async () => {
     try {
       setLoading(true)
       setError("")
       
-      const blogData = await getBlog(slug)
-      if (blogData) {
-        setPost(blogData)
-        setViewCount(blogData.views || 0)
-        setLikeCount(blogData.likes || 0)
-        
-        // Görüntülenme sayısını artır
-        await incrementBlogViews(slug)
+      const data = await getBlog(slug, false) // View count'u artırma
+      if (data) {
+        setPost(data)
+        setViewCount(data.views || 0)
+        setLikeCount(data.likes || 0)
       } else {
         setError("Blog yazısı bulunamadı")
       }
@@ -281,7 +285,7 @@ export function BlogDetailHero({ slug }: BlogDetailHeroProps) {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-4xl font-bold text-white mb-4">Yazı Bulunamadı</h1>
           <p className="text-neutral-400 mb-8">{error || "Aradığınız blog yazısı mevcut değil."}</p>
-          <Link href="/blog" className="inline-flex items-center space-x-2 text-cyan-400 hover:text-cyan-300">
+          <Link href="/tr/blog" className="inline-flex items-center space-x-2 text-cyan-400 hover:text-cyan-300">
             <ArrowLeft className="h-4 w-4" />
             <span>Blog'a Dön</span>
           </Link>
@@ -291,40 +295,42 @@ export function BlogDetailHero({ slug }: BlogDetailHeroProps) {
   }
 
   return (
+    <LazyMotion features={loadFeatures}>
     <section className="relative pt-20 pb-16 lg:pt-32 lg:pb-20">
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Back Button */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6 }}
           className="mb-8"
         >
-          <Link href="/blog" className="inline-flex items-center space-x-2 glass rounded-full px-4 py-2 text-neutral-700 dark:text-neutral-300 hover:text-cyan-600 dark:hover:text-cyan-400 transition-all duration-200"
+          <Link href="/tr/blog" className="inline-flex items-center space-x-2 glass rounded-full px-4 py-2 text-neutral-700 dark:text-neutral-300 hover:text-cyan-600 dark:hover:text-cyan-400 transition-all duration-200"
                 style={{ background: 'rgba(255, 255, 255, 0.1)' }}>
             <ArrowLeft className="h-4 w-4" />
             <span>Blog'a Dön</span>
           </Link>
-        </motion.div>
+        </m.div>
 
         {/* Header Section */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           className="text-center mb-12"
         >
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1, duration: 0.6 }}
             className="inline-flex items-center space-x-2 glass rounded-full px-6 py-3 shadow-modern mb-8"
+            style={{ background: 'rgba(255, 255, 255, 0.1)' }}
           >
             <BookOpen className="h-5 w-5 text-cyan-500 fill-current" />
             <span className="text-sm font-semibold text-neutral-700 dark:text-neutral-300">
               {post.category}
             </span>
-          </motion.div>
+          </m.div>
 
           <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-display font-bold text-neutral-900 dark:text-white mb-8 leading-tight blog-hero-title">
             {post.title.split(' ').slice(0, Math.ceil(post.title.split(' ').length / 2)).join(' ')} {post.title.split(' ').length > 1 && (
@@ -359,38 +365,43 @@ export function BlogDetailHero({ slug }: BlogDetailHeroProps) {
             </div>
             <div className="flex items-center space-x-2 min-w-0">
               <Calendar className="h-4 w-4 flex-shrink-0" />
-        <span>
-          {(() => {
-            try {
-              if (!post.createdAt) return 'Tarih yok'
-              
-              let date: Date
-              if (typeof post.createdAt === 'object' && post.createdAt.toDate) {
-                // Firestore Timestamp
-                date = post.createdAt.toDate()
-              } else if (typeof post.createdAt === 'number') {
-                // Unix timestamp
-                date = new Date(post.createdAt)
-              } else if (typeof post.createdAt === 'string') {
-                // String date
-                date = new Date(post.createdAt)
-              } else {
-                // Fallback
-                date = new Date(post.createdAt)
-              }
-              
-              if (isNaN(date.getTime())) return 'Geçersiz tarih'
-              
-              return date.toLocaleDateString('tr-TR', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-              })
-            } catch (error) {
-              return 'Tarih hatası'
-            }
-          })()}
-        </span>
+              <span>
+                {(() => {
+                  if (!post.createdAt) return 'Tarih yok'
+                  
+                  try {
+                    let date: Date
+                    
+                    // Firestore Timestamp object with toDate method (client-side)
+                    if (post.createdAt.toDate && typeof post.createdAt.toDate === 'function') {
+                      date = post.createdAt.toDate()
+                    }
+                    // Serialized Firestore Timestamp (server-side - has seconds)
+                    else if (typeof post.createdAt === 'object' && 'seconds' in post.createdAt) {
+                      date = new Date((post.createdAt as any).seconds * 1000)
+                    }
+                    // Unix timestamp or other format
+                    else {
+                      date = new Date(post.createdAt as any)
+                    }
+                    
+                    // Validate date
+                    if (isNaN(date.getTime())) {
+                      console.warn('Invalid date:', post.createdAt)
+                      return 'Tarih yok'
+                    }
+                    
+                    return date.toLocaleDateString('tr-TR', {
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric'
+                    })
+                  } catch (error) {
+                    console.error('Date formatting error:', error, post.createdAt)
+                    return 'Tarih yok'
+                  }
+                })()}
+              </span>
             </div>
             <div className="flex items-center space-x-2">
               <Clock className="h-4 w-4" />
@@ -408,7 +419,7 @@ export function BlogDetailHero({ slug }: BlogDetailHeroProps) {
 
           {/* Action Buttons */}
           <div className="flex flex-wrap justify-center gap-4">
-            <motion.button
+            <m.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={handleLike}
@@ -421,9 +432,9 @@ export function BlogDetailHero({ slug }: BlogDetailHeroProps) {
             >
               <Heart className={`h-4 w-4 ${isLiked ? 'fill-current' : ''}`} />
               <span>{isLiked ? 'Beğenildi' : 'Beğen'}</span>
-            </motion.button>
+            </m.button>
             <div className="relative">
-              <motion.button
+              <m.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={handleShare}
@@ -432,11 +443,11 @@ export function BlogDetailHero({ slug }: BlogDetailHeroProps) {
               >
                 <Share2 className="h-4 w-4" />
                 <span>Paylaş</span>
-              </motion.button>
+              </m.button>
               
               {/* Kopyalandı Mesajı */}
               {showCopied && (
-                <motion.div
+                <m.div
                   initial={{ opacity: 0, y: 10, scale: 0.8 }}
                   animate={{ opacity: 1, y: -10, scale: 1 }}
                   exit={{ opacity: 0, y: 10, scale: 0.8 }}
@@ -447,14 +458,14 @@ export function BlogDetailHero({ slug }: BlogDetailHeroProps) {
                     ✓ Kopyalandı!
                   </div>
                   <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-green-500"></div>
-                </motion.div>
+                </m.div>
               )}
             </div>
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Featured Image */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.6 }}
@@ -473,8 +484,9 @@ export function BlogDetailHero({ slug }: BlogDetailHeroProps) {
               </div>
             </div>
           )}
-        </motion.div>
+        </m.div>
       </div>
     </section>
+    </LazyMotion>
   )
 }

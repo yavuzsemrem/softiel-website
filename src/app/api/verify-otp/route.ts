@@ -4,8 +4,11 @@ import { verifyOTP } from '@/lib/otp-service'
 export async function POST(request: NextRequest) {
   try {
     const { email, code } = await request.json()
+    
+    console.log('OTP Verify Request:', { email, code })
 
     if (!email || !code) {
+      console.log('Missing email or code')
       return NextResponse.json(
         { success: false, error: 'E-posta adresi ve OTP kodu gerekli' },
         { status: 400 }
@@ -30,6 +33,8 @@ export async function POST(request: NextRequest) {
     }
 
     const result = await verifyOTP(email, code)
+    
+    console.log('OTP Verify Result:', result)
 
     if (result.success && result.isValid) {
       return NextResponse.json({
@@ -38,6 +43,7 @@ export async function POST(request: NextRequest) {
         isValid: true
       })
     } else {
+      console.log('OTP verification failed:', result.error)
       return NextResponse.json(
         { success: false, error: result.error, isValid: false },
         { status: 400 }

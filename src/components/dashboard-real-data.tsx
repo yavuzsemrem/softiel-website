@@ -25,10 +25,9 @@ import {
 } from "lucide-react"
 import Link from "next/link"
 import { getBlogStats } from "@/lib/blog-service"
-import { getCommentStats } from "@/lib/comment-service"
+import { getCommentStats, getComments } from "@/lib/comment-service"
 import { getUserStats } from "@/lib/user-service"
-import { getRecentBlogs } from "@/lib/blog-service"
-import { getRecentComments } from "@/lib/comment-service"
+import { getBlogs } from "@/lib/blog-service"
 
 interface DashboardStats {
   blogs: {
@@ -62,13 +61,17 @@ interface RecentContent {
     status: string
     createdAt: any
     views: number
+    excerpt?: string
   }>
   comments: Array<{
     id: string
     authorName: string
+    authorEmail?: string
     content: string
     isApproved: boolean
     createdAt: any
+    likes?: number
+    blogTitle?: string
   }>
 }
 
@@ -89,8 +92,8 @@ export function DashboardRealData() {
           getBlogStats(),
           getCommentStats(),
           getUserStats(),
-          getRecentBlogs(5),
-          getRecentComments(5)
+          getBlogs({}, { page: 1, limit: 5 }).then(result => result.blogs),
+          getComments({}, { page: 1, limit: 5 }).then(result => result.comments)
         ])
 
         setStats({
@@ -100,8 +103,24 @@ export function DashboardRealData() {
         })
 
         setRecentContent({
-          blogs: recentBlogs,
-          comments: recentComments
+          blogs: recentBlogs.map(blog => ({
+            id: blog.id || '',
+            title: blog.title,
+            status: blog.status,
+            createdAt: blog.createdAt,
+            views: blog.views || 0,
+            excerpt: blog.excerpt
+          })),
+          comments: recentComments.map(comment => ({
+            id: comment.id || '',
+            authorName: comment.authorName,
+            authorEmail: comment.authorEmail,
+            content: comment.content,
+            isApproved: comment.isApproved,
+            createdAt: comment.createdAt,
+            likes: comment.likes,
+            blogTitle: comment.blogId
+          }))
         })
       } catch (err) {
         // Dashboard veri yükleme hatası sessizce işlendi

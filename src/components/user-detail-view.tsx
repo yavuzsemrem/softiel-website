@@ -330,7 +330,7 @@ export function UserDetailView({ userId }: UserDetailViewProps) {
       >
         <Link
           href={backUrl}
-          className="inline-flex items-center space-x-3 px-4 py-3 text-neutral-300 hover:text-white transition-all duration-300 group glass rounded-xl border border-white/10 hover:border-white/20 hover:bg-white/5"
+          className="inline-flex items-center space-x-3 px-4 py-3 text-neutral-300 hover:text-white transition-all duration-300 group glass rounded-xl hover:bg-white/5"
           style={{ background: 'rgba(255, 255, 255, 0.05)' }}
         >
           <div className="w-8 h-8 rounded-full bg-gradient-to-r from-cyan-500/10 to-blue-500/10 group-hover:from-cyan-500/20 group-hover:to-blue-500/20 flex items-center justify-center transition-all duration-300 group-hover:scale-110">
@@ -603,7 +603,12 @@ export function UserDetailView({ userId }: UserDetailViewProps) {
                   <div className="flex items-center space-x-2">
                     <Calendar className="h-3 w-3" />
                     <span>
-                      {blog.createdAt.toDate ? blog.createdAt.toDate().toLocaleDateString('tr-TR') : new Date(blog.createdAt).toLocaleDateString('tr-TR')}
+                      {(() => {
+                        const date = blog.createdAt && typeof blog.createdAt === 'object' && 'toDate' in blog.createdAt 
+                          ? blog.createdAt.toDate() 
+                          : new Date(blog.createdAt)
+                        return date.toLocaleDateString('tr-TR')
+                      })()}
                     </span>
                   </div>
                   <div className="flex items-center space-x-1">

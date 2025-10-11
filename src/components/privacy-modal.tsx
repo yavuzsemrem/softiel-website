@@ -69,8 +69,8 @@ export function PrivacyModal({ isOpen, onClose }: PrivacyModalProps) {
             >
               {/* Modal Container */}
               <div 
-                className="glass rounded-3xl shadow-modern-lg border border-white/50 dark:border-white/40 backdrop-blur-lg overflow-hidden flex flex-col"
-                style={{ background: 'rgba(255, 255, 255, 0.1)' }}
+                className="glass rounded-3xl shadow-modern-lg backdrop-blur-lg overflow-hidden flex flex-col"
+                style={{ background: 'rgba(255, 255, 255, 0.1)', border: 'none' }}
               >
                 {/* Header */}
                 <div className="relative bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 p-8 text-white">
@@ -105,7 +105,7 @@ export function PrivacyModal({ isOpen, onClose }: PrivacyModalProps) {
                  <div className="flex-1 p-8 overflow-y-auto scrollbar-thin scrollbar-thumb-cyan-500 scrollbar-track-transparent" style={{ maxHeight: 'calc(90vh - 200px)' }}>
                   <div className="prose prose-lg max-w-none text-neutral-700 dark:text-neutral-300">
                     {/* Introduction */}
-                    <div className="mb-8 p-6 bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20 rounded-2xl border border-blue-200 dark:border-blue-800">
+                    <div className="mb-8 p-6 bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20 rounded-2xl" style={{ border: 'none' }}>
                       <p className="text-base leading-relaxed mb-0">
                         {t('privacy.introduction', 'Softiel olarak, ziyaretçilerimizin ve müşterilerimizin gizliliğini korumak en önemli önceliklerimizden biridir. Bu gizlilik politikası, 6698 sayılı Kişisel Verilerin Korunması Kanunu (KVKK) ve Avrupa Birliği Genel Veri Koruma Tüzüğü (GDPR) kapsamında, hangi kişisel verilerinizi topladığımızı, nasıl işlediğimizi ve haklarınızı açıklamaktadır.')}
                       </p>
@@ -138,7 +138,7 @@ export function PrivacyModal({ isOpen, onClose }: PrivacyModalProps) {
                           <span>{t('privacy.section1.cookies', 'Çerezler (IP adresi, tarayıcı bilgileri, oturum verileri vb.)')}</span>
                         </li>
                       </ul>
-                      <div className="p-4 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-xl">
+                      <div className="p-4 bg-amber-50 dark:bg-amber-900/20 rounded-xl" style={{ border: 'none' }}>
                         <p className="text-sm text-amber-800 dark:text-amber-200 mb-0">
                           <strong>{t('privacy.section1.important', 'Önemli:')}</strong> {t('privacy.section1.note', 'İletişim formu aracılığıyla paylaştığınız bilgiler dışında, yapay zeka botu aracılığıyla herhangi bir veri toplanmamaktadır.')}
                         </p>
@@ -270,7 +270,7 @@ export function PrivacyModal({ isOpen, onClose }: PrivacyModalProps) {
                         <h3 className="text-xl font-bold text-neutral-900 dark:text-white">{t('privacy.section8.title', '8. İletişim')}</h3>
                       </div>
                       <p className="mb-4">{t('privacy.section8.description', 'Gizlilik politikamız hakkında sorularınız veya talepleriniz için bizimle iletişime geçebilirsiniz:')}</p>
-                      <div className="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 p-6 rounded-2xl border border-blue-200 dark:border-blue-800">
+                      <div className="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 p-6 rounded-2xl" style={{ border: 'none' }}>
                         <div className="space-y-2">
                           <p className="font-semibold text-neutral-900 dark:text-white mb-2">Softiel</p>
                           <p className="flex items-center space-x-2 text-neutral-700 dark:text-neutral-300">
@@ -284,7 +284,7 @@ export function PrivacyModal({ isOpen, onClose }: PrivacyModalProps) {
                 </div>
 
                 {/* Footer */}
-                <div className="px-8 py-6 bg-gradient-to-r from-neutral-50 to-neutral-100 dark:from-neutral-900 dark:to-neutral-800 border-t border-neutral-200 dark:border-neutral-700">
+                <div className="px-8 py-6 bg-gradient-to-r from-neutral-50 to-neutral-100 dark:from-neutral-900 dark:to-neutral-800" style={{ borderTop: 'none' }}>
                   <div className="flex items-center justify-between">
                     <p className="text-sm text-neutral-600 dark:text-neutral-400">
                       {t('privacy.lastUpdated', 'Son güncelleme:')} {new Date().toLocaleDateString('tr-TR')}

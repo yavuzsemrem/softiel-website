@@ -143,7 +143,7 @@ export function getRateLimitStatus(sessionId: string): {
   }
 
   const now = Date.now();
-  const isBlocked = session.isBlocked && session.blockUntil && now < session.blockUntil;
+  const isBlocked = !!(session.isBlocked && session.blockUntil && now < session.blockUntil);
   const remainingMessages = Math.max(0, RATE_LIMIT_CONFIG.MAX_MESSAGES_PER_MINUTE - session.messageCount);
 
   return {

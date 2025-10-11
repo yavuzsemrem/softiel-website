@@ -83,7 +83,7 @@ export function CommentManagement() {
       setComments(mainComments)
     } catch (error) {
       console.error('Ana yorumlar yüklenirken hata:', error)
-      showToast('Ana yorumlar yüklenirken hata oluştu', 'error')
+      showToast({ title: 'Ana yorumlar yüklenirken hata oluştu', type: 'error' })
     } finally {
       setLoading(false)
     }
@@ -153,12 +153,12 @@ export function CommentManagement() {
   const handleStatusChange = async (id: string, approved: boolean) => {
     try {
       await approveComment(id, approved)
-      showToast(approved ? 'Yorum onaylandı' : 'Yorum reddedildi', 'success')
+      showToast({ title: approved ? 'Yorum onaylandı' : 'Yorum reddedildi', type: 'success' })
       loadComments()
       loadStats()
     } catch (error) {
       console.error('Durum değiştirme hatası:', error)
-      showToast('Durum değiştirilirken hata oluştu', 'error')
+      showToast({ title: 'Durum değiştirilirken hata oluştu', type: 'error' })
     }
   }
 
@@ -174,12 +174,12 @@ export function CommentManagement() {
 
     try {
       await deleteComment(commentToDelete)
-      showToast('Yorum silindi', 'success')
+      showToast({ title: 'Yorum silindi', type: 'success' })
       loadComments()
       loadStats()
     } catch (error) {
       console.error('Yorum silme hatası:', error)
-      showToast('Yorum silinirken hata oluştu', 'error')
+      showToast({ title: 'Yorum silinirken hata oluştu', type: 'error' })
     } finally {
       setIsDeleteModalOpen(false)
       setCommentToDelete(null)
@@ -189,7 +189,7 @@ export function CommentManagement() {
   // Beğeni
   const handleLike = async (id: string) => {
     try {
-      await likeComment(id)
+      await likeComment(id, 'admin-user')
       setLikedComments(prev => {
         const newSet = new Set(prev)
         if (newSet.has(id)) {
@@ -202,7 +202,7 @@ export function CommentManagement() {
       loadComments()
     } catch (error) {
       console.error('Beğeni hatası:', error)
-      showToast('Beğeni işlemi sırasında hata oluştu', 'error')
+      showToast({ title: 'Beğeni işlemi sırasında hata oluştu', type: 'error' })
     }
   }
 
@@ -217,7 +217,7 @@ export function CommentManagement() {
   // Yanıt gönder
   const handleSubmitReply = async () => {
     if (!replyContent.trim() || !replyAuthorName.trim() || !replyAuthorEmail.trim()) {
-      showToast('Lütfen tüm alanları doldurun', 'error')
+      showToast({ title: 'Lütfen tüm alanları doldurun', type: 'error' })
       return
     }
 
@@ -231,10 +231,11 @@ export function CommentManagement() {
         authorEmail: replyAuthorEmail,
         content: replyContent,
         parentCommentId: replyingToReply || selectedComment.id!,
-        isReply: true
+        isReply: true,
+        isApproved: true
       })
 
-      showToast('Yanıt gönderildi', 'success')
+      showToast({ title: 'Yanıt gönderildi', type: 'success' })
       setIsReplyModalOpen(false)
       setReplyContent("")
       setReplyAuthorName("")
@@ -246,7 +247,7 @@ export function CommentManagement() {
       loadStats()
     } catch (error) {
       console.error('Yanıt gönderme hatası:', error)
-      showToast('Yanıt gönderilirken hata oluştu', 'error')
+      showToast({ title: 'Yanıt gönderilirken hata oluştu', type: 'error' })
     } finally {
       setSubmittingReply(false)
     }
@@ -286,12 +287,24 @@ export function CommentManagement() {
 
   const sortedComments = [...filteredComments].sort((a, b) => {
     switch (sortBy) {
-      case "newest":
-        return new Date(b.createdAt.toDate ? b.createdAt.toDate() : b.createdAt).getTime() - 
-               new Date(a.createdAt.toDate ? a.createdAt.toDate() : a.createdAt).getTime()
-      case "oldest":
-        return new Date(a.createdAt.toDate ? a.createdAt.toDate() : a.createdAt).getTime() - 
-               new Date(b.createdAt.toDate ? b.createdAt.toDate() : b.createdAt).getTime()
+      case "newest": {
+        const dateB = a.createdAt && typeof a.createdAt === 'object' && 'toDate' in a.createdAt 
+          ? a.createdAt.toDate() 
+          : new Date(a.createdAt)
+        const dateA = b.createdAt && typeof b.createdAt === 'object' && 'toDate' in b.createdAt 
+          ? b.createdAt.toDate() 
+          : new Date(b.createdAt)
+        return dateA.getTime() - dateB.getTime()
+      }
+      case "oldest": {
+        const dateA = a.createdAt && typeof a.createdAt === 'object' && 'toDate' in a.createdAt 
+          ? a.createdAt.toDate() 
+          : new Date(a.createdAt)
+        const dateB = b.createdAt && typeof b.createdAt === 'object' && 'toDate' in b.createdAt 
+          ? b.createdAt.toDate() 
+          : new Date(b.createdAt)
+        return dateA.getTime() - dateB.getTime()
+      }
       case "author":
         return a.authorName.localeCompare(b.authorName)
       default:
@@ -458,7 +471,7 @@ export function CommentManagement() {
                   }}>
                     {comment.authorEmail === 'admin@softiel.com' ? (
                       <img 
-                        src="/transparent.png" 
+                        src="/transparent.webp" 
                         alt="Admin" 
                         className="w-full h-full object-cover rounded-full"
                       />

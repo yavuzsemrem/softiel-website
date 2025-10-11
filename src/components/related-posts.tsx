@@ -1,10 +1,13 @@
 "use client"
 
 import React, { useState, useEffect } from "react"
-import { motion } from "framer-motion"
+import { m, LazyMotion } from "framer-motion"
 import { Calendar, User, ArrowRight, Clock, Eye, Heart, Tag, Star } from "lucide-react"
 import Link from "next/link"
 import { getFeaturedBlogs, BlogPost } from "@/lib/blog-service"
+
+// domAnimation'ı async yükle - Main-thread work azaltmak için
+const loadFeatures = () => import("framer-motion").then(mod => mod.domAnimation)
 
 interface PopularPostsProps {
   currentSlug?: string
@@ -64,10 +67,11 @@ export function RelatedPosts({ currentSlug }: PopularPostsProps) {
   }
 
   return (
+    <LazyMotion features={loadFeatures}>
     <section id="related-posts-section" className="relative py-16 lg:py-24">
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
@@ -83,12 +87,12 @@ export function RelatedPosts({ currentSlug }: PopularPostsProps) {
           <p className="text-lg sm:text-xl text-neutral-600 dark:text-neutral-400 max-w-3xl mx-auto leading-relaxed">
             En çok okunan ve beğenilen blog yazılarımızı keşfedin.
           </p>
-        </motion.div>
+        </m.div>
 
         {/* Popular Posts Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {popularPosts.map((post, index) => (
-            <motion.article
+            <m.article
               key={post.id}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -167,7 +171,24 @@ export function RelatedPosts({ currentSlug }: PopularPostsProps) {
                     </div>
                     <div className="flex items-center space-x-1">
                       <Calendar className="h-4 w-4" />
-                      <span>{post.createdAt ? new Date(post.createdAt.seconds * 1000).toLocaleDateString('tr-TR') : 'Tarih yok'}</span>
+                      <span>
+                        {(() => {
+                          if (!post.createdAt) return 'Tarih yok'
+                          try {
+                            let date: Date
+                            if (post.createdAt.toDate && typeof post.createdAt.toDate === 'function') {
+                              date = post.createdAt.toDate()
+                            } else if (typeof post.createdAt === 'object' && 'seconds' in post.createdAt) {
+                              date = new Date((post.createdAt as any).seconds * 1000)
+                            } else {
+                              date = new Date(post.createdAt as any)
+                            }
+                            return isNaN(date.getTime()) ? 'Tarih yok' : date.toLocaleDateString('tr-TR')
+                          } catch {
+                            return 'Tarih yok'
+                          }
+                        })()}
+                      </span>
                     </div>
                   </div>
                   <div className="flex items-center space-x-1">
@@ -198,30 +219,31 @@ export function RelatedPosts({ currentSlug }: PopularPostsProps) {
                   </div>
                 </Link>
               </div>
-            </motion.article>
+            </m.article>
           ))}
         </div>
 
         {/* View All Button */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4, duration: 0.6 }}
           viewport={{ once: true }}
           className="text-center mt-12"
         >
-          <Link href="/blog">
-            <motion.button
+          <Link href="/tr/blog">
+            <m.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="text-white px-8 py-4 rounded-2xl font-semibold text-lg shadow-modern hover:shadow-modern-lg transition-all duration-200 inline-flex items-center space-x-2 bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600"
             >
               <span>Tüm Blog Yazılarını Gör</span>
               <ArrowRight className="h-5 w-5" />
-            </motion.button>
+            </m.button>
           </Link>
-        </motion.div>
+        </m.div>
       </div>
     </section>
+    </LazyMotion>
   )
 }

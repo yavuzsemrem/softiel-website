@@ -170,7 +170,7 @@ export function DashboardSidebar({ isOpen, onClose, collapsed, onToggle, user: p
             <div className="flex items-center space-x-1 pr-16">
               <div className="w-16 h-16 sm:w-18 sm:h-18 rounded-2xl flex items-center justify-center overflow-hidden flex-shrink-0">
                 <img 
-                  src="/transparent.png" 
+                  src="/transparent.webp" 
                   alt="Softiel Logo" 
                   className="w-12 h-12 sm:w-13 sm:h-13 object-cover"
                 />
@@ -286,7 +286,7 @@ export function DashboardSidebar({ isOpen, onClose, collapsed, onToggle, user: p
             <div className="flex items-center space-x-3 mb-4">
               <div className="w-10 h-10 rounded-full flex items-center justify-center overflow-hidden shadow-modern bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-sm">
                 <img 
-                  src="/transparent.png" 
+                  src="/transparent.webp" 
                   alt="Admin Avatar" 
                   className="w-full h-full object-cover"
                 />
@@ -323,7 +323,7 @@ export function DashboardSidebar({ isOpen, onClose, collapsed, onToggle, user: p
               <div className="flex items-center space-x-0">
                 <div className={`${collapsed ? 'w-12 h-12' : 'w-16 h-16'} ${collapsed ? 'rounded-xl' : 'rounded-2xl'} flex items-center justify-center overflow-hidden flex-shrink-0`}>
                   <img 
-                    src="/transparent.png" 
+                    src="/transparent.webp" 
                     alt="Softiel Logo" 
                     className={`${collapsed ? 'w-7 h-7' : 'w-12 h-12'} object-cover`}
                   />
@@ -497,7 +497,7 @@ export function DashboardSidebar({ isOpen, onClose, collapsed, onToggle, user: p
                 <div className="flex items-center space-x-3 mb-4">
                   <div className="w-10 h-10 rounded-full flex items-center justify-center overflow-hidden">
                     <img 
-                      src="/transparent.png" 
+                      src="/transparent.webp" 
                       alt="Admin Avatar" 
                       className="w-full h-full object-cover"
                     />
@@ -524,7 +524,7 @@ export function DashboardSidebar({ isOpen, onClose, collapsed, onToggle, user: p
               <div className="flex flex-col items-center space-y-4">
                 <div className="w-10 h-10 rounded-full flex items-center justify-center overflow-hidden">
                   <img 
-                    src="/transparent.png" 
+                    src="/transparent.webp" 
                     alt="Admin Avatar" 
                     className="w-full h-full object-cover"
                   />

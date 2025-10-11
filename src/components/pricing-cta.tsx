@@ -1,8 +1,11 @@
 "use client"
 
 import React from "react"
-import { motion } from "framer-motion"
+import { m, LazyMotion } from "framer-motion"
 import { ArrowRight, CheckCircle, MessageCircle, Phone } from "lucide-react"
+
+// domAnimation'ı async yükle - Lighthouse unused JS optimizasyonu
+const loadFeatures = () => import("framer-motion").then(mod => mod.domAnimation)
 
 // WhatsApp Icon Component
 const WhatsAppIcon = ({ className }: { className?: string }) => (
@@ -18,10 +21,11 @@ const WhatsAppIcon = ({ className }: { className?: string }) => (
 
 export function PricingCTA() {
   return (
+    <LazyMotion features={loadFeatures}>
     <section className="relative py-32 lg:py-20">
       <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Main CTA */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
@@ -54,25 +58,25 @@ export function PricingCTA() {
                 { icon: Phone, text: "Hızlı Teslimat", color: "text-blue-400" },
                 { icon: ArrowRight, text: "7/24 Destek", color: "text-purple-400" }
               ].map((benefit, index) => (
-                <motion.div
+                <m.div
                   key={benefit.text}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.2 + index * 0.1, duration: 0.6 }}
                   viewport={{ once: true }}
-                  className="flex items-center space-x-3 glass rounded-xl p-4 shadow-modern border border-white/20"
+                  className="flex flex-col items-center justify-center space-y-2 glass rounded-xl p-4 shadow-modern border border-white/20 text-center"
                 >
                   <benefit.icon className={`h-6 w-6 ${benefit.color} flex-shrink-0`} />
                   <span className="text-white/90 font-medium text-sm">
                     {benefit.text}
                   </span>
-                </motion.div>
+                </m.div>
               ))}
             </div>
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <motion.a
+              <m.a
                 href="/tr/iletisim"
                 whileHover={{ scale: 1.01, y: -2 }}
                 whileTap={{ scale: 0.99 }}
@@ -81,24 +85,26 @@ export function PricingCTA() {
               >
                 <span>Ücretsiz Teklif Al</span>
                 <ArrowRight className="h-5 w-5" />
-              </motion.a>
+              </m.a>
               
-              <motion.div
+              <m.div
                 whileHover={{ scale: 1.01, y: -2 }}
                 whileTap={{ scale: 0.99 }}
                 transition={{ duration: 0.1 }}
                 className="inline-flex items-center space-x-2 bg-gradient-to-r from-green-500 to-green-600 text-white px-8 py-4 rounded-2xl font-semibold text-lg shadow-2xl hover:shadow-green-500/25 transition-all duration-75 cursor-pointer"
                 onClick={() => {
-                  window.open('https://wa.me/905411883045', '_blank');
+                  const message = encodeURIComponent('Merhaba. Hizmetleriniz hakkında bilgi almak istiyorum');
+                  window.open(`https://wa.me/905411883045?text=${message}`, '_blank');
                 }}
               >
                 <WhatsAppIcon className="h-5 w-5" />
                 <span>Hemen İletişime Geç</span>
-              </motion.div>
+              </m.div>
             </div>
           </div>
-        </motion.div>
+        </m.div>
       </div>
     </section>
+    </LazyMotion>
   )
 }

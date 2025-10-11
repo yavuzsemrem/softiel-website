@@ -6,6 +6,15 @@ import { ServiceProcess } from "@/components/service-process"
 import { ServicePricing } from "@/components/service-pricing"
 import { CTA } from "@/components/cta"
 
+// Static generation için metadata
+export const metadata = {
+  title: "Mobil Uygulama Geliştirme - Softiel",
+  description: "iOS ve Android mobil uygulama geliştirme. Native ve cross-platform mobil uygulama çözümleri.",
+}
+
+// Static generation - sayfa önceden oluşturulsun
+export const dynamic = 'force-static'
+
 export default function MobilUygulamaGelistirmePage() {
   const serviceData = {
     title: "Mobil Uygulama Geliştirme",

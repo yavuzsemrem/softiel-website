@@ -330,8 +330,8 @@ export async function deleteBlog(identifier: string): Promise<void> {
   }
 }
 
-// Tek blog getir (id veya slug ile)
-export async function getBlog(identifier: string): Promise<BlogPost | null> {
+// Tek blog getir (id veya slug ile) - view count artırma olmadan
+export async function getBlog(identifier: string, incrementViews: boolean = false): Promise<BlogPost | null> {
   try {
     // Identifier kontrolü
     if (!identifier || typeof identifier !== 'string') {
@@ -355,11 +355,14 @@ export async function getBlog(identifier: string): Promise<BlogPost | null> {
         return null
       }
       
-      // Görüntülenme sayısını artır (hata olursa devam et)
-      try {
-        const updatedViews = (blogData.views || 0) + 1
-        await updateDoc(blogRef, { views: updatedViews })
-      } catch (updateError) {
+      // Sadece incrementViews true ise görüntülenme sayısını artır
+      if (incrementViews) {
+        try {
+          const updatedViews = (blogData.views || 0) + 1
+          await updateDoc(blogRef, { views: updatedViews })
+        } catch (updateError) {
+          // Hata olursa devam et
+        }
       }
       
       return {
@@ -377,14 +380,25 @@ export async function getBlog(identifier: string): Promise<BlogPost | null> {
       const slug = getBlogSlug(data, docSnapshot.id)
       
       if (slug === identifier) {
-        // Görüntülenme sayısını artır
-        const updatedViews = (data.views || 0) + 1
-        await updateDoc(docSnapshot.ref, { views: updatedViews })
+        // Sadece incrementViews true ise görüntülenme sayısını artır
+        if (incrementViews) {
+          try {
+            const updatedViews = (data.views || 0) + 1
+            await updateDoc(docSnapshot.ref, { views: updatedViews })
+            return {
+              id: docSnapshot.id,
+              ...data,
+              views: updatedViews
+            } as BlogPost
+          } catch (updateError) {
+            // Hata olursa view count'u artırmadan devam et
+          }
+        }
         
         return {
           id: docSnapshot.id,
           ...data,
-          views: updatedViews
+          views: data.views || 0
         } as BlogPost
       }
     }

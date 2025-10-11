@@ -3,7 +3,7 @@
 import React, { useState } from "react"
 import { motion } from "framer-motion"
 import { Send, CheckCircle, MessageSquare, User, Mail, Phone, Building, Calendar, ArrowDown, Loader2 } from "lucide-react"
-import emailjs from '@emailjs/browser'
+// EmailJS'i server-side API route üzerinden kullan
 import { GoogleReCaptchaProvider, useGoogleReCaptcha } from 'react-google-recaptcha-v3'
 import { RECAPTCHA_CONFIG, RECAPTCHA_ACTIONS, isReCAPTCHAEnabled } from '@/config'
 import { PrivacyModal } from './privacy-modal'
@@ -56,16 +56,19 @@ function ContactFormContent() {
 
       // Form verileri hazırlandı
 
-      // EmailJS konfigürasyonu
-      const result = await emailjs.send(
-        'service_kz9k55y', // EmailJS Service ID
-        'template_zj8l9k7', // EmailJS Template ID  
-        templateParams,
-        '2sFjyMYKIlcAHZn4r' // EmailJS Public Key
-      )
+      // Server-side API route üzerinden email gönder
+      const response = await fetch('/api/send-contact-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(templateParams),
+      })
       
-      if (!result || result.status !== 200) {
-        throw new Error('Email gönderimi başarısız oldu')
+      const result = await response.json()
+      
+      if (!response.ok || !result.success) {
+        throw new Error(result.error || 'Email gönderimi başarısız oldu')
       }
       
       setIsSubmitted(true)
@@ -165,7 +168,7 @@ function ContactFormContent() {
                     type="text"
                     name="name"
                     required
-                    className="w-full px-4 py-3 rounded-xl glass text-neutral-900 dark:text-white placeholder-neutral-500 dark:placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/70 focus:shadow-[0_0_30px_rgba(6,182,212,0.6)] focus:shadow-[0_0_60px_rgba(6,182,212,0.4)] focus:shadow-[0_0_90px_rgba(6,182,212,0.2)] transition-all duration-300 backdrop-blur-lg dark:[border:1px_solid_rgba(255,255,255,0.2)]"
+                    className="w-full px-4 py-3 rounded-xl glass text-neutral-900 dark:text-white placeholder-neutral-500 dark:placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/70 focus:shadow-[0_0_30px_rgba(6,182,212,0.6)] focus:shadow-[0_0_60px_rgba(6,182,212,0.4)] focus:shadow-[0_0_90px_rgba(6,182,212,0.2)] transition-all duration-300 backdrop-blur-lg border-0"
                     style={{ background: 'rgba(255, 255, 255, 0.1)' }}
                     placeholder="Adınız ve soyadınız"
                   />
@@ -178,7 +181,7 @@ function ContactFormContent() {
                     type="email"
                     name="email"
                     required
-                    className="w-full px-4 py-3 rounded-xl glass text-neutral-900 dark:text-white placeholder-neutral-500 dark:placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/70 focus:shadow-[0_0_30px_rgba(16,185,129,0.6)] focus:shadow-[0_0_60px_rgba(16,185,129,0.4)] focus:shadow-[0_0_90px_rgba(16,185,129,0.2)] transition-all duration-300 backdrop-blur-lg dark:[border:1px_solid_rgba(255,255,255,0.2)]"
+                    className="w-full px-4 py-3 rounded-xl glass text-neutral-900 dark:text-white placeholder-neutral-500 dark:placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/70 focus:shadow-[0_0_30px_rgba(16,185,129,0.6)] focus:shadow-[0_0_60px_rgba(16,185,129,0.4)] focus:shadow-[0_0_90px_rgba(16,185,129,0.2)] transition-all duration-300 backdrop-blur-lg border-0"
                     style={{ background: 'rgba(255, 255, 255, 0.1)' }}
                     placeholder="E-posta adresiniz"
                   />
@@ -194,7 +197,7 @@ function ContactFormContent() {
                     type="tel"
                     name="phone"
                     required
-                    className="w-full px-4 py-3 rounded-xl glass text-neutral-900 dark:text-white placeholder-neutral-500 dark:placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-violet-500/70 focus:shadow-[0_0_30px_rgba(139,92,246,0.6)] focus:shadow-[0_0_60px_rgba(139,92,246,0.4)] focus:shadow-[0_0_90px_rgba(139,92,246,0.2)] transition-all duration-300 backdrop-blur-lg dark:[border:1px_solid_rgba(255,255,255,0.2)]"
+                    className="w-full px-4 py-3 rounded-xl glass text-neutral-900 dark:text-white placeholder-neutral-500 dark:placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-violet-500/70 focus:shadow-[0_0_30px_rgba(139,92,246,0.6)] focus:shadow-[0_0_60px_rgba(139,92,246,0.4)] focus:shadow-[0_0_90px_rgba(139,92,246,0.2)] transition-all duration-300 backdrop-blur-lg border-0"
                     style={{ background: 'rgba(255, 255, 255, 0.1)' }}
                     placeholder="Telefon numaranız"
                   />
@@ -206,7 +209,7 @@ function ContactFormContent() {
                   <input
                     type="text"
                     name="company"
-                    className="w-full px-4 py-3 rounded-xl glass text-neutral-900 dark:text-white placeholder-neutral-500 dark:placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-orange-500/70 focus:shadow-[0_0_30px_rgba(249,115,22,0.6)] focus:shadow-[0_0_60px_rgba(249,115,22,0.4)] focus:shadow-[0_0_90px_rgba(249,115,22,0.2)] transition-all duration-300 backdrop-blur-lg dark:[border:1px_solid_rgba(255,255,255,0.2)]"
+                    className="w-full px-4 py-3 rounded-xl glass text-neutral-900 dark:text-white placeholder-neutral-500 dark:placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-orange-500/70 focus:shadow-[0_0_30px_rgba(249,115,22,0.6)] focus:shadow-[0_0_60px_rgba(249,115,22,0.4)] focus:shadow-[0_0_90px_rgba(249,115,22,0.2)] transition-all duration-300 backdrop-blur-lg border-0"
                     style={{ background: 'rgba(255, 255, 255, 0.1)' }}
                     placeholder="Şirket adınız"
                   />
@@ -234,14 +237,14 @@ function ContactFormContent() {
                     <select
                       name="service"
                       required
-                      className="w-full px-4 py-3 pr-10 rounded-xl glass text-neutral-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500/70 focus:shadow-[0_0_30px_rgba(59,130,246,0.6)] focus:shadow-[0_0_60px_rgba(59,130,246,0.4)] focus:shadow-[0_0_90px_rgba(59,130,246,0.2)] transition-all duration-300 appearance-none cursor-pointer backdrop-blur-lg dark:[border:1px_solid_rgba(255,255,255,0.2)] dark:[background:rgba(255,255,255,0.1)]"
+                      className="w-full px-4 py-3 pr-10 rounded-xl glass text-neutral-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500/70 focus:shadow-[0_0_30px_rgba(59,130,246,0.6)] focus:shadow-[0_0_60px_rgba(59,130,246,0.4)] focus:shadow-[0_0_90px_rgba(59,130,246,0.2)] transition-all duration-300 appearance-none cursor-pointer backdrop-blur-lg border-0"
                       style={{ background: 'rgba(255, 255, 255, 0.2)' }}
                     >
                       <option value="">Hizmet seçiniz</option>
                       <option value="web-sitesi-tasarimi">Web Sitesi Tasarımı</option>
                       <option value="web-gelistirme">Web Uygulaması Geliştirme</option>
                       <option value="mobil-uygulama-gelistirme">Mobil Uygulama Geliştirme</option>
-                      <option value="seo-arama-motoru-optimizasyonu">SEO Optimizasyonu</option>
+                      <option value="seo-optimizasyonu">SEO Optimizasyonu</option>
                       <option value="google-ads-yonetimi">Google Ads & Meta Ads Yönetimi</option>
                       <option value="wordpress-cozumleri">WordPress & CMS Çözümleri</option>
                       <option value="logo-kurumsal-kimlik-tasarimi">Logo & Kurumsal Kimlik Tasarımı</option>
@@ -266,7 +269,7 @@ function ContactFormContent() {
                     name="message"
                     rows={4}
                     required
-                    className="w-full px-4 py-3 rounded-xl glass text-neutral-900 dark:text-white placeholder-neutral-500 dark:placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-purple-500/70 focus:shadow-[0_0_30px_rgba(168,85,247,0.6)] focus:shadow-[0_0_60px_rgba(168,85,247,0.4)] focus:shadow-[0_0_90px_rgba(168,85,247,0.2)] transition-all duration-300 resize-none backdrop-blur-lg dark:[border:1px_solid_rgba(255,255,255,0.2)]"
+                    className="w-full px-4 py-3 rounded-xl glass text-neutral-900 dark:text-white placeholder-neutral-500 dark:placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-purple-500/70 focus:shadow-[0_0_30px_rgba(168,85,247,0.6)] focus:shadow-[0_0_60px_rgba(168,85,247,0.4)] focus:shadow-[0_0_90px_rgba(168,85,247,0.2)] transition-all duration-300 resize-none backdrop-blur-lg border-0"
                     style={{ background: 'rgba(255, 255, 255, 0.1)' }}
                     placeholder="Projeniz hakkında detaylı bilgi verin..."
                   ></textarea>

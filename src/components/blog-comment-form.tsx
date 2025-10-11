@@ -36,7 +36,7 @@ export function BlogCommentForm({ blogSlug, onCommentSubmit }: BlogCommentFormPr
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle')
   const [errorMessage, setErrorMessage] = useState('')
 
-  const { isReady, isEnabled, executeRecaptcha } = useRecaptcha()
+  const { isAvailable, executeRecaptchaAction } = useRecaptcha()
 
   const handleInputChange = (field: keyof CommentFormData, value: string) => {
     setFormData(prev => ({
@@ -100,8 +100,11 @@ export function BlogCommentForm({ blogSlug, onCommentSubmit }: BlogCommentFormPr
 
       // ReCAPTCHA token al (production'da)
       let recaptchaToken = null
-      if (isEnabled && isReady) {
-        recaptchaToken = await executeRecaptcha('BLOG_COMMENT')
+      if (isAvailable) {
+        const result = await executeRecaptchaAction('BLOG_COMMENT')
+        if (result.success) {
+          recaptchaToken = result.token
+        }
       }
 
       // Yorumu Firestore'a kaydet
@@ -155,7 +158,7 @@ export function BlogCommentForm({ blogSlug, onCommentSubmit }: BlogCommentFormPr
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
-      className="glass rounded-2xl p-8 border border-white/20 shadow-modern-lg"
+      className="glass rounded-2xl p-8 shadow-modern-lg"
       style={{ background: 'rgba(255, 255, 255, 0.1)' }}
     >
       <div className="flex flex-col sm:flex-row sm:items-center space-y-3 sm:space-y-0 sm:space-x-3 mb-6">
@@ -180,7 +183,7 @@ export function BlogCommentForm({ blogSlug, onCommentSubmit }: BlogCommentFormPr
               type="text"
               value={formData.name}
               onChange={(e) => handleInputChange('name', e.target.value)}
-              className="w-full px-4 py-3 glass rounded-xl text-white placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/70 transition-all duration-300 border border-white/20 min-w-0"
+              className="w-full px-4 py-3 glass rounded-xl text-white placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/70 transition-all duration-300 min-w-0"
               style={{ background: 'rgba(255, 255, 255, 0.1)' }}
               placeholder="Adınızı giriniz"
               required
@@ -196,7 +199,7 @@ export function BlogCommentForm({ blogSlug, onCommentSubmit }: BlogCommentFormPr
               type="email"
               value={formData.email}
               onChange={(e) => handleInputChange('email', e.target.value)}
-              className="w-full px-4 py-3 glass rounded-xl text-white placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/70 transition-all duration-300 border border-white/20 min-w-0"
+              className="w-full px-4 py-3 glass rounded-xl text-white placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/70 transition-all duration-300 min-w-0"
               style={{ background: 'rgba(255, 255, 255, 0.1)' }}
               placeholder="E-posta adresinizi giriniz"
               required
@@ -214,7 +217,7 @@ export function BlogCommentForm({ blogSlug, onCommentSubmit }: BlogCommentFormPr
             value={formData.comment}
             onChange={(e) => handleInputChange('comment', e.target.value)}
             rows={5}
-            className="w-full px-4 py-3 glass rounded-xl text-white placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/70 transition-all duration-300 border border-white/20 resize-none min-w-0"
+            className="w-full px-4 py-3 glass rounded-xl text-white placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/70 transition-all duration-300 resize-none min-w-0"
             style={{ background: 'rgba(255, 255, 255, 0.1)' }}
             placeholder="Yorumunuzu buraya yazınız..."
             required
@@ -251,7 +254,7 @@ export function BlogCommentForm({ blogSlug, onCommentSubmit }: BlogCommentFormPr
         <div className="flex items-center justify-center sm:justify-end">
           <button
             type="submit"
-            disabled={isSubmitting || !isReady}
+            disabled={isSubmitting}
             className="flex items-center justify-center space-x-2 px-6 py-3 text-white rounded-xl hover:opacity-90 transition-all duration-200 shadow-modern-lg disabled:opacity-50 disabled:cursor-not-allowed w-full sm:w-auto bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600"
           >
             {isSubmitting ? (

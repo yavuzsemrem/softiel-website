@@ -1,7 +1,25 @@
-import { Header } from "@/components/header"
-import { Footer } from "@/components/footer"
-import { NotFoundHero } from "@/components/not-found-hero"
-import { NotFoundContent } from "@/components/not-found-content"
+import dynamic from "next/dynamic"
+
+// Not-found bileşenlerini lazy load et - SSR aktif
+const Header = dynamic(() => import("@/components/header").then(mod => ({ default: mod.Header })), {
+  ssr: true,
+  loading: () => <div className="h-16 bg-slate-800 animate-pulse" />
+})
+
+const Footer = dynamic(() => import("@/components/footer").then(mod => ({ default: mod.Footer })), {
+  ssr: true,
+  loading: () => <div className="h-64 bg-slate-900 animate-pulse" />
+})
+
+const NotFoundHero = dynamic(() => import("@/components/not-found-hero").then(mod => ({ default: mod.NotFoundHero })), {
+  ssr: true,
+  loading: () => <div className="h-96 bg-slate-800 animate-pulse" />
+})
+
+const NotFoundContent = dynamic(() => import("@/components/not-found-content").then(mod => ({ default: mod.NotFoundContent })), {
+  ssr: true,
+  loading: () => <div className="h-96 bg-slate-800 animate-pulse" />
+})
 
 export default function NotFoundPage() {
   return (

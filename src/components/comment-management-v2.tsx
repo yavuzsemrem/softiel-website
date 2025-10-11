@@ -1,7 +1,18 @@
 "use client"
 
 import React, { useState, useEffect } from "react"
-import { motion, AnimatePresence } from "framer-motion"
+import dynamic from "next/dynamic"
+
+// Framer Motion'ı lazy load et - main thread work azaltmak için
+const MotionDiv = dynamic(() => import("framer-motion").then(mod => ({ default: mod.motion.div })), { 
+  ssr: false,
+  loading: () => <div />
+})
+const AnimatePresence = dynamic(() => import("framer-motion").then(mod => ({ default: mod.AnimatePresence })), { 
+  ssr: false,
+  loading: () => <></>
+})
+
 import { useRouter } from "next/navigation"
 import { 
   CheckCircle, 
@@ -411,38 +422,74 @@ export function CommentManagementV2() {
     }
   }, [isBulkDeleteModalOpen])
 
-  // Genişlik kontrolü - Sayfa genişlemesini önle
+  // Genişlik kontrolü - Sayfa genişlemesini önle (Optimized - Forced reflow önleme)
   useEffect(() => {
+    let resizeTimeout: NodeJS.Timeout
+    let mutationTimeout: NodeJS.Timeout
+    
     const enforceViewportWidth = () => {
-      // Tüm elementleri kontrol et ve genişlik sınırla
-      const allElements = document.querySelectorAll('*')
-      allElements.forEach(element => {
-        const htmlElement = element as HTMLElement
-        if (htmlElement.offsetWidth > window.innerWidth) {
-          htmlElement.style.maxWidth = '100vw'
-          htmlElement.style.width = '100%'
-          htmlElement.style.overflowX = 'hidden'
-        }
+      // RequestAnimationFrame ile reflow'u optimize et
+      requestAnimationFrame(() => {
+        // Sadece problematik elementleri kontrol et (performans için)
+        const problematicSelectors = [
+          '.dashboard-container',
+          '.comment-management-container',
+          '.modal-container',
+          '[class*="modal"]',
+          'main',
+          '.main-content',
+          '.container'
+        ]
+        
+        problematicSelectors.forEach(selector => {
+          const elements = document.querySelectorAll(selector)
+          elements.forEach(element => {
+            const htmlElement = element as HTMLElement
+            // offsetWidth yerine CSS ile kontrol et
+            const computedStyle = window.getComputedStyle(htmlElement)
+            const width = parseFloat(computedStyle.width)
+            
+            if (width > window.innerWidth) {
+              // Batch DOM updates
+              htmlElement.style.setProperty('max-width', '100vw', 'important')
+              htmlElement.style.setProperty('width', '100%', 'important')
+              htmlElement.style.setProperty('overflow-x', 'hidden', 'important')
+            }
+          })
+        })
       })
+    }
+
+    // Debounced resize handler
+    const handleResize = () => {
+      clearTimeout(resizeTimeout)
+      resizeTimeout = setTimeout(enforceViewportWidth, 100)
+    }
+
+    // Debounced mutation handler
+    const handleMutation = () => {
+      clearTimeout(mutationTimeout)
+      mutationTimeout = setTimeout(enforceViewportWidth, 50)
     }
 
     // İlk yüklemede kontrol et
     enforceViewportWidth()
 
     // Resize olayında kontrol et
-    window.addEventListener('resize', enforceViewportWidth)
+    window.addEventListener('resize', handleResize)
     
-    // MutationObserver ile DOM değişikliklerini izle
-    const observer = new MutationObserver(enforceViewportWidth)
+    // MutationObserver ile DOM değişikliklerini izle (daha az agresif)
+    const observer = new MutationObserver(handleMutation)
     observer.observe(document.body, {
       childList: true,
-      subtree: true,
-      attributes: true,
-      attributeFilter: ['style', 'class']
+      subtree: false, // Sadece direct children
+      attributes: false // Style değişikliklerini izleme
     })
 
     return () => {
-      window.removeEventListener('resize', enforceViewportWidth)
+      clearTimeout(resizeTimeout)
+      clearTimeout(mutationTimeout)
+      window.removeEventListener('resize', handleResize)
       observer.disconnect()
     }
   }, [])
@@ -950,7 +997,7 @@ export function CommentManagementV2() {
           }}
         >
           {sortedComments.map((comment) => (
-            <motion.div
+            <MotionDiv
               key={comment.id}
               id={`comment-${comment.id}`}
               initial={{ opacity: 0, y: 20 }}
@@ -1003,7 +1050,7 @@ export function CommentManagementV2() {
                   }}>
                     {comment.authorEmail === 'admin@softiel.com' ? (
                       <img 
-                        src="/transparent.png" 
+                        src="/transparent.webp" 
                         alt="Admin" 
                         className="w-full h-full object-cover rounded-full"
                       />
@@ -1178,7 +1225,7 @@ export function CommentManagementV2() {
                   )}
                 </div>
                     </div>
-            </motion.div>
+            </MotionDiv>
           ))}
         </div>
       )}
@@ -1255,7 +1302,7 @@ export function CommentManagementV2() {
         }
       }}
     >
-      <motion.div
+      <MotionDiv
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.95 }}
@@ -1331,7 +1378,7 @@ export function CommentManagementV2() {
             </button>
           </div>
             </div>
-      </motion.div>
+      </MotionDiv>
     </div>
       )}
 
@@ -1354,7 +1401,7 @@ export function CommentManagementV2() {
         }
       }}
     >
-      <motion.div
+      <MotionDiv
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.95 }}
@@ -1390,7 +1437,7 @@ export function CommentManagementV2() {
                 Sil
               </button>
           </div>
-        </motion.div>
+        </MotionDiv>
           </div>
         )}
 
@@ -1412,7 +1459,7 @@ export function CommentManagementV2() {
             }
           }}
         >
-          <motion.div
+          <MotionDiv
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
@@ -1459,7 +1506,7 @@ export function CommentManagementV2() {
                 <span>{isDeleting ? 'Siliniyor...' : 'Sil'}</span>
               </button>
             </div>
-          </motion.div>
+          </MotionDiv>
         </div>
       )}
     </div>

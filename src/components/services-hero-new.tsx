@@ -209,7 +209,7 @@ export function ServicesHeroNew() {
           >
             <div className="relative w-full max-w-sm sm:max-w-md">
               <img
-                src={`/images/services.webp?v=${Date.now()}`}
+                src="/images/services.webp"
                 alt="Hizmetlerimiz"
                 className="w-full h-auto object-contain"
                 loading="eager"
@@ -263,15 +263,48 @@ export function ServicesHeroNew() {
               transition={{ delay: 0.3, duration: 0.6 }}
               className="flex flex-col sm:flex-row gap-4 justify-start"
             >
-              <motion.a
-                href="#services"
+              <motion.button
+                onClick={(e) => {
+                  e.preventDefault();
+                  
+                  // Element yüklenene kadar bekle ve scroll yap
+                  const scrollToServices = () => {
+                    const servicesElement = document.getElementById('services');
+                    if (servicesElement) {
+                      // Element bulundu, scroll yap
+                      servicesElement.scrollIntoView({ 
+                        behavior: 'smooth',
+                        block: 'start',
+                        inline: 'nearest'
+                      });
+                      return true;
+                    }
+                    return false;
+                  };
+
+                  // Hemen dene
+                  if (!scrollToServices()) {
+                    // Element yoksa, yüklenene kadar bekle (maksimum 5 saniye)
+                    let attempts = 0;
+                    const maxAttempts = 50; // 50 * 100ms = 5 saniye
+                    const interval = setInterval(() => {
+                      attempts++;
+                      if (scrollToServices()) {
+                        clearInterval(interval);
+                      } else if (attempts >= maxAttempts) {
+                        clearInterval(interval);
+                        console.warn('Services element not found after 5 seconds');
+                      }
+                    }, 100);
+                  }
+                }}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="inline-flex items-center justify-center space-x-2 text-white px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-200 bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600"
+                className="inline-flex items-center justify-center space-x-2 text-white px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-200 bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 cursor-pointer"
               >
                 <span>Hizmetlerimizi Keşfedin</span>
                 <ArrowRight className="h-5 w-5" />
-              </motion.a>
+              </motion.button>
                 
               <motion.a
                 href="https://wa.me/905411883045?text=Merhaba!%20Hizmetleriniz%20hakkında%20bilgi%20almak%20istiyorum."
@@ -296,7 +329,7 @@ export function ServicesHeroNew() {
           >
             <div className="relative w-full max-w-xl xl:max-w-2xl">
               <img
-                src={`/images/services.webp?v=${Date.now()}`}
+                src="/images/services.webp"
                 alt="Hizmetlerimiz"
                 className="w-full h-auto object-contain lg:translate-x-4 xl:translate-x-6 scale-110 lg:scale-125 xl:scale-135"
                 loading="eager"

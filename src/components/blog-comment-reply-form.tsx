@@ -43,7 +43,7 @@ export function BlogCommentReplyForm({
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle')
   const [errorMessage, setErrorMessage] = useState('')
 
-  const { isReady, isEnabled, executeRecaptcha } = useRecaptcha()
+  const { isAvailable, executeRecaptchaAction } = useRecaptcha()
 
   const handleInputChange = (field: keyof CommentReplyFormData, value: string) => {
     setFormData(prev => ({
@@ -98,8 +98,11 @@ export function BlogCommentReplyForm({
     try {
       // ReCAPTCHA token al (production'da)
       let recaptchaToken = null
-      if (isEnabled && isReady) {
-        recaptchaToken = await executeRecaptcha('BLOG_COMMENT')
+      if (isAvailable) {
+        const result = await executeRecaptchaAction('BLOG_COMMENT')
+        if (result.success) {
+          recaptchaToken = result.token
+        }
       }
 
       // Yanıtı Firestore'a kaydet
@@ -146,7 +149,7 @@ export function BlogCommentReplyForm({
       animate={{ opacity: 1, height: 'auto' }}
       exit={{ opacity: 0, height: 0 }}
       transition={{ duration: 0.3 }}
-      className="mt-4 glass rounded-xl p-6 border border-white/20 shadow-modern w-full max-w-2xl"
+      className="mt-4 glass rounded-xl p-6 shadow-modern w-full max-w-2xl"
       style={{ background: 'rgba(255, 255, 255, 0.05)' }}
     >
       <div className="flex items-center justify-between mb-4">
@@ -178,7 +181,7 @@ export function BlogCommentReplyForm({
               type="text"
               value={formData.name}
               onChange={(e) => handleInputChange('name', e.target.value)}
-              className="w-full px-3 py-2.5 glass rounded-lg text-white placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/70 transition-all duration-300 border border-white/20 text-sm min-w-0"
+              className="w-full px-3 py-2.5 glass rounded-lg text-white placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/70 transition-all duration-300 text-sm min-w-0"
               style={{ background: 'rgba(255, 255, 255, 0.1)' }}
               placeholder="Adınızı giriniz"
               required
@@ -194,7 +197,7 @@ export function BlogCommentReplyForm({
               type="email"
               value={formData.email}
               onChange={(e) => handleInputChange('email', e.target.value)}
-              className="w-full px-3 py-2.5 glass rounded-lg text-white placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/70 transition-all duration-300 border border-white/20 text-sm min-w-0"
+              className="w-full px-3 py-2.5 glass rounded-lg text-white placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/70 transition-all duration-300 text-sm min-w-0"
               style={{ background: 'rgba(255, 255, 255, 0.1)' }}
               placeholder="E-posta adresinizi giriniz"
               required
@@ -212,7 +215,7 @@ export function BlogCommentReplyForm({
             value={formData.content}
             onChange={(e) => handleInputChange('content', e.target.value)}
             rows={3}
-            className="w-full px-3 py-2.5 glass rounded-lg text-white placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/70 transition-all duration-300 border border-white/20 resize-y min-h-[80px] text-sm min-w-0"
+            className="w-full px-3 py-2.5 glass rounded-lg text-white placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/70 transition-all duration-300 resize-y min-h-[80px] text-sm min-w-0"
             style={{ background: 'rgba(255, 255, 255, 0.1)' }}
             placeholder="Yanıtınızı buraya yazınız..."
             required
@@ -258,7 +261,7 @@ export function BlogCommentReplyForm({
           )}
           <button
             type="submit"
-            disabled={isSubmitting || !isReady}
+            disabled={isSubmitting}
             className="flex items-center justify-center space-x-2 px-4 py-2.5 text-white rounded-lg hover:opacity-90 transition-all duration-200 shadow-modern disabled:opacity-50 disabled:cursor-not-allowed text-sm order-1 sm:order-2"
             style={{ background: 'linear-gradient(to right, #8b5cf6, #a855f7)' }}
           >

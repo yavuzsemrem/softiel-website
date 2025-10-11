@@ -486,7 +486,7 @@ export function DashboardNavbar({ onMenuClick, onSidebarToggle, sidebarCollapsed
             >
               <div className="w-8 h-8 rounded-full flex items-center justify-center overflow-hidden shadow-modern bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-sm">
                 <img 
-                  src="/transparent.png" 
+                  src="/transparent.webp" 
                   alt="Admin Avatar" 
                   className="w-5 h-5 object-cover"
                 />
@@ -520,7 +520,7 @@ export function DashboardNavbar({ onMenuClick, onSidebarToggle, sidebarCollapsed
                   <div className="flex items-center space-x-3">
                     <div className="w-8 h-8 rounded-full flex items-center justify-center overflow-hidden shadow-modern bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-sm">
                       <img 
-                        src="/transparent.png" 
+                        src="/transparent.webp" 
                         alt="Admin Avatar" 
                         className="w-5 h-5 object-cover"
                       />

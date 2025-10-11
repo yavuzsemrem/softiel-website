@@ -3,7 +3,14 @@
 import React, { useEffect, useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { motion, useScroll, useTransform } from "framer-motion"
+import dynamic from "next/dynamic"
+
+// Framer Motion'ı lazy load et - main thread work azaltmak için
+const MotionDiv = dynamic(() => import("framer-motion").then(mod => ({ default: mod.motion.div })), { 
+  ssr: false,
+  loading: () => <div />
+})
+
 import { 
   ArrowRight, 
   Play, 
@@ -25,37 +32,45 @@ import {
 } from "lucide-react"
 
 export function Hero() {
-  const { scrollY } = useScroll()
   const [isLoaded, setIsLoaded] = useState(false)
   const [isPageReady, setIsPageReady] = useState(false)
   
-  // Minimal parallax - sadece arka plan için
-  const backgroundY = useTransform(scrollY, [0, 100], [0, -10], { clamp: true })
-  const lightBeam1Y = useTransform(scrollY, [0, 100], [0, -5], { clamp: true })
-  const lightBeam2Y = useTransform(scrollY, [0, 100], [0, -5], { clamp: true })
+  // Minimal parallax - sadece arka plan için (optimized)
+  const [scrollY, setScrollY] = useState(0)
+  
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrollY(window.scrollY)
+    }
+    
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+  
+  // Basit transform hesaplamaları
+  const backgroundY = Math.min(scrollY * 0.1, 10)
+  const lightBeam1Y = Math.min(scrollY * 0.05, 5)
+  const lightBeam2Y = Math.min(scrollY * 0.05, 5)
 
-  // Sayfa yükleme durumunu kontrol et
+  // Sayfa yükleme durumunu kontrol et - optimize edildi
   useEffect(() => {
     const handleLoad = () => {
-      // Tüm kaynaklar yüklendi
       setIsPageReady(true)
-      // Yüklenme ekranını daha uzun göster (2 saniye)
+      // Daha hızlı yükleme - 0.5 saniye
       setTimeout(() => {
         setIsLoaded(true)
-      }, 2000)
+      }, 500)
     }
 
     // Sayfa zaten yüklenmişse
     if (document.readyState === 'complete') {
       handleLoad()
     } else {
-      // Sayfa yüklenme olaylarını dinle
-      window.addEventListener('load', handleLoad)
+      // Sadece DOMContentLoaded dinle - daha hızlı
       document.addEventListener('DOMContentLoaded', handleLoad)
     }
 
     return () => {
-      window.removeEventListener('load', handleLoad)
       document.removeEventListener('DOMContentLoaded', handleLoad)
     }
   }, [])
@@ -76,7 +91,7 @@ export function Hero() {
       {/* Cinematic Background */}
       <div className="absolute inset-0">
         {/* Hero Image Background with Cinematic Effect */}
-        <motion.div 
+        <MotionDiv 
           className="absolute inset-0"
           style={{ y: backgroundY }}
         >
@@ -98,17 +113,16 @@ export function Hero() {
           
           {/* Film Grain Effect */}
           <div className="absolute inset-0 opacity-20 mix-blend-overlay animate-pulse bg-noise"></div>
-        </motion.div>
+        </MotionDiv>
 
-        {/* Cinematic Light Beams */}
-        <motion.div
+        {/* Cinematic Light Beams - optimize edildi */}
+        <MotionDiv
           animate={{ 
-            opacity: [0.1, 0.4, 0.1],
-            scale: [0.8, 1.2, 0.8],
-            rotate: [0, 10, -10, 0]
+            opacity: [0.1, 0.3, 0.1],
+            scale: [0.9, 1.1, 0.9]
           }}
           transition={{ 
-            duration: 8,
+            duration: 6,
             repeat: Infinity,
             ease: "easeInOut"
           }}
@@ -116,25 +130,24 @@ export function Hero() {
           className="absolute top-0 left-1/4 w-96 h-full bg-gradient-to-b from-cyan-500/30 via-transparent to-transparent transform -skew-x-12 blur-sm"
         />
         
-        <motion.div
+        <MotionDiv
           animate={{ 
-            opacity: [0.1, 0.3, 0.1],
-            scale: [1, 1.1, 1],
-            rotate: [0, -5, 5, 0]
+            opacity: [0.1, 0.2, 0.1],
+            scale: [1, 1.05, 1]
           }}
           transition={{ 
-            duration: 12,
+            duration: 8,
             repeat: Infinity,
             ease: "easeInOut",
-            delay: 2
+            delay: 1
           }}
           style={{ y: lightBeam2Y }}
           className="absolute top-0 right-1/3 w-80 h-full bg-gradient-to-b from-blue-500/20 via-transparent to-transparent transform skew-x-6 blur-sm"
         />
 
-        {/* Floating Cinematic Particles */}
-        {[...Array(25)].map((_, i) => (
-        <motion.div
+        {/* Floating Cinematic Particles - optimize edildi */}
+        {[...Array(8)].map((_, i) => (
+        <MotionDiv
             key={i}
             initial={{ 
               x: Math.random() * (typeof window !== 'undefined' ? window.innerWidth : 1920),
@@ -165,14 +178,14 @@ export function Hero() {
         {/* Cinematic Vignette */}
         <div className="absolute inset-0 bg-gradient-radial from-transparent via-transparent to-black/60"></div>
         
-        {/* Animated Spotlight Effect */}
-        <motion.div
+        {/* Animated Spotlight Effect - optimize edildi */}
+        <MotionDiv
           animate={{ 
-            opacity: [0.2, 0.5, 0.2],
-            scale: [1, 1.3, 1]
+            opacity: [0.1, 0.3, 0.1],
+            scale: [1, 1.1, 1]
           }}
           transition={{ 
-            duration: 6,
+            duration: 8,
             repeat: Infinity,
             ease: "easeInOut"
           }}
@@ -201,14 +214,14 @@ export function Hero() {
                WebkitBackfaceVisibility: 'hidden'
              }}>
 
-          {/* Enhanced Hero Title with Modern Design */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
+          {/* Enhanced Hero Title with Modern Design - optimize edildi */}
+          <MotionDiv
+            initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: isLoaded ? 1 : 0, y: 0 }}
             transition={{ 
-              duration: 0.4, 
+              duration: 0.3, 
               delay: isLoaded ? 0 : 0,
-              ease: [0.25, 0.46, 0.45, 0.94]
+              ease: "easeOut"
             }}
             style={{ 
               transform: 'translate3d(0, 0, 0)',
@@ -219,7 +232,7 @@ export function Hero() {
           >
             
             <div className="relative space-y-6">
-            <motion.h1
+            <MotionDiv
               className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-display font-bold text-white leading-[0.9] tracking-tight"
               style={{
                 textShadow: '0 0 40px rgba(6, 182, 212, 0.6), 0 0 80px rgba(6, 182, 212, 0.4), 0 0 120px rgba(6, 182, 212, 0.2)',
@@ -229,49 +242,47 @@ export function Hero() {
                 transition: 'opacity 0.3s ease-in-out, visibility 0.3s ease-in-out'
               }}
             >
-              <motion.span
-                initial={{ opacity: 0, x: -30, rotateX: -15 }}
-                animate={{ opacity: isLoaded ? 1 : 0, x: 0, rotateX: 0 }}
+              <MotionDiv
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: isLoaded ? 1 : 0, x: 0 }}
                 transition={{ 
-                  duration: 0.8, 
-                  delay: isLoaded ? 0.2 : 0, 
-                  ease: [0.25, 0.46, 0.45, 0.94]
+                  duration: 0.4, 
+                  delay: isLoaded ? 0.1 : 0, 
+                  ease: "easeOut"
                 }}
                 className="block"
                 style={{
                   transform: 'translate3d(0, 0, 0)',
-                  willChange: 'transform',
-                  transformStyle: 'preserve-3d'
+                  willChange: 'transform'
                 }}
               >
                 Dijital Dünyada
-              </motion.span>
-              <motion.span 
+              </MotionDiv>
+              <MotionDiv 
                 className="block bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 bg-clip-text text-transparent"
-                initial={{ opacity: 0, scale: 0.8, y: 30, rotateX: 15 }}
-                animate={{ opacity: isLoaded ? 1 : 0, scale: 1, y: 0, rotateX: 0 }}
+                initial={{ opacity: 0, scale: 0.9, y: 10 }}
+                animate={{ opacity: isLoaded ? 1 : 0, scale: 1, y: 0 }}
                 transition={{ 
-                  duration: 0.8, 
-                  delay: isLoaded ? 0.4 : 0,
-                  ease: [0.25, 0.46, 0.45, 0.94]
+                  duration: 0.4, 
+                  delay: isLoaded ? 0.2 : 0,
+                  ease: "easeOut"
                 }}
                 style={{
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
                   transform: 'translate3d(0, 0, 0)',
-                  willChange: 'transform',
-                  transformStyle: 'preserve-3d'
+                  willChange: 'transform'
                 }}
               >
                 Fark Yaratın
-              </motion.span>
-            </motion.h1>
+              </MotionDiv>
+            </MotionDiv>
             
             </div>
-          </motion.div>
+          </MotionDiv>
 
           {/* Enhanced Modern Subtitle */}
-          <motion.div
+          <MotionDiv
             initial={{ opacity: 0, y: 20, scale: 0.95 }}
             animate={{ opacity: isLoaded ? 1 : 0, y: 0, scale: 1 }}
             transition={{ 
@@ -289,7 +300,7 @@ export function Hero() {
             {/* Background Blur Effect */}
             <div className="absolute inset-0 bg-gradient-to-r from-white/5 via-white/10 to-white/5 rounded-2xl blur-sm -z-10"></div>
             
-            <motion.p 
+            <MotionDiv 
               className="text-sm sm:text-base md:text-lg lg:text-xl leading-relaxed font-light text-center relative z-10 text-white"
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: isLoaded ? 1 : 0, y: 0 }}
@@ -312,11 +323,11 @@ export function Hero() {
               <span className="text-white"> ihtiyaçlarınız için </span>
               <span className="bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 bg-clip-text text-transparent font-medium" style={{ WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>profesyonel çözümler</span>
               <span className="text-white"> sunuyoruz.</span>
-            </motion.p>
-          </motion.div>
+            </MotionDiv>
+          </MotionDiv>
 
           {/* Enhanced Quick Stats */}
-          <motion.div
+          <MotionDiv
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: isLoaded ? 1 : 0, y: 0 }}
             transition={{ duration: 0.4, delay: isLoaded ? 0.4 : 0, ease: "easeOut" }}
@@ -328,7 +339,7 @@ export function Hero() {
               { icon: Star, number: "5.0", label: "Müşteri Memnuniyeti", color: "blue" },
               { icon: Shield, number: "24/7", label: "Teknik Destek", color: "purple" }
             ].map((stat, index) => (
-              <motion.div
+              <MotionDiv
                 key={stat.label}
                 initial={{ opacity: 0, y: 20, scale: 0.9 }}
                 animate={{ opacity: isLoaded ? 1 : 0, y: 0, scale: 1 }}
@@ -347,7 +358,7 @@ export function Hero() {
                 }}
               >
                 {/* Hover Glow Effect */}
-                <motion.div
+                <MotionDiv
                   className={`absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-300 bg-gradient-to-br ${
                     stat.color === 'cyan' ? 'from-cyan-400 to-blue-500' :
                     stat.color === 'blue' ? 'from-blue-400 to-blue-600' :
@@ -371,12 +382,12 @@ export function Hero() {
                 <div className="text-lg text-gray-300 relative z-10">
                   {stat.label}
                 </div>
-              </motion.div>
+              </MotionDiv>
             ))}
-          </motion.div>
+          </MotionDiv>
 
           {/* Enhanced Cinematic CTA Buttons */}
-          <motion.div
+          <MotionDiv
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: isLoaded ? 1 : 0, y: 0 }}
             transition={{ duration: 0.4, delay: isLoaded ? 0.6 : 0, ease: "easeOut" }}
@@ -384,7 +395,7 @@ export function Hero() {
             className="flex flex-col sm:flex-row gap-8 justify-center items-center"
           >
             <Link href="/tr/iletisim">
-              <motion.button
+              <MotionDiv
                 initial={{ opacity: 0, scale: 0.8, y: 20 }}
                 animate={{ opacity: isLoaded ? 1 : 0, scale: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: isLoaded ? 1.0 : 0, ease: [0.25, 0.46, 0.45, 0.94] }}
@@ -400,18 +411,18 @@ export function Hero() {
                 }}
               >
                 {/* Enhanced Button Shine Effect */}
-                <motion.div
+                <MotionDiv
                   className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent"
                   animate={{ x: [-200, 300] }}
                   transition={{ duration: 3, repeat: Infinity, delay: 4.5 }}
                 />
                 <span className="relative z-10">Ücretsiz Teklif Al</span>
                 <ArrowRight className="relative z-10 h-6 w-6 group-hover:translate-x-2 transition-transform duration-300" />
-              </motion.button>
+              </MotionDiv>
             </Link>
             
             <Link href="/tr/hizmetlerimiz">
-              <motion.button
+              <MotionDiv
                 initial={{ opacity: 0, scale: 0.8, y: 20 }}
                 animate={{ opacity: isLoaded ? 1 : 0, scale: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: isLoaded ? 1.1 : 0, ease: [0.25, 0.46, 0.45, 0.94] }}
@@ -431,12 +442,12 @@ export function Hero() {
               >
                 <span>Hizmetlerimizi İncele</span>
                 <ArrowRight className="h-6 w-6 group-hover:translate-x-2 transition-transform duration-300" />
-              </motion.button>
+              </MotionDiv>
             </Link>
-          </motion.div>
+          </MotionDiv>
 
           {/* Enhanced Cinematic Features */}
-          <motion.div
+          <MotionDiv
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: isLoaded ? 1 : 0, y: 0 }}
             transition={{ duration: 0.4, delay: isLoaded ? 0.8 : 0, ease: "easeOut" }}
@@ -449,7 +460,7 @@ export function Hero() {
               { icon: Search, text: "SEO Optimizasyonu", color: "purple" },
               { icon: Zap, text: "Yapay Zeka", color: "pink" }
             ].map((feature, index) => (
-              <motion.div
+              <MotionDiv
                 key={feature.text}
                 initial={{ opacity: 0, y: 20, scale: 0.9 }}
                 animate={{ opacity: isLoaded ? 1 : 0, y: 0, scale: 1 }}
@@ -488,9 +499,9 @@ export function Hero() {
                 <span className="text-lg font-bold text-white relative z-10 text-center">
                   {feature.text}
                 </span>
-              </motion.div>
+              </MotionDiv>
             ))}
-          </motion.div>
+          </MotionDiv>
 
         </div>
       </div>

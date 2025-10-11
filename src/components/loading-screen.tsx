@@ -71,7 +71,7 @@ export function LoadingScreen({ message }: LoadingScreenProps) {
             {/* Center logo */}
             <div className="absolute inset-0 flex items-center justify-center">
               <Image 
-                src="/transparent.png" 
+                src="/transparent.webp" 
                 alt="Softiel Logo" 
                 width={80} 
                 height={80}

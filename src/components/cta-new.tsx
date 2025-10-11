@@ -80,7 +80,7 @@ export function CTANew() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 + index * 0.1, duration: 0.6 }}
                 viewport={{ once: true }}
-                className="flex items-center justify-center space-x-2 glass rounded-lg p-3 shadow-modern border border-white/30 dark:border-white/20 backdrop-blur-lg"
+                className="flex items-center justify-center space-x-2 glass rounded-lg p-3 shadow-modern border border-white/30 dark:border-white/20 backdrop-blur-lg text-center"
                 style={{ background: 'rgba(255, 255, 255, 0.1)' }}
               >
                 <benefit.icon className={`h-5 w-5 ${benefit.color} flex-shrink-0`} />
@@ -111,7 +111,7 @@ export function CTANew() {
           </div>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <Link href="/iletisim">
+            <Link href="/tr/iletisim">
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}

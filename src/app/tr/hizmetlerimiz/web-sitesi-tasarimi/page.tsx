@@ -6,6 +6,15 @@ import { ServiceProcess } from "@/components/service-process"
 import { ServicePricing } from "@/components/service-pricing"
 import { CTA } from "@/components/cta"
 
+// Static generation için metadata
+export const metadata = {
+  title: "Web Sitesi Tasarımı - Softiel",
+  description: "Modern ve responsive web sitesi tasarımı. Profesyonel görünüm, hızlı yükleme ve SEO uyumlu web tasarım hizmetleri.",
+}
+
+// Static generation - sayfa önceden oluşturulsun
+export const dynamic = 'force-static'
+
 export default function WebSitesiTasarimiPage() {
   const serviceData = {
     title: "Web Sitesi Tasarımı",

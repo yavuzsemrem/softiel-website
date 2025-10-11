@@ -29,7 +29,7 @@ export function useCurrentUser() {
             const firestoreUser = await getUserByEmail(userEmail)
             if (firestoreUser) {
               setUser({
-                uid: firestoreUser.id,
+                uid: firestoreUser.id || 'unknown-user',
                 email: firestoreUser.email,
                 displayName: processUserName(firestoreUser.name || 'Admin'),
                 role: firestoreUser.role as CurrentUser['role']
@@ -70,7 +70,7 @@ export function useCurrentUser() {
             const firestoreUser = await getUserByEmail(userData.email)
             if (firestoreUser) {
               setUser({
-                uid: firestoreUser.id,
+                uid: firestoreUser.id || 'unknown-user',
                 email: firestoreUser.email,
                 displayName: processUserName(firestoreUser.name || 'Admin'),
                 role: firestoreUser.role as CurrentUser['role']

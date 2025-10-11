@@ -1,9 +1,5 @@
-import { Header } from "@/components/header"
-import { Footer } from "@/components/footer"
-import { PricingHero } from "@/components/pricing-hero"
-import { PricingPlans } from "@/components/pricing-plans"
-import { PricingFAQ } from "@/components/pricing-faq"
-import { PricingCTA } from "@/components/pricing-cta"
+import { Header, Footer } from "@/components/lazy-layout"
+import LazyPricingContent from "@/components/lazy-pricing-content"
 
 export default function PricingPage() {
   return (
@@ -17,10 +13,7 @@ export default function PricingPage() {
           <div className="absolute top-1/2 right-1/4 w-32 h-32 bg-sky-200 dark:bg-sky-700 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-xl opacity-20 animate-pulse"></div>
         </div>
         
-        <PricingHero />
-        <PricingPlans />
-        <PricingFAQ />
-        <PricingCTA />
+        <LazyPricingContent />
       </main>
       <Footer />
     </div>

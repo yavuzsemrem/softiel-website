@@ -136,7 +136,7 @@ class OTPService {
       const otpRef = ref(rtdb, 'otps');
       const snapshot = await get(otpRef);
       
-      if (snapshot.exists) {
+      if (snapshot.exists()) {
         const otps = snapshot.val();
         for (const [otpId, otpData] of Object.entries(otps)) {
           const otp = otpData as OTPData;

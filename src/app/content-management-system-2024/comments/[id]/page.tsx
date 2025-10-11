@@ -853,7 +853,7 @@ export default function CommentDetailPage() {
               }}>
                 {comment.authorEmail === 'admin@softiel.com' ? (
                   <img 
-                    src="/transparent.png" 
+                    src="/transparent.webp" 
                     alt="Admin" 
                     className="w-full h-full object-cover rounded-full"
                   />

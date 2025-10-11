@@ -24,6 +24,18 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
   const router = useRouter()
   const { user: currentUser } = useCurrentUser()
 
+  // Session service'i manuel olarak initialize et
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      // Session service'i dashboard sayfasında initialize et
+      import('@/lib/session').then(({ sessionService }) => {
+        if (sessionService) {
+          sessionService.initialize();
+        }
+      });
+    }
+  }, [])
+
   // Logout function
   const handleLogout = async () => {
     try {
@@ -175,7 +187,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
               
               {/* Logo with floating animation */}
               <motion.img 
-                src="/transparent.png" 
+                src="/transparent.webp" 
                 alt="Softiel Logo" 
                 className="w-full h-full object-contain relative z-10"
                 animate={{ 

@@ -20,23 +20,39 @@ const defaultLocale = 'tr';
 // Çeviri cache'i
 const translationCache = new Map<string, Record<string, any>>();
 
-// Çeviri dosyalarını önceden yükle
-const preloadTranslations = async () => {
-  const promises = supportedLocales.map(async (locale) => {
-    if (!translationCache.has(locale)) {
-      try {
-        const response = await fetch(`/locales/${locale}/common.json`);
-        if (response.ok) {
-          const data = await response.json();
-          translationCache.set(locale, data);
-        }
-      } catch (error) {
-        console.error(`Çeviri dosyası yüklenemedi: ${locale}`, error);
+// Çeviri dosyalarını önceden yükle - Sadece gerekli dili yükle (network chain reduction)
+const preloadTranslations = async (primaryLocale: string) => {
+  // Önce aktif dili yükle
+  if (!translationCache.has(primaryLocale)) {
+    try {
+      const response = await fetch(`/locales/${primaryLocale}/common.json`);
+      if (response.ok) {
+        const data = await response.json();
+        translationCache.set(primaryLocale, data);
       }
+    } catch (error) {
+      console.error(`Çeviri dosyası yüklenemedi: ${primaryLocale}`, error);
     }
-  });
+  }
   
-  await Promise.all(promises);
+  // Diğer dilleri idle'da yükle
+  if (typeof window !== 'undefined' && (window as any).requestIdleCallback) {
+    (window as any).requestIdleCallback(() => {
+      supportedLocales.forEach(async (locale) => {
+        if (locale !== primaryLocale && !translationCache.has(locale)) {
+          try {
+            const response = await fetch(`/locales/${locale}/common.json`);
+            if (response.ok) {
+              const data = await response.json();
+              translationCache.set(locale, data);
+            }
+          } catch (error) {
+            // Sessizce geç
+          }
+        }
+      });
+    }, { timeout: 5000 });
+  }
 };
 
 // URL mapping'leri - her dil için sayfa URL'leri (ülke kodları ile)
@@ -51,7 +67,7 @@ const urlMappings = {
     '/hizmetlerimiz/web-sitesi-tasarimi': '/tr/hizmetlerimiz/web-sitesi-tasarimi',
     '/hizmetlerimiz/web-gelistirme': '/tr/hizmetlerimiz/web-gelistirme',
     '/hizmetlerimiz/mobil-uygulama-gelistirme': '/tr/hizmetlerimiz/mobil-uygulama-gelistirme',
-    '/hizmetlerimiz/seo-arama-motoru-optimizasyonu': '/tr/hizmetlerimiz/seo-arama-motoru-optimizasyonu',
+    '/hizmetlerimiz/seo-arama-motoru-optimizasyonu': '/tr/hizmetlerimiz/seo-optimizasyonu',
     '/hizmetlerimiz/google-ads-yonetimi': '/tr/hizmetlerimiz/google-ads-yonetimi',
     '/hizmetlerimiz/wordpress-cozumleri': '/tr/hizmetlerimiz/wordpress-cozumleri',
     '/hizmetlerimiz/logo-kurumsal-kimlik-tasarimi': '/tr/hizmetlerimiz/logo-kurumsal-kimlik-tasarimi',
@@ -70,7 +86,7 @@ const urlMappings = {
     '/hizmetlerimiz/web-sitesi-tasarimi': '/en/services/web-design',
     '/hizmetlerimiz/web-gelistirme': '/en/services/web-development',
     '/hizmetlerimiz/mobil-uygulama-gelistirme': '/en/services/mobile-app-development',
-    '/hizmetlerimiz/seo-arama-motoru-optimizasyonu': '/en/services/seo-search-engine-optimization',
+    '/hizmetlerimiz/seo-arama-motoru-optimizasyonu': '/tr/hizmetlerimiz/seo-optimizasyonu',
     '/hizmetlerimiz/google-ads-yonetimi': '/en/services/google-ads-management',
     '/hizmetlerimiz/wordpress-cozumleri': '/en/services/wordpress-solutions',
     '/hizmetlerimiz/logo-kurumsal-kimlik-tasarimi': '/en/services/logo-corporate-identity-design',
@@ -89,7 +105,7 @@ const urlMappings = {
     '/hizmetlerimiz/web-sitesi-tasarimi': '/de/dienstleistungen/webdesign',
     '/hizmetlerimiz/web-gelistirme': '/de/dienstleistungen/webentwicklung',
     '/hizmetlerimiz/mobil-uygulama-gelistirme': '/de/dienstleistungen/mobile-app-entwicklung',
-    '/hizmetlerimiz/seo-arama-motoru-optimizasyonu': '/de/dienstleistungen/seo-suchmaschinenoptimierung',
+    '/hizmetlerimiz/seo-arama-motoru-optimizasyonu': '/tr/hizmetlerimiz/seo-optimizasyonu',
     '/hizmetlerimiz/google-ads-yonetimi': '/de/dienstleistungen/google-ads-verwaltung',
     '/hizmetlerimiz/wordpress-cozumleri': '/de/dienstleistungen/wordpress-loesungen',
     '/hizmetlerimiz/logo-kurumsal-kimlik-tasarimi': '/de/dienstleistungen/logo-corporate-identity-design',
@@ -108,7 +124,7 @@ const urlMappings = {
     '/hizmetlerimiz/web-sitesi-tasarimi': '/fr/services/conception-web',
     '/hizmetlerimiz/web-gelistirme': '/fr/services/developpement-web',
     '/hizmetlerimiz/mobil-uygulama-gelistirme': '/fr/services/developpement-app-mobile',
-    '/hizmetlerimiz/seo-arama-motoru-optimizasyonu': '/fr/services/optimisation-moteurs-recherche-seo',
+    '/hizmetlerimiz/seo-arama-motoru-optimizasyonu': '/tr/hizmetlerimiz/seo-optimizasyonu',
     '/hizmetlerimiz/google-ads-yonetimi': '/fr/services/gestion-google-ads',
     '/hizmetlerimiz/wordpress-cozumleri': '/fr/services/solutions-wordpress',
     '/hizmetlerimiz/logo-kurumsal-kimlik-tasarimi': '/fr/services/design-logo-identite-corporative',
@@ -127,7 +143,7 @@ const urlMappings = {
     '/hizmetlerimiz/web-sitesi-tasarimi': '/ru/uslugi/veb-dizajn',
     '/hizmetlerimiz/web-gelistirme': '/ru/uslugi/veb-razrabotka',
     '/hizmetlerimiz/mobil-uygulama-gelistirme': '/ru/uslugi/razrabotka-mobilnyh-prilozhenij',
-    '/hizmetlerimiz/seo-arama-motoru-optimizasyonu': '/ru/uslugi/seo-optimizaciya-poiskovyh-sistem',
+    '/hizmetlerimiz/seo-arama-motoru-optimizasyonu': '/tr/hizmetlerimiz/seo-optimizasyonu',
     '/hizmetlerimiz/google-ads-yonetimi': '/ru/uslugi/upravlenie-google-ads',
     '/hizmetlerimiz/wordpress-cozumleri': '/ru/uslugi/resheniya-wordpress',
     '/hizmetlerimiz/logo-kurumsal-kimlik-tasarimi': '/ru/uslugi/dizajn-logo-korporativnogo-identiteta',
@@ -146,7 +162,7 @@ const urlMappings = {
     '/hizmetlerimiz/web-sitesi-tasarimi': '/ar/خدماتنا/تصميم-المواقع',
     '/hizmetlerimiz/web-gelistirme': '/ar/خدماتنا/تطوير-المواقع',
     '/hizmetlerimiz/mobil-uygulama-gelistirme': '/ar/خدماتنا/تطوير-التطبيقات-المحمولة',
-    '/hizmetlerimiz/seo-arama-motoru-optimizasyonu': '/ar/خدماتنا/تحسين-محركات-البحث',
+    '/hizmetlerimiz/seo-arama-motoru-optimizasyonu': '/tr/hizmetlerimiz/seo-optimizasyonu',
     '/hizmetlerimiz/google-ads-yonetimi': '/ar/خدماتنا/إدارة-إعلانات-جوجل',
     '/hizmetlerimiz/wordpress-cozumleri': '/ar/خدماتنا/حلول-ووردبريس',
     '/hizmetlerimiz/logo-kurumsal-kimlik-tasarimi': '/ar/خدماتنا/تصميم-الشعار-والهوية-الشركاتية',
@@ -231,8 +247,8 @@ export function I18nProvider({ children }: { children: React.ReactNode }) {
       }
     }
 
-    // Çeviri dosyalarını önceden yükle
-    preloadTranslations();
+    // Çeviri dosyalarını önceden yükle - sadece aktif dil
+    preloadTranslations(urlLocale);
   }, [pathname, locale, router]);
 
   // Çeviri dosyalarını yükle (sadece client-side)

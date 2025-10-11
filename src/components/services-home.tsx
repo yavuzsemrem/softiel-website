@@ -44,7 +44,7 @@ const services = [
     title: "SEO Optimizasyonu",
     description: "Arama motorlarında üst sıralarda yer alın",
     features: ["Teknik SEO", "İçerik Optimizasyonu", "Link Building"],
-    href: "/tr/hizmetlerimiz/seo-arama-motoru-optimizasyonu",
+    href: "/tr/hizmetlerimiz/seo-optimizasyonu",
     color: "from-emerald-500 to-emerald-600"
   },
   {

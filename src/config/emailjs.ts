@@ -3,16 +3,11 @@
  * OTP (One-Time Password) email sending configuration
  */
 
-// EmailJS Service Configuration
-const serviceId = process.env.NEXT_PUBLIC_EMAILJS_OTP_SERVICE_ID || ''
-const templateId = process.env.NEXT_PUBLIC_EMAILJS_OTP_TEMPLATE_ID || ''
-const publicKey = process.env.NEXT_PUBLIC_EMAILJS_OTP_PUBLIC_KEY || ''
-
 export const EMAILJS_CONFIG = {
   // EmailJS Service Configuration
-  serviceId,
-  templateId,
-  publicKey,
+  serviceId: process.env.NEXT_PUBLIC_EMAILJS_OTP_SERVICE_ID || '',
+  templateId: process.env.NEXT_PUBLIC_EMAILJS_OTP_TEMPLATE_ID || '',
+  publicKey: process.env.NEXT_PUBLIC_EMAILJS_OTP_PUBLIC_KEY || '',
   
   // OTP Email Template Configuration
   otpTemplate: {
@@ -32,7 +27,7 @@ export const EMAILJS_CONFIG = {
   },
   
   // Environment kontrolü - Development'ta da çalışır
-  isEnabled: typeof window !== 'undefined' && Boolean(serviceId && templateId && publicKey),
+  isEnabled: Boolean(process.env.NEXT_PUBLIC_EMAILJS_OTP_SERVICE_ID && process.env.NEXT_PUBLIC_EMAILJS_OTP_TEMPLATE_ID && process.env.NEXT_PUBLIC_EMAILJS_OTP_PUBLIC_KEY),
 } as const
 
 // EmailJS Actions
@@ -74,7 +69,7 @@ export const isEmailJSEnabled = (): boolean => {
 }
 
 // Development modunda sadece temel durum bilgisi
-if (typeof window !== 'undefined' && process.env.NODE_ENV === 'development') {
+if (typeof window !== 'undefined' && typeof process !== 'undefined' && process.env?.NODE_ENV === 'development') {
   console.log('📧 EmailJS durumu:', isEmailJSEnabled() ? 'Aktif' : 'Devre dışı (Development modu)')
   console.log('🌐 Hostname:', window.location.hostname)
   console.log('🔧 OTP Service ID:', EMAILJS_CONFIG.serviceId ? 'Ayarlanmış' : 'Ayarlanmamış')

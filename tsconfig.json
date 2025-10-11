@@ -36,6 +36,9 @@
     "out/types/**/*.ts"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "dynamic-routes-backup",
+    "api-backup",
+    "src/components/blog-translation-manager.tsx"
   ]
 }

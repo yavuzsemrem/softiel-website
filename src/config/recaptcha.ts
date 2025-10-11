@@ -5,10 +5,10 @@
 
 export const RECAPTCHA_CONFIG = {
   // Site Key - Environment'tan al veya fallback
-  siteKey: process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI', // Test key
+  siteKey: process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI',
   
   // Secret Key - Environment'tan al veya fallback
-  secretKey: process.env.RECAPTCHA_SECRET_KEY || '6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe', // Test key
+  secretKey: process.env.RECAPTCHA_SECRET_KEY || '6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe',
   
   // ReCAPTCHA Version
   version: 'v3' as const,
@@ -71,7 +71,7 @@ export const isReCAPTCHAEnabled = (): boolean => {
 }
 
 // Development modunda sadece temel durum bilgisi (güvenlik için site key gizli)
-if (typeof window !== 'undefined' && process.env.NODE_ENV === 'development' && process.env.NEXT_PUBLIC_DEBUG_RECAPTCHA === 'true') {
+if (typeof window !== 'undefined' && typeof process !== 'undefined' && process.env?.NODE_ENV === 'development' && process.env?.NEXT_PUBLIC_DEBUG_RECAPTCHA === 'true') {
   console.log('🔒 ReCAPTCHA durumu:', isReCAPTCHAEnabled() ? 'Aktif' : 'Devre dışı (Development modu)')
   console.log('🌐 Hostname:', window.location.hostname)
   // Site key güvenlik nedeniyle asla konsola yazdırılmıyor

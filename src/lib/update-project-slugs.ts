@@ -1,7 +1,8 @@
 // Mevcut projelerin slug'larını güncellemek için utility script
 import { 
   collection, 
-  getDocs, 
+  getDocs,
+  getDoc, 
   updateDoc, 
   doc,
   query 
@@ -45,7 +46,7 @@ export async function updateAllProjectSlugs() {
     
   } catch (error) {
     console.error('Slug güncelleme hatası:', error)
-    return { success: false, error: error.message }
+    return { success: false, error: error instanceof Error ? error.message : 'Unknown error' }
   }
 }
 
@@ -53,7 +54,7 @@ export async function updateAllProjectSlugs() {
 export async function updateProjectSlug(projectId: string) {
   try {
     const projectRef = doc(db, 'projects', projectId)
-    const projectSnap = await getDocs(projectRef)
+    const projectSnap = await getDoc(projectRef)
     
     if (projectSnap.exists()) {
       const data = projectSnap.data()
@@ -71,7 +72,7 @@ export async function updateProjectSlug(projectId: string) {
     
   } catch (error) {
     console.error('Proje slug güncelleme hatası:', error)
-    return { success: false, error: error.message }
+    return { success: false, error: error instanceof Error ? error.message : 'Unknown error' }
   }
 }
 

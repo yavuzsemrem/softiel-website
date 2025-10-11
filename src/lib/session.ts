@@ -3,7 +3,7 @@ import { onAuthStateChanged, User } from 'firebase/auth';
 import { doc, getDoc, updateDoc, setDoc } from 'firebase/firestore';
 import { safeUpdateDoc, documentExists } from './firestore-utils';
 import { ref, set, get } from 'firebase/database';
-import { auth, db, rtdb } from './firebase';
+import { getAuth, getFirestore, getDatabase } from './firebase-lazy';
 import { UserData, UserRole } from './auth';
 import { monitoring } from './monitoring';
 
@@ -23,9 +23,34 @@ export interface SessionData {
 class SessionService {
   private currentSession: SessionData | null = null;
   private sessionListeners: ((session: SessionData | null) => void)[] = [];
+  private isInitialized = false;
 
   constructor() {
-    // Listen to auth state changes
+    // Sadece dashboard sayfalarında initialize et
+    if (typeof window !== 'undefined') {
+      const isDashboardPage = window.location.pathname.includes('/content-management-system-2024') || 
+                             window.location.pathname.includes('/admin');
+      
+      if (isDashboardPage) {
+        this.initialize();
+      }
+    }
+  }
+
+  // Public method to manually initialize
+  public async initialize() {
+    if (this.isInitialized) return;
+    this.isInitialized = true;
+    
+    // Listen to auth state changes - lazy loaded
+    this.initializeAuthListener();
+    
+    // Track user activity
+    this.setupActivityTracking();
+  }
+
+  private async initializeAuthListener() {
+    const auth = await getAuth();
     onAuthStateChanged(auth, async (user) => {
       if (user) {
         await this.createSession(user);
@@ -33,15 +58,13 @@ class SessionService {
         this.clearSession();
       }
     });
-
-    // Track user activity
-    this.setupActivityTracking();
   }
 
   // Create new session
   private async createSession(user: User): Promise<void> {
     try {
-      // Get user data from Firestore
+      // Get user data from Firestore - lazy loaded
+      const db = await getFirestore();
       const userDoc = await getDoc(doc(db, 'users', user.uid));
       let userData: UserData;
 
@@ -59,10 +82,11 @@ class SessionService {
           loginAttempts: 0
         };
 
-        // Save to Firestore
+        // Save to Firestore - lazy loaded
         await setDoc(doc(db, 'users', user.uid), userData);
         
-        // Save to Realtime Database
+        // Save to Realtime Database - lazy loaded
+        const rtdb = await getDatabase();
         await set(ref(rtdb, `users/${user.uid}`), userData);
       } else {
         const data = userDoc.data();
@@ -106,10 +130,11 @@ class SessionService {
 
       this.currentSession = sessionData;
 
-      // Store session in Firestore
+      // Store session in Firestore - lazy loaded
       await setDoc(doc(db, 'sessions', sessionId), sessionData);
 
-      // Store session in Realtime Database
+      // Store session in Realtime Database - lazy loaded
+      const rtdb = await getDatabase();
       await set(ref(rtdb, `sessions/${sessionId}`), sessionData);
 
       // User online status update removed - no longer needed
@@ -131,7 +156,7 @@ class SessionService {
   }
 
   // Clear current session
-  private clearSession(): void {
+  public clearSession(): void {
     if (this.currentSession) {
       // Clear session immediately
       this.currentSession = null;
@@ -158,14 +183,16 @@ class SessionService {
       // Update this.currentSession reference
       this.currentSession = currentSession;
 
-      // Update Firestore
+      // Update Firestore - lazy loaded
+      const db = await getFirestore();
       const sessionRef = doc(db, 'sessions', currentSession.sessionId);
       await safeUpdateDoc(sessionRef, {
         lastActivity: now,
         isActive
       });
 
-      // Update Realtime Database
+      // Update Realtime Database - lazy loaded
+      const rtdb = await getDatabase();
       await set(ref(rtdb, `sessions/${currentSession.sessionId}`), currentSession);
 
       // User online status update removed - no longer needed
@@ -313,6 +340,7 @@ class SessionService {
   // Get all active sessions for user
   async getUserSessions(userId: string): Promise<SessionData[]> {
     try {
+      const rtdb = await getDatabase();
       const sessionsRef = ref(rtdb, 'sessions');
       const snapshot = await get(sessionsRef);
       
@@ -341,7 +369,8 @@ class SessionService {
   // Terminate session
   async terminateSession(sessionId: string): Promise<{ success: boolean; error?: string }> {
     try {
-      // Update session as inactive
+      // Update session as inactive - lazy loaded
+      const rtdb = await getDatabase();
       await set(ref(rtdb, `sessions/${sessionId}`), {
         isActive: false,
         terminatedAt: new Date().toISOString()
@@ -363,6 +392,7 @@ class SessionService {
   // Cleanup old sessions
   async cleanupOldSessions(): Promise<{ cleaned: number }> {
     try {
+      const rtdb = await getDatabase();
       const sessionsRef = ref(rtdb, 'sessions');
       const snapshot = await get(sessionsRef);
       

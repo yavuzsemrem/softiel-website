@@ -4,7 +4,6 @@ import React, { useEffect, useRef, useState } from "react"
 import { createPortal } from "react-dom"
 import { motion, AnimatePresence } from "framer-motion"
 import { X, FileText, Send, CheckCircle, MessageSquare, User, Mail, Phone, Building, Calendar, ArrowDown, Loader2 } from "lucide-react"
-import emailjs from '@emailjs/browser'
 import { PrivacyModal } from './privacy-modal'
 import { useI18n } from "@/contexts/i18n-context"
 
@@ -62,26 +61,21 @@ function QuoteFormContent({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
 
       // Form verileri hazırlandı
 
-      // EmailJS ile gönder
-      const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID
-      const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID
-      const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY
-
-      // Environment variable kontrolü
-      if (!serviceId || !templateId || !publicKey) {
-        throw new Error('EmailJS yapılandırması eksik. Lütfen environment variable\'ları kontrol edin.')
+      // Server-side API route üzerinden email gönder
+      const response = await fetch('/api/send-quote-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(templateParams),
+      })
+      
+      const result = await response.json()
+      
+      if (!response.ok || !result.success) {
+        throw new Error(result.error || 'Email gönderimi başarısız oldu')
       }
 
-      const result = await emailjs.send(
-        serviceId,
-        templateId,
-        templateParams,
-        publicKey
-      )
-
-      if (!result || result.status !== 200) {
-        throw new Error('Email gönderimi başarısız oldu')
-      }
       
       setIsSubmitted(true)
     } catch (err) {

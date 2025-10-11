@@ -1,8 +1,29 @@
-import { Header } from "@/components/header"
-import { Footer } from "@/components/footer"
-import { BlogHero } from "@/components/blog-hero"
-import { BlogPosts } from "@/components/blog-posts"
-import { PricingCTA } from "@/components/pricing-cta"
+import dynamic from "next/dynamic"
+const Header = dynamic(() => import("@/components/header").then(mod => ({ default: mod.Header })), {
+  ssr: true,
+  loading: () => <div className="h-16" />
+})
+
+const Footer = dynamic(() => import("@/components/footer").then(mod => ({ default: mod.Footer })), {
+  ssr: true,
+  loading: () => <div className="h-32" />
+})
+import { Defer } from "@/components/defer"
+
+const BlogHero = dynamic(() => import("@/components/blog-hero").then(m => ({ default: m.BlogHero })), {
+  ssr: true,
+  loading: () => <div className="min-h-[48vh] lg:min-h-[60vh]" />
+})
+
+const BlogPosts = dynamic(() => import("@/components/blog-posts").then(m => ({ default: m.BlogPosts })), {
+  ssr: true,
+  loading: () => <div className="min-h-[50vh]" />
+})
+
+const PricingCTA = dynamic(() => import("@/components/pricing-cta").then(m => ({ default: m.PricingCTA })), {
+  ssr: true,
+  loading: () => null
+})
 
 export default function BlogPage() {
   return (
@@ -17,8 +38,12 @@ export default function BlogPage() {
         </div>
         
         <BlogHero />
-        <BlogPosts />
-        <PricingCTA />
+        <Defer placeholder={<div className="min-h-[40vh]" />}> 
+          <BlogPosts />
+        </Defer>
+        <Defer placeholder={null}>
+          <PricingCTA />
+        </Defer>
       </main>
       <Footer />
     </div>

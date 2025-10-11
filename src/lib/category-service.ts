@@ -130,7 +130,7 @@ export async function getCategory(id: string): Promise<Category | null> {
     const categoryRef = doc(categoriesCollection, id)
     const snapshot = await getDoc(categoryRef)
     
-    if (snapshot.exists) {
+    if (snapshot.exists()) {
       const category = {
         id: snapshot.id,
         ...snapshot.data()

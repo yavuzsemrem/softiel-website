@@ -6,6 +6,15 @@ import { ServiceProcess } from "@/components/service-process"
 import { ServicePricing } from "@/components/service-pricing"
 import { CTA } from "@/components/cta"
 
+// Static generation için metadata
+export const metadata = {
+  title: "WordPress Çözümleri - Softiel",
+  description: "Profesyonel WordPress kurulumu, tema geliştirme ve CMS çözümleri. E-ticaret, kurumsal site ve özel projeler için WordPress hizmetleri.",
+}
+
+// Static generation - sayfa önceden oluşturulsun
+export const dynamic = 'force-static'
+
 export default function WordPressCMSCozumleriPage() {
   // Pricing packages'ı önce tanımlıyoruz
   const pricing = [

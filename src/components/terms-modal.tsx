@@ -70,8 +70,8 @@ export function TermsModal({ isOpen, onClose }: TermsModalProps) {
             >
               {/* Modal Container */}
               <div 
-                className="glass rounded-3xl shadow-modern-lg border border-white/50 dark:border-white/40 backdrop-blur-lg overflow-hidden flex flex-col"
-                style={{ background: 'rgba(255, 255, 255, 0.1)' }}
+                className="glass rounded-3xl shadow-modern-lg backdrop-blur-lg overflow-hidden flex flex-col"
+                style={{ background: 'rgba(255, 255, 255, 0.1)', border: 'none' }}
               >
                 {/* Header */}
                 <div className="relative bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 p-8 text-white">
@@ -106,7 +106,7 @@ export function TermsModal({ isOpen, onClose }: TermsModalProps) {
                 <div className="flex-1 p-8 overflow-y-auto scrollbar-thin scrollbar-thumb-purple-500 scrollbar-track-transparent" style={{ maxHeight: 'calc(90vh - 200px)' }}>
                   <div className="prose prose-lg max-w-none text-neutral-700 dark:text-neutral-300">
                     {/* Introduction */}
-                    <div className="mb-8 p-6 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-2xl border border-blue-200 dark:border-blue-800">
+                    <div className="mb-8 p-6 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-2xl" style={{ border: 'none' }}>
                       <p className="text-base leading-relaxed mb-0">
                         {t('terms.introduction', 'Bu kullanım koşulları, Softiel web sitesini (bundan sonra "Site" olarak anılacaktır) ziyaret eden tüm kullanıcılar için geçerlidir. Siteye erişen ve kullanan herkes aşağıda belirtilen koşulları kabul etmiş sayılır.')}
                       </p>
@@ -260,7 +260,7 @@ export function TermsModal({ isOpen, onClose }: TermsModalProps) {
                         <h3 className="text-xl font-bold text-neutral-900 dark:text-white">{t('terms.section8.title', '8. İletişim')}</h3>
                       </div>
                       <p className="mb-4">{t('terms.section8.description', 'Kullanım koşulları hakkında tüm sorularınız ve talepleriniz için bizimle iletişime geçebilirsiniz:')}</p>
-                      <div className="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 p-6 rounded-2xl border border-blue-200 dark:border-blue-800">
+                      <div className="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 p-6 rounded-2xl" style={{ border: 'none' }}>
                         <div className="space-y-2">
                           <p className="font-semibold text-neutral-900 dark:text-white mb-2">Softiel</p>
                           <p className="flex items-center space-x-2 text-neutral-700 dark:text-neutral-300">
@@ -274,7 +274,7 @@ export function TermsModal({ isOpen, onClose }: TermsModalProps) {
                 </div>
 
                 {/* Footer */}
-                <div className="px-8 py-6 bg-gradient-to-r from-neutral-50 to-neutral-100 dark:from-neutral-900 dark:to-neutral-800 border-t border-neutral-200 dark:border-neutral-700">
+                <div className="px-8 py-6 bg-gradient-to-r from-neutral-50 to-neutral-100 dark:from-neutral-900 dark:to-neutral-800" style={{ borderTop: 'none' }}>
                   <div className="flex items-center justify-between">
                     <p className="text-sm text-neutral-600 dark:text-neutral-400">
                       {t('terms.lastUpdated', 'Son güncelleme:')} {new Date().toLocaleDateString('tr-TR')}
