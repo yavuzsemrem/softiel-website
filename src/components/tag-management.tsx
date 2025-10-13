@@ -717,6 +717,11 @@ export function TagManagement() {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
             className="glass rounded-2xl p-4 sm:p-6 border border-white/20 shadow-modern max-w-md w-full mx-4 sm:mx-0"
+            style={{ 
+              background: 'rgba(15, 23, 42, 0.95)',
+              backdropFilter: 'blur(20px)',
+              boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)'
+            }}
           >
             <div className="flex items-center space-x-3 mb-4">
               <div className="w-10 h-10 bg-red-500/20 rounded-full flex items-center justify-center">
@@ -999,7 +1004,9 @@ function TagModal({ isOpen, onClose, onSubmit, tag, isEdit }: any) {
         exit={{ opacity: 0, scale: 0.95 }}
         className="glass rounded-2xl p-4 sm:p-6 lg:p-8 w-full max-w-md mx-4 sm:mx-0 border border-white/20 overflow-hidden"
         style={{ 
-          background: 'rgba(255, 255, 255, 0.1)',
+          background: 'rgba(15, 23, 42, 0.95)',
+          backdropFilter: 'blur(20px)',
+          boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
           maxHeight: '90vh',
           overflowY: 'auto'
         }}

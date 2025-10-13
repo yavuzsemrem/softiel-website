@@ -23,6 +23,7 @@ import {
   SortAsc
 } from "lucide-react"
 import { getPublishedBlogs, BlogPost, getCategories } from "@/lib/blog-service"
+import { useI18n } from "@/contexts/i18n-context"
 
 // domAnimation'ı async yükle
 const loadFeatures = () => import("framer-motion").then(mod => mod.domAnimation)
@@ -31,6 +32,7 @@ const demoBlogs: BlogPost[] = []
 
 
 export function BlogPosts() {
+  const { t, getLocalizedUrl } = useI18n()
   const [selectedCategory, setSelectedCategory] = useState("all")
   const [searchQuery, setSearchQuery] = useState("")
   const [selectedTags, setSelectedTags] = useState<string[]>([])
@@ -140,10 +142,10 @@ export function BlogPosts() {
 
   // Sıralama seçenekleri
   const sortOptions = [
-    { value: "newest", label: "En Yeni" },
-    { value: "oldest", label: "En Eski" },
-    { value: "popular", label: "En Popüler" },
-    { value: "mostViewed", label: "En Çok İzlenen" }
+    { value: "newest", label: t('blog.filter.newest', 'En Yeni') },
+    { value: "oldest", label: t('blog.filter.oldest', 'En Eski') },
+    { value: "popular", label: t('blog.filter.popular', 'En Popüler') },
+    { value: "mostViewed", label: t('blog.filter.mostViewed', 'En Çok İzlenen') }
   ]
 
   const filteredPosts = blogs.filter(post => {
@@ -282,10 +284,10 @@ export function BlogPosts() {
                   </div>
                   <div>
                     <h2 className="text-2xl font-bold text-white mb-1">
-                      Filtrele & Sırala
+                      {t('blog.filter.title', 'Filtrele & Sırala')}
                     </h2>
                     <p className="text-neutral-400 text-sm">
-                      Blog yazılarını kategorilere göre filtreleyin ve arayın
+                      {t('blog.filter.subtitle', 'Blog yazılarını kategorilere göre filtreleyin ve arayın')}
                     </p>
                   </div>
                 </div>
@@ -304,10 +306,10 @@ export function BlogPosts() {
                   <div className="relative flex items-center space-x-3">
                     <Filter className="h-5 w-5" />
                     <span className="sm:hidden">
-                      Filtreler
+                      {t('blog.filter.filters', 'Filtreler')}
                     </span>
                     <span className="hidden sm:inline">
-                      {isFilterOpen ? 'Filtreleri Gizle' : 'Filtreleri Göster'}
+                      {isFilterOpen ? t('blog.filter.hideFilters', 'Filtreleri Gizle') : t('blog.filter.showFilters', 'Filtreleri Göster')}
                     </span>
                     <m.div
                       animate={{ rotate: isFilterOpen ? 180 : 0 }}
@@ -326,7 +328,7 @@ export function BlogPosts() {
                 </div>
                 <input
                   type="text"
-                  placeholder="Blog yazılarında ara..."
+                  placeholder={t('blog.filter.searchPlaceholder', 'Blog yazılarında ara...')}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="w-full pl-12 pr-6 py-4 rounded-2xl text-white placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:shadow-[0_0_40px_rgba(6,182,212,0.4)] transition-all duration-300 backdrop-blur-lg text-lg"
@@ -375,7 +377,7 @@ export function BlogPosts() {
                         <div className="flex items-center space-x-2">
                           <div className="w-2 h-2 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full"></div>
                           <label className="text-sm font-semibold text-white uppercase tracking-wider">
-                            Kategori
+                            {t('blog.filter.category', 'Kategori')}
                           </label>
                         </div>
                         <div className="relative">
@@ -390,7 +392,7 @@ export function BlogPosts() {
                           >
                             {categories.map(category => (
                               <option key={category} value={category} className="bg-slate-800 text-white">
-                                {category === "all" ? "Tümü" : category}
+                                {category === "all" ? t('blog.filter.all', 'Tümü') : category}
                               </option>
                             ))}
                           </select>
@@ -405,7 +407,7 @@ export function BlogPosts() {
                         <div className="flex items-center space-x-2">
                           <div className="w-2 h-2 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full"></div>
                           <label className="text-sm font-semibold text-white uppercase tracking-wider">
-                            Sırala
+                            {t('blog.filter.sort', 'Sırala')}
                           </label>
                         </div>
                         <div className="relative">
@@ -445,7 +447,7 @@ export function BlogPosts() {
                           <div className="absolute inset-0 bg-gradient-to-r from-red-500/10 to-pink-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                           <div className="relative flex items-center justify-center space-x-2">
                             <X className="h-4 w-4" />
-                            <span className="font-medium">Filtreleri Temizle</span>
+                            <span className="font-medium">{t('blog.filter.clearFilters', 'Filtreleri Temizle')}</span>
                           </div>
                         </m.button>
                       </div>
@@ -469,7 +471,7 @@ export function BlogPosts() {
                     <div className="flex flex-wrap items-center gap-3">
                       <div className="flex items-center space-x-2">
                         <div className="w-2 h-2 bg-gradient-to-r from-emerald-500 to-green-500 rounded-full animate-pulse"></div>
-                        <span className="text-sm font-semibold text-white uppercase tracking-wider">Aktif Filtreler</span>
+                        <span className="text-sm font-semibold text-white uppercase tracking-wider">{t('blog.filter.activeFilters', 'Aktif Filtreler')}</span>
                       </div>
                       
                       <div className="flex flex-wrap gap-2">
@@ -546,19 +548,18 @@ export function BlogPosts() {
           >
             <BookOpen className="h-5 w-5 text-cyan-500 fill-current" />
             <span className="text-sm font-semibold text-neutral-700 dark:text-neutral-300">
-              Son Yazılar
+              {t('blog.badge', 'Son Yazılar')}
             </span>
           </div>
 
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-display font-bold text-neutral-900 dark:text-white mb-6">
-            Blog{" "}
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-display font-bold mb-6">
+            <span className="text-neutral-900 dark:text-white">{t('blog.hero.headingNormal', 'Blog')}</span>{" "}
             <span className="bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 bg-clip-text text-transparent">
-              Yazıları
+              {t('blog.hero.headingGradient', 'Yazıları')}
             </span>
           </h2>
           <p className="text-lg sm:text-xl text-neutral-600 dark:text-neutral-400 max-w-3xl mx-auto leading-relaxed">
-            Dijital dünyadaki son gelişmeler ve uzman görüşlerimizi takip edin.<br/>
-            Teknoloji, pazarlama ve web geliştirme konularında derinlemesine içerikler.
+            {t('blog.hero.description', 'Dijital dünyadaki son gelişmeler ve uzman görüşlerimizi takip edin.')}
           </p>
         </div>
 
@@ -574,7 +575,7 @@ export function BlogPosts() {
           <div className="flex items-center justify-center py-16">
             <div className="flex items-center space-x-3">
               <Loader2 className="h-8 w-8 animate-spin text-cyan-400" />
-              <span className="text-white text-lg">Bloglar yükleniyor...</span>
+              <span className="text-white text-lg">{t('common.loading', 'Bloglar yükleniyor...')}</span>
             </div>
           </div>
         )}
@@ -679,9 +680,9 @@ export function BlogPosts() {
                 </div>
 
                 {/* Read More */}
-                <Link href={`/tr/blog/${post.slug || post.id}`}>
+                <Link href={`${getLocalizedUrl('/blog')}/${post.slug || post.id}`}>
                   <div className="flex items-center text-cyan-600 dark:text-cyan-400 font-medium transition-transform duration-200 cursor-pointer">
-                  <span className="text-sm">Devamını Oku</span>
+                  <span className="text-sm">{t('blog.readMore', 'Devamını Oku')}</span>
                   <ArrowRight className="h-4 w-4 ml-2" />
                 </div>
                 </Link>

@@ -14,6 +14,7 @@ import {
 } from "lucide-react"
 import { useRecaptcha } from "@/hooks/useRecaptcha"
 import { createComment } from "@/lib/comment-service"
+import { useI18n } from "@/contexts/i18n-context"
 
 interface CommentReplyFormData {
   name: string
@@ -34,6 +35,7 @@ export function BlogCommentReplyForm({
   onReplySubmit, 
   onCancel 
 }: BlogCommentReplyFormProps) {
+  const { t } = useI18n()
   const [formData, setFormData] = useState<CommentReplyFormData>({
     name: '',
     email: '',
@@ -59,27 +61,27 @@ export function BlogCommentReplyForm({
 
   const validateForm = (): boolean => {
     if (!formData.name.trim()) {
-      setErrorMessage('Adınızı giriniz')
+      setErrorMessage(t('blogDetail.replyNameRequired', 'Adınızı giriniz'))
       setSubmitStatus('error')
       return false
     }
     if (!formData.email.trim()) {
-      setErrorMessage('E-posta adresinizi giriniz')
+      setErrorMessage(t('blogDetail.replyEmailRequired', 'E-posta adresinizi giriniz'))
       setSubmitStatus('error')
       return false
     }
     if (!formData.email.includes('@')) {
-      setErrorMessage('Geçerli bir e-posta adresi giriniz')
+      setErrorMessage(t('blogDetail.replyEmailInvalid', 'Geçerli bir e-posta adresi giriniz'))
       setSubmitStatus('error')
       return false
     }
     if (!formData.content.trim()) {
-      setErrorMessage('Yanıtınızı yazınız')
+      setErrorMessage(t('blogDetail.replyContentRequired', 'Yanıtınızı yazınız'))
       setSubmitStatus('error')
       return false
     }
     if (formData.content.trim().length < 5) {
-      setErrorMessage('Yanıtınız en az 5 karakter olmalıdır')
+      setErrorMessage(t('blogDetail.replyMinLength', 'Yanıtınız en az 5 karakter olmalıdır'))
       setSubmitStatus('error')
       return false
     }
@@ -137,7 +139,7 @@ export function BlogCommentReplyForm({
 
     } catch (error) {
       setSubmitStatus('error')
-      setErrorMessage('Yanıt gönderilirken bir hata oluştu. Lütfen tekrar deneyin.')
+      setErrorMessage(t('blogDetail.replySubmitError', 'Yanıt gönderilirken bir hata oluştu. Lütfen tekrar deneyin.'))
     } finally {
       setIsSubmitting(false)
     }
@@ -157,7 +159,7 @@ export function BlogCommentReplyForm({
           <div className="w-6 h-6 rounded-full flex items-center justify-center" style={{ background: 'linear-gradient(to right, #8b5cf6, #a855f7)' }}>
             <MessageSquare className="h-3 w-3 text-white" />
           </div>
-          <h4 className="text-sm font-semibold text-white">Yanıt Yaz</h4>
+          <h4 className="text-sm font-semibold text-white">{t('blogDetail.replyFormTitle', 'Yanıt Yaz')}</h4>
         </div>
         {onCancel && (
           <button
@@ -175,7 +177,7 @@ export function BlogCommentReplyForm({
           <div className="space-y-2">
             <label className="block text-xs font-semibold text-white flex items-center space-x-1">
               <User className="h-3 w-3" />
-              <span>Adınız *</span>
+              <span>{t('blogDetail.commentName', 'Adınız')} *</span>
             </label>
             <input
               type="text"
@@ -183,7 +185,7 @@ export function BlogCommentReplyForm({
               onChange={(e) => handleInputChange('name', e.target.value)}
               className="w-full px-3 py-2.5 glass rounded-lg text-white placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/70 transition-all duration-300 text-sm min-w-0"
               style={{ background: 'rgba(255, 255, 255, 0.1)' }}
-              placeholder="Adınızı giriniz"
+              placeholder={t('blogDetail.commentNamePlaceholder', 'Adınızı giriniz')}
               required
             />
           </div>
@@ -191,7 +193,7 @@ export function BlogCommentReplyForm({
           <div className="space-y-2">
             <label className="block text-xs font-semibold text-white flex items-center space-x-1">
               <Mail className="h-3 w-3" />
-              <span>E-posta *</span>
+              <span>{t('blogDetail.commentEmail', 'E-posta')} *</span>
             </label>
             <input
               type="email"
@@ -199,7 +201,7 @@ export function BlogCommentReplyForm({
               onChange={(e) => handleInputChange('email', e.target.value)}
               className="w-full px-3 py-2.5 glass rounded-lg text-white placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/70 transition-all duration-300 text-sm min-w-0"
               style={{ background: 'rgba(255, 255, 255, 0.1)' }}
-              placeholder="E-posta adresinizi giriniz"
+              placeholder={t('blogDetail.commentEmailPlaceholder', 'E-posta adresinizi giriniz')}
               required
             />
           </div>
@@ -209,7 +211,7 @@ export function BlogCommentReplyForm({
         <div className="space-y-2">
           <label className="block text-xs font-semibold text-white flex items-center space-x-1">
             <MessageSquare className="h-3 w-3" />
-            <span>Yanıtınız *</span>
+            <span>{t('blogDetail.replyContent', 'Yanıtınız')} *</span>
           </label>
           <textarea
             value={formData.content}
@@ -217,11 +219,11 @@ export function BlogCommentReplyForm({
             rows={3}
             className="w-full px-3 py-2.5 glass rounded-lg text-white placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/70 transition-all duration-300 resize-y min-h-[80px] text-sm min-w-0"
             style={{ background: 'rgba(255, 255, 255, 0.1)' }}
-            placeholder="Yanıtınızı buraya yazınız..."
+            placeholder={t('blogDetail.replyPlaceholder', 'Yanıtınızı buraya yazınız...')}
             required
           />
           <p className="text-xs text-neutral-400">
-            En az 5 karakter olmalıdır ({formData.content.length}/5)
+            {t('blogDetail.replyMinLengthText', 'En az 5 karakter olmalıdır')} ({formData.content.length}/5)
           </p>
         </div>
 
@@ -233,7 +235,7 @@ export function BlogCommentReplyForm({
             className="flex items-center space-x-2 p-3 bg-green-500/20 text-green-400 rounded-lg border border-green-500/30"
           >
             <CheckCircle className="h-4 w-4" />
-            <span className="text-sm">Yanıtınız başarıyla gönderildi!</span>
+            <span className="text-sm">{t('blogDetail.replySuccess', 'Yanıtınız başarıyla gönderildi!')}</span>
           </motion.div>
         )}
 
@@ -256,7 +258,7 @@ export function BlogCommentReplyForm({
               onClick={onCancel}
               className="px-4 py-2.5 text-neutral-300 hover:text-white hover:bg-white/10 rounded-lg transition-all duration-200 text-sm order-2 sm:order-1"
             >
-              İptal
+              {t('blogDetail.cancel', 'İptal')}
             </button>
           )}
           <button
@@ -268,12 +270,12 @@ export function BlogCommentReplyForm({
             {isSubmitting ? (
               <>
                 <Loader2 className="h-3 w-3 animate-spin" />
-                <span>Gönderiliyor...</span>
+                <span>{t('blogDetail.commentSending', 'Gönderiliyor...')}</span>
               </>
             ) : (
               <>
                 <Send className="h-3 w-3" />
-                <span>Yanıt Gönder</span>
+                <span>{t('blogDetail.replySubmit', 'Yanıt Gönder')}</span>
               </>
             )}
           </button>

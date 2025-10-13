@@ -1,5 +1,17 @@
 @import "tailwindcss";
 
+/* reCAPTCHA Badge'i gizle */
+.grecaptcha-badge {
+  visibility: hidden !important;
+  opacity: 0 !important;
+  display: none !important;
+}
+
+/* reCAPTCHA badge'i tamamen gizle */
+iframe[src*="recaptcha"] {
+  display: none !important;
+}
+
 /* Kritik CSS - Above the fold için */
 :root {
   /* Light theme - Modern mavi gradient temelli */

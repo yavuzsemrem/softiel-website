@@ -198,10 +198,10 @@ export function BlogHero() {
             transition={{ delay: 0.2, duration: 0.6 }}
             className="text-5xl sm:text-6xl font-bold text-white mb-6 leading-tight"
           >
-            Dijital{" "}
+            {t('blog.hero.headingNormal', 'Dijital')}{" "}
             <br />
             <span className="bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 bg-clip-text text-transparent">
-              Blog Yazıları
+              {t('blog.hero.headingGradient', 'Blog Yazıları')}
             </span>
           </m.h1>
           
@@ -308,10 +308,10 @@ export function BlogHero() {
 
             {/* Main Heading */}
             <h1 className="text-6xl lg:text-7xl xl:text-8xl font-bold text-white mb-8 leading-tight">
-              Dijital{" "}
+              {t('blog.hero.headingNormal', 'Dijital')}{" "}
               <br />
               <span className="bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 bg-clip-text text-transparent">
-                Blog Yazıları
+                {t('blog.hero.headingGradient', 'Blog Yazıları')}
               </span>
             </h1>
             
@@ -404,11 +404,11 @@ export function BlogHero() {
             <div className="w-12 h-12 bg-gradient-to-r from-green-500 via-emerald-500 to-teal-500 rounded-xl flex items-center justify-center mx-auto mb-4">
               <User className="h-6 w-6 text-white" />
             </div>
-            <h3 className="text-lg font-semibold text-white mb-2">Aylık Ziyaretçi</h3>
+            <h3 className="text-lg font-semibold text-white mb-2">{t('blog.stats.monthlyVisitors', 'Aylık Ziyaretçi')}</h3>
             <p className="text-blue-400 font-medium mb-1 text-lg">
               {loading ? <Loader2 className="h-4 w-4 animate-spin mx-auto" /> : `${stats.monthlyVisitors.toLocaleString()}`}
             </p>
-            <p className="text-gray-400 text-sm">Blog Okuyucuları</p>
+            <p className="text-gray-400 text-sm">{t('blog.stats.activeReaders', 'Blog Okuyucuları')}</p>
           </m.div>
 
           <m.div
@@ -420,11 +420,11 @@ export function BlogHero() {
             <div className="w-12 h-12 bg-gradient-to-r from-purple-500 via-violet-500 to-indigo-500 rounded-xl flex items-center justify-center mx-auto mb-4">
               <Calendar className="h-6 w-6 text-white" />
             </div>
-            <h3 className="text-lg font-semibold text-white mb-2">Ortalama Okuma</h3>
+            <h3 className="text-lg font-semibold text-white mb-2">{t('blog.stats.averageRead', 'Ortalama Okuma')}</h3>
             <p className="text-blue-400 font-medium mb-1 text-lg">
               {loading ? <Loader2 className="h-4 w-4 animate-spin mx-auto" /> : stats.averageReadTime}
             </p>
-            <p className="text-gray-400 text-sm">Süre</p>
+            <p className="text-gray-400 text-sm">{t('blog.stats.contentQuality', 'Süre')}</p>
           </m.div>
 
           <m.div
@@ -436,11 +436,11 @@ export function BlogHero() {
             <div className="w-12 h-12 bg-gradient-to-r from-orange-500 via-amber-500 to-yellow-500 rounded-xl flex items-center justify-center mx-auto mb-4">
               <MessageCircle className="h-6 w-6 text-white" />
             </div>
-            <h3 className="text-lg font-semibold text-white mb-2">Haftalık Güncelleme</h3>
+            <h3 className="text-lg font-semibold text-white mb-2">{t('blog.stats.weeklyUpdate', 'Haftalık Güncelleme')}</h3>
             <p className="text-blue-400 font-medium mb-1 text-lg">
               {loading ? <Loader2 className="h-4 w-4 animate-spin mx-auto" /> : stats.weeklyUpdates}
             </p>
-            <p className="text-gray-400 text-sm">Yeni İçerik</p>
+            <p className="text-gray-400 text-sm">{t('blog.stats.newContent', 'Yeni İçerik')}</p>
           </m.div>
 
           <m.div
@@ -452,11 +452,11 @@ export function BlogHero() {
             <div className="w-12 h-12 bg-gradient-to-r from-red-500 via-pink-500 to-rose-500 rounded-xl flex items-center justify-center mx-auto mb-4">
               <BookOpen className="h-6 w-6 text-white" />
             </div>
-            <h3 className="text-lg font-semibold text-white mb-2">Memnuniyet</h3>
+            <h3 className="text-lg font-semibold text-white mb-2">{t('blog.stats.satisfaction', 'Memnuniyet')}</h3>
             <p className="text-blue-400 font-medium mb-1 text-lg">
               {loading ? <Loader2 className="h-4 w-4 animate-spin mx-auto" /> : `%${stats.satisfaction}`}
             </p>
-            <p className="text-gray-400 text-sm">Oranı</p>
+            <p className="text-gray-400 text-sm">{t('blog.stats.positiveFeedback', 'Oranı')}</p>
           </m.div>
         </div>
       </div>

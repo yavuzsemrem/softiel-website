@@ -3,6 +3,7 @@
 import React from "react"
 import { motion } from "framer-motion"
 import { MessageCircle, Phone, Mail, MapPin, ArrowRight, CheckCircle, Users, Clock, Headphones, Globe, Zap, Shield, Star, Sparkles } from "lucide-react"
+import { useI18n } from "@/contexts/i18n-context"
 
 // WhatsApp icon component
 const WhatsAppIcon = ({ className }: { className?: string }) => (
@@ -12,6 +13,12 @@ const WhatsAppIcon = ({ className }: { className?: string }) => (
 )
 
 export function ContactHero() {
+  const { t } = useI18n()
+  
+  // WhatsApp mesajını dile göre al
+  const whatsappMessage = encodeURIComponent(t('contact.hero.whatsappMessage'))
+  const whatsappUrl = `https://wa.me/905411883045?text=${whatsappMessage}`
+  
   return (
     <section className="relative bg-gradient-to-b from-slate-900 via-slate-850 to-slate-900 overflow-hidden">
       {/* Background Elements */}
@@ -142,7 +149,7 @@ export function ContactHero() {
           >
             <MessageCircle className="h-5 w-5 text-cyan-500 fill-current" />
             <span className="text-sm font-semibold text-neutral-700 dark:text-neutral-300">
-              İletişim
+              {t('contact.hero.badge')}
             </span>
           </motion.div>
 
@@ -153,10 +160,11 @@ export function ContactHero() {
             transition={{ delay: 0.2, duration: 0.6 }}
             className="text-5xl sm:text-6xl font-bold text-white mb-6 leading-tight"
           >
-            Bizimle{" "}
+            {t('contact.hero.headingNormal')}
+            {" "}
             <br />
             <span className="bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 bg-clip-text text-transparent">
-              İletişime Geçin
+              {t('contact.hero.headingGradient')}
             </span>
           </motion.h1>
           
@@ -167,7 +175,7 @@ export function ContactHero() {
             transition={{ delay: 0.3, duration: 0.6 }}
             className="text-lg sm:text-xl text-gray-300 mb-8 space-y-2"
           >
-            <p>Profesyonel web geliştirme, dijital pazarlama ve teknoloji çözümleri için bizimle iletişime geçin.</p>
+            <p>{t('contact.hero.description')}</p>
           </motion.div>
       
           {/* CTA Buttons */}
@@ -216,12 +224,12 @@ export function ContactHero() {
               whileTap={{ scale: 0.95 }}
               className="inline-flex items-center justify-center space-x-2 text-white px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-200 bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 cursor-pointer"
             >
-              <span>Hemen Başlayın</span>
+              <span>{t('contact.hero.ctaStart')}</span>
               <ArrowRight className="h-5 w-5" />
             </motion.button>
               
             <motion.a
-              href="https://wa.me/905411883045?text=Merhabalar,%20projeleriniz%20hakkında%20bilgi%20almak%20istiyorum."
+              href={whatsappUrl}
               target="_blank"
               rel="noopener noreferrer"
               whileHover={{ scale: 1.05 }}
@@ -229,7 +237,7 @@ export function ContactHero() {
               className="inline-flex items-center justify-center space-x-2 bg-gray-700 hover:bg-gray-600 text-white px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-200"
             >
               <WhatsAppIcon className="h-5 w-5" />
-              <span>WhatsApp Sohbet</span>
+              <span>{t('contact.hero.ctaWhatsApp')}</span>
             </motion.a>
           </motion.div>
 
@@ -270,22 +278,23 @@ export function ContactHero() {
             >
               <MessageCircle className="h-5 w-5 text-cyan-500 fill-current" />
               <span className="text-sm font-semibold text-neutral-700 dark:text-neutral-300">
-                İletişim
+                {t('contact.hero.badge')}
               </span>
             </motion.div>
 
             {/* Main Heading */}
             <h1 className="text-6xl lg:text-7xl xl:text-8xl font-bold text-white mb-8 leading-tight">
-              Bizimle{" "}
+              {t('contact.hero.headingNormal')}
+              {" "}
               <br />
               <span className="bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 bg-clip-text text-transparent">
-                İletişime Geçin
+                {t('contact.hero.headingGradient')}
               </span>
             </h1>
             
             {/* Description */}
             <div className="text-lg lg:text-xl text-gray-300 mb-10 space-y-2">
-              <p>Profesyonel web geliştirme, dijital pazarlama ve teknoloji çözümleri için bizimle iletişime geçin.</p>
+              <p>{t('contact.hero.description')}</p>
             </div>
             
             {/* CTA Buttons */}
@@ -334,12 +343,12 @@ export function ContactHero() {
                 whileTap={{ scale: 0.95 }}
                 className="inline-flex items-center justify-center space-x-2 text-white px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-200 bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 cursor-pointer"
               >
-                <span>Hemen Başlayın</span>
+                <span>{t('contact.hero.ctaStart')}</span>
                 <ArrowRight className="h-5 w-5" />
               </motion.button>
                 
               <motion.a
-                href="https://wa.me/905411883045?text=Merhabalar,%20projeleriniz%20hakkında%20bilgi%20almak%20istiyorum."
+                href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 whileHover={{ scale: 1.05 }}
@@ -347,7 +356,7 @@ export function ContactHero() {
                 className="inline-flex items-center justify-center space-x-2 bg-gray-700 hover:bg-gray-600 text-white px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-200"
               >
                 <WhatsAppIcon className="h-5 w-5" />
-                <span>WhatsApp Sohbet</span>
+                <span>{t('contact.hero.ctaWhatsApp')}</span>
               </motion.a>
             </motion.div>
           </motion.div>
@@ -383,9 +392,9 @@ export function ContactHero() {
             <div className="w-12 h-12 bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 rounded-xl flex items-center justify-center mx-auto mb-4">
               <Phone className="h-6 w-6 text-white" />
             </div>
-            <h3 className="text-lg font-semibold text-white mb-2">Telefon</h3>
-            <p className="text-blue-400 font-medium mb-1 text-lg">0541 182 30 45</p>
-            <p className="text-gray-400 text-sm">7/24 Destek</p>
+            <h3 className="text-lg font-semibold text-white mb-2">{t('contact.hero.phoneTitle')}</h3>
+            <p className="text-blue-400 font-medium mb-1 text-lg">{t('contact.hero.phoneNumber')}</p>
+            <p className="text-gray-400 text-sm">{t('contact.hero.phoneDesc')}</p>
           </motion.div>
 
           <motion.div
@@ -397,9 +406,9 @@ export function ContactHero() {
             <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl flex items-center justify-center mx-auto mb-4">
               <Mail className="h-6 w-6 text-white" />
             </div>
-            <h3 className="text-lg font-semibold text-white mb-2">E-posta</h3>
-            <p className="text-blue-400 font-medium mb-1 text-lg">info@softiel.com</p>
-            <p className="text-gray-400 text-sm">22 Saat içinde Yanıt</p>
+            <h3 className="text-lg font-semibold text-white mb-2">{t('contact.hero.emailTitle')}</h3>
+            <p className="text-blue-400 font-medium mb-1 text-lg">{t('contact.hero.emailAddress')}</p>
+            <p className="text-gray-400 text-sm">{t('contact.hero.emailDesc')}</p>
           </motion.div>
 
           <motion.div
@@ -411,9 +420,9 @@ export function ContactHero() {
             <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-emerald-500 rounded-xl flex items-center justify-center mx-auto mb-4">
               <WhatsAppIcon className="h-6 w-6 text-white" />
             </div>
-            <h3 className="text-lg font-semibold text-white mb-2">WhatsApp</h3>
-            <p className="text-blue-400 font-medium mb-1 text-lg">0541 182 30 45</p>
-            <p className="text-gray-400 text-sm">Anında Yanıt</p>
+            <h3 className="text-lg font-semibold text-white mb-2">{t('contact.hero.whatsappTitle')}</h3>
+            <p className="text-blue-400 font-medium mb-1 text-lg">{t('contact.hero.whatsappNumber')}</p>
+            <p className="text-gray-400 text-sm">{t('contact.hero.whatsappDesc')}</p>
           </motion.div>
 
             <motion.div
@@ -425,9 +434,9 @@ export function ContactHero() {
             <div className="w-12 h-12 bg-gradient-to-r from-orange-500 via-amber-500 to-yellow-500 rounded-xl flex items-center justify-center mx-auto mb-4">
               <MapPin className="h-6 w-6 text-white" />
               </div>
-            <h3 className="text-lg font-semibold text-white mb-2">Adres</h3>
-            <p className="text-blue-400 font-medium mb-1 text-lg">İstanbul, Türkiye</p>
-            <p className="text-gray-400 text-sm">Ofis Ziyareti</p>
+            <h3 className="text-lg font-semibold text-white mb-2">{t('contact.hero.addressTitle')}</h3>
+            <p className="text-blue-400 font-medium mb-1 text-lg">{t('contact.hero.addressLocation')}</p>
+            <p className="text-gray-400 text-sm">{t('contact.hero.addressDesc')}</p>
             </motion.div>
         </div>
       </div>

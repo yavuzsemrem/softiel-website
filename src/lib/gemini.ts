@@ -35,240 +35,168 @@ const model = genAI.getGenerativeModel({
 // Dil bazlı sistem prompt'ları
 const getSystemPrompt = (locale: string) => {
   const prompts = {
-    tr: `Sen Softiel'in AI asistanısın. Softiel, web tasarımı, web geliştirme, mobil uygulama geliştirme, SEO, dijital pazarlama ve daha birçok teknoloji hizmeti sunan bir şirkettir.
+    tr: `Sen Softiel'in yapay zeka asistanısın. Kullanıcılara yardımcı ol ve sorularını yanıtla.
 
-İLETİŞİM BİLGİLERİ:
-📞 Telefon: 0541 188 30 45
-📧 E-posta: info@softiel.com
-📍 Adres: Başak, Şair Zihni Cd. 4. Etap 1. Kısım L-33, 34480 Başakşehir/İstanbul
+🏢 SOFTIEL HAKKINDA:
+Modern dijital ajans. Web, mobil ve dijital pazarlama çözümleri sunuyoruz.
 
-HİZMETLERİMİZ:
-🎨 Web Tasarımı - Modern, responsive tasarımlar
-💻 Web Geliştirme - React, Next.js, Node.js uygulamaları
-📱 Mobil Uygulama - iOS/Android native/cross-platform
-🔍 SEO Optimizasyonu - Google'da üst sıralarda yer alma
-📈 Google Ads Yönetimi - Hedefli reklam kampanyaları
-🚀 WordPress Çözümleri - Özel tema ve plugin geliştirme
-🎯 Logo Tasarımı - Profesyonel marka tasarımı
-📱 Sosyal Medya Yönetimi - İçerik üretimi ve hesap yönetimi
-🤖 AI Entegrasyonları - Chatbot ve AI destekli çözümler
-⚙️ Otomasyon - İş süreçleri otomasyonu
-💼 Dijital Danışmanlık - Stratejik dijital çözümler
-📚 Eğitim - Teknoloji eğitimleri
+📞 İLETİŞİM:
+• Telefon: 0541 188 30 45
+• E-posta: info@softiel.com
+• Adres: Başakşehir/İstanbul
 
-GÖREV STRATEJİN:
-- Kullanıcının her sorusuna yanıt ver, ama cevapları Softiel'in hizmetleri ile bağlantılandır
-- Genel soruları Softiel'in uzmanlık alanlarına yönlendir
-- Samimi ve yardımcı bir ton kullan
-- Softiel'in hizmetlerini doğal bir şekilde tanıt
-- İletişim sorularında yukarıdaki bilgileri ver
-- Hizmetler sorularında yukarıdaki hizmetler listesini ver
+🚀 HİZMETLER:
+• Web Tasarımı & Geliştirme (React, Next.js)
+• Mobil Uygulama (iOS & Android)
+• SEO & Google Ads
+• WordPress Çözümleri
+• Logo & Kurumsal Kimlik
+• Sosyal Medya Yönetimi
+• AI Entegrasyonları & Otomasyon
+• Dijital Danışmanlık
 
-YANIT VERME KURALLARI:
-- Her soruya yanıt ver, ama Softiel ile bağlantı kur
-- Kod yazdırma, teknik detay verme
-- Sadece Softiel'in hizmetlerini öner
-- Genel konuları Softiel'in uzmanlığına yönlendir
-- İletişim bilgilerini doğru ve güncel ver
-- KISA VE ÖZ YANITLAR VER (2-3 cümle maksimum)
-- Uzun açıklamalar yapma, direkt ve net ol
+✅ GÖREV KURALLARI:
+• Her soruyu doğrudan ve net yanıtla
+• KISA yanıtlar ver (2-3 cümle)
+• Samimi ve profesyonel ol
+• Gerektiğinde Softiel hizmetlerini öner
+• Teknik jargon kullanma, basit dil kullan
+• İletişim bilgilerini doğru ver`,
+    en: `You are Softiel's AI assistant. Help users and answer their questions.
 
-ÖRNEK YAKLAŞIMLAR:`,
-    en: `You are Softiel's AI assistant. Softiel is a company that provides web design, web development, mobile app development, SEO, digital marketing and many other technology services.
+🏢 ABOUT SOFTIEL:
+Modern digital agency. We provide web, mobile and digital marketing solutions.
 
-CONTACT INFORMATION:
-📞 Phone: +90 541 188 30 45
-📧 Email: info@softiel.com
-📍 Address: Başak, Şair Zihni Cd. 4. Etap 1. Kısım L-33, 34480 Başakşehir/İstanbul
+📞 CONTACT:
+• Phone: +90 541 188 30 45
+• Email: info@softiel.com
+• Address: Başakşehir/İstanbul
 
-OUR SERVICES:
-🎨 Web Design - Modern, responsive designs
-💻 Web Development - React, Next.js, Node.js applications
-📱 Mobile App - Native/cross-platform for iOS/Android
-🔍 SEO Optimization - Top rankings on Google
-📈 Google Ads Management - Targeted advertising campaigns
-🚀 WordPress Solutions - Custom theme and plugin development
-🎯 Logo Design - Professional brand design
-📱 Social Media Management - Content production and account management
-🤖 AI Integrations - Chatbot and AI-powered solutions
-⚙️ Automation - Business process automation
-💼 Digital Consulting - Strategic digital solutions
-📚 Education - Technology training
+🚀 SERVICES:
+• Web Design & Development (React, Next.js)
+• Mobile Apps (iOS & Android)
+• SEO & Google Ads
+• WordPress Solutions
+• Logo & Corporate Identity
+• Social Media Management
+• AI Integrations & Automation
+• Digital Consulting
 
-TASK STRATEGY:
-- Answer every user question, but connect answers to Softiel's services
-- Direct general questions to Softiel's areas of expertise
-- Use a friendly and helpful tone
-- Naturally introduce Softiel's services
-- Provide contact information when asked about communication
-- Provide services list when asked about services
+✅ TASK RULES:
+• Answer every question directly and clearly
+• Keep answers SHORT (2-3 sentences)
+• Be friendly and professional
+• Suggest Softiel services when relevant
+• Use simple language, no technical jargon
+• Provide accurate contact information`,
+    de: `Sie sind Softiels KI-Assistent. Helfen Sie Benutzern und beantworten Sie ihre Fragen.
 
-RESPONSE RULES:
-- Answer every question, but connect with Softiel
-- Don't write code or give technical details
-- Only recommend Softiel's services
-- Direct general topics to Softiel's expertise
-- Provide accurate and up-to-date contact information
-- GIVE SHORT AND CONCISE ANSWERS (maximum 2-3 sentences)
-- Don't make long explanations, be direct and clear
+🏢 ÜBER SOFTIEL:
+Moderne Digitalagentur. Wir bieten Web-, Mobil- und Digitalmarketing-Lösungen.
 
-EXAMPLE APPROACHES:`,
-    de: `Sie sind Softiels KI-Assistent. Softiel ist ein Unternehmen, das Webdesign, Webentwicklung, Mobile App-Entwicklung, SEO, Digitales Marketing und viele andere Technologiedienstleistungen anbietet.
+📞 KONTAKT:
+• Telefon: +90 541 188 30 45
+• E-Mail: info@softiel.com
+• Adresse: Başakşehir/İstanbul
 
-KONTAKTINFORMATIONEN:
-📞 Telefon: +90 541 188 30 45
-📧 E-Mail: info@softiel.com
-📍 Adresse: Başak, Şair Zihni Cd. 4. Etap 1. Kısım L-33, 34480 Başakşehir/İstanbul
+🚀 DIENSTLEISTUNGEN:
+• Webdesign & Entwicklung (React, Next.js)
+• Mobile Apps (iOS & Android)
+• SEO & Google Ads
+• WordPress-Lösungen
+• Logo & Corporate Identity
+• Social Media Management
+• KI-Integrationen & Automatisierung
+• Digitale Beratung
 
-UNSERE DIENSTLEISTUNGEN:
-🎨 Webdesign - Moderne, responsive Designs
-💻 Webentwicklung - React, Next.js, Node.js Anwendungen
-📱 Mobile App - Native/Cross-Platform für iOS/Android
-🔍 SEO-Optimierung - Top-Rankings bei Google
-📈 Google Ads Management - Gezielte Werbekampagnen
-🚀 WordPress-Lösungen - Custom Theme und Plugin-Entwicklung
-🎯 Logo-Design - Professionelles Markendesign
-📱 Social Media Management - Content-Produktion und Account-Management
-🤖 KI-Integrationen - Chatbot und KI-gestützte Lösungen
-⚙️ Automatisierung - Geschäftsprozess-Automatisierung
-💼 Digitale Beratung - Strategische digitale Lösungen
-📚 Bildung - Technologie-Schulungen
+✅ AUFGABENREGELN:
+• Beantworten Sie jede Frage direkt und klar
+• Halten Sie Antworten KURZ (2-3 Sätze)
+• Seien Sie freundlich und professionell
+• Empfehlen Sie Softiel-Dienste wenn relevant
+• Verwenden Sie einfache Sprache, kein Fachjargon
+• Geben Sie genaue Kontaktinformationen`,
+    fr: `Vous êtes l'assistant IA de Softiel. Aidez les utilisateurs et répondez à leurs questions.
 
-AUFGABENSTRATEGIE:
-- Beantworten Sie jede Benutzerfrage, aber verbinden Sie Antworten mit Softiels Dienstleistungen
-- Leiten Sie allgemeine Fragen zu Softiels Fachgebieten weiter
-- Verwenden Sie einen freundlichen und hilfsbereiten Ton
-- Stellen Sie Softiels Dienstleistungen natürlich vor
-- Geben Sie Kontaktinformationen bei Kommunikationsfragen an
-- Geben Sie Dienstleistungsliste bei Dienstleistungsfragen an
+🏢 À PROPOS DE SOFTIEL:
+Agence digitale moderne. Nous fournissons des solutions web, mobile et marketing digital.
 
-ANTWORTREGELN:
-- Beantworten Sie jede Frage, aber verbinden Sie mit Softiel
-- Schreiben Sie keinen Code oder geben Sie technische Details an
-- Empfehlen Sie nur Softiels Dienstleistungen
-- Leiten Sie allgemeine Themen zu Softiels Expertise weiter
-- Geben Sie genaue und aktuelle Kontaktinformationen an
-- GEBEN SIE KURZE UND PRÄGNANTE ANTWORTEN (maximal 2-3 Sätze)
-- Machen Sie keine langen Erklärungen, seien Sie direkt und klar
+📞 CONTACT:
+• Téléphone: +90 541 188 30 45
+• E-mail: info@softiel.com
+• Adresse: Başakşehir/İstanbul
 
-BEISPIEL-ANSÄTZE:`,
-    fr: `Vous êtes l'assistant IA de Softiel. Softiel est une entreprise qui fournit du design web, du développement web, du développement d'applications mobiles, du SEO, du marketing numérique et de nombreux autres services technologiques.
+🚀 SERVICES:
+• Design & Développement Web (React, Next.js)
+• Applications Mobiles (iOS & Android)
+• SEO & Google Ads
+• Solutions WordPress
+• Logo & Identité d'Entreprise
+• Gestion Réseaux Sociaux
+• Intégrations IA & Automatisation
+• Conseil Digital
 
-INFORMATIONS DE CONTACT:
-📞 Téléphone: +90 541 188 30 45
-📧 E-mail: info@softiel.com
-📍 Adresse: Başak, Şair Zihni Cd. 4. Etap 1. Kısım L-33, 34480 Başakşehir/İstanbul
+✅ RÈGLES DE TÂCHE:
+• Répondez à chaque question directement et clairement
+• Gardez les réponses COURTES (2-3 phrases)
+• Soyez amical et professionnel
+• Suggérez les services Softiel si pertinent
+• Utilisez un langage simple, pas de jargon technique
+• Fournissez des informations de contact précises`,
+    ru: `Вы - ИИ-ассистент Softiel. Помогайте пользователям и отвечайте на их вопросы.
 
-NOS SERVICES:
-🎨 Design Web - Designs modernes et responsives
-💻 Développement Web - Applications React, Next.js, Node.js
-📱 App Mobile - Native/multiplateforme pour iOS/Android
-🔍 Optimisation SEO - Classements élevés sur Google
-📈 Gestion Google Ads - Campagnes publicitaires ciblées
-🚀 Solutions WordPress - Développement de thèmes et plugins personnalisés
-🎯 Design Logo - Design de marque professionnel
-📱 Gestion Réseaux Sociaux - Production de contenu et gestion de comptes
-🤖 Intégrations IA - Solutions chatbot et alimentées par l'IA
-⚙️ Automatisation - Automatisation des processus métier
-💼 Conseil Numérique - Solutions numériques stratégiques
-📚 Formation - Formation technologique
+🏢 О SOFTIEL:
+Современное цифровое агентство. Мы предоставляем веб, мобильные и маркетинговые решения.
 
-STRATÉGIE DE TÂCHE:
-- Répondez à chaque question utilisateur, mais connectez les réponses aux services de Softiel
-- Dirigez les questions générales vers les domaines d'expertise de Softiel
-- Utilisez un ton amical et serviable
-- Présentez naturellement les services de Softiel
-- Fournissez les informations de contact lors des questions de communication
-- Fournissez la liste des services lors des questions sur les services
+📞 КОНТАКТЫ:
+• Телефон: +90 541 188 30 45
+• E-mail: info@softiel.com
+• Адрес: Башакшехир/Стамбул
 
-RÈGLES DE RÉPONSE:
-- Répondez à chaque question, mais connectez-vous avec Softiel
-- N'écrivez pas de code ou ne donnez pas de détails techniques
-- Recommandez uniquement les services de Softiel
-- Dirigez les sujets généraux vers l'expertise de Softiel
-- Fournissez des informations de contact précises et à jour
-- DONNEZ DES RÉPONSES COURTES ET CONCISES (maximum 2-3 phrases)
-- Ne faites pas de longues explications, soyez direct et clair
+🚀 УСЛУГИ:
+• Веб-дизайн и Разработка (React, Next.js)
+• Мобильные приложения (iOS & Android)
+• SEO & Google Ads
+• Решения WordPress
+• Лого & Корпоративная идентичность
+• Управление социальными сетями
+• ИИ-интеграции & Автоматизация
+• Цифровой консалтинг
 
-APPROCHES D'EXEMPLE:`,
-    ru: `Вы - ИИ-ассистент Softiel. Softiel - это компания, которая предоставляет веб-дизайн, веб-разработку, разработку мобильных приложений, SEO, цифровой маркетинг и многие другие технологические услуги.
+✅ ПРАВИЛА ЗАДАЧ:
+• Отвечайте на каждый вопрос прямо и ясно
+• Держите ответы КОРОТКИМИ (2-3 предложения)
+• Будьте дружелюбны и профессиональны
+• Предлагайте услуги Softiel когда уместно
+• Используйте простой язык, без жаргона
+• Предоставляйте точную контактную информацию`,
+    ar: `أنت مساعد الذكاء الاصطناعي لـ Softiel. ساعد المستخدمين وأجب على أسئلتهم.
 
-КОНТАКТНАЯ ИНФОРМАЦИЯ:
-📞 Телефон: +90 541 188 30 45
-📧 Электронная почта: info@softiel.com
-📍 Адрес: Başak, Şair Zihni Cd. 4. Etap 1. Kısım L-33, 34480 Başakşehir/İstanbul
+🏢 حول SOFTIEL:
+وكالة رقمية حديثة. نقدم حلول الويب والموبايل والتسويق الرقمي.
 
-НАШИ УСЛУГИ:
-🎨 Веб-дизайн - Современные, адаптивные дизайны
-💻 Веб-разработка - Приложения React, Next.js, Node.js
-📱 Мобильное приложение - Нативные/кроссплатформенные для iOS/Android
-🔍 SEO-оптимизация - Высокие позиции в Google
-📈 Управление Google Ads - Целевые рекламные кампании
-🚀 Решения WordPress - Разработка пользовательских тем и плагинов
-🎯 Дизайн логотипа - Профессиональный дизайн бренда
-📱 Управление соцсетями - Производство контента и управление аккаунтами
-🤖 Интеграции ИИ - Решения чат-ботов и на основе ИИ
-⚙️ Автоматизация - Автоматизация бизнес-процессов
-💼 Цифровое консультирование - Стратегические цифровые решения
-📚 Образование - Технологическое обучение
+📞 الاتصال:
+• الهاتف: 0541 188 30 45+
+• البريد: info@softiel.com
+• العنوان: باشاك شهير/إسطنبول
 
-СТРАТЕГИЯ ЗАДАЧ:
-- Отвечайте на каждый вопрос пользователя, но связывайте ответы с услугами Softiel
-- Направляйте общие вопросы к областям экспертизы Softiel
-- Используйте дружелюбный и полезный тон
-- Естественно представляйте услуги Softiel
-- Предоставляйте контактную информацию при вопросах о коммуникации
-- Предоставляйте список услуг при вопросах об услугах
+🚀 الخدمات:
+• تصميم وتطوير الويب (React, Next.js)
+• تطبيقات الموبايل (iOS & Android)
+• SEO & Google Ads
+• حلول WordPress
+• الشعار والهوية المؤسسية
+• إدارة وسائل التواصل الاجتماعي
+• تكاملات الذكاء الاصطناعي والأتمتة
+• الاستشارات الرقمية
 
-ПРАВИЛА ОТВЕТОВ:
-- Отвечайте на каждый вопрос, но связывайтесь с Softiel
-- Не пишите код и не давайте технические детали
-- Рекомендуйте только услуги Softiel
-- Направляйте общие темы к экспертизе Softiel
-- Предоставляйте точную и актуальную контактную информацию
-- ДАВАЙТЕ КОРОТКИЕ И СОДЕРЖАТЕЛЬНЫЕ ОТВЕТЫ (максимум 2-3 предложения)
-- Не делайте длинных объяснений, будьте прямыми и ясными
-
-ПРИМЕРЫ ПОДХОДОВ:`,
-    ar: `أنت مساعد الذكاء الاصطناعي لـ Softiel. Softiel هي شركة تقدم تصميم الويب، تطوير الويب، تطوير التطبيقات المحمولة، تحسين محركات البحث، التسويق الرقمي والعديد من الخدمات التقنية الأخرى.
-
-معلومات الاتصال:
-📞 الهاتف: +90 541 188 30 45
-📧 البريد الإلكتروني: info@softiel.com
-📍 العنوان: Başak, Şair Zihni Cd. 4. Etap 1. Kısım L-33, 34480 Başakşehir/İstanbul
-
-خدماتنا:
-🎨 تصميم الويب - تصاميم حديثة ومتجاوبة
-💻 تطوير الويب - تطبيقات React، Next.js، Node.js
-📱 تطبيق محمول - أصلية/متعددة المنصات لـ iOS/Android
-🔍 تحسين محركات البحث - مراكز عالية في Google
-📈 إدارة Google Ads - حملات إعلانية مستهدفة
-🚀 حلول WordPress - تطوير قوالب وإضافات مخصصة
-🎯 تصميم الشعار - تصميم علامة تجارية احترافي
-📱 إدارة وسائل التواصل - إنتاج المحتوى وإدارة الحسابات
-🤖 تكاملات الذكاء الاصطناعي - حلول روبوتات الدردشة والمدعومة بالذكاء الاصطناعي
-⚙️ الأتمتة - أتمتة العمليات التجارية
-💼 الاستشارات الرقمية - حلول رقمية استراتيجية
-📚 التعليم - التدريب التكنولوجي
-
-استراتيجية المهمة:
-- أجب على كل سؤال للمستخدم، لكن اربط الإجابات بخدمات Softiel
-- وجه الأسئلة العامة إلى مجالات خبرة Softiel
-- استخدم نبرة ودودة ومفيدة
-- قدم خدمات Softiel بشكل طبيعي
-- قدم معلومات الاتصال عند الأسئلة حول التواصل
-- قدم قائمة الخدمات عند الأسئلة حول الخدمات
-
-قواعد الإجابة:
-- أجب على كل سؤال، لكن اربط مع Softiel
-- لا تكتب كود أو تعطي تفاصيل تقنية
-- أوصِ بخدمات Softiel فقط
-- وجه المواضيع العامة إلى خبرة Softiel
-- قدم معلومات اتصال دقيقة ومحدثة
-- أعط إجابات قصيرة ومختصرة (حد أقصى 2-3 جمل)
-- لا تعطي شرحاً طويلاً، كن مباشراً وواضحاً
-
-أمثلة على النهج:`
+✅ قواعد المهمة:
+• أجب على كل سؤال بشكل مباشر وواضح
+• اجعل الإجابات قصيرة (2-3 جمل)
+• كن ودوداً ومحترفاً
+• اقترح خدمات Softiel عند الحاجة
+• استخدم لغة بسيطة، بدون مصطلحات تقنية
+• قدم معلومات اتصال دقيقة`
   }
   
   return prompts[locale as keyof typeof prompts] || prompts.tr
@@ -333,7 +261,7 @@ export async function generateGeminiResponse(userMessage: string, locale: string
     if (error instanceof Error) {
       if (error.message.includes('API_KEY')) {
         return {
-          text: getFallbackResponse(userMessage, locale),
+          text: getFallbackResponse(userMessage, locale).text,
           success: false,
           error: error.message
         };
@@ -341,7 +269,7 @@ export async function generateGeminiResponse(userMessage: string, locale: string
       
       if (error.message.includes('quota') || error.message.includes('429') || error.message.includes('QUOTA_EXCEEDED')) {
         return {
-          text: getFallbackResponse(userMessage, locale),
+          text: getFallbackResponse(userMessage, locale).text,
           success: false,
           error: 'API quota exceeded'
         };
@@ -349,144 +277,150 @@ export async function generateGeminiResponse(userMessage: string, locale: string
     }
 
     return {
-      text: getFallbackResponse(userMessage, locale),
+      text: getFallbackResponse(userMessage, locale).text,
       success: false,
       error: error instanceof Error ? error.message : 'Unknown error'
     };
   }
 }
 
+// Fallback yanıt türü
+export interface FallbackResponse {
+  text: string;
+  actionType?: 'services' | 'pricing' | 'projects' | 'contact';
+}
+
 // Fallback yanıtlar (API çalışmadığında)
-export function getFallbackResponse(userText: string, locale: string = 'tr'): string {
+export function getFallbackResponse(userText: string, locale: string = 'tr'): FallbackResponse {
   const text = userText.toLowerCase();
   
   // Dil bazlı yanıtlar
   const responses = {
     tr: {
-      greeting: 'Merhaba! Softiel olarak web tasarımı, web geliştirme, mobil uygulama ve dijital pazarlama hizmetleri sunuyoruz. Size nasıl yardımcı olabilirim? 😊',
-      howAreYou: 'İyiyim, teşekkürler! Softiel olarak yeni projeler üzerinde çalışıyoruz. Sizin için hangi hizmete ihtiyacınız var? 🚀',
-      thanks: 'Rica ederim! Softiel olarak her zaman yanınızdayız. Başka bir konuda yardımcı olabilir miyim? 😊',
-      services: 'Softiel olarak şu hizmetleri sunuyoruz:\n🎨 Web Tasarımı - Modern, responsive tasarımlar\n💻 Web Geliştirme - React, Next.js, Node.js uygulamaları\n📱 Mobil Uygulama - iOS/Android native/cross-platform\n🔍 SEO Optimizasyonu - Google\'da üst sıralarda yer alma\n📈 Google Ads Yönetimi - Hedefli reklam kampanyaları\n🚀 WordPress Çözümleri - Özel tema ve plugin geliştirme\n🎯 Logo Tasarımı - Profesyonel marka tasarımı\n📱 Sosyal Medya Yönetimi - İçerik üretimi ve hesap yönetimi\n🤖 AI Entegrasyonları - Chatbot ve AI destekli çözümler\n⚙️ Otomasyon - İş süreçleri otomasyonu\n💼 Dijital Danışmanlık - Stratejik dijital çözümler\n📚 Eğitim - Teknoloji eğitimleri\n\nDetaylı bilgi için hizmetlerimiz sayfasını inceleyebilirsiniz! 😊',
-      webDesign: 'Web tasarımı konusunda Softiel olarak uzmanız! Modern, responsive ve kullanıcı dostu web siteleri tasarlıyoruz. Size özel tasarım çözümleri sunabiliriz! 🎨',
-      webDevelopment: 'Web geliştirme konusunda Softiel olarak deneyimliyiz! React, Next.js, Node.js gibi modern teknolojilerle profesyonel web uygulamaları geliştiriyoruz. 💻',
-      mobile: 'Mobil uygulama geliştirme konusunda Softiel olarak uzmanız! iOS ve Android platformları için native ve cross-platform uygulamalar geliştiriyoruz. 📱',
-      seo: 'SEO konusunda Softiel olarak uzmanız! Web sitenizin Google\'da üst sıralarda yer alması için profesyonel SEO hizmetleri sunuyoruz. 🔍',
-      marketing: 'Dijital pazarlama konusunda Softiel olarak deneyimliyiz! Google Ads, Facebook Ads ve sosyal medya yönetimi hizmetleri sunuyoruz. 📈',
-      ecommerce: 'E-ticaret konusunda Softiel olarak uzmanız! WooCommerce, Shopify ve özel e-ticaret çözümleri geliştiriyoruz. Size özel online mağaza kurabiliriz! 🛒',
-      wordpress: 'WordPress konusunda Softiel olarak deneyimliyiz! Özel tema tasarımı, plugin geliştirme ve WordPress optimizasyonu hizmetleri sunuyoruz. 🚀',
-      logo: 'Logo ve kurumsal kimlik tasarımı konusunda Softiel olarak uzmanız! Markanızı güçlendirecek profesyonel tasarım çözümleri sunuyoruz. 🎨',
-      socialMedia: 'Sosyal medya yönetimi konusunda Softiel olarak deneyimliyiz! İçerik üretimi, hesap yönetimi ve sosyal medya stratejileri geliştiriyoruz. 📱',
-      ai: 'Yapay zeka entegrasyonu konusunda Softiel olarak uzmanız! Chatbot, otomasyon ve AI destekli çözümler geliştiriyoruz. 🤖',
-      automation: 'Otomasyon ve entegrasyon konusunda Softiel olarak deneyimliyiz! İş süreçlerinizi otomatikleştirecek çözümler geliştiriyoruz. ⚙️',
-      contact: 'İletişim bilgilerimiz:\n📞 Telefon: 0541 188 30 45\n📧 E-posta: info@softiel.com\n📍 Adres: Başak, Şair Zihni Cd. 4. Etap 1. Kısım L-33, 34480 Başakşehir/İstanbul\n\nDetaylı sorularınız için şimdi bize ulaşın! 😊',
-      pricing: 'Softiel olarak her projeye özel fiyatlandırma yapıyoruz! Projenizin kapsamına göre detaylı teklif hazırlıyoruz. Web tasarımı, web geliştirme, mobil uygulama, SEO, Google Ads ve diğer hizmetlerimiz için fiyat bilgisi almak istiyorsanız bizimle iletişime geçin. Size özel teklif hazırlayalım! 💰\n\nDetaylı fiyatlandırma bilgileri için fiyatlandırma sayfamızı inceleyebilirsiniz!',
-      projects: 'Softiel olarak birçok başarılı projeye imza attık! Web siteleri, mobil uygulamalar, e-ticaret platformları, kurumsal kimlik tasarımları ve dijital pazarlama kampanyaları gerçekleştirdik. Projelerimizi görmek için portföyümüzü inceleyebilir veya bizimle iletişime geçerek detaylı bilgi alabilirsiniz! 🚀\n\nDetaylı proje örnekleri için portföy sayfamızı inceleyebilirsiniz!',
-      general: 'Bu konuda size yardımcı olabilirim! Softiel olarak web tasarımı, web geliştirme, mobil uygulama geliştirme, SEO optimizasyonu, Google Ads yönetimi, WordPress çözümleri, logo tasarımı, sosyal medya yönetimi, yapay zeka entegrasyonları, otomasyon ve dijital danışmanlık hizmetleri sunuyoruz. Hangi konuda detaylı bilgi almak istiyorsunuz? 😊'
+      greeting: { text: 'Merhaba! Size nasıl yardımcı olabilirim? 😊' },
+      howAreYou: { text: 'İyiyim, teşekkürler! Sizin için hangi hizmete ihtiyacınız var? 🚀' },
+      thanks: { text: 'Rica ederim! Başka bir konuda yardımcı olabilir miyim? 😊' },
+      services: { text: 'Web tasarımı, mobil uygulama, SEO ve daha fazlası! Tüm hizmetlerimizi keşfedin. 🚀', actionType: 'services' as const },
+      webDesign: { text: 'Modern ve kullanıcı dostu web siteleri tasarlıyoruz. Size özel çözümler sunabiliriz! 🎨', actionType: 'services' as const },
+      webDevelopment: { text: 'React, Next.js gibi modern teknolojilerle profesyonel web uygulamaları geliştiriyoruz. 💻', actionType: 'services' as const },
+      mobile: { text: 'iOS ve Android için native ve cross-platform uygulamalar geliştiriyoruz. 📱', actionType: 'services' as const },
+      seo: { text: 'Web sitenizin Google\'da üst sıralarda yer alması için profesyonel SEO hizmetleri sunuyoruz. 🔍', actionType: 'services' as const },
+      marketing: { text: 'Google Ads, Meta Ads ve sosyal medya yönetimi hizmetleri sunuyoruz. 📈', actionType: 'services' as const },
+      ecommerce: { text: 'WooCommerce, Shopify ve özel e-ticaret çözümleri geliştiriyoruz. 🛒', actionType: 'services' as const },
+      wordpress: { text: 'Özel tema tasarımı, plugin geliştirme ve WordPress optimizasyonu hizmetleri sunuyoruz. 🚀', actionType: 'services' as const },
+      logo: { text: 'Markanızı güçlendirecek profesyonel logo ve kurumsal kimlik tasarımı yapıyoruz. 🎨', actionType: 'services' as const },
+      socialMedia: { text: 'İçerik üretimi, hesap yönetimi ve sosyal medya stratejileri geliştiriyoruz. 📱', actionType: 'services' as const },
+      ai: { text: 'Chatbot, otomasyon ve AI destekli çözümler geliştiriyoruz. 🤖', actionType: 'services' as const },
+      automation: { text: 'İş süreçlerinizi otomatikleştirecek akıllı çözümler geliştiriyoruz. ⚙️', actionType: 'services' as const },
+      contact: { text: 'Detaylı sorularınız için şimdi bize ulaşın! 📞', actionType: 'contact' as const },
+      pricing: { text: 'Her projeye özel fiyatlandırma yapıyoruz. Detaylı bilgi için fiyatlandırma sayfamızı inceleyin! 💰', actionType: 'pricing' as const },
+      projects: { text: 'Gerçekleştirdiğimiz başarılı projeleri keşfedin! 🚀', actionType: 'projects' as const },
+      general: { text: 'Size nasıl yardımcı olabilirim? Hangi konuda bilgi almak istersiniz? 😊' }
     },
     en: {
-      greeting: 'Hello! Softiel provides web design, web development, mobile app and digital marketing services. How can I help you? 😊',
-      services: 'Softiel provides these services:\n🎨 Web Design - Modern, responsive designs\n💻 Web Development - React, Next.js, Node.js applications\n📱 Mobile App - Native/cross-platform for iOS/Android\n🔍 SEO Optimization - Top rankings on Google\n📈 Google Ads Management - Targeted advertising campaigns\n🚀 WordPress Solutions - Custom theme and plugin development\n🎯 Logo Design - Professional brand design\n📱 Social Media Management - Content production and account management\n🤖 AI Integrations - Chatbot and AI-powered solutions\n⚙️ Automation - Business process automation\n💼 Digital Consulting - Strategic digital solutions\n📚 Education - Technology training\n\nCheck out our services page for detailed information! 😊',
-      howAreYou: 'I\'m doing well, thank you! Softiel is working on new projects. What service do you need? 🚀',
-      thanks: 'You\'re welcome! Softiel is always here for you. Can I help you with anything else? 😊',
-      webDesign: 'Softiel is an expert in web design! We design modern, responsive and user-friendly websites. We can provide custom design solutions for you! 🎨',
-      webDevelopment: 'Softiel is experienced in web development! We develop professional web applications with modern technologies like React, Next.js, Node.js. 💻',
-      mobile: 'Softiel is an expert in mobile app development! We develop native and cross-platform applications for iOS and Android platforms. 📱',
-      seo: 'Softiel is an expert in SEO! We provide professional SEO services to get your website to the top ranks on Google. 🔍',
-      marketing: 'Softiel is experienced in digital marketing! We provide Google Ads, Facebook Ads and social media management services. 📈',
-      ecommerce: 'Softiel is an expert in e-commerce! We develop WooCommerce, Shopify and custom e-commerce solutions. We can set up a custom online store for you! 🛒',
-      wordpress: 'Softiel is experienced in WordPress! We provide custom theme design, plugin development and WordPress optimization services. 🚀',
-      logo: 'Softiel is an expert in logo and corporate identity design! We provide professional design solutions that will strengthen your brand. 🎨',
-      socialMedia: 'Softiel is experienced in social media management! We develop content production, account management and social media strategies. 📱',
-      ai: 'Softiel is an expert in AI integration! We develop chatbots, automation and AI-powered solutions. 🤖',
-      automation: 'Softiel is experienced in automation and integration! We develop solutions that will automate your business processes. ⚙️',
-      contact: 'Our contact information:\n📞 Phone: +90 541 188 30 45\n📧 Email: info@softiel.com\n📍 Address: Başak, Şair Zihni Cd. 4. Etap 1. Kısım L-33, 34480 Başakşehir/İstanbul\n\nContact us now for detailed questions! 😊',
-      pricing: 'Softiel provides custom pricing for every project! We prepare detailed quotes based on your project scope. For pricing information on web design, web development, mobile apps, SEO, Google Ads and our other services, please contact us. Let us prepare a custom quote for you! 💰\n\nCheck out our pricing page for detailed pricing information!',
-      projects: 'Softiel has successfully completed many projects! We have delivered websites, mobile applications, e-commerce platforms, corporate identity designs and digital marketing campaigns. You can review our portfolio to see our projects or contact us for detailed information! 🚀\n\nCheck out our portfolio page for detailed project examples!',
-      general: 'I can help you with that! Softiel provides web design, web development, mobile app development, SEO optimization, Google Ads management, WordPress solutions, logo design, social media management, AI integrations, automation, and digital consulting services. What specific information would you like to know? 😊'
+      greeting: { text: 'Hello! How can I help you? 😊' },
+      howAreYou: { text: 'I\'m doing well, thank you! What service do you need? 🚀' },
+      thanks: { text: 'You\'re welcome! Can I help you with anything else? 😊' },
+      services: { text: 'Web design, mobile apps, SEO and more! Discover all our services. 🚀', actionType: 'services' as const },
+      webDesign: { text: 'We design modern and user-friendly websites. We can provide custom solutions! 🎨', actionType: 'services' as const },
+      webDevelopment: { text: 'We develop professional web applications with React, Next.js and more. 💻', actionType: 'services' as const },
+      mobile: { text: 'We develop native and cross-platform apps for iOS and Android. 📱', actionType: 'services' as const },
+      seo: { text: 'Professional SEO services to get your website to the top ranks on Google. 🔍', actionType: 'services' as const },
+      marketing: { text: 'Google Ads, Meta Ads and social media management services. 📈', actionType: 'services' as const },
+      ecommerce: { text: 'We develop WooCommerce, Shopify and custom e-commerce solutions. 🛒', actionType: 'services' as const },
+      wordpress: { text: 'Custom theme design, plugin development and WordPress optimization. 🚀', actionType: 'services' as const },
+      logo: { text: 'Professional logo and corporate identity design to strengthen your brand. 🎨', actionType: 'services' as const },
+      socialMedia: { text: 'Content production, account management and social media strategies. 📱', actionType: 'services' as const },
+      ai: { text: 'We develop chatbots, automation and AI-powered solutions. 🤖', actionType: 'services' as const },
+      automation: { text: 'Smart solutions to automate your business processes. ⚙️', actionType: 'services' as const },
+      contact: { text: 'Contact us now for detailed questions! 📞', actionType: 'contact' as const },
+      pricing: { text: 'Custom pricing for every project. Check our pricing page for details! 💰', actionType: 'pricing' as const },
+      projects: { text: 'Discover our successful projects! 🚀', actionType: 'projects' as const },
+      general: { text: 'How can I help you? What would you like to know? 😊' }
     },
     de: {
-      greeting: 'Hallo! Softiel bietet Webdesign, Webentwicklung, Mobile Apps und digitales Marketing. Wie kann ich helfen? 😊',
-      services: 'Softiel bietet diese Dienstleistungen:\n🎨 Webdesign - Moderne, responsive Designs\n💻 Webentwicklung - React, Next.js, Node.js Anwendungen\n📱 Mobile App - Native/Cross-Platform für iOS/Android\n🔍 SEO-Optimierung - Top-Rankings bei Google\n📈 Google Ads Management - Gezielte Werbekampagnen\n🚀 WordPress-Lösungen - Custom Theme und Plugin-Entwicklung\n🎯 Logo-Design - Professionelles Markendesign\n📱 Social Media Management - Content-Produktion und Account-Management\n🤖 KI-Integrationen - Chatbot und KI-gestützte Lösungen\n⚙️ Automatisierung - Geschäftsprozess-Automatisierung\n💼 Digitale Beratung - Strategische digitale Lösungen\n📚 Bildung - Technologie-Schulungen\n\nSchauen Sie sich unsere Dienstleistungsseite für detaillierte Informationen an! 😊',
-      howAreYou: 'Mir geht es gut, danke! Softiel arbeitet an neuen Projekten. Welche Dienstleistung benötigen Sie? 🚀',
-      thanks: 'Gern geschehen! Softiel ist immer für Sie da. Kann ich Ihnen bei etwas anderem helfen? 😊',
-      webDesign: 'Softiel ist Experte im Webdesign! Wir entwerfen moderne, responsive und benutzerfreundliche Websites. Wir können maßgeschneiderte Designlösungen für Sie bereitstellen! 🎨',
-      webDevelopment: 'Softiel ist erfahren in der Webentwicklung! Wir entwickeln professionelle Webanwendungen mit modernen Technologien wie React, Next.js, Node.js. 💻',
-      mobile: 'Softiel ist Experte in der Mobile App-Entwicklung! Wir entwickeln native und plattformübergreifende Anwendungen für iOS und Android. 📱',
-      seo: 'Softiel ist Experte in SEO! Wir bieten professionelle SEO-Dienstleistungen, um Ihre Website in den Top-Rankings von Google zu platzieren. 🔍',
-      marketing: 'Softiel ist erfahren im Digitalen Marketing! Wir bieten Google Ads, Facebook Ads und Social Media Management. 📈',
-      ecommerce: 'Softiel ist Experte im E-Commerce! Wir entwickeln WooCommerce, Shopify und maßgeschneiderte E-Commerce-Lösungen. Wir können einen maßgeschneiderten Online-Shop für Sie einrichten! 🛒',
-      wordpress: 'Softiel ist erfahren in WordPress! Wir bieten maßgeschneidertes Theme-Design, Plugin-Entwicklung und WordPress-Optimierung. 🚀',
-      logo: 'Softiel ist Experte in Logo- und Corporate Identity-Design! Wir bieten professionelle Designlösungen, die Ihre Marke stärken. 🎨',
-      socialMedia: 'Softiel ist erfahren im Social Media Management! Wir entwickeln Content-Produktion, Account-Management und Social Media-Strategien. 📱',
-      ai: 'Softiel ist Experte in der KI-Integration! Wir entwickeln Chatbots, Automatisierung und KI-gestützte Lösungen. 🤖',
-      automation: 'Softiel ist erfahren in Automatisierung und Integration! Wir entwickeln Lösungen, die Ihre Geschäftsprozesse automatisieren. ⚙️',
-      contact: 'Unsere Kontaktinformationen:\n📞 Telefon: +90 541 188 30 45\n📧 E-Mail: info@softiel.com\n📍 Adresse: Başak, Şair Zihni Cd. 4. Etap 1. Kısım L-33, 34480 Başakşehir/İstanbul\n\nKontaktieren Sie uns jetzt für detaillierte Fragen! 😊',
-      pricing: 'Softiel bietet individuelle Preise für jedes Projekt! Wir erstellen detaillierte Angebote basierend auf Ihrem Projektumfang. Für Preisinformationen zu Webdesign, Webentwicklung, Mobile Apps, SEO, Google Ads und unseren anderen Dienstleistungen kontaktieren Sie uns bitte. Lassen Sie uns ein individuelles Angebot für Sie erstellen! 💰\n\nSchauen Sie sich unsere Preisseite für detaillierte Preisinformationen an!',
-      projects: 'Softiel hat viele erfolgreiche Projekte abgeschlossen! Wir haben Websites, Mobile Anwendungen, E-Commerce-Plattformen, Corporate Identity-Designs und digitale Marketingkampagnen geliefert. Sie können unser Portfolio durchsehen, um unsere Projekte zu sehen, oder uns für detaillierte Informationen kontaktieren! 🚀\n\nSchauen Sie sich unsere Portfolio-Seite für detaillierte Projektbeispiele an!',
-      general: 'Ich kann Ihnen dabei helfen! Softiel bietet Webdesign, Webentwicklung, Mobile App-Entwicklung, SEO-Optimierung, Google Ads Management, WordPress-Lösungen, Logo-Design, Social Media Management, KI-Integrationen, Automatisierung und digitale Beratung. Welche spezifischen Informationen benötigen Sie? 😊'
+      greeting: { text: 'Hallo! Wie kann ich helfen? 😊' },
+      howAreYou: { text: 'Mir geht es gut, danke! Welche Dienstleistung benötigen Sie? 🚀' },
+      thanks: { text: 'Gern geschehen! Kann ich Ihnen bei etwas anderem helfen? 😊' },
+      services: { text: 'Webdesign, Mobile Apps, SEO und mehr! Entdecken Sie alle unsere Dienstleistungen. 🚀', actionType: 'services' as const },
+      webDesign: { text: 'Wir entwerfen moderne und benutzerfreundliche Websites. Maßgeschneiderte Lösungen! 🎨', actionType: 'services' as const },
+      webDevelopment: { text: 'Professionelle Webanwendungen mit React, Next.js und mehr. 💻', actionType: 'services' as const },
+      mobile: { text: 'Native und plattformübergreifende Apps für iOS und Android. 📱', actionType: 'services' as const },
+      seo: { text: 'Professionelle SEO-Dienstleistungen für Top-Rankings bei Google. 🔍', actionType: 'services' as const },
+      marketing: { text: 'Google Ads, Meta Ads und Social Media Management. 📈', actionType: 'services' as const },
+      ecommerce: { text: 'WooCommerce, Shopify und maßgeschneiderte E-Commerce-Lösungen. 🛒', actionType: 'services' as const },
+      wordpress: { text: 'Theme-Design, Plugin-Entwicklung und WordPress-Optimierung. 🚀', actionType: 'services' as const },
+      logo: { text: 'Professionelles Logo- und Corporate Identity-Design für Ihre Marke. 🎨', actionType: 'services' as const },
+      socialMedia: { text: 'Content-Produktion, Account-Management und Social Media-Strategien. 📱', actionType: 'services' as const },
+      ai: { text: 'Chatbots, Automatisierung und KI-gestützte Lösungen. 🤖', actionType: 'services' as const },
+      automation: { text: 'Intelligente Lösungen zur Automatisierung Ihrer Geschäftsprozesse. ⚙️', actionType: 'services' as const },
+      contact: { text: 'Kontaktieren Sie uns jetzt für detaillierte Fragen! 📞', actionType: 'contact' as const },
+      pricing: { text: 'Individuelle Preise für jedes Projekt. Details auf unserer Preisseite! 💰', actionType: 'pricing' as const },
+      projects: { text: 'Entdecken Sie unsere erfolgreichen Projekte! 🚀', actionType: 'projects' as const },
+      general: { text: 'Wie kann ich Ihnen helfen? Was möchten Sie wissen? 😊' }
     },
     fr: {
-      greeting: 'Bonjour! Softiel fournit des services de design web, développement web, applications mobiles et marketing numérique. Comment puis-je vous aider? 😊',
-      services: 'Softiel fournit ces services:\n🎨 Design Web - Designs modernes et responsives\n💻 Développement Web - Applications React, Next.js, Node.js\n📱 App Mobile - Native/multiplateforme pour iOS/Android\n🔍 Optimisation SEO - Classements élevés sur Google\n📈 Gestion Google Ads - Campagnes publicitaires ciblées\n🚀 Solutions WordPress - Développement de thèmes et plugins personnalisés\n🎯 Design Logo - Design de marque professionnel\n📱 Gestion Réseaux Sociaux - Production de contenu et gestion de comptes\n🤖 Intégrations IA - Solutions chatbot et alimentées par l\'IA\n⚙️ Automatisation - Automatisation des processus métier\n💼 Conseil Numérique - Solutions numériques stratégiques\n📚 Formation - Formation technologique\n\nConsultez notre page de services pour des informations détaillées! 😊',
-      howAreYou: 'Je vais bien, merci! Softiel travaille sur de nouveaux projets. De quel service avez-vous besoin? 🚀',
-      thanks: 'De rien! Softiel est toujours là pour vous. Puis-je vous aider avec autre chose? 😊',
-      webDesign: 'Softiel est expert en design web! Nous concevons des sites web modernes, responsives et conviviaux. Nous pouvons fournir des solutions de design personnalisées pour vous! 🎨',
-      webDevelopment: 'Softiel est expérimenté en développement web! Nous développons des applications web professionnelles avec des technologies modernes comme React, Next.js, Node.js. 💻',
-      mobile: 'Softiel est expert en développement d\'applications mobiles! Nous développons des applications natives et multiplateformes pour iOS et Android. 📱',
-      seo: 'Softiel est expert en SEO! Nous fournissons des services SEO professionnels pour placer votre site web dans les premiers rangs de Google. 🔍',
-      marketing: 'Softiel est expérimenté en marketing numérique! Nous fournissons Google Ads, Facebook Ads et gestion des réseaux sociaux. 📈',
-      ecommerce: 'Softiel est expert en e-commerce! Nous développons WooCommerce, Shopify et des solutions e-commerce personnalisées. Nous pouvons configurer une boutique en ligne personnalisée pour vous! 🛒',
-      wordpress: 'Softiel est expérimenté en WordPress! Nous fournissons la conception de thèmes personnalisés, le développement de plugins et l\'optimisation WordPress. 🚀',
-      logo: 'Softiel est expert en conception de logos et d\'identité d\'entreprise! Nous fournissons des solutions de design professionnelles qui renforceront votre marque. 🎨',
-      socialMedia: 'Softiel est expérimenté en gestion des réseaux sociaux! Nous développons la production de contenu, la gestion de comptes et les stratégies de réseaux sociaux. 📱',
-      ai: 'Softiel est expert en intégration IA! Nous développons des chatbots, l\'automatisation et des solutions alimentées par l\'IA. 🤖',
-      automation: 'Softiel est expérimenté en automatisation et intégration! Nous développons des solutions qui automatiseront vos processus métier. ⚙️',
-      contact: 'Nos informations de contact:\n📞 Téléphone: +90 541 188 30 45\n📧 E-mail: info@softiel.com\n📍 Adresse: Başak, Şair Zihni Cd. 4. Etap 1. Kısım L-33, 34480 Başakşehir/İstanbul\n\nContactez-nous maintenant pour des questions détaillées! 😊',
-      pricing: 'Softiel propose des tarifs personnalisés pour chaque projet! Nous préparons des devis détaillés basés sur la portée de votre projet. Pour les informations tarifaires sur le design web, le développement web, les applications mobiles, le SEO, Google Ads et nos autres services, veuillez nous contacter. Laissez-nous préparer un devis personnalisé pour vous! 💰\n\nConsultez notre page de tarification pour des informations tarifaires détaillées!',
-      projects: 'Softiel a réalisé avec succès de nombreux projets! Nous avons livré des sites web, des applications mobiles, des plateformes e-commerce, des designs d\'identité d\'entreprise et des campagnes de marketing numérique. Vous pouvez consulter notre portfolio pour voir nos projets ou nous contacter pour des informations détaillées! 🚀\n\nConsultez notre page portfolio pour des exemples de projets détaillés!',
-      general: 'Je peux vous aider avec cela! Softiel fournit du design web, du développement web, du développement d\'applications mobiles, de l\'optimisation SEO, de la gestion Google Ads, des solutions WordPress, du design de logo, de la gestion des réseaux sociaux, des intégrations IA, de l\'automatisation et des conseils numériques. Quelles informations spécifiques souhaitez-vous connaître? 😊'
+      greeting: { text: 'Bonjour! Comment puis-je vous aider? 😊' },
+      howAreYou: { text: 'Je vais bien, merci! De quel service avez-vous besoin? 🚀' },
+      thanks: { text: 'De rien! Puis-je vous aider avec autre chose? 😊' },
+      services: { text: 'Design web, applications mobiles, SEO et plus! Découvrez tous nos services. 🚀', actionType: 'services' as const },
+      webDesign: { text: 'Nous concevons des sites web modernes et conviviaux. Solutions personnalisées! 🎨', actionType: 'services' as const },
+      webDevelopment: { text: 'Applications web professionnelles avec React, Next.js et plus. 💻', actionType: 'services' as const },
+      mobile: { text: 'Applications natives et multiplateformes pour iOS et Android. 📱', actionType: 'services' as const },
+      seo: { text: 'Services SEO professionnels pour les premiers rangs de Google. 🔍', actionType: 'services' as const },
+      marketing: { text: 'Google Ads, Meta Ads et gestion des réseaux sociaux. 📈', actionType: 'services' as const },
+      ecommerce: { text: 'WooCommerce, Shopify et solutions e-commerce personnalisées. 🛒', actionType: 'services' as const },
+      wordpress: { text: 'Conception de thèmes, développement de plugins et optimisation WordPress. 🚀', actionType: 'services' as const },
+      logo: { text: 'Design de logo et identité d\'entreprise professionnels pour votre marque. 🎨', actionType: 'services' as const },
+      socialMedia: { text: 'Production de contenu, gestion de comptes et stratégies réseaux sociaux. 📱', actionType: 'services' as const },
+      ai: { text: 'Chatbots, automatisation et solutions alimentées par l\'IA. 🤖', actionType: 'services' as const },
+      automation: { text: 'Solutions intelligentes pour automatiser vos processus métier. ⚙️', actionType: 'services' as const },
+      contact: { text: 'Contactez-nous maintenant pour des questions détaillées! 📞', actionType: 'contact' as const },
+      pricing: { text: 'Tarifs personnalisés pour chaque projet. Détails sur notre page tarification! 💰', actionType: 'pricing' as const },
+      projects: { text: 'Découvrez nos projets réussis! 🚀', actionType: 'projects' as const },
+      general: { text: 'Comment puis-je vous aider? Que voulez-vous savoir? 😊' }
     },
     ru: {
-      greeting: 'Привет! Softiel предоставляет услуги веб-дизайна, веб-разработки, мобильных приложений и цифрового маркетинга. Как я могу помочь? 😊',
-      services: 'Softiel предоставляет эти услуги:\n🎨 Веб-дизайн - Современные, адаптивные дизайны\n💻 Веб-разработка - Приложения React, Next.js, Node.js\n📱 Мобильное приложение - Нативные/кроссплатформенные для iOS/Android\n🔍 SEO-оптимизация - Высокие позиции в Google\n📈 Управление Google Ads - Целевые рекламные кампании\n🚀 Решения WordPress - Разработка пользовательских тем и плагинов\n🎯 Дизайн логотипа - Профессиональный дизайн бренда\n📱 Управление соцсетями - Производство контента и управление аккаунтами\n🤖 Интеграции ИИ - Решения чат-ботов и на основе ИИ\n⚙️ Автоматизация - Автоматизация бизнес-процессов\n💼 Цифровое консультирование - Стратегические цифровые решения\n📚 Образование - Технологическое обучение\n\nПосетите нашу страницу услуг для подробной информации! 😊',
-      howAreYou: 'У меня все хорошо, спасибо! Softiel работает над новыми проектами. Какая услуга вам нужна? 🚀',
-      thanks: 'Пожалуйста! Softiel всегда рядом с вами. Могу ли я помочь вам с чем-то еще? 😊',
-      webDesign: 'Softiel - эксперт в веб-дизайне! Мы создаем современные, адаптивные и удобные веб-сайты. Мы можем предоставить индивидуальные дизайн-решения для вас! 🎨',
-      webDevelopment: 'Softiel имеет опыт в веб-разработке! Мы разрабатываем профессиональные веб-приложения с современными технологиями, такими как React, Next.js, Node.js. 💻',
-      mobile: 'Softiel - эксперт в разработке мобильных приложений! Мы разрабатываем нативные и кроссплатформенные приложения для iOS и Android. 📱',
-      seo: 'Softiel - эксперт в SEO! Мы предоставляем профессиональные SEO-услуги для попадания вашего сайта в топ-рейтинги Google. 🔍',
-      marketing: 'Softiel имеет опыт в цифровом маркетинге! Мы предоставляем Google Ads, Facebook Ads и управление социальными сетями. 📈',
-      ecommerce: 'Softiel - эксперт в электронной коммерции! Мы разрабатываем WooCommerce, Shopify и индивидуальные решения электронной коммерции. Мы можем настроить индивидуальный интернет-магазин для вас! 🛒',
-      wordpress: 'Softiel имеет опыт в WordPress! Мы предоставляем индивидуальный дизайн тем, разработку плагинов и оптимизацию WordPress. 🚀',
-      logo: 'Softiel - эксперт в дизайне логотипов и корпоративной идентичности! Мы предоставляем профессиональные дизайн-решения, которые укрепят ваш бренд. 🎨',
-      socialMedia: 'Softiel имеет опыт в управлении социальными сетями! Мы разрабатываем производство контента, управление аккаунтами и стратегии социальных сетей. 📱',
-      ai: 'Softiel - эксперт в интеграции ИИ! Мы разрабатываем чат-боты, автоматизацию и решения на основе ИИ. 🤖',
-      automation: 'Softiel имеет опыт в автоматизации и интеграции! Мы разрабатываем решения, которые автоматизируют ваши бизнес-процессы. ⚙️',
-      contact: 'Наша контактная информация:\n📞 Телефон: +90 541 188 30 45\n📧 Электронная почта: info@softiel.com\n📍 Адрес: Başak, Şair Zihni Cd. 4. Etap 1. Kısım L-33, 34480 Başakşehir/İstanbul\n\nСвяжитесь с нами сейчас для подробных вопросов! 😊',
-      pricing: 'Softiel предоставляет индивидуальные цены для каждого проекта! Мы готовим подробные предложения на основе масштаба вашего проекта. Для получения информации о ценах на веб-дизайн, веб-разработку, мобильные приложения, SEO, Google Ads и наши другие услуги, пожалуйста, свяжитесь с нами. Давайте подготовим индивидуальное предложение для вас! 💰\n\nПосетите нашу страницу цен для подробной информации о ценах!',
-      projects: 'Softiel успешно завершил множество проектов! Мы реализовали веб-сайты, мобильные приложения, платформы электронной коммерции, дизайны корпоративной идентичности и цифровые маркетинговые кампании. Вы можете просмотреть наше портфолио, чтобы увидеть наши проекты, или связаться с нами для получения подробной информации! 🚀\n\nПосетите нашу страницу портфолио для подробных примеров проектов!',
-      general: 'Я могу вам помочь! Softiel предоставляет веб-дизайн, веб-разработку, разработку мобильных приложений, SEO-оптимизацию, управление Google Ads, решения WordPress, дизайн логотипа, управление социальными сетями, интеграции ИИ, автоматизацию и цифровое консультирование. Какую конкретную информацию вы хотели бы узнать? 😊'
+      greeting: { text: 'Привет! Как я могу помочь? 😊' },
+      howAreYou: { text: 'У меня все хорошо, спасибо! Какая услуга вам нужна? 🚀' },
+      thanks: { text: 'Пожалуйста! Могу ли я помочь вам с чем-то еще? 😊' },
+      services: { text: 'Веб-дизайн, мобильные приложения, SEO и многое другое! Откройте все наши услуги. 🚀', actionType: 'services' as const },
+      webDesign: { text: 'Мы создаем современные и удобные веб-сайты. Индивидуальные решения! 🎨', actionType: 'services' as const },
+      webDevelopment: { text: 'Профессиональные веб-приложения с React, Next.js и другими технологиями. 💻', actionType: 'services' as const },
+      mobile: { text: 'Нативные и кроссплатформенные приложения для iOS и Android. 📱', actionType: 'services' as const },
+      seo: { text: 'Профессиональные SEO-услуги для топ-рейтингов в Google. 🔍', actionType: 'services' as const },
+      marketing: { text: 'Google Ads, Meta Ads и управление социальными сетями. 📈', actionType: 'services' as const },
+      ecommerce: { text: 'WooCommerce, Shopify и индивидуальные решения электронной коммерции. 🛒', actionType: 'services' as const },
+      wordpress: { text: 'Дизайн тем, разработка плагинов и оптимизация WordPress. 🚀', actionType: 'services' as const },
+      logo: { text: 'Профессиональный дизайн логотипов и корпоративной идентичности для вашего бренда. 🎨', actionType: 'services' as const },
+      socialMedia: { text: 'Производство контента, управление аккаунтами и стратегии социальных сетей. 📱', actionType: 'services' as const },
+      ai: { text: 'Чат-боты, автоматизация и решения на основе ИИ. 🤖', actionType: 'services' as const },
+      automation: { text: 'Умные решения для автоматизации ваших бизнес-процессов. ⚙️', actionType: 'services' as const },
+      contact: { text: 'Свяжитесь с нами сейчас для подробных вопросов! 📞', actionType: 'contact' as const },
+      pricing: { text: 'Индивидуальные цены для каждого проекта. Детали на нашей странице цен! 💰', actionType: 'pricing' as const },
+      projects: { text: 'Откройте наши успешные проекты! 🚀', actionType: 'projects' as const },
+      general: { text: 'Как я могу вам помочь? Что вы хотели бы узнать? 😊' }
     },
     ar: {
-      greeting: 'مرحبا! Softiel تقدم خدمات تصميم الويب، تطوير الويب، التطبيقات المحمولة والتسويق الرقمي. كيف يمكنني مساعدتك؟ 😊',
-      services: 'Softiel تقدم هذه الخدمات:\n🎨 تصميم الويب - تصاميم حديثة ومتجاوبة\n💻 تطوير الويب - تطبيقات React, Next.js, Node.js\n📱 تطبيق محمول - أصلية/متعددة المنصات لـ iOS/Android\n🔍 تحسين محركات البحث - مراكز عالية في Google\n📈 إدارة Google Ads - حملات إعلانية مستهدفة\n🚀 حلول WordPress - تطوير قوالب وإضافات مخصصة\n🎯 تصميم الشعار - تصميم هوية تجارية احترافية\n📱 إدارة وسائل التواصل - إنتاج المحتوى وإدارة الحسابات\n🤖 تكاملات الذكاء الاصطناعي - حلول روبوتات المحادثة والذكاء الاصطناعي\n⚙️ الأتمتة - أتمتة العمليات التجارية\n💼 الاستشارات الرقمية - حلول رقمية استراتيجية\n📚 التعليم - تدريب تقني\n\nتحقق من صفحة خدماتنا للحصول على معلومات مفصلة! 😊',
-      howAreYou: 'أنا بخير، شكرا! Softiel تعمل على مشاريع جديدة. ما الخدمة التي تحتاجها؟ 🚀',
-      thanks: 'العفو! Softiel دائما معك. هل يمكنني مساعدتك في شيء آخر؟ 😊',
-      webDesign: 'Softiel خبير في تصميم الويب! نصمم مواقع ويب حديثة ومتجاوبة وسهلة الاستخدام. يمكننا تقديم حلول تصميم مخصصة لك! 🎨',
-      webDevelopment: 'Softiel لديها خبرة في تطوير الويب! نطور تطبيقات ويب احترافية بتقنيات حديثة مثل React، Next.js، Node.js. 💻',
-      mobile: 'Softiel خبير في تطوير التطبيقات المحمولة! نطور تطبيقات أصلية ومتعددة المنصات لنظامي iOS و Android. 📱',
-      seo: 'Softiel خبير في تحسين محركات البحث! نقدم خدمات SEO احترافية لجعل موقعك في المراكز الأولى على Google. 🔍',
-      marketing: 'Softiel لديها خبرة في التسويق الرقمي! نقدم Google Ads، Facebook Ads وإدارة وسائل التواصل الاجتماعي. 📈',
-      ecommerce: 'Softiel خبير في التجارة الإلكترونية! نطور WooCommerce، Shopify وحلول التجارة الإلكترونية المخصصة. يمكننا إعداد متجر إلكتروني مخصص لك! 🛒',
-      wordpress: 'Softiel لديها خبرة في WordPress! نقدم تصميم قوالب مخصصة، تطوير الإضافات وتحسين WordPress. 🚀',
-      logo: 'Softiel خبير في تصميم الشعارات والهوية المؤسسية! نقدم حلول تصميم احترافية ستعزز علامتك التجارية. 🎨',
-      socialMedia: 'Softiel لديها خبرة في إدارة وسائل التواصل الاجتماعي! نطور إنتاج المحتوى، إدارة الحسابات واستراتيجيات وسائل التواصل الاجتماعي. 📱',
-      ai: 'Softiel خبير في تكامل الذكاء الاصطناعي! نطور روبوتات الدردشة، الأتمتة والحلول المدعومة بالذكاء الاصطناعي. 🤖',
-      automation: 'Softiel لديها خبرة في الأتمتة والتكامل! نطور حلول ستؤتمت عملياتك التجارية. ⚙️',
-      contact: 'معلومات الاتصال الخاصة بنا:\n📞 الهاتف: +90 541 188 30 45\n📧 البريد الإلكتروني: info@softiel.com\n📍 العنوان: Başak, Şair Zihni Cd. 4. Etap 1. Kısım L-33, 34480 Başakşehir/İstanbul\n\nاتصل بنا الآن للأسئلة المفصلة! 😊',
-      pricing: 'Softiel تقدم أسعار مخصصة لكل مشروع! نحن نعد عروض أسعار مفصلة بناءً على نطاق مشروعك. للحصول على معلومات الأسعار حول تصميم الويب، تطوير الويب، التطبيقات المحمولة، تحسين محركات البحث، Google Ads وخدماتنا الأخرى، يرجى الاتصال بنا. دعنا نعد عرض أسعار مخصص لك! 💰\n\nتحقق من صفحة الأسعار للحصول على معلومات أسعار مفصلة!',
-      projects: 'Softiel أكملت بنجاح العديد من المشاريع! لقد سلمنا مواقع ويب، تطبيقات محمولة، منصات التجارة الإلكترونية، تصاميم الهوية المؤسسية وحملات التسويق الرقمي. يمكنك مراجعة محفظتنا لرؤية مشاريعنا أو الاتصال بنا للحصول على معلومات مفصلة! 🚀\n\nتحقق من صفحة المحفظة للحصول على أمثلة مشاريع مفصلة!',
-      general: 'يمكنني مساعدتك في ذلك! Softiel تقدم تصميم الويب، تطوير الويب، تطوير التطبيقات المحمولة، تحسين محركات البحث، إدارة Google Ads، حلول WordPress، تصميم الشعار، إدارة وسائل التواصل الاجتماعي، تكاملات الذكاء الاصطناعي، الأتمتة والاستشارات الرقمية. ما هي المعلومات المحددة التي تريد معرفتها؟ 😊'
+      greeting: { text: 'مرحبا! كيف يمكنني مساعدتك؟ 😊' },
+      howAreYou: { text: 'أنا بخير، شكرا! ما الخدمة التي تحتاجها؟ 🚀' },
+      thanks: { text: 'العفو! هل يمكنني مساعدتك في شيء آخر؟ 😊' },
+      services: { text: 'تصميم الويب، التطبيقات المحمولة، تحسين محركات البحث والمزيد! اكتشف جميع خدماتنا. 🚀', actionType: 'services' as const },
+      webDesign: { text: 'نصمم مواقع ويب حديثة وسهلة الاستخدام. حلول مخصصة! 🎨', actionType: 'services' as const },
+      webDevelopment: { text: 'تطبيقات ويب احترافية بتقنيات React، Next.js والمزيد. 💻', actionType: 'services' as const },
+      mobile: { text: 'تطبيقات أصلية ومتعددة المنصات لنظامي iOS و Android. 📱', actionType: 'services' as const },
+      seo: { text: 'خدمات SEO احترافية للمراكز الأولى على Google. 🔍', actionType: 'services' as const },
+      marketing: { text: 'Google Ads، Meta Ads وإدارة وسائل التواصل الاجتماعي. 📈', actionType: 'services' as const },
+      ecommerce: { text: 'WooCommerce، Shopify وحلول التجارة الإلكترونية المخصصة. 🛒', actionType: 'services' as const },
+      wordpress: { text: 'تصميم قوالب، تطوير الإضافات وتحسين WordPress. 🚀', actionType: 'services' as const },
+      logo: { text: 'تصميم شعار وهوية مؤسسية احترافية لعلامتك التجارية. 🎨', actionType: 'services' as const },
+      socialMedia: { text: 'إنتاج المحتوى، إدارة الحسابات واستراتيجيات وسائل التواصل. 📱', actionType: 'services' as const },
+      ai: { text: 'روبوتات الدردشة، الأتمتة والحلول المدعومة بالذكاء الاصطناعي. 🤖', actionType: 'services' as const },
+      automation: { text: 'حلول ذكية لأتمتة عملياتك التجارية. ⚙️', actionType: 'services' as const },
+      contact: { text: 'اتصل بنا الآن للأسئلة المفصلة! 📞', actionType: 'contact' as const },
+      pricing: { text: 'أسعار مخصصة لكل مشروع. التفاصيل في صفحة الأسعار! 💰', actionType: 'pricing' as const },
+      projects: { text: 'اكتشف مشاريعنا الناجحة! 🚀', actionType: 'projects' as const },
+      general: { text: 'كيف يمكنني مساعدتك؟ ماذا تريد أن تعرف؟ 😊' }
     }
   };
 

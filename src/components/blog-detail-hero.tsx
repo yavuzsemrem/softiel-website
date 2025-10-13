@@ -7,6 +7,7 @@ import { Calendar, User, Clock, Eye, Heart, Share2, ArrowLeft, BookOpen, Tag, Lo
 import Link from "next/link"
 import { getBlog, incrementBlogViews, updateBlogLikes, BlogPost } from "@/lib/blog-service"
 import { logBlogLikeActivity } from "@/lib/simple-activity-logger"
+import { useI18n } from "@/contexts/i18n-context"
 
 // domAnimation'ı async yükle - Main-thread work azaltmak için
 const loadFeatures = () => import("framer-motion").then(mod => mod.domAnimation)
@@ -176,6 +177,7 @@ const blogData = {
 }
 
 export function BlogDetailHero({ slug, blogData }: BlogDetailHeroProps) {
+  const { t, getLocalizedUrl, locale } = useI18n()
   const [post, setPost] = useState<BlogPost | null>(blogData || null)
   const [loading, setLoading] = useState(!blogData)
   const [error, setError] = useState("")
@@ -203,10 +205,10 @@ export function BlogDetailHero({ slug, blogData }: BlogDetailHeroProps) {
         setViewCount(data.views || 0)
         setLikeCount(data.likes || 0)
       } else {
-        setError("Blog yazısı bulunamadı")
+        setError(t('blogDetail.notFound', 'Blog yazısı bulunamadı'))
       }
     } catch (err) {
-      setError("Blog yüklenirken bir hata oluştu")
+      setError(t('blogDetail.loadError', 'Blog yüklenirken bir hata oluştu'))
     } finally {
       setLoading(false)
     }
@@ -261,7 +263,7 @@ export function BlogDetailHero({ slug, blogData }: BlogDetailHeroProps) {
         setShowCopied(true)
         setTimeout(() => setShowCopied(false), 2000)
       } catch (clipboardError) {
-        alert('Paylaşım desteklenmiyor. Lütfen linki manuel olarak kopyalayın.')
+        alert(t('blogDetail.shareNotSupported', 'Paylaşım desteklenmiyor. Lütfen linki manuel olarak kopyalayın.'))
       }
     }
   }
@@ -272,7 +274,7 @@ export function BlogDetailHero({ slug, blogData }: BlogDetailHeroProps) {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="flex items-center justify-center space-x-3">
             <Loader2 className="h-8 w-8 animate-spin text-cyan-400" />
-            <span className="text-white text-lg">Blog yükleniyor...</span>
+            <span className="text-white text-lg">{t('common.loading', 'Blog yükleniyor...')}</span>
           </div>
         </div>
       </section>
@@ -283,11 +285,11 @@ export function BlogDetailHero({ slug, blogData }: BlogDetailHeroProps) {
     return (
       <section className="relative pt-20 pb-16 lg:pt-32 lg:pb-20">
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-4xl font-bold text-white mb-4">Yazı Bulunamadı</h1>
-          <p className="text-neutral-400 mb-8">{error || "Aradığınız blog yazısı mevcut değil."}</p>
-          <Link href="/tr/blog" className="inline-flex items-center space-x-2 text-cyan-400 hover:text-cyan-300">
+          <h1 className="text-4xl font-bold text-white mb-4">{t('blogDetail.notFoundTitle', 'Yazı Bulunamadı')}</h1>
+          <p className="text-neutral-400 mb-8">{error || t('blogDetail.notFoundMessage', 'Aradığınız blog yazısı mevcut değil.')}</p>
+          <Link href={getLocalizedUrl('/blog')} className="inline-flex items-center space-x-2 text-cyan-400 hover:text-cyan-300">
             <ArrowLeft className="h-4 w-4" />
-            <span>Blog'a Dön</span>
+            <span>{t('blogDetail.backToBlog', 'Blog\'a Dön')}</span>
           </Link>
         </div>
       </section>
@@ -305,10 +307,10 @@ export function BlogDetailHero({ slug, blogData }: BlogDetailHeroProps) {
           transition={{ duration: 0.6 }}
           className="mb-8"
         >
-          <Link href="/tr/blog" className="inline-flex items-center space-x-2 glass rounded-full px-4 py-2 text-neutral-700 dark:text-neutral-300 hover:text-cyan-600 dark:hover:text-cyan-400 transition-all duration-200"
+          <Link href={getLocalizedUrl('/blog')} className="inline-flex items-center space-x-2 glass rounded-full px-4 py-2 text-neutral-700 dark:text-neutral-300 hover:text-cyan-600 dark:hover:text-cyan-400 transition-all duration-200"
                 style={{ background: 'rgba(255, 255, 255, 0.1)' }}>
             <ArrowLeft className="h-4 w-4" />
-            <span>Blog'a Dön</span>
+            <span>{t('blogDetail.backToBlog', 'Blog\'a Dön')}</span>
           </Link>
         </m.div>
 
@@ -367,7 +369,7 @@ export function BlogDetailHero({ slug, blogData }: BlogDetailHeroProps) {
               <Calendar className="h-4 w-4 flex-shrink-0" />
               <span>
                 {(() => {
-                  if (!post.createdAt) return 'Tarih yok'
+                  if (!post.createdAt) return t('blogDetail.noDate', 'Tarih yok')
                   
                   try {
                     let date: Date
@@ -388,32 +390,42 @@ export function BlogDetailHero({ slug, blogData }: BlogDetailHeroProps) {
                     // Validate date
                     if (isNaN(date.getTime())) {
                       console.warn('Invalid date:', post.createdAt)
-                      return 'Tarih yok'
+                      return t('blogDetail.noDate', 'Tarih yok')
                     }
                     
-                    return date.toLocaleDateString('tr-TR', {
+                    // Locale'e göre doğru format
+                    const localeMap: { [key: string]: string } = {
+                      'tr': 'tr-TR',
+                      'en': 'en-US',
+                      'de': 'de-DE',
+                      'fr': 'fr-FR',
+                      'ru': 'ru-RU',
+                      'ar': 'ar-SA'
+                    }
+                    
+                    return date.toLocaleDateString(localeMap[locale] || 'tr-TR', {
                       year: 'numeric',
                       month: 'long',
                       day: 'numeric'
                     })
                   } catch (error) {
                     console.error('Date formatting error:', error, post.createdAt)
-                    return 'Tarih yok'
+                    return t('blogDetail.noDate', 'Tarih yok')
                   }
                 })()}
               </span>
             </div>
             <div className="flex items-center space-x-2">
               <Clock className="h-4 w-4" />
-              <span>{post.readTime} okuma</span>
+              <span>{post.readTime} {t('blogDetail.readTime', 'okuma')}</span>
             </div>
             <div className="flex items-center space-x-2">
               <Eye className="h-4 w-4" />
-              <span>{viewCount || post.views} görüntüleme</span>
+              <span>{viewCount || post.views} {t('blogDetail.views', 'görüntüleme')}</span>
             </div>
             <div className="flex items-center space-x-2">
               <Heart className="h-4 w-4" />
-              <span>{likeCount} beğeni</span>
+              <span>{likeCount} {t('blogDetail.likes', 'beğeni')}</span>
             </div>
           </div>
 
@@ -431,7 +443,7 @@ export function BlogDetailHero({ slug, blogData }: BlogDetailHeroProps) {
               style={{ background: 'rgba(255, 255, 255, 0.1)' }}
             >
               <Heart className={`h-4 w-4 ${isLiked ? 'fill-current' : ''}`} />
-              <span>{isLiked ? 'Beğenildi' : 'Beğen'}</span>
+              <span>{isLiked ? t('blogDetail.liked', 'Beğenildi') : t('blogDetail.like', 'Beğen')}</span>
             </m.button>
             <div className="relative">
               <m.button
@@ -442,7 +454,7 @@ export function BlogDetailHero({ slug, blogData }: BlogDetailHeroProps) {
                 style={{ background: 'rgba(255, 255, 255, 0.1)' }}
               >
                 <Share2 className="h-4 w-4" />
-                <span>Paylaş</span>
+                <span>{t('blogDetail.share', 'Paylaş')}</span>
               </m.button>
               
               {/* Kopyalandı Mesajı */}
@@ -455,7 +467,7 @@ export function BlogDetailHero({ slug, blogData }: BlogDetailHeroProps) {
                   className="absolute -top-12 left-1/2 transform -translate-x-1/2 z-10"
                 >
                   <div className="bg-green-500 text-white px-3 py-2 rounded-lg text-sm font-medium shadow-lg whitespace-nowrap">
-                    ✓ Kopyalandı!
+                    ✓ {t('blogDetail.copied', 'Kopyalandı!')}
                   </div>
                   <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-green-500"></div>
                 </m.div>

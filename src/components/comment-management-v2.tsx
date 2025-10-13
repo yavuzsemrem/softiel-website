@@ -857,7 +857,7 @@ export function CommentManagementV2() {
           boxSizing: 'border-box'
         }}
       >
-        <div className="glass rounded-xl p-3 sm:p-4 border border-white/10">
+        <div className="glass rounded-xl p-3 sm:p-4 border border-white/20" style={{ background: 'rgba(255, 255, 255, 0.1)' }}>
           <div className="flex items-center justify-between">
             <div className="min-w-0 flex-1">
               <p className="text-xs sm:text-sm text-neutral-400 truncate">Toplam Yorum</p>
@@ -867,7 +867,7 @@ export function CommentManagementV2() {
           </div>
         </div>
         
-        <div className="glass rounded-xl p-3 sm:p-4 border border-white/10">
+        <div className="glass rounded-xl p-3 sm:p-4 border border-white/20" style={{ background: 'rgba(255, 255, 255, 0.1)' }}>
           <div className="flex items-center justify-between">
             <div className="min-w-0 flex-1">
               <p className="text-xs sm:text-sm text-neutral-400 truncate">Onaylandı</p>
@@ -877,7 +877,7 @@ export function CommentManagementV2() {
           </div>
         </div>
           
-        <div className="glass rounded-xl p-3 sm:p-4 border border-white/10">
+        <div className="glass rounded-xl p-3 sm:p-4 border border-white/20" style={{ background: 'rgba(255, 255, 255, 0.1)' }}>
           <div className="flex items-center justify-between">
             <div className="min-w-0 flex-1">
               <p className="text-xs sm:text-sm text-neutral-400 truncate">Beklemede</p>
@@ -887,7 +887,7 @@ export function CommentManagementV2() {
           </div>
         </div>
 
-        <div className="glass rounded-xl p-3 sm:p-4 border border-white/10">
+        <div className="glass rounded-xl p-3 sm:p-4 border border-white/20" style={{ background: 'rgba(255, 255, 255, 0.1)' }}>
           <div className="flex items-center justify-between">
             <div className="min-w-0 flex-1">
               <p className="text-xs sm:text-sm text-neutral-400 truncate">Reddedildi</p>
@@ -897,7 +897,7 @@ export function CommentManagementV2() {
           </div>
         </div>
         
-        <div className="glass rounded-xl p-3 sm:p-4 border border-white/10">
+        <div className="glass rounded-xl p-3 sm:p-4 border border-white/20" style={{ background: 'rgba(255, 255, 255, 0.1)' }}>
           <div className="flex items-center justify-between">
             <div className="min-w-0 flex-1">
               <p className="text-xs sm:text-sm text-neutral-400 truncate">Yanıtlar</p>
@@ -910,8 +910,9 @@ export function CommentManagementV2() {
 
       {/* Filters */}
       <div 
-        className="glass rounded-xl p-4 sm:p-6 border border-white/10 w-full max-w-full overflow-hidden"
+        className="glass rounded-xl p-4 sm:p-6 border border-white/20 w-full max-w-full overflow-hidden"
         style={{
+          background: 'rgba(255, 255, 255, 0.1)',
           maxWidth: '100vw',
           width: '100%',
           overflowX: 'hidden',
@@ -937,6 +938,7 @@ export function CommentManagementV2() {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full pl-10 pr-4 py-2.5 bg-white/5 rounded-lg text-white placeholder-neutral-400 focus:outline-none focus:bg-white/10 focus:shadow-lg focus:shadow-cyan-500/20 text-sm sm:text-base transition-all duration-300 hover:bg-white/8"
+                style={{ background: 'rgba(255, 255, 255, 0.05)' }}
               />
             </div>
           </div>
@@ -947,6 +949,7 @@ export function CommentManagementV2() {
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
               className="w-full appearance-none bg-white/5 rounded-lg px-3 sm:px-4 py-2.5 pr-8 text-white focus:outline-none focus:bg-white/10 focus:shadow-lg focus:shadow-cyan-500/20 text-sm sm:text-base transition-all duration-300 hover:bg-white/8"
+              style={{ background: 'rgba(255, 255, 255, 0.05)' }}
             >
               <option value="Tümü">Tümü</option>
               <option value="Onaylandı">Onaylandı</option>
@@ -962,6 +965,7 @@ export function CommentManagementV2() {
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
               className="w-full appearance-none bg-white/5 rounded-lg px-3 sm:px-4 py-2.5 pr-8 text-white focus:outline-none focus:bg-white/10 focus:shadow-lg focus:shadow-cyan-500/20 text-sm sm:text-base transition-all duration-300 hover:bg-white/8"
+              style={{ background: 'rgba(255, 255, 255, 0.05)' }}
             >
               <option value="newest">En Yeni</option>
               <option value="oldest">En Eski</option>
@@ -1307,7 +1311,11 @@ export function CommentManagementV2() {
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.95 }}
         className="glass rounded-2xl p-4 sm:p-6 border border-white/20 shadow-modern max-w-2xl w-full mx-4 sm:mx-0 max-h-[90vh] overflow-y-auto"
-        style={{ background: 'rgba(255, 255, 255, 0.1)' }}
+        style={{ 
+          background: 'rgba(15, 23, 42, 0.95)',
+          backdropFilter: 'blur(20px)',
+          boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)'
+        }}
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between mb-4 sm:mb-6">
@@ -1406,7 +1414,11 @@ export function CommentManagementV2() {
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.95 }}
         className="glass rounded-2xl p-4 sm:p-6 border border-white/20 shadow-modern max-w-md w-full mx-4 sm:mx-0"
-        style={{ background: 'rgba(255, 255, 255, 0.1)' }}
+        style={{ 
+          background: 'rgba(15, 23, 42, 0.95)',
+          backdropFilter: 'blur(20px)',
+          boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)'
+        }}
         onClick={(e) => e.stopPropagation()}
       >
             <div className="flex items-center space-x-3 mb-4">
@@ -1464,6 +1476,11 @@ export function CommentManagementV2() {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
             className="glass rounded-2xl p-4 sm:p-6 border border-white/20 shadow-modern max-w-md w-full"
+            style={{ 
+              background: 'rgba(15, 23, 42, 0.95)',
+              backdropFilter: 'blur(20px)',
+              boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)'
+            }}
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center space-x-3 mb-4">

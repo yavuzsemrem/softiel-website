@@ -7,8 +7,10 @@ import { Send, CheckCircle, MessageSquare, User, Mail, Phone, Building, Calendar
 import { GoogleReCaptchaProvider, useGoogleReCaptcha } from 'react-google-recaptcha-v3'
 import { RECAPTCHA_CONFIG, RECAPTCHA_ACTIONS, isReCAPTCHAEnabled } from '@/config'
 import { PrivacyModal } from './privacy-modal'
+import { useI18n } from "@/contexts/i18n-context"
 
 function ContactFormContent() {
+  const { t } = useI18n()
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
@@ -106,18 +108,18 @@ function ContactFormContent() {
           >
             <MessageSquare className="h-5 w-5 text-cyan-500 fill-current" />
             <span className="text-sm font-semibold text-neutral-700 dark:text-neutral-300">
-              Detaylı İletişim
+              {t('contact.form.badge')}
             </span>
           </motion.div>
 
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-display font-bold text-neutral-900 dark:text-white mb-6">
-            İletişim{" "}
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-display font-bold mb-6">
+            <span className="text-neutral-900 dark:text-white">{t('contact.form.headingNormal')}</span>{" "}
             <span className="bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 bg-clip-text text-transparent">
-              Formu
+              {t('contact.form.headingGradient')}
             </span>
           </h2>
           <p className="text-lg sm:text-xl text-neutral-600 dark:text-neutral-400 max-w-3xl mx-auto leading-relaxed">
-            Projeniz hakkında detaylı bilgi verin, size en uygun çözümü sunalım.
+            {t('contact.form.description')}
           </p>
           
           {/* Scroll indicator */}
@@ -133,7 +135,7 @@ function ContactFormContent() {
               transition={{ duration: 2, repeat: Infinity }}
               className="flex flex-col items-center space-y-2 text-neutral-400 dark:text-neutral-500"
             >
-              <span className="text-sm font-medium">Formu doldurun</span>
+              <span className="text-sm font-medium">{t('contact.form.scrollText')}</span>
               <ArrowDown className="h-5 w-5" />
             </motion.div>
           </motion.div>
@@ -155,14 +157,14 @@ function ContactFormContent() {
                   <User className="h-4 w-4 text-white" />
                 </div>
                 <h3 className="text-lg font-bold text-neutral-900 dark:text-white">
-                  Kişisel Bilgiler
+                  {t('contact.form.personalInfoTitle')}
                 </h3>
               </div>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <label className="block text-sm font-semibold text-neutral-800 dark:text-neutral-100">
-                    Ad Soyad *
+                    {t('contact.form.nameLabel')}
                   </label>
                   <input
                     type="text"
@@ -170,12 +172,12 @@ function ContactFormContent() {
                     required
                     className="w-full px-4 py-3 rounded-xl glass text-neutral-900 dark:text-white placeholder-neutral-500 dark:placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/70 focus:shadow-[0_0_30px_rgba(6,182,212,0.6)] focus:shadow-[0_0_60px_rgba(6,182,212,0.4)] focus:shadow-[0_0_90px_rgba(6,182,212,0.2)] transition-all duration-300 backdrop-blur-lg border-0"
                     style={{ background: 'rgba(255, 255, 255, 0.1)' }}
-                    placeholder="Adınız ve soyadınız"
+                    placeholder={t('contact.namePlaceholder')}
                   />
                 </div>
                 <div className="space-y-2">
                   <label className="block text-sm font-semibold text-neutral-800 dark:text-neutral-100">
-                    E-posta *
+                    {t('contact.form.emailLabel')}
                   </label>
                   <input
                     type="email"
@@ -183,7 +185,7 @@ function ContactFormContent() {
                     required
                     className="w-full px-4 py-3 rounded-xl glass text-neutral-900 dark:text-white placeholder-neutral-500 dark:placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/70 focus:shadow-[0_0_30px_rgba(16,185,129,0.6)] focus:shadow-[0_0_60px_rgba(16,185,129,0.4)] focus:shadow-[0_0_90px_rgba(16,185,129,0.2)] transition-all duration-300 backdrop-blur-lg border-0"
                     style={{ background: 'rgba(255, 255, 255, 0.1)' }}
-                    placeholder="E-posta adresiniz"
+                    placeholder={t('contact.emailPlaceholder')}
                   />
                 </div>
               </div>
@@ -191,7 +193,7 @@ function ContactFormContent() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <label className="block text-sm font-semibold text-neutral-800 dark:text-neutral-100">
-                    Telefon *
+                    {t('contact.form.phoneLabel')}
                   </label>
                   <input
                     type="tel"
@@ -199,19 +201,19 @@ function ContactFormContent() {
                     required
                     className="w-full px-4 py-3 rounded-xl glass text-neutral-900 dark:text-white placeholder-neutral-500 dark:placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-violet-500/70 focus:shadow-[0_0_30px_rgba(139,92,246,0.6)] focus:shadow-[0_0_60px_rgba(139,92,246,0.4)] focus:shadow-[0_0_90px_rgba(139,92,246,0.2)] transition-all duration-300 backdrop-blur-lg border-0"
                     style={{ background: 'rgba(255, 255, 255, 0.1)' }}
-                    placeholder="Telefon numaranız"
+                    placeholder={t('contact.phonePlaceholder')}
                   />
                 </div>
                 <div className="space-y-2">
                   <label className="block text-sm font-semibold text-neutral-800 dark:text-neutral-100">
-                    Şirket
+                    {t('contact.form.companyLabel')}
                   </label>
                   <input
                     type="text"
                     name="company"
                     className="w-full px-4 py-3 rounded-xl glass text-neutral-900 dark:text-white placeholder-neutral-500 dark:placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-orange-500/70 focus:shadow-[0_0_30px_rgba(249,115,22,0.6)] focus:shadow-[0_0_60px_rgba(249,115,22,0.4)] focus:shadow-[0_0_90px_rgba(249,115,22,0.2)] transition-all duration-300 backdrop-blur-lg border-0"
                     style={{ background: 'rgba(255, 255, 255, 0.1)' }}
-                    placeholder="Şirket adınız"
+                    placeholder={t('contact.companyPlaceholder')}
                   />
                 </div>
               </div>
@@ -224,14 +226,14 @@ function ContactFormContent() {
                   <MessageSquare className="h-4 w-4 text-white" />
                 </div>
                 <h3 className="text-lg font-bold text-neutral-900 dark:text-white">
-                  Proje Bilgileri
+                  {t('contact.form.projectInfoTitle')}
                 </h3>
               </div>
               
               <div className="space-y-4">
                 <div className="space-y-2">
                   <label className="block text-sm font-semibold text-neutral-800 dark:text-neutral-100">
-                    Hizmet Türü *
+                    {t('contact.form.serviceLabel')}
                   </label>
                   <div className="relative">
                     <select
@@ -240,18 +242,18 @@ function ContactFormContent() {
                       className="w-full px-4 py-3 pr-10 rounded-xl glass text-neutral-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500/70 focus:shadow-[0_0_30px_rgba(59,130,246,0.6)] focus:shadow-[0_0_60px_rgba(59,130,246,0.4)] focus:shadow-[0_0_90px_rgba(59,130,246,0.2)] transition-all duration-300 appearance-none cursor-pointer backdrop-blur-lg border-0"
                       style={{ background: 'rgba(255, 255, 255, 0.2)' }}
                     >
-                      <option value="">Hizmet seçiniz</option>
-                      <option value="web-sitesi-tasarimi">Web Sitesi Tasarımı</option>
-                      <option value="web-gelistirme">Web Uygulaması Geliştirme</option>
-                      <option value="mobil-uygulama-gelistirme">Mobil Uygulama Geliştirme</option>
-                      <option value="seo-optimizasyonu">SEO Optimizasyonu</option>
-                      <option value="google-ads-yonetimi">Google Ads & Meta Ads Yönetimi</option>
-                      <option value="wordpress-cozumleri">WordPress & CMS Çözümleri</option>
-                      <option value="logo-kurumsal-kimlik-tasarimi">Logo & Kurumsal Kimlik Tasarımı</option>
-                      <option value="sosyal-medya-yonetimi">Sosyal Medya Yönetimi</option>
-                      <option value="yapay-zeka-entegrasyonlari">Yapay Zeka Entegrasyonları</option>
-                      <option value="dijital-danismanlik">Dijital Danışmanlık</option>
-                      <option value="diger">Diğer</option>
+                      <option value="">{t('contact.form.servicePlaceholder')}</option>
+                      <option value="web-sitesi-tasarimi">{t('contact.form.services.webDesign')}</option>
+                      <option value="web-gelistirme">{t('contact.form.services.webDevelopment')}</option>
+                      <option value="mobil-uygulama-gelistirme">{t('contact.form.services.mobileApp')}</option>
+                      <option value="seo-optimizasyonu">{t('contact.form.services.seo')}</option>
+                      <option value="google-ads-yonetimi">{t('contact.form.services.googleAds')}</option>
+                      <option value="wordpress-cozumleri">{t('contact.form.services.wordpress')}</option>
+                      <option value="logo-kurumsal-kimlik-tasarimi">{t('contact.form.services.logo')}</option>
+                      <option value="sosyal-medya-yonetimi">{t('contact.form.services.socialMedia')}</option>
+                      <option value="yapay-zeka-entegrasyonlari">{t('contact.form.services.aiIntegration')}</option>
+                      <option value="dijital-danismanlik">{t('contact.form.services.digitalConsulting')}</option>
+                      <option value="diger">{t('contact.form.services.other')}</option>
                     </select>
                     <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
                       <svg className="w-5 h-5 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -263,7 +265,7 @@ function ContactFormContent() {
 
                 <div className="space-y-2">
                   <label className="block text-sm font-semibold text-neutral-800 dark:text-neutral-100">
-                    Proje Detayları *
+                    {t('contact.form.projectDetailsLabel')}
                   </label>
                   <textarea
                     name="message"
@@ -271,7 +273,7 @@ function ContactFormContent() {
                     required
                     className="w-full px-4 py-3 rounded-xl glass text-neutral-900 dark:text-white placeholder-neutral-500 dark:placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-purple-500/70 focus:shadow-[0_0_30px_rgba(168,85,247,0.6)] focus:shadow-[0_0_60px_rgba(168,85,247,0.4)] focus:shadow-[0_0_90px_rgba(168,85,247,0.2)] transition-all duration-300 resize-none backdrop-blur-lg border-0"
                     style={{ background: 'rgba(255, 255, 255, 0.1)' }}
-                    placeholder="Projeniz hakkında detaylı bilgi verin..."
+                    placeholder={t('contact.form.projectDetailsPlaceholder')}
                   ></textarea>
                 </div>
               </div>
@@ -285,13 +287,21 @@ function ContactFormContent() {
                 className="mt-1 h-4 w-4 text-cyan-500 border-neutral-300 rounded focus:ring-cyan-500"
               />
               <label className="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed">
-                <button
-                  type="button"
-                  onClick={() => setIsPrivacyModalOpen(true)}
-                  className="text-cyan-600 dark:text-cyan-400 hover:underline font-medium hover:text-cyan-700 dark:hover:text-cyan-300 transition-colors duration-200"
-                >
-                  Gizlilik Politikası
-                </button>'nı okudum ve kabul ediyorum. Kişisel verilerimin işlenmesine onay veriyorum.
+                {t('contact.form.privacyPolicy').split('Gizlilik Politikası').map((part, index) => (
+                  <span key={index}>
+                    {index === 0 && part}
+                    {index === 0 && (
+                      <button
+                        type="button"
+                        onClick={() => setIsPrivacyModalOpen(true)}
+                        className="text-cyan-600 dark:text-cyan-400 hover:underline font-medium hover:text-cyan-700 dark:hover:text-cyan-300 transition-colors duration-200"
+                      >
+                        {t('privacy.title')}
+                      </button>
+                    )}
+                    {index > 0 && part}
+                  </span>
+                ))}
               </label>
             </div>
 
@@ -306,12 +316,12 @@ function ContactFormContent() {
               {isLoading ? (
                 <>
                   <Loader2 className="h-5 w-5 animate-spin" />
-                  <span>Gönderiliyor...</span>
+                  <span>{t('contact.form.sendingButton')}</span>
                 </>
               ) : (
                 <>
                   <Send className="h-5 w-5" />
-                  <span>Mesajı Gönder</span>
+                  <span>{t('contact.form.sendButton')}</span>
                 </>
               )}
             </motion.button>
@@ -329,7 +339,7 @@ function ContactFormContent() {
               <div className="flex items-center space-x-3 text-green-700 dark:text-green-300">
                 <CheckCircle className="h-5 w-5" />
                 <span className="font-medium text-sm">
-                  Mesajınız başarıyla gönderildi! 24 saat içinde size dönüş yapacağız.
+                  {t('contact.form.successMessage')}
                 </span>
               </div>
             </motion.div>
@@ -349,7 +359,7 @@ function ContactFormContent() {
                   <span className="text-white text-xs font-bold">!</span>
                 </div>
                 <span className="font-medium text-sm">
-                  {error}
+                  {t('contact.form.errorMessage')}
                 </span>
               </div>
             </motion.div>
@@ -368,24 +378,27 @@ function ContactFormContent() {
 
 // Ana ContactForm component'i - ReCAPTCHA Provider ile sarmalanmış
 export function ContactForm() {
-  // ReCAPTCHA sadece production'da etkin
-  if (isReCAPTCHAEnabled()) {
-    return (
-      <GoogleReCaptchaProvider
-        reCaptchaKey={RECAPTCHA_CONFIG.siteKey}
-        scriptProps={{
-          async: false,
-          defer: false,
-          appendTo: 'head',
-          nonce: undefined,
-        }}
-      >
-        <ContactFormContent />
-      </GoogleReCaptchaProvider>
-    )
-  }
-
-  // Development modunda ReCAPTCHA olmadan
-  return <ContactFormContent />
+  // Her zaman Provider ile sarmala (hook'lar conditional olamaz)
+  // Localhost'ta bile Provider olmalı, ama executeRecaptcha null olacak
+  return (
+    <GoogleReCaptchaProvider
+      reCaptchaKey={RECAPTCHA_CONFIG.siteKey}
+      scriptProps={{
+        async: false,
+        defer: false,
+        appendTo: 'body', // head yerine body'ye ekle
+        nonce: undefined,
+      }}
+      container={{
+        element: undefined,
+        parameters: {
+          badge: 'inline', // Badge'i inline yap
+          theme: 'dark'
+        }
+      }}
+    >
+      <ContactFormContent />
+    </GoogleReCaptchaProvider>
+  )
 }
 

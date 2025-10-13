@@ -25,6 +25,7 @@ import {
 import { getBlogComments, likeComment, Comment as CommentType } from "@/lib/comment-service"
 import { logCommentLikeActivity } from "@/lib/simple-activity-logger"
 import { BlogCommentReplyForm } from "@/components/blog-comment-reply-form"
+import { useI18n } from "@/contexts/i18n-context"
 
 interface BlogCommentsListProps {
   blogSlug: string
@@ -37,6 +38,7 @@ export function BlogCommentsList({
   blogId,
   onLike
 }: BlogCommentsListProps) {
+  const { t, locale } = useI18n()
   const [comments, setComments] = useState<CommentType[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState("")
@@ -152,7 +154,7 @@ export function BlogCommentsList({
       }, 500) // Yorumlar render edildikten sonra
       
     } catch (err) {
-      setError("Yorumlar yüklenirken bir hata oluştu")
+      setError(t('blogDetail.commentsLoadError', 'Yorumlar yüklenirken bir hata oluştu'))
     } finally {
       setLoading(false)
     }
@@ -179,7 +181,7 @@ export function BlogCommentsList({
 
   const formatDate = (timestamp: any) => {
     try {
-      if (!timestamp) return 'Tarih bulunamadı'
+      if (!timestamp) return t('blogDetail.noDate', 'Tarih bulunamadı')
       
       let dateObj: Date
       if (typeof timestamp === 'object' && timestamp.toDate) {
@@ -196,9 +198,19 @@ export function BlogCommentsList({
         dateObj = new Date(timestamp)
       }
       
-      if (isNaN(dateObj.getTime())) return 'Geçersiz tarih'
+      if (isNaN(dateObj.getTime())) return t('blogDetail.noDate', 'Geçersiz tarih')
       
-      return dateObj.toLocaleDateString('tr-TR', {
+      // Locale'e göre doğru format
+      const localeMap: { [key: string]: string } = {
+        'tr': 'tr-TR',
+        'en': 'en-US',
+        'de': 'de-DE',
+        'fr': 'fr-FR',
+        'ru': 'ru-RU',
+        'ar': 'ar-SA'
+      }
+      
+      return dateObj.toLocaleDateString(localeMap[locale] || 'tr-TR', {
         year: 'numeric',
         month: 'long',
         day: 'numeric',
@@ -206,7 +218,7 @@ export function BlogCommentsList({
         minute: '2-digit'
       })
     } catch (error) {
-      return 'Tarih hatası'
+      return t('blogDetail.noDate', 'Tarih hatası')
     }
   }
 
@@ -506,7 +518,7 @@ export function BlogCommentsList({
         style={{ background: 'rgba(255, 255, 255, 0.1)' }}
       >
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-cyan-500 mx-auto mb-4"></div>
-        <p className="text-neutral-400">Yorumlar yükleniyor...</p>
+        <p className="text-neutral-400">{t('blogDetail.commentsLoading', 'Yorumlar yükleniyor...')}</p>
       </MotionDiv>
     )
   }
@@ -557,7 +569,7 @@ export function BlogCommentsList({
             <MessageSquare className="h-5 w-5 text-white" />
           </div>
           <h3 className="text-xl font-bold text-white">
-            Yorumlar ({totalComments})
+            {t('blogDetail.commentsTitle', 'Yorumlar')} ({totalComments})
           </h3>
         </div>
       </div>
@@ -675,7 +687,7 @@ export function BlogCommentsList({
                 >
                   <Reply className="h-3 w-3" />
                   <span className="text-xs font-medium">
-                    {replyingTo === comment.id ? 'İptal' : 'Yanıtla'}
+                    {replyingTo === comment.id ? t('blogDetail.cancel', 'İptal') : t('blogDetail.reply', 'Yanıtla')}
                   </span>
                 </button>
               </div>
@@ -702,7 +714,7 @@ export function BlogCommentsList({
                   <div className="flex items-center space-x-2 flex-1">
                     <div className="h-px bg-gradient-to-r from-cyan-500/50 to-transparent flex-1"></div>
                     <span className="text-xs text-neutral-400 px-3 py-1 bg-neutral-800/50 rounded-full whitespace-nowrap">
-                      {countAllReplies(comment.replies)} yanıt
+                      {countAllReplies(comment.replies)} {t('blogDetail.replies', 'yanıt')}
                     </span>
                     <div className="h-px bg-gradient-to-l from-cyan-500/50 to-transparent flex-1"></div>
                   </div>
@@ -738,6 +750,7 @@ export function BlogCommentsList({
                         replyingTo={replyingToReply}
                         onReplySubmit={handleReplySubmit}
                         formatDate={formatDate}
+                        t={t}
                       />
                     ))
                   ) : (
@@ -754,6 +767,7 @@ export function BlogCommentsList({
                         replyingTo={replyingToReply}
                         onReplySubmit={handleReplySubmit}
                         formatDate={formatDate}
+                        t={t}
                       />
                     ))
                   )}
@@ -836,7 +850,8 @@ function BlogReplyItem({
   replyingTo, 
   onReplySubmit, 
   formatDate,
-  handleReplyLike
+  handleReplyLike,
+  t
 }: {
   reply: CommentType & { replies?: CommentType[] }
   blogId?: string
@@ -847,6 +862,7 @@ function BlogReplyItem({
   onReplySubmit: () => void
   formatDate: (timestamp: any) => string
   handleReplyLike?: (replyId: string) => void
+  t: (key: string, fallback?: string) => string
 }) {
   return (
     <div className="relative" id={`comment-${reply.id}`}>
@@ -957,10 +973,10 @@ function BlogReplyItem({
                   onReply(reply.id!)
                 }}
                 className="flex items-center space-x-1 px-3 py-1.5 text-neutral-400 hover:text-cyan-400 hover:bg-cyan-500/10 rounded-lg transition-all duration-200"
-              >
+                >
                 <Reply className="h-3 w-3" />
                 <span className="text-xs font-medium">
-                  {replyingTo === reply.id ? 'İptal' : 'Yanıtla'}
+                  {replyingTo === reply.id ? t('blogDetail.cancel', 'İptal') : t('blogDetail.reply', 'Yanıtla')}
                 </span>
                           </button>
                         </div>
@@ -996,6 +1012,7 @@ function BlogReplyItem({
                 onReplySubmit={onReplySubmit}
                 formatDate={formatDate}
                 handleReplyLike={handleReplyLike}
+                t={t}
               />
                 ))}
               </div>

@@ -4,7 +4,9 @@ export function middleware(request: NextRequest) {
   const response = NextResponse.next()
   
   // İletişim sayfası için bfcache optimizasyonu
-  if (request.nextUrl.pathname.includes('/iletisim') || request.nextUrl.pathname.includes('/contact')) {
+  if (request.nextUrl.pathname.includes('/iletisim') || 
+      request.nextUrl.pathname.includes('/contact') || 
+      request.nextUrl.pathname.includes('/kontakt')) {
     // bfcache için gerekli başlıkları ayarla
     response.headers.set('Cache-Control', 'public, max-age=0, must-revalidate')
     response.headers.set('X-Frame-Options', 'SAMEORIGIN')

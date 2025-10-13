@@ -790,7 +790,7 @@ export function ProjectsList() {
               <button
                 onClick={() => handlePageChange(currentPage - 1)}
                 disabled={currentPage === 1}
-                className="flex items-center space-x-2 px-4 py-2 glass rounded-xl text-white hover:bg-white/10 transition-all duration-200 border border-white/20 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="flex items-center space-x-2 px-4 py-2 glass rounded-xl text-white hover:bg-white/10 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                 style={{ background: 'rgba(255, 255, 255, 0.1)' }}
               >
                 <ArrowLeft className="h-4 w-4" />
@@ -822,7 +822,7 @@ export function ProjectsList() {
               <button
                 onClick={() => handlePageChange(currentPage + 1)}
                 disabled={currentPage === totalPages}
-                className="flex items-center space-x-2 px-4 py-2 glass rounded-xl text-white hover:bg-white/10 transition-all duration-200 border border-white/20 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="flex items-center space-x-2 px-4 py-2 glass rounded-xl text-white hover:bg-white/10 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                 style={{ background: 'rgba(255, 255, 255, 0.1)' }}
               >
                 <span>Sonraki</span>
@@ -915,6 +915,11 @@ export function ProjectsList() {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
             className="glass rounded-2xl p-6 border border-white/20 shadow-modern max-w-md w-full"
+            style={{ 
+              background: 'rgba(15, 23, 42, 0.95)',
+              backdropFilter: 'blur(20px)',
+              boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)'
+            }}
           >
             <div className="flex items-center space-x-3 mb-4">
               <div className="w-10 h-10 bg-red-500/20 rounded-full flex items-center justify-center">

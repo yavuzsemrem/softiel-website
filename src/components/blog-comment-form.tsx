@@ -14,6 +14,7 @@ import {
 import { useRecaptcha } from "@/hooks/useRecaptcha"
 import { createComment } from "@/lib/comment-service"
 import { getBlog, updateBlogComments } from "@/lib/blog-service"
+import { useI18n } from "@/contexts/i18n-context"
 
 interface CommentFormData {
   name: string
@@ -27,6 +28,7 @@ interface BlogCommentFormProps {
 }
 
 export function BlogCommentForm({ blogSlug, onCommentSubmit }: BlogCommentFormProps) {
+  const { t } = useI18n()
   const [formData, setFormData] = useState<CommentFormData>({
     name: '',
     email: '',
@@ -95,7 +97,7 @@ export function BlogCommentForm({ blogSlug, onCommentSubmit }: BlogCommentFormPr
       // Blog ID'yi al
       const blog = await getBlog(blogSlug)
       if (!blog || !blog.id) {
-        throw new Error('Blog bulunamadı')
+        throw new Error(t('blogDetail.notFound', 'Blog bulunamadı'))
       }
 
       // ReCAPTCHA token al (production'da)
@@ -147,7 +149,7 @@ export function BlogCommentForm({ blogSlug, onCommentSubmit }: BlogCommentFormPr
 
     } catch (error) {
       setSubmitStatus('error')
-      setErrorMessage('Yorum gönderilirken bir hata oluştu. Lütfen tekrar deneyin.')
+      setErrorMessage(t('blogDetail.commentSubmitError', 'Yorum gönderilirken bir hata oluştu. Lütfen tekrar deneyin.'))
     } finally {
       setIsSubmitting(false)
     }
@@ -166,8 +168,8 @@ export function BlogCommentForm({ blogSlug, onCommentSubmit }: BlogCommentFormPr
           <MessageSquare className="h-5 w-5 text-white" />
         </div>
         <div className="min-w-0 flex-1">
-          <h3 className="text-lg sm:text-xl font-bold text-white">Yorum Yap</h3>
-          <p className="text-xs sm:text-sm text-neutral-400">Yorumunuz admin tarafından incelendikten sonra yayınlanacaktır</p>
+          <h3 className="text-lg sm:text-xl font-bold text-white">{t('blogDetail.commentFormTitle', 'Yorum Yap')}</h3>
+          <p className="text-xs sm:text-sm text-neutral-400">{t('blogDetail.commentFormSubtitle', 'Yorumunuz admin tarafından incelendikten sonra yayınlanacaktır')}</p>
         </div>
       </div>
 
@@ -177,7 +179,7 @@ export function BlogCommentForm({ blogSlug, onCommentSubmit }: BlogCommentFormPr
           <div className="space-y-2">
             <label className="block text-sm font-semibold text-white mb-2 flex items-center space-x-2">
               <User className="h-4 w-4 flex-shrink-0" />
-              <span>Adınız *</span>
+              <span>{t('blogDetail.commentName', 'Adınız')} *</span>
             </label>
             <input
               type="text"
@@ -185,7 +187,7 @@ export function BlogCommentForm({ blogSlug, onCommentSubmit }: BlogCommentFormPr
               onChange={(e) => handleInputChange('name', e.target.value)}
               className="w-full px-4 py-3 glass rounded-xl text-white placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/70 transition-all duration-300 min-w-0"
               style={{ background: 'rgba(255, 255, 255, 0.1)' }}
-              placeholder="Adınızı giriniz"
+              placeholder={t('blogDetail.commentNamePlaceholder', 'Adınızı giriniz')}
               required
             />
           </div>
@@ -193,7 +195,7 @@ export function BlogCommentForm({ blogSlug, onCommentSubmit }: BlogCommentFormPr
           <div className="space-y-2">
             <label className="block text-sm font-semibold text-white mb-2 flex items-center space-x-2">
               <Mail className="h-4 w-4 flex-shrink-0" />
-              <span>E-posta *</span>
+              <span>{t('blogDetail.commentEmail', 'E-posta')} *</span>
             </label>
             <input
               type="email"
@@ -201,7 +203,7 @@ export function BlogCommentForm({ blogSlug, onCommentSubmit }: BlogCommentFormPr
               onChange={(e) => handleInputChange('email', e.target.value)}
               className="w-full px-4 py-3 glass rounded-xl text-white placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/70 transition-all duration-300 min-w-0"
               style={{ background: 'rgba(255, 255, 255, 0.1)' }}
-              placeholder="E-posta adresinizi giriniz"
+              placeholder={t('blogDetail.commentEmailPlaceholder', 'E-posta adresinizi giriniz')}
               required
             />
           </div>
@@ -211,7 +213,7 @@ export function BlogCommentForm({ blogSlug, onCommentSubmit }: BlogCommentFormPr
         <div className="space-y-2">
           <label className="block text-sm font-semibold text-white mb-2 flex items-center space-x-2">
             <MessageSquare className="h-4 w-4 flex-shrink-0" />
-            <span>Yorumunuz *</span>
+            <span>{t('blogDetail.commentContent', 'Yorumunuz')} *</span>
           </label>
           <textarea
             value={formData.comment}
@@ -219,11 +221,11 @@ export function BlogCommentForm({ blogSlug, onCommentSubmit }: BlogCommentFormPr
             rows={5}
             className="w-full px-4 py-3 glass rounded-xl text-white placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/70 transition-all duration-300 resize-none min-w-0"
             style={{ background: 'rgba(255, 255, 255, 0.1)' }}
-            placeholder="Yorumunuzu buraya yazınız..."
+            placeholder={t('blogDetail.commentPlaceholder', 'Yorumunuzu buraya yazınız...')}
             required
           />
           <p className="text-xs text-neutral-400">
-            En az 10 karakter olmalıdır ({formData.comment.length}/10)
+            {t('blogDetail.commentMinLength', 'En az 10 karakter olmalıdır')} ({formData.comment.length}/10)
           </p>
         </div>
 
@@ -235,7 +237,7 @@ export function BlogCommentForm({ blogSlug, onCommentSubmit }: BlogCommentFormPr
             className="flex items-center space-x-2 p-4 bg-green-500/20 text-green-400 rounded-xl border border-green-500/30"
           >
             <CheckCircle className="h-5 w-5" />
-            <span>Yorumunuz başarıyla gönderildi!</span>
+            <span>{t('blogDetail.commentSuccess', 'Yorumunuz başarıyla gönderildi!')}</span>
           </motion.div>
         )}
 
@@ -260,12 +262,12 @@ export function BlogCommentForm({ blogSlug, onCommentSubmit }: BlogCommentFormPr
             {isSubmitting ? (
               <>
                 <Loader2 className="h-4 w-4 animate-spin" />
-                <span>Gönderiliyor...</span>
+                <span>{t('blogDetail.commentSending', 'Gönderiliyor...')}</span>
               </>
             ) : (
               <>
                 <Send className="h-4 w-4" />
-                <span>Yorum Gönder</span>
+                <span>{t('blogDetail.commentSubmit', 'Yorum Gönder')}</span>
               </>
             )}
           </button>

@@ -5,6 +5,7 @@ import { m, LazyMotion } from "framer-motion"
 import { Calendar, User, ArrowRight, Clock, Eye, Heart, Tag, Star } from "lucide-react"
 import Link from "next/link"
 import { getFeaturedBlogs, BlogPost } from "@/lib/blog-service"
+import { useI18n } from "@/contexts/i18n-context"
 
 // domAnimation'ı async yükle - Main-thread work azaltmak için
 const loadFeatures = () => import("framer-motion").then(mod => mod.domAnimation)
@@ -14,6 +15,7 @@ interface PopularPostsProps {
 }
 
 export function RelatedPosts({ currentSlug }: PopularPostsProps) {
+  const { t, getLocalizedUrl } = useI18n()
   const [popularPosts, setPopularPosts] = useState<BlogPost[]>([])
   const [loading, setLoading] = useState(true)
 
@@ -78,14 +80,14 @@ export function RelatedPosts({ currentSlug }: PopularPostsProps) {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-display font-bold text-neutral-900 dark:text-white mb-6">
-            Popüler{" "}
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-display font-bold mb-6">
+            <span className="text-neutral-900 dark:text-white">{t('blogDetail.popularPostsNormal', 'Popüler')}</span>{" "}
             <span className="bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 bg-clip-text text-transparent">
-              Yazılar
+              {t('blogDetail.popularPostsGradient', 'Yazılar')}
             </span>
           </h2>
           <p className="text-lg sm:text-xl text-neutral-600 dark:text-neutral-400 max-w-3xl mx-auto leading-relaxed">
-            En çok okunan ve beğenilen blog yazılarımızı keşfedin.
+            {t('blogDetail.popularPostsDescription', 'En çok okunan ve beğenilen blog yazılarımızı keşfedin.')}
           </p>
         </m.div>
 
@@ -212,9 +214,9 @@ export function RelatedPosts({ currentSlug }: PopularPostsProps) {
                 </div>
 
                 {/* Read More */}
-                <Link href={`/tr/blog/${post.slug || post.id}`}>
+                <Link href={`${getLocalizedUrl('/blog')}/${post.slug || post.id}`}>
                   <div className="flex items-center text-cyan-600 dark:text-cyan-400 font-medium transition-transform duration-200 cursor-pointer">
-                    <span className="text-sm">Devamını Oku</span>
+                    <span className="text-sm">{t('blog.readMore', 'Devamını Oku')}</span>
                     <ArrowRight className="h-4 w-4 ml-2" />
                   </div>
                 </Link>
@@ -231,13 +233,13 @@ export function RelatedPosts({ currentSlug }: PopularPostsProps) {
           viewport={{ once: true }}
           className="text-center mt-12"
         >
-          <Link href="/tr/blog">
+          <Link href={getLocalizedUrl('/blog')}>
             <m.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="text-white px-8 py-4 rounded-2xl font-semibold text-lg shadow-modern hover:shadow-modern-lg transition-all duration-200 inline-flex items-center space-x-2 bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600"
             >
-              <span>Tüm Blog Yazılarını Gör</span>
+              <span>{t('blogDetail.viewAllPosts', 'Tüm Blog Yazılarını Gör')}</span>
               <ArrowRight className="h-5 w-5" />
             </m.button>
           </Link>

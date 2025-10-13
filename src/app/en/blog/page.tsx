@@ -8,7 +8,6 @@ const Footer = dynamic(() => import("@/components/footer").then(mod => ({ defaul
   ssr: true,
   loading: () => <div className="h-32" />
 })
-import { Defer } from "@/components/defer"
 
 const BlogHero = dynamic(() => import("@/components/blog-hero").then(m => ({ default: m.BlogHero })), {
   ssr: true,
@@ -22,7 +21,7 @@ const BlogPosts = dynamic(() => import("@/components/blog-posts").then(m => ({ d
 
 const PricingCTA = dynamic(() => import("@/components/pricing-cta").then(m => ({ default: m.PricingCTA })), {
   ssr: true,
-  loading: () => null
+  loading: () => <div className="min-h-[40vh]" />
 })
 
 export default function BlogPage() {
@@ -38,12 +37,8 @@ export default function BlogPage() {
         </div>
         
         <BlogHero />
-        <Defer placeholder={<div className="min-h-[40vh]" />}> 
-          <BlogPosts />
-        </Defer>
-        <Defer placeholder={null}>
-          <PricingCTA />
-        </Defer>
+        <BlogPosts />
+        <PricingCTA />
       </main>
       <Footer />
     </div>

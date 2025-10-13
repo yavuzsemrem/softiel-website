@@ -16,7 +16,7 @@ import {
   MessageSquare
 } from "lucide-react"
 import aiIcon from "@/images/ai.webp"
-import { generateGeminiResponse, getFallbackResponse } from "@/lib/gemini"
+import { generateGeminiResponse, getFallbackResponse, FallbackResponse } from "@/lib/gemini"
 import { checkRateLimit, generateSessionId, getRateLimitStatus } from "@/lib/rateLimiter"
 import { useRecaptcha } from "@/hooks/useRecaptcha"
 import { useFingerprinting } from "@/hooks/useFingerprinting"
@@ -25,6 +25,8 @@ import { useCooldown } from "@/hooks/useCooldown"
 import { useHoneypot } from "@/hooks/useHoneypot"
 import { useBehavioralAnalysis } from "@/hooks/useBehavioralAnalysis"
 import { useI18n } from "@/contexts/i18n-context"
+import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3'
+import { RECAPTCHA_CONFIG, isReCAPTCHAEnabled } from '@/config'
 
 interface Message {
   id: string
@@ -32,6 +34,7 @@ interface Message {
   sender: 'user' | 'bot'
   timestamp: Date
   type?: 'text' | 'quick_reply' | 'contact_info'
+  actionType?: 'services' | 'pricing' | 'projects' | 'contact'
 }
 
 interface QuickReply {
@@ -70,14 +73,14 @@ const WhatsAppIcon = ({ className }: { className?: string }) => (
 const openWhatsApp = (locale: string) => {
   const phoneNumber = '905411883045' // WhatsApp formatında telefon numarası
   
-  // Dil bazlı mesajlar
+  // Dil bazlı mesajlar - Hizmetler hakkında bilgi almak için
   const messages = {
-    tr: 'Merhaba! Web sitesi tasarımı hakkında bilgi almak istiyorum.',
-    en: 'Hello! I would like to get information about website design.',
-    de: 'Hallo! Ich möchte Informationen über Website-Design erhalten.',
-    fr: 'Bonjour! Je voudrais obtenir des informations sur la conception de sites web.',
-    ru: 'Привет! Я хотел бы получить информацию о дизайне веб-сайтов.',
-    ar: 'مرحبا! أود الحصول على معلومات حول تصميم المواقع الإلكترونية.'
+    tr: 'Merhabalar, hizmetleriniz hakkında bilgi almak istiyorum.',
+    en: 'Hello, I would like to get information about your services.',
+    de: 'Hallo, ich möchte Informationen über Ihre Dienstleistungen erhalten.',
+    fr: 'Bonjour, je voudrais obtenir des informations sur vos services.',
+    ru: 'Здравствуйте, я хотел бы получить информацию о ваших услугах.',
+    ar: 'مرحباً، أود الحصول على معلومات حول خدماتكم.'
   }
 
   const message = encodeURIComponent(messages[locale as keyof typeof messages] || messages.tr)
@@ -85,12 +88,123 @@ const openWhatsApp = (locale: string) => {
   window.open(whatsappUrl, '_blank')
 }
 
-// Sayfa yönlendirme fonksiyonları
-const navigateToPage = (page: string) => {
-  window.open(`/${page}`, '_blank')
+// WhatsApp buton metinlerini al
+const getWhatsAppButtonText = (locale: string) => {
+  const texts = {
+    tr: 'Hemen İletişime Geçin',
+    en: 'Contact Us Now',
+    de: 'Jetzt Kontaktieren',
+    fr: 'Contactez-nous Maintenant',
+    ru: 'Связаться Сейчас',
+    ar: 'تواصل معنا الآن'
+  }
+  return texts[locale as keyof typeof texts] || texts.tr
 }
 
-export function Chatbot() {
+// Dil bazlı sayfa isimleri
+const getPageName = (page: string, locale: string) => {
+  const pageNames = {
+    services: {
+      tr: 'hizmetlerimiz',
+      en: 'services', 
+      de: 'services',
+      fr: 'services',
+      ru: 'services',
+      ar: 'services'
+    },
+    pricing: {
+      tr: 'fiyatlandirma',
+      en: 'pricing',
+      de: 'pricing', 
+      fr: 'pricing',
+      ru: 'pricing',
+      ar: 'pricing'
+    },
+    projects: {
+      tr: 'projelerimiz',
+      en: 'projects',
+      de: 'projekte',
+      fr: 'projets', 
+      ru: 'projects',
+      ar: 'projects'
+    },
+    contact: {
+      tr: 'iletisim',
+      en: 'contact',
+      de: 'contact',
+      fr: 'contact', 
+      ru: 'contact',
+      ar: 'contact'
+    }
+  }
+  
+  return pageNames[page as keyof typeof pageNames]?.[locale as keyof typeof pageNames.services] || pageNames[page as keyof typeof pageNames]?.tr || page
+}
+
+// Sayfa yönlendirme fonksiyonları
+const navigateToPage = (page: string, locale: string = 'tr') => {
+  const pageName = getPageName(page, locale)
+  window.open(`/${locale}/${pageName}`, '_blank')
+}
+
+// Mesaj içeriğinden actionType'ı belirle
+const detectActionType = (messageText: string): 'services' | 'pricing' | 'projects' | 'contact' | null => {
+  const text = messageText.toLowerCase()
+  
+  // Hizmetler - tüm dillerde
+  const servicesKeywords = [
+    'hizmet', 'service', 'dienstleistung', 'услуг', 'خدم',
+    'web tasarım', 'web design', 'webdesign', 'веб-дизайн', 'تصميم',
+    'mobil', 'mobile', 'app', 'uygulama', 'мобильн', 'تطبيق',
+    'seo', 'optimizasyon', 'optimization', 'оптимизац', 'تحسين',
+    'wordpress', 'logo', 'sosyal medya', 'social media', 'соцсет', 'وسائل',
+    'yapay zeka', 'artificial', 'ai ', 'otomasyon', 'automation', 'автомат', 'أتمتة'
+  ]
+  
+  // Fiyatlandırma - tüm dillerde
+  const pricingKeywords = [
+    'fiyat', 'price', 'pricing', 'preis', 'цен', 'أسعار',
+    'tarif', 'ücret', 'cost', 'kosten', 'стоимост', 'تكلف',
+    'teklif', 'quote', 'angebot', 'предложен', 'عرض'
+  ]
+  
+  // Projeler - tüm dillerde
+  const projectsKeywords = [
+    'proje', 'project', 'portfolio', 'portföy', 'портфол', 'محفظ',
+    'referans', 'reference', 'örnek', 'example', 'beispiel', 'пример', 'مثال',
+    'çalışma', 'work', 'arbeit', 'работ', 'عمل'
+  ]
+  
+  // İletişim - tüm dillerde
+  const contactKeywords = [
+    'iletişim', 'contact', 'kontakt', 'контакт', 'اتصال',
+    'telefon', 'phone', 'телефон', 'هاتف',
+    'mail', 'email', 'e-posta', 'почта', 'بريد',
+    'adres', 'address', 'adresse', 'адрес', 'عنوان',
+    'whatsapp', 'ulaş', 'reach', 'erreichen', 'связаться', 'تواصل'
+  ]
+  
+  // Öncelik sırasıyla kontrol et (daha spesifikten genele)
+  if (pricingKeywords.some(keyword => text.includes(keyword))) {
+    return 'pricing'
+  }
+  
+  if (projectsKeywords.some(keyword => text.includes(keyword))) {
+    return 'projects'
+  }
+  
+  if (contactKeywords.some(keyword => text.includes(keyword))) {
+    return 'contact'
+  }
+  
+  if (servicesKeywords.some(keyword => text.includes(keyword))) {
+    return 'services'
+  }
+  
+  return null
+}
+
+function ChatbotContent() {
   const { t, locale } = useI18n()
   const [isOpen, setIsOpen] = useState(false)
   const [isWelcomeVisible, setIsWelcomeVisible] = useState(true)
@@ -107,6 +221,8 @@ export function Chatbot() {
   const [retryAfter, setRetryAfter] = useState(0)
   const [remainingMessages, setRemainingMessages] = useState(10)
   const [sessionId] = useState(() => generateSessionId())
+  const [isApiError, setIsApiError] = useState(false)
+  const [apiErrorMessage, setApiErrorMessage] = useState('')
   const [isRecaptchaLoading, setIsRecaptchaLoading] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
@@ -155,6 +271,11 @@ export function Chatbot() {
 
   const handleSendMessage = async (text: string) => {
     if (!text.trim()) return
+
+    // API hatası varsa mesaj gönderilmesini engelle
+    if (isApiError) {
+      return
+    }
 
     // Behavioral Analysis kontrolü
     if (!isBehaviorLoading && !isBehaviorHuman && behaviorRiskScore > 0.7) {
@@ -320,6 +441,10 @@ export function Chatbot() {
         const geminiResponse = await generateGeminiResponse(text, locale)
         
         if (geminiResponse.success) {
+          // API başarılı - hata durumunu temizle
+          setIsApiError(false)
+          setApiErrorMessage('')
+          
           const botMessage: Message = {
             id: (Date.now() + 1).toString(),
             text: geminiResponse.text,
@@ -329,40 +454,48 @@ export function Chatbot() {
           }
           setMessages(prev => [...prev, botMessage])
         } else {
-          // API başarısız olursa fallback kullan
-          const fallbackResponse = getFallbackResponse(text, locale)
-          const botMessage: Message = {
+          // API başarısız - hata durumunu ayarla
+          setIsApiError(true)
+          const errorMessages = {
+            tr: '⚠️ AI servisi şu anda kullanılamıyor. Lütfen daha sonra tekrar deneyin veya WhatsApp ile iletişime geçin.',
+            en: '⚠️ AI service is currently unavailable. Please try again later or contact us via WhatsApp.',
+            de: '⚠️ AI-Dienst ist derzeit nicht verfügbar. Bitte versuchen Sie es später erneut oder kontaktieren Sie uns über WhatsApp.',
+            fr: '⚠️ Le service IA est actuellement indisponible. Veuillez réessayer plus tard ou nous contacter via WhatsApp.',
+            ru: '⚠️ AI-сервис в настоящее время недоступен. Пожалуйста, попробуйте позже или свяжитесь с нами через WhatsApp.',
+            ar: '⚠️ خدمة الذكاء الاصطناعي غير متاحة حالياً. يرجى المحاولة لاحقاً أو التواصل معنا عبر WhatsApp.'
+          }
+          setApiErrorMessage(errorMessages[locale as keyof typeof errorMessages] || errorMessages.tr)
+          
+          const errorMessage: Message = {
             id: (Date.now() + 1).toString(),
-            text: fallbackResponse,
+            text: errorMessages[locale as keyof typeof errorMessages] || errorMessages.tr,
             sender: 'bot',
             timestamp: new Date(),
             type: 'text'
           }
-          setMessages(prev => [...prev, botMessage])
-          
-          // Quota hatası durumunda kullanıcıya bilgi ver
-          if (geminiResponse.error?.includes('quota')) {
-            const quotaMessage: Message = {
-              id: (Date.now() + 2).toString(),
-              text: t('chatbot.errors.quotaExceeded'),
-              sender: 'bot',
-              timestamp: new Date(),
-              type: 'text'
-            }
-            setMessages(prev => [...prev, quotaMessage])
-          }
+          setMessages(prev => [...prev, errorMessage])
         }
       } catch (error) {
-        // Hata durumunda fallback kullan
-        const fallbackResponse = getFallbackResponse(text, locale)
-        const botMessage: Message = {
+        // Kritik hata durumu
+        setIsApiError(true)
+        const errorMessages = {
+          tr: '❌ Beklenmeyen bir hata oluştu. Lütfen sayfayı yenileyin veya WhatsApp ile iletişime geçin.',
+          en: '❌ An unexpected error occurred. Please refresh the page or contact us via WhatsApp.',
+          de: '❌ Ein unerwarteter Fehler ist aufgetreten. Bitte aktualisieren Sie die Seite oder kontaktieren Sie uns über WhatsApp.',
+          fr: '❌ Une erreur inattendue s\'est produite. Veuillez actualiser la page ou nous contacter via WhatsApp.',
+          ru: '❌ Произошла непредвиденная ошибка. Пожалуйста, обновите страницу или свяжитесь с нами через WhatsApp.',
+          ar: '❌ حدث خطأ غير متوقع. يرجى تحديث الصفحة أو التواصل معنا عبر WhatsApp.'
+        }
+        setApiErrorMessage(errorMessages[locale as keyof typeof errorMessages] || errorMessages.tr)
+        
+        const errorMessage: Message = {
           id: (Date.now() + 1).toString(),
-          text: fallbackResponse,
+          text: errorMessages[locale as keyof typeof errorMessages] || errorMessages.tr,
           sender: 'bot',
           timestamp: new Date(),
           type: 'text'
         }
-        setMessages(prev => [...prev, botMessage])
+        setMessages(prev => [...prev, errorMessage])
       } finally {
         setIsTyping(false)
       }
@@ -383,6 +516,11 @@ export function Chatbot() {
 
 
   const handleQuickReply = async (reply: QuickReply) => {
+    // API hatası varsa mesaj gönderilmesini engelle
+    if (isApiError) {
+      return
+    }
+    
     // Kullanıcı mesajını ekle
     const userMessage: Message = {
       id: Date.now().toString(),
@@ -400,6 +538,10 @@ export function Chatbot() {
       const geminiResponse = await generateGeminiResponse(reply.text, locale)
       
       if (geminiResponse.success) {
+        // API başarılı - hata durumunu temizle
+        setIsApiError(false)
+        setApiErrorMessage('')
+        
         const botMessage: Message = {
           id: (Date.now() + 1).toString(),
           text: geminiResponse.text,
@@ -408,33 +550,46 @@ export function Chatbot() {
         }
         setMessages(prev => [...prev, botMessage])
       } else {
-        // API başarısız olursa fallback kullan
-        const fallbackResponse = getFallbackResponse(reply.text, locale)
+        // API başarısız - hata durumunu ayarla
+        setIsApiError(true)
+        const errorMessages = {
+          tr: '⚠️ AI servisi şu anda kullanılamıyor. Lütfen daha sonra tekrar deneyin veya WhatsApp ile iletişime geçin.',
+          en: '⚠️ AI service is currently unavailable. Please try again later or contact us via WhatsApp.',
+          de: '⚠️ AI-Dienst ist derzeit nicht verfügbar. Bitte versuchen Sie es später erneut oder kontaktieren Sie uns über WhatsApp.',
+          fr: '⚠️ Le service IA est actuellement indisponible. Veuillez réessayer plus tard ou nous contacter via WhatsApp.',
+          ru: '⚠️ AI-сервис в настоящее время недоступен. Пожалуйста, попробуйте позже или свяжитесь с нами через WhatsApp.',
+          ar: '⚠️ خدمة الذكاء الاصطناعي غير متاحة حالياً. يرجى المحاولة لاحقاً أو التواصل معنا عبر WhatsApp.'
+        }
+        setApiErrorMessage(errorMessages[locale as keyof typeof errorMessages] || errorMessages.tr)
         
-        const botMessage: Message = {
+        const errorMessage: Message = {
           id: (Date.now() + 1).toString(),
-          text: fallbackResponse,
+          text: errorMessages[locale as keyof typeof errorMessages] || errorMessages.tr,
           sender: 'bot',
           timestamp: new Date()
         }
-        
-        setMessages(prev => [...prev, botMessage])
+        setMessages(prev => [...prev, errorMessage])
       }
     } catch (error) {
-      // Fallback yanıtı al
-      const fallbackResponse = getFallbackResponse(reply.text, locale)
+      // Kritik hata durumu
+      setIsApiError(true)
+      const errorMessages = {
+        tr: '❌ Beklenmeyen bir hata oluştu. Lütfen sayfayı yenileyin veya WhatsApp ile iletişime geçin.',
+        en: '❌ An unexpected error occurred. Please refresh the page or contact us via WhatsApp.',
+        de: '❌ Ein unerwarteter Fehler ist aufgetreten. Bitte aktualisieren Sie die Seite oder kontaktieren Sie uns über WhatsApp.',
+        fr: '❌ Une erreur inattendue s\'est produite. Veuillez actualiser la page ou nous contacter via WhatsApp.',
+        ru: '❌ Произошла непредвиденная ошибка. Пожалуйста, обновите страницу или свяжитесь с нами через WhatsApp.',
+        ar: '❌ حدث خطأ غير متوقع. يرجى تحديث الصفحة أو التواصل معنا عبر WhatsApp.'
+      }
+      setApiErrorMessage(errorMessages[locale as keyof typeof errorMessages] || errorMessages.tr)
       
-      // Fallback response'un string olduğundan emin ol
-      const fallbackText = typeof fallbackResponse === 'string' ? fallbackResponse : JSON.stringify(fallbackResponse)
-      
-      const botMessage: Message = {
+      const errorMessage: Message = {
         id: (Date.now() + 1).toString(),
-        text: fallbackText,
+        text: errorMessages[locale as keyof typeof errorMessages] || errorMessages.tr,
         sender: 'bot',
         timestamp: new Date()
       }
-      
-      setMessages(prev => [...prev, botMessage])
+      setMessages(prev => [...prev, errorMessage])
     } finally {
       setIsTyping(false)
     }
@@ -600,7 +755,7 @@ export function Chatbot() {
             transition={{ duration: 0.3, ease: "easeOut" }}
           >
              <div
-               className="bg-gradient-to-br from-slate-900/98 via-slate-800/98 to-slate-900/98 backdrop-blur-xl rounded-3xl shadow-2xl w-80 sm:w-[420px] h-96 sm:h-[550px] flex flex-col overflow-hidden chatbot-window"
+               className="bg-gradient-to-br from-slate-900/98 via-slate-800/98 to-slate-900/98 backdrop-blur-xl rounded-3xl shadow-2xl w-80 sm:w-[420px] h-[420px] sm:h-[600px] flex flex-col overflow-hidden chatbot-window"
                style={{
                  boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.1)'
                }}
@@ -633,40 +788,48 @@ export function Chatbot() {
                   }}>Softiel AI</h3>
                   <div className="flex items-center space-x-2 mt-1">
                     <div className={`w-2 h-2 rounded-full shadow-lg ${
-                      isRateLimited 
-                        ? 'bg-red-400' 
-                        : 'bg-green-400 animate-pulse'
+                      isApiError
+                        ? 'bg-red-500'
+                        : isRateLimited 
+                          ? 'bg-red-400' 
+                          : 'bg-green-400 animate-pulse'
                     }`}
                          style={{
-                           boxShadow: isRateLimited 
-                             ? '0 0 8px rgba(239, 68, 68, 0.6)'
-                             : '0 0 8px rgba(34, 197, 94, 0.6)'
+                           boxShadow: isApiError
+                             ? '0 0 8px rgba(239, 68, 68, 0.8)'
+                             : isRateLimited 
+                               ? '0 0 8px rgba(239, 68, 68, 0.6)'
+                               : '0 0 8px rgba(34, 197, 94, 0.6)'
                          }}></div>
         <p className={`text-sm font-medium leading-none ${
-          isRateLimited 
-            ? 'text-red-400' 
-            : (isSuspicious && riskScore > 0.7)
-              ? 'text-yellow-400'
-              : isFingerprintLoading
-                ? 'text-blue-400'
-                : isContentAnalyzing
-                  ? 'text-purple-400'
-                  : 'text-green-400'
+          isApiError
+            ? 'text-red-500'
+            : isRateLimited 
+              ? 'text-red-400' 
+              : (isSuspicious && riskScore > 0.7)
+                ? 'text-yellow-400'
+                : isFingerprintLoading
+                  ? 'text-blue-400'
+                  : isContentAnalyzing
+                    ? 'text-purple-400'
+                    : 'text-green-400'
         }`}
            style={{
              textShadow: '0 1px 2px rgba(0, 0, 0, 0.3)',
              margin: 0,
              padding: 0
            }}>
-          {isRateLimited 
-            ? `${t('chatbot.status.waiting')} (${retryAfter}s)` 
-            : (isSuspicious && riskScore > 0.7)
-              ? `Risk: ${(riskScore * 100).toFixed(0)}%`
-              : isFingerprintLoading
-                ? t('chatbot.status.securityCheck')
-                : isContentAnalyzing
-                  ? t('chatbot.status.contentAnalysis')
-                  : t('chatbot.status.online')}
+          {isApiError
+            ? 'AI Servisi Kullanılamıyor'
+            : isRateLimited 
+              ? `${t('chatbot.status.waiting')} (${retryAfter}s)` 
+              : (isSuspicious && riskScore > 0.7)
+                ? `Risk: ${(riskScore * 100).toFixed(0)}%`
+                : isFingerprintLoading
+                  ? t('chatbot.status.securityCheck')
+                  : isContentAnalyzing
+                    ? t('chatbot.status.contentAnalysis')
+                    : t('chatbot.status.online')}
         </p>
                   </div>
                 </div>
@@ -744,100 +907,65 @@ export function Chatbot() {
                               </div>
                             </div>
                           )}
-                          {/* Kısayol butonları - sadece bot mesajlarında göster */}
+                          {/* Aksiyon Butonları - Mesaj içeriğine göre otomatik */}
                           {message.sender === 'bot' && (() => {
-                            const text = typeof message.text === 'string' ? message.text : JSON.stringify(message.text)
+                            // Önce message'daki actionType'ı kontrol et, yoksa içeriği analiz et
+                            const actionType = message.actionType || detectActionType(message.text)
                             
-                            // Hizmetler kısayolu
-                            if (text.includes('hizmetlerimiz sayfasını') || text.includes('services page') || 
-                                text.includes('Dienstleistungsseite') || text.includes('page de services') ||
-                                text.includes('страницу услуг') || text.includes('صفحة خدماتنا') ||
-                                text.includes('Hizmetleriniz neler?') || text.includes('What are your services?') ||
-                                text.includes('Was sind Ihre Dienstleistungen?') || text.includes('Quels sont vos services ?') ||
-                                text.includes('Какие у вас услуги?') || text.includes('ما هي خدماتكم؟')) {
-                              return (
-                                <div className="mt-4">
-                                  <button
-                                    onClick={() => navigateToPage('hizmetlerimiz')}
-                                    className="flex items-center space-x-2 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors duration-200 shadow-md hover:shadow-lg"
-                                  >
-                                    <span>{t('chatbot.servicesButton', 'Hizmetlerimizi İncele')}</span>
-                                  </button>
-                                </div>
-                              )
+                            if (!actionType) return null
+                            
+                            switch (actionType) {
+                              case 'services':
+                                return (
+                                  <div className="mt-4">
+                                    <button
+                                      onClick={() => navigateToPage('services', locale)}
+                                      className="flex items-center space-x-2 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors duration-200 shadow-md hover:shadow-lg"
+                                    >
+                                      <span>{t('chatbot.servicesButton', 'Hizmetlerimizi Gör')}</span>
+                                    </button>
+                                  </div>
+                                )
+                              
+                              case 'pricing':
+                                return (
+                                  <div className="mt-4">
+                                    <button
+                                      onClick={() => navigateToPage('pricing', locale)}
+                                      className="flex items-center space-x-2 px-4 py-2 bg-purple-500 hover:bg-purple-600 text-white rounded-lg transition-colors duration-200 shadow-md hover:shadow-lg"
+                                    >
+                                      <span>{t('chatbot.pricingButton', 'Fiyatlandırma Sayfasına Git')}</span>
+                                    </button>
+                                  </div>
+                                )
+                              
+                              case 'projects':
+                                return (
+                                  <div className="mt-4">
+                                    <button
+                                      onClick={() => navigateToPage('projects', locale)}
+                                      className="flex items-center space-x-2 px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-lg transition-colors duration-200 shadow-md hover:shadow-lg"
+                                    >
+                                      <span>{t('chatbot.projectsButton', 'Projelerimizi Gör')}</span>
+                                    </button>
+                                  </div>
+                                )
+                              
+                              case 'contact':
+                                return (
+                                  <div className="mt-4">
+                                    <button
+                                      onClick={() => navigateToPage('contact', locale)}
+                                      className="flex items-center space-x-2 px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-lg transition-colors duration-200 shadow-md hover:shadow-lg"
+                                    >
+                                      <span>{t('chatbot.contactButton', 'İletişim Sayfasına Git')}</span>
+                                    </button>
+                                  </div>
+                                )
+                              
+                              default:
+                                return null
                             }
-                            
-                            // Fiyatlandırma kısayolu
-                            if (text.includes('fiyatlandırma sayfamızı') || text.includes('pricing page') ||
-                                text.includes('Preisseite') || text.includes('page de tarification') ||
-                                text.includes('страницу цен') || text.includes('صفحة الأسعار') ||
-                                text.includes('Fiyat bilgisi al') || text.includes('Get pricing information') ||
-                                text.includes('Preisinformationen erhalten') || text.includes('Obtenir des informations sur les prix') ||
-                                text.includes('Получить информацию о ценах') || text.includes('احصل على معلومات الأسعار')) {
-                              return (
-                                <div className="mt-4">
-                                  <button
-                                    onClick={() => navigateToPage('fiyatlandirma')}
-                                    className="flex items-center space-x-2 px-4 py-2 bg-purple-500 hover:bg-purple-600 text-white rounded-lg transition-colors duration-200 shadow-md hover:shadow-lg"
-                                  >
-                                    <span>{t('chatbot.pricingButton', 'Fiyatlandırmayı İncele')}</span>
-                                  </button>
-                                </div>
-                              )
-                            }
-                            
-                            // Projeler kısayolu
-                            if (text.includes('portföy sayfamızı') || text.includes('portfolio page') ||
-                                text.includes('Portfolio-Seite') || text.includes('page portfolio') ||
-                                text.includes('страницу портфолио') || text.includes('صفحة المحفظة') ||
-                                text.includes('Projelerinizi görmek istiyorum') || text.includes('I want to see your projects') ||
-                                text.includes('Ich möchte Ihre Projekte sehen') || text.includes('Je veux voir vos projets') ||
-                                text.includes('Я хочу посмотреть ваши проекты') || text.includes('أريد أن أرى مشاريعكم')) {
-                              return (
-                                <div className="mt-4">
-                                  <button
-                                    onClick={() => navigateToPage('projeler')}
-                                    className="flex items-center space-x-2 px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-lg transition-colors duration-200 shadow-md hover:shadow-lg"
-                                  >
-                                    <span>{t('chatbot.projectsButton', 'Projelerimizi İncele')}</span>
-                                  </button>
-                                </div>
-                              )
-                            }
-                            
-                            // İletişim kısayolu - WhatsApp butonu
-                            if (text.includes('detaylı sorularınız için') || text.includes('detailed questions') ||
-                                text.includes('detaillierte Fragen') || text.includes('questions détaillées') ||
-                                text.includes('подробных вопросов') || text.includes('الأسئلة المفصلة') ||
-                                text.includes('İletişim bilgileri') || text.includes('Contact information') ||
-                                text.includes('Kontaktinformationen') || text.includes('Informations de contact') ||
-                                text.includes('Контактная информация') || text.includes('معلومات الاتصال') ||
-                                text.includes('detaylı bilgi') || text.includes('ulaşabilirsiniz') || 
-                                text.includes('contact') || text.includes('iletişim') || 
-                                text.includes('telefon') || text.includes('mail') ||
-                                text.includes('kontakt') || text.includes('kontaktieren') ||
-                                text.includes('téléphone') || text.includes('téléphoner') ||
-                                text.includes('контакт') || text.includes('телефон') ||
-                                text.includes('اتصال') || text.includes('هاتف') ||
-                                text.includes('phone') || text.includes('email') ||
-                                text.includes('adresse') || text.includes('адрес') ||
-                                text.includes('عنوان') || text.includes('informations') ||
-                                text.includes('informationen') || text.includes('informations') ||
-                                text.includes('информация') || text.includes('معلومات')) {
-                              return (
-                                <div className="mt-4">
-                                  <button
-                                    onClick={() => openWhatsApp(locale)}
-                                    className="flex items-center space-x-2 px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-lg transition-colors duration-200 shadow-md hover:shadow-lg"
-                                  >
-                                    <WhatsAppIcon className="w-4 h-4" />
-                                    <span>{t('chatbot.whatsappButton', 'Şimdi Bize Ulaşın')}</span>
-                                  </button>
-                                </div>
-                              )
-                            }
-                            
-                            return null
                           })()}
                         </div>
                       </div>
@@ -879,7 +1007,7 @@ export function Chatbot() {
                 </div>
 
                 {/* Quick Replies */}
-                {messages.length === 1 && !isRateLimited && !isFingerprintLoading && !isContentAnalyzing && !(isSuspicious && riskScore > 0.7) && canSendMessage && !(!isBehaviorHuman && behaviorRiskScore > 0.7) && (
+                {messages.length === 1 && !isApiError && !isRateLimited && !isFingerprintLoading && !isContentAnalyzing && !(isSuspicious && riskScore > 0.7) && canSendMessage && !(!isBehaviorHuman && behaviorRiskScore > 0.7) && (
                   <div className="px-4 pb-2 chatbot-quick-replies">
                     <div className="flex flex-wrap gap-2">
                       {quickReplies.map((reply) => (
@@ -901,6 +1029,30 @@ export function Chatbot() {
 
                 {/* Input */}
                 <div className="p-5 chatbot-input bg-gradient-to-t from-slate-800/40 to-transparent">
+                  {/* WhatsApp İletişim Butonu */}
+                  <div className="mb-3">
+                    <motion.button
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      onClick={() => openWhatsApp(locale)}
+                      className="w-full flex items-center justify-center space-x-2 px-4 py-3 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl font-medium"
+                    >
+                      <WhatsAppIcon className="w-5 h-5" />
+                      <span>{getWhatsAppButtonText(locale)}</span>
+                    </motion.button>
+                  </div>
+                  
+                  {/* Güvenlik bilgisi */}
+                  <div className="flex items-center justify-center space-x-2 mb-3 pb-2 border-b border-slate-700/30">
+                    <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
+                    <span className="text-xs text-slate-400">
+                      Güvenli bağlantı - reCAPTCHA korumalı
+                    </span>
+                    <svg className="w-3 h-3 text-slate-400" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
+                    </svg>
+                  </div>
+                  
                   <div className="flex items-center space-x-3">
                     {/* Honeypot Tuzakları - Görünmez alanlar */}
                     {honeypotFields.map((field) => (
@@ -922,53 +1074,57 @@ export function Chatbot() {
                       type="text"
                       value={inputValue}
                       onChange={(e) => setInputValue(e.target.value)}
-                      onKeyPress={(e) => e.key === 'Enter' && !isRateLimited && !isRecaptchaLoading && !isFingerprintLoading && !isContentAnalyzing && !(isSuspicious && riskScore > 0.7) && canSendMessage && !(!isBehaviorHuman && behaviorRiskScore > 0.7) && handleSendMessage(inputValue)}
+                      onKeyPress={(e) => e.key === 'Enter' && !isApiError && !isRateLimited && !isRecaptchaLoading && !isFingerprintLoading && !isContentAnalyzing && !(isSuspicious && riskScore > 0.7) && canSendMessage && !(!isBehaviorHuman && behaviorRiskScore > 0.7) && handleSendMessage(inputValue)}
                       placeholder={
-                        isRateLimited 
-                          ? `${t('chatbot.placeholders.waiting')} (${retryAfter}s)` 
-                          : isFingerprintLoading
-                            ? t('chatbot.placeholders.securityCheck')
-                            : isContentAnalyzing
-                              ? t('chatbot.placeholders.contentAnalysis')
-                              : (!isBehaviorHuman && behaviorRiskScore > 0.7)
-                                ? t('chatbot.placeholders.behaviorAnalysis')
-                                : (isSuspicious && riskScore > 0.7)
-                                  ? t('chatbot.placeholders.blocked')
-                                  : t('chatbot.placeholders.typeMessage')
+                        isApiError
+                          ? apiErrorMessage
+                          : isRateLimited 
+                            ? `${t('chatbot.placeholders.waiting')} (${retryAfter}s)` 
+                            : isFingerprintLoading
+                              ? t('chatbot.placeholders.securityCheck')
+                              : isContentAnalyzing
+                                ? t('chatbot.placeholders.contentAnalysis')
+                                : (!isBehaviorHuman && behaviorRiskScore > 0.7)
+                                  ? t('chatbot.placeholders.behaviorAnalysis')
+                                  : (isSuspicious && riskScore > 0.7)
+                                    ? t('chatbot.placeholders.blocked')
+                                    : t('chatbot.placeholders.typeMessage')
                       }
-                      disabled={isRateLimited || isRecaptchaLoading || isFingerprintLoading || isContentAnalyzing || (isSuspicious && riskScore > 0.7) || !canSendMessage || (!isBehaviorHuman && behaviorRiskScore > 0.7)}
+                      disabled={isApiError || isRateLimited || isRecaptchaLoading || isFingerprintLoading || isContentAnalyzing || (isSuspicious && riskScore > 0.7) || !canSendMessage || (!isBehaviorHuman && behaviorRiskScore > 0.7)}
                       className={`flex-1 backdrop-blur-sm rounded-xl px-4 py-3 text-white placeholder-slate-400 text-base focus:outline-none transition-all duration-200 chatbot-input shadow-md ${
-                        isRateLimited || isRecaptchaLoading || isFingerprintLoading || isContentAnalyzing || (isSuspicious && riskScore > 0.7) || !canSendMessage || (!isBehaviorHuman && behaviorRiskScore > 0.7) ? 'opacity-50 cursor-not-allowed' : ''
+                        isApiError || isRateLimited || isRecaptchaLoading || isFingerprintLoading || isContentAnalyzing || (isSuspicious && riskScore > 0.7) || !canSendMessage || (!isBehaviorHuman && behaviorRiskScore > 0.7) ? 'opacity-50 cursor-not-allowed' : ''
                       }`}
                       style={{
-                        background: isRateLimited || isRecaptchaLoading || isFingerprintLoading || isContentAnalyzing || (isSuspicious && riskScore > 0.7) || !canSendMessage || (!isBehaviorHuman && behaviorRiskScore > 0.7)
+                        background: isApiError || isRateLimited || isRecaptchaLoading || isFingerprintLoading || isContentAnalyzing || (isSuspicious && riskScore > 0.7) || !canSendMessage || (!isBehaviorHuman && behaviorRiskScore > 0.7)
                           ? 'linear-gradient(135deg, rgba(30, 41, 59, 0.4) 0%, rgba(51, 65, 85, 0.3) 50%, rgba(30, 41, 59, 0.4) 100%)'
                           : 'linear-gradient(135deg, rgba(30, 41, 59, 0.8) 0%, rgba(51, 65, 85, 0.6) 50%, rgba(30, 41, 59, 0.8) 100%)',
                         boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
-                        border: isRateLimited 
-                          ? '2px solid rgba(239, 68, 68, 0.3)'
-                          : isRecaptchaLoading
-                            ? '2px solid rgba(59, 130, 246, 0.3)'
-                            : (isSuspicious && riskScore > 0.7)
-                              ? '2px solid rgba(245, 158, 11, 0.3)'
-                              : '2px solid rgba(148, 163, 184, 0.1)'
+                        border: isApiError
+                          ? '2px solid rgba(239, 68, 68, 0.5)'
+                          : isRateLimited 
+                            ? '2px solid rgba(239, 68, 68, 0.3)'
+                            : isRecaptchaLoading
+                              ? '2px solid rgba(59, 130, 246, 0.3)'
+                              : (isSuspicious && riskScore > 0.7)
+                                ? '2px solid rgba(245, 158, 11, 0.3)'
+                                : '2px solid rgba(148, 163, 184, 0.1)'
                       }}
                     />
                       <motion.button
-                        whileHover={!isRateLimited && !isRecaptchaLoading && !isFingerprintLoading && !isContentAnalyzing && !(isSuspicious && riskScore > 0.7) && canSendMessage && !(!isBehaviorHuman && behaviorRiskScore > 0.7) ? { scale: 1.05 } : {}}
-                        whileTap={!isRateLimited && !isRecaptchaLoading && !isFingerprintLoading && !isContentAnalyzing && !(isSuspicious && riskScore > 0.7) && canSendMessage && !(!isBehaviorHuman && behaviorRiskScore > 0.7) ? { scale: 0.95 } : {}}
-                        onClick={() => !isRateLimited && !isRecaptchaLoading && !isFingerprintLoading && !isContentAnalyzing && !(isSuspicious && riskScore > 0.7) && canSendMessage && !(!isBehaviorHuman && behaviorRiskScore > 0.7) && handleSendMessage(inputValue)}
-                        disabled={!inputValue.trim() || isRateLimited || isRecaptchaLoading || isFingerprintLoading || isContentAnalyzing || (isSuspicious && riskScore > 0.7) || !canSendMessage || (!isBehaviorHuman && behaviorRiskScore > 0.7)}
+                        whileHover={!isApiError && !isRateLimited && !isRecaptchaLoading && !isFingerprintLoading && !isContentAnalyzing && !(isSuspicious && riskScore > 0.7) && canSendMessage && !(!isBehaviorHuman && behaviorRiskScore > 0.7) ? { scale: 1.05 } : {}}
+                        whileTap={!isApiError && !isRateLimited && !isRecaptchaLoading && !isFingerprintLoading && !isContentAnalyzing && !(isSuspicious && riskScore > 0.7) && canSendMessage && !(!isBehaviorHuman && behaviorRiskScore > 0.7) ? { scale: 0.95 } : {}}
+                        onClick={() => !isApiError && !isRateLimited && !isRecaptchaLoading && !isFingerprintLoading && !isContentAnalyzing && !(isSuspicious && riskScore > 0.7) && canSendMessage && !(!isBehaviorHuman && behaviorRiskScore > 0.7) && handleSendMessage(inputValue)}
+                        disabled={!inputValue.trim() || isApiError || isRateLimited || isRecaptchaLoading || isFingerprintLoading || isContentAnalyzing || (isSuspicious && riskScore > 0.7) || !canSendMessage || (!isBehaviorHuman && behaviorRiskScore > 0.7)}
                         className={`p-3 text-white rounded-xl transition-all duration-200 chatbot-button shadow-md backdrop-blur-sm ${
-                          isRateLimited || isRecaptchaLoading || isFingerprintLoading || isContentAnalyzing || (isSuspicious && riskScore > 0.7) || !canSendMessage || (!isBehaviorHuman && behaviorRiskScore > 0.7)
+                          isApiError || isRateLimited || isRecaptchaLoading || isFingerprintLoading || isContentAnalyzing || (isSuspicious && riskScore > 0.7) || !canSendMessage || (!isBehaviorHuman && behaviorRiskScore > 0.7)
                             ? 'opacity-30 cursor-not-allowed' 
                             : 'disabled:opacity-50 disabled:cursor-not-allowed hover:shadow-lg'
                         }`}
                         style={{
-                          background: isRateLimited || isRecaptchaLoading || isFingerprintLoading || isContentAnalyzing || (isSuspicious && riskScore > 0.7) || !canSendMessage || (!isBehaviorHuman && behaviorRiskScore > 0.7)
+                          background: isApiError || isRateLimited || isRecaptchaLoading || isFingerprintLoading || isContentAnalyzing || (isSuspicious && riskScore > 0.7) || !canSendMessage || (!isBehaviorHuman && behaviorRiskScore > 0.7)
                             ? 'rgba(100, 100, 100, 0.3)'
                             : 'var(--chatbot-user-bg)',
-                          boxShadow: isRateLimited || isRecaptchaLoading || isFingerprintLoading || isContentAnalyzing || (isSuspicious && riskScore > 0.7) || !canSendMessage || (!isBehaviorHuman && behaviorRiskScore > 0.7)
+                          boxShadow: isApiError || isRateLimited || isRecaptchaLoading || isFingerprintLoading || isContentAnalyzing || (isSuspicious && riskScore > 0.7) || !canSendMessage || (!isBehaviorHuman && behaviorRiskScore > 0.7)
                             ? 'none'
                             : 'var(--chatbot-user-shadow)'
                         }}
@@ -982,5 +1138,31 @@ export function Chatbot() {
         )}
       </AnimatePresence>
     </>
+  )
+}
+
+// Ana Chatbot component'i - ReCAPTCHA Provider ile sarmalanmış
+export function Chatbot() {
+  // Her zaman Provider ile sarmala (hook'lar conditional olamaz)
+  // Localhost'ta bile Provider olmalı, ama executeRecaptcha null olacak
+  return (
+    <GoogleReCaptchaProvider
+      reCaptchaKey={RECAPTCHA_CONFIG.siteKey}
+      scriptProps={{
+        async: false,
+        defer: false,
+        appendTo: 'body', // head yerine body'ye ekle
+        nonce: undefined,
+      }}
+      container={{
+        element: undefined,
+        parameters: {
+          badge: 'inline', // Badge'i inline yap
+          theme: 'dark'
+        }
+      }}
+    >
+      <ChatbotContent />
+    </GoogleReCaptchaProvider>
   )
 }

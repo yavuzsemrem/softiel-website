@@ -4,12 +4,14 @@ import React, { useState, useEffect } from "react"
 import { BlogCommentForm } from "@/components/blog-comment-form"
 import { BlogCommentsList } from "@/components/blog-comments-list"
 import { getBlog } from "@/lib/blog-service"
+import { useI18n } from "@/contexts/i18n-context"
 
 interface BlogCommentsSectionProps {
   slug: string
 }
 
 export function BlogCommentsSection({ slug }: BlogCommentsSectionProps) {
+  const { t } = useI18n()
   const [blogId, setBlogId] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
   const [refreshKey, setRefreshKey] = useState(0)
@@ -214,7 +216,7 @@ export function BlogCommentsSection({ slug }: BlogCommentsSectionProps) {
         <div className="flex items-center justify-center min-h-64">
           <div className="text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-cyan-500 mx-auto mb-4"></div>
-            <p className="text-neutral-400">Yorum bölümü yükleniyor...</p>
+            <p className="text-neutral-400">{t('blogDetail.commentsLoading', 'Yorum bölümü yükleniyor...')}</p>
           </div>
         </div>
       </div>

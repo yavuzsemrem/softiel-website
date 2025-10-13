@@ -3,8 +3,11 @@
 import React from "react"
 import { motion } from "framer-motion"
 import { MapPin, Navigation, Clock, ExternalLink, Phone, Mail } from "lucide-react"
+import { useI18n } from "@/contexts/i18n-context"
 
 export function Map() {
+  const { t } = useI18n()
+  
   return (
     <section className="relative py-16 lg:py-24">
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -25,19 +28,18 @@ export function Map() {
           >
             <MapPin className="h-5 w-5 text-cyan-500 fill-current" />
             <span className="text-sm font-semibold text-neutral-700 dark:text-neutral-300">
-              Ofis Konumu
+              {t('contact.map.badge')}
             </span>
           </motion.div>
 
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-display font-bold text-neutral-900 dark:text-white mb-6">
-            Ofisimizi{" "}
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-display font-bold mb-6">
+            <span className="text-neutral-900 dark:text-white">{t('contact.map.headingNormal')}</span>{" "}
             <span className="bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 bg-clip-text text-transparent">
-              Ziyaret Edin
+              {t('contact.map.headingGradient')}
             </span>
           </h2>
           <p className="text-lg sm:text-xl text-neutral-600 dark:text-neutral-400 max-w-3xl mx-auto leading-relaxed">
-            İstanbul'daki merkez ofisimizde sizi ağırlamaktan mutluluk duyarız. 
-            Randevu alarak gelmek isterseniz bizimle iletişime geçebilirsiniz.
+            {t('contact.map.description')}
           </p>
         </motion.div>
 
@@ -103,7 +105,7 @@ export function Map() {
                  </div>
                  <div className="flex-1 flex flex-col justify-center">
                    <h3 className="text-xl font-bold text-neutral-900 dark:text-white mb-2">
-                     Adres
+                     {t('contact.map.addressTitle')}
                    </h3>
                    <p className="text-base text-neutral-600 dark:text-neutral-400 leading-relaxed">
                      Başak, Şair Zihni Cd.<br />
@@ -122,10 +124,10 @@ export function Map() {
                  </div>
                  <div className="flex-1 flex flex-col justify-center">
                    <h3 className="text-xl font-bold text-neutral-900 dark:text-white mb-2">
-                     Çalışma Saatleri
+                     {t('contact.map.workingHoursTitle')}
                    </h3>
                    <div className="space-y-1 text-base text-neutral-600 dark:text-neutral-400">
-                     <p className="font-medium">Pazartesi - Cuma: 09:00 - 18:00</p>
+                     <p className="font-medium">{t('contact.map.workingHoursText')}</p>
                      <p className="font-medium">Cumartesi: 10:00 - 16:00</p>
                      <p className="font-medium text-red-500 dark:text-red-400">Pazar: Kapalı</p>
                    </div>
@@ -141,7 +143,7 @@ export function Map() {
                  </div>
                  <div className="flex-1 flex flex-col justify-center">
                    <h3 className="text-xl font-bold text-neutral-900 dark:text-white mb-2">
-                     Hızlı İletişim
+                     {t('contact.map.contactTitle')}
                    </h3>
                    <div className="space-y-2 text-base text-neutral-600 dark:text-neutral-400">
                      <div className="flex items-center space-x-2">

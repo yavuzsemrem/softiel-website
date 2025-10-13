@@ -3,6 +3,7 @@
 import React from "react"
 import { m, LazyMotion } from "framer-motion"
 import { ArrowRight, CheckCircle, MessageCircle, Phone } from "lucide-react"
+import { useI18n } from "@/contexts/i18n-context"
 
 // domAnimation'ı async yükle - Lighthouse unused JS optimizasyonu
 const loadFeatures = () => import("framer-motion").then(mod => mod.domAnimation)
@@ -20,6 +21,8 @@ const WhatsAppIcon = ({ className }: { className?: string }) => (
 )
 
 export function PricingCTA() {
+  const { t, locale, getLocalizedUrl } = useI18n()
+  
   return (
     <LazyMotion features={loadFeatures}>
     <section className="relative py-32 lg:py-20">
@@ -40,23 +43,22 @@ export function PricingCTA() {
 
           <div className="relative z-10">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold text-white mb-6">
-              Projenizi{" "}
+              <span className="text-white">{t('pricingCTA.headingNormal', 'Projenizi')}</span>{" "}
               <span className="bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 bg-clip-text text-transparent">
-                Hayata Geçirin
+                {t('pricingCTA.headingGradient', 'Hayata Geçirin')}
               </span>
             </h2>
             
             <p className="text-lg sm:text-xl text-white/80 mb-8 max-w-3xl mx-auto leading-relaxed">
-              Dijital dünyada fark yaratacak projeniz için bugün başlayın. 
-              Uzman ekibimizle birlikte hayalinizdeki projeyi gerçeğe dönüştürün.
+              {t('pricingCTA.description', 'Dijital dünyada fark yaratacak projeniz için bugün başlayın. Uzman ekibimizle birlikte hayalinizdeki projeyi gerçeğe dönüştürün.')}
             </p>
 
             {/* Quick Benefits */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
               {[
-                { icon: CheckCircle, text: "100% Memnuniyet Garantisi", color: "text-green-400" },
-                { icon: Phone, text: "Hızlı Teslimat", color: "text-blue-400" },
-                { icon: ArrowRight, text: "7/24 Destek", color: "text-purple-400" }
+                { icon: CheckCircle, text: t('pricingCTA.benefit1', '100% Memnuniyet Garantisi'), color: "text-green-400" },
+                { icon: Phone, text: t('pricingCTA.benefit2', 'Hızlı Teslimat'), color: "text-blue-400" },
+                { icon: ArrowRight, text: t('pricingCTA.benefit3', '7/24 Destek'), color: "text-purple-400" }
               ].map((benefit, index) => (
                 <m.div
                   key={benefit.text}
@@ -77,13 +79,13 @@ export function PricingCTA() {
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <m.a
-                href="/tr/iletisim"
+                href={getLocalizedUrl('/iletisim')}
                 whileHover={{ scale: 1.01, y: -2 }}
                 whileTap={{ scale: 0.99 }}
                 transition={{ duration: 0.1 }}
                 className="inline-flex items-center space-x-2 bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 text-white px-8 py-4 rounded-2xl font-semibold text-lg shadow-2xl hover:shadow-cyan-500/25 transition-all duration-75"
               >
-                <span>Ücretsiz Teklif Al</span>
+                <span>{t('pricingCTA.button1', 'Ücretsiz Teklif Al')}</span>
                 <ArrowRight className="h-5 w-5" />
               </m.a>
               
@@ -93,12 +95,12 @@ export function PricingCTA() {
                 transition={{ duration: 0.1 }}
                 className="inline-flex items-center space-x-2 bg-gradient-to-r from-green-500 to-green-600 text-white px-8 py-4 rounded-2xl font-semibold text-lg shadow-2xl hover:shadow-green-500/25 transition-all duration-75 cursor-pointer"
                 onClick={() => {
-                  const message = encodeURIComponent('Merhaba. Hizmetleriniz hakkında bilgi almak istiyorum');
+                  const message = encodeURIComponent(t('pricingCTA.whatsappMessage', 'Merhaba. Hizmetleriniz hakkında bilgi almak istiyorum'));
                   window.open(`https://wa.me/905411883045?text=${message}`, '_blank');
                 }}
               >
                 <WhatsAppIcon className="h-5 w-5" />
-                <span>Hemen İletişime Geç</span>
+                <span>{t('pricingCTA.button2', 'Hemen İletişime Geç')}</span>
               </m.div>
             </div>
           </div>

@@ -5,6 +5,7 @@ import { m, LazyMotion } from "framer-motion"
 import { Calendar, User, Clock, Eye, Heart, Share2, BookOpen, Tag, ArrowRight, Loader2 } from "lucide-react"
 import { getBlog, updateBlogLikes, BlogPost } from "@/lib/blog-service"
 import { logBlogLikeActivity } from "@/lib/simple-activity-logger"
+import { useI18n } from "@/contexts/i18n-context"
 
 // domAnimation'ı async yükle - Main-thread work azaltmak için
 const loadFeatures = () => import("framer-motion").then(mod => mod.domAnimation)
@@ -313,6 +314,7 @@ const blogData = {
 }
 
 export function BlogDetailContent({ slug, blogData }: BlogDetailContentProps) {
+  const { t } = useI18n()
   const [post, setPost] = useState<BlogPost | null>(blogData || null)
   const [loading, setLoading] = useState(!blogData)
   const [error, setError] = useState("")
@@ -336,10 +338,10 @@ export function BlogDetailContent({ slug, blogData }: BlogDetailContentProps) {
         setPost(data)
         setLikeCount(data.likes || 0)
       } else {
-        setError("Blog yazısı bulunamadı")
+        setError(t('blogDetail.notFound', 'Blog yazısı bulunamadı'))
       }
     } catch (err) {
-      setError("Blog yüklenirken bir hata oluştu")
+      setError(t('blogDetail.loadError', 'Blog yüklenirken bir hata oluştu'))
     } finally {
       setLoading(false)
     }
@@ -403,7 +405,7 @@ export function BlogDetailContent({ slug, blogData }: BlogDetailContentProps) {
         await navigator.clipboard.writeText(shareData.url)
         alert(`${platform.charAt(0).toUpperCase() + platform.slice(1)} paylaşımı için link panoya kopyalandı!`)
       } catch (clipboardError) {
-        alert('Paylaşım desteklenmiyor. Lütfen linki manuel olarak kopyalayın.')
+        alert(t('blogDetail.shareNotSupported', 'Paylaşım desteklenmiyor. Lütfen linki manuel olarak kopyalayın.'))
       }
     }
   }
@@ -456,9 +458,7 @@ export function BlogDetailContent({ slug, blogData }: BlogDetailContentProps) {
               Admin
             </h3>
             <p className="text-neutral-600 dark:text-neutral-400 mb-4 leading-relaxed">
-              Softiel ekibinin deneyimli yazarlarından. Web geliştirme, dijital pazarlama ve 
-              teknoloji trendleri konularında uzman. 5+ yıllık deneyim ile işletmelerin 
-              dijital dönüşüm süreçlerinde rehberlik ediyor.
+              {t('blogDetail.authorBio', 'Softiel ekibinin deneyimli yazarlarından. Web geliştirme, dijital pazarlama ve teknoloji trendleri konularında uzman. 5+ yıllık deneyim ile işletmelerin dijital dönüşüm süreçlerinde rehberlik ediyor.')}
             </p>
             <div className="flex space-x-4">
               <a 
@@ -492,7 +492,7 @@ export function BlogDetailContent({ slug, blogData }: BlogDetailContentProps) {
 
       {/* Tags */}
       <div className="mt-8 pt-8 border-t border-white/20">
-        <h4 className="text-lg font-semibold text-neutral-900 dark:text-white mb-4">Etiketler</h4>
+        <h4 className="text-lg font-semibold text-neutral-900 dark:text-white mb-4">{t('blogDetail.tagsTitle', 'Etiketler')}</h4>
         <div className="flex flex-wrap gap-2">
           {post.tags && post.tags.length > 0 ? post.tags.map((tag) => (
             <span
@@ -513,7 +513,7 @@ export function BlogDetailContent({ slug, blogData }: BlogDetailContentProps) {
       {/* Like and Share Buttons */}
       <div className="mt-8 pt-8 border-t border-white/20">
         <div className="flex items-center justify-between mb-6">
-          <h4 className="text-lg font-semibold text-neutral-900 dark:text-white">Etkileşim</h4>
+          <h4 className="text-lg font-semibold text-neutral-900 dark:text-white">{t('blogDetail.interactionTitle', 'Etkileşim')}</h4>
           <div className="flex items-center space-x-4">
             <m.button
               whileHover={{ scale: 1.05 }}
@@ -533,7 +533,7 @@ export function BlogDetailContent({ slug, blogData }: BlogDetailContentProps) {
         </div>
         
         <div data-share-section className="mt-8 pt-6 border-t border-white/20">
-          <h4 className="text-lg font-semibold text-neutral-900 dark:text-white mb-4">Paylaş</h4>
+          <h4 className="text-lg font-semibold text-neutral-900 dark:text-white mb-4">{t('blogDetail.shareTitle', 'Paylaş')}</h4>
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
             <m.button
               whileHover={{ scale: 1.05 }}
