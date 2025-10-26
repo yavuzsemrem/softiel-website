@@ -234,7 +234,7 @@ export function ReferencesGrid({ filters = { category: "all", search: "", sortBy
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="text-center"
         >
           <motion.div
             initial={{ opacity: 0, y: 20 }}

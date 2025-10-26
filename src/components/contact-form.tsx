@@ -305,6 +305,17 @@ function ContactFormContent() {
               </label>
             </div>
 
+            {/* Güvenlik bilgisi */}
+            <div className="flex items-center justify-center space-x-2 py-3">
+              <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
+              <span className="text-xs text-neutral-600 dark:text-neutral-400">
+                {t('contact.form.secureConnection')}
+              </span>
+              <svg className="w-3 h-3 text-neutral-600 dark:text-neutral-400" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
+              </svg>
+            </div>
+
             {/* Submit Button */}
             <motion.button
               type="submit"
@@ -392,7 +403,7 @@ export function ContactForm() {
       container={{
         element: undefined,
         parameters: {
-          badge: 'inline', // Badge'i inline yap
+          badge: 'bottomright', // Badge'i bottomright'a taşı (görünmez)
           theme: 'dark'
         }
       }}

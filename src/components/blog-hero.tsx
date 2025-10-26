@@ -14,7 +14,7 @@ export function BlogHero() {
   const { t } = useI18n()
   const [stats, setStats] = useState({
     monthlyVisitors: 0,
-    averageReadTime: '0 dk',
+    averageReadTime: 0,
     weeklyUpdates: 0,
     satisfaction: 0
   })
@@ -96,7 +96,7 @@ export function BlogHero() {
       // Hata durumunda varsayılan değerler
       setStats({
         monthlyVisitors: 0,
-        averageReadTime: '0 dk',
+        averageReadTime: 0,
         weeklyUpdates: 0,
         satisfaction: 98 // Sabit %98 memnuniyet oranı
       })
@@ -104,11 +104,11 @@ export function BlogHero() {
     }
   }
 
-  const calculateAverageReadTime = (blogs: any[]): string => {
-    if (!blogs || blogs.length === 0) return '0 dk'
+  const calculateAverageReadTime = (blogs: any[]): number => {
+    if (!blogs || blogs.length === 0) return 0
     
     const validBlogs = blogs.filter(blog => blog.content && blog.content.length > 0)
-    if (validBlogs.length === 0) return '0 dk'
+    if (validBlogs.length === 0) return 0
     
     const totalMinutes = validBlogs.reduce((sum, blog) => {
       const wordCount = blog.content.split(' ').length
@@ -117,7 +117,7 @@ export function BlogHero() {
     }, 0)
     
     const average = Math.round(totalMinutes / validBlogs.length)
-    return `${average} dk`
+    return average
   }
 
   const calculateWeeklyUpdates = (blogs: any[]): number => {
@@ -422,7 +422,7 @@ export function BlogHero() {
             </div>
             <h3 className="text-lg font-semibold text-white mb-2">{t('blog.stats.averageRead', 'Ortalama Okuma')}</h3>
             <p className="text-blue-400 font-medium mb-1 text-lg">
-              {loading ? <Loader2 className="h-4 w-4 animate-spin mx-auto" /> : stats.averageReadTime}
+              {loading ? <Loader2 className="h-4 w-4 animate-spin mx-auto" /> : `${stats.averageReadTime} ${t('blog.readTimeUnit', 'dk')}`}
             </p>
             <p className="text-gray-400 text-sm">{t('blog.stats.contentQuality', 'Süre')}</p>
           </m.div>

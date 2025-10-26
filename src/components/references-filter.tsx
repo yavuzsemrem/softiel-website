@@ -110,7 +110,7 @@ export function ReferencesFilter({ onFilterChange, projectCounts = {}, totalProj
                     {t('references.filter.title', 'Proje Filtreleri')}
                   </h2>
                   <p className="text-neutral-400 text-sm">
-                    Projelerinizi kategorilere göre filtreleyin ve arayın
+                    {t('references.filter.description', 'Projelerinizi kategorilere göre filtreleyin ve arayın')}
                   </p>
                 </div>
               </div>
@@ -129,7 +129,7 @@ export function ReferencesFilter({ onFilterChange, projectCounts = {}, totalProj
                 <div className="relative flex items-center space-x-3">
                   <Filter className="h-5 w-5" />
                   <span className="sm:hidden">
-                    Filtreler
+                    {t('references.filter.filters', 'Filtreler')}
                   </span>
                   <span className="hidden sm:inline">
                     {isFilterOpen ? t('references.filter.hideFilters') : t('references.filter.showFilters')}
@@ -294,7 +294,7 @@ export function ReferencesFilter({ onFilterChange, projectCounts = {}, totalProj
                   <div className="flex flex-wrap items-center gap-3">
                     <div className="flex items-center space-x-2">
                       <div className="w-2 h-2 bg-gradient-to-r from-emerald-500 to-green-500 rounded-full animate-pulse"></div>
-                      <span className="text-sm font-semibold text-white uppercase tracking-wider">Aktif Filtreler</span>
+                      <span className="text-sm font-semibold text-white uppercase tracking-wider">{t('references.filter.activeFilters', 'Aktif Filtreler')}</span>
                     </div>
                     
                     <div className="flex flex-wrap gap-2">

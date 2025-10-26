@@ -38,6 +38,7 @@
     "subtitle": "En son yazılarımız",
     "readMore": "Devamını Oku",
     "readTime": "dakika okuma",
+    "readTimeUnit": "dk",
     "publishedOn": "Yayınlanma",
     "category": "Kategori",
     "tags": "Etiketler",
@@ -215,7 +216,8 @@
       "sendingButton": "Gönderiliyor...",
       "sendButton": "Mesajı Gönder",
       "successMessage": "Mesajınız başarıyla gönderildi! 24 saat içinde size dönüş yapacağız.",
-      "errorMessage": "Mesaj gönderilirken bir hata oluştu. Lütfen tekrar deneyin."
+      "errorMessage": "Mesaj gönderilirken bir hata oluştu. Lütfen tekrar deneyin.",
+      "secureConnection": "Güvenli bağlantı - reCAPTCHA korumalı"
     },
     "map": {
       "badge": "Ofis Konumu",
@@ -546,7 +548,9 @@
         "oldest": "En Eski",
         "name": "İsim (A-Z)",
         "category": "Kategori"
-      }
+      },
+      "description": "Projelerinizi kategorilere göre filtreleyin ve arayın",
+      "filters": "Filtreler"
     },
     "grid": {
       "title": "Proje Portföyümüz",

@@ -246,6 +246,29 @@ export function BlogPosts() {
     <section className="relative py-16 lg:py-24" style={{ contain: 'layout style' }}>
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" style={{ contain: 'layout' }}>
         
+        {/* Header */}
+        <div className="text-center mb-16">
+          <div
+            className="inline-flex items-center space-x-2 glass rounded-full px-6 py-3 shadow-modern mb-8"
+            style={{ background: 'rgba(255, 255, 255, 0.1)' }}
+          >
+            <BookOpen className="h-5 w-5 text-cyan-500 fill-current" />
+            <span className="text-sm font-semibold text-neutral-700 dark:text-neutral-300">
+              {t('blog.badge', 'Son Yazılar')}
+            </span>
+          </div>
+
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-display font-bold mb-6">
+            <span className="text-neutral-900 dark:text-white">{t('blog.hero.headingNormal', 'Blog')}</span>{" "}
+            <span className="bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 bg-clip-text text-transparent">
+              {t('blog.hero.headingGradient', 'Yazıları')}
+            </span>
+          </h2>
+          <p className="text-lg sm:text-xl text-neutral-600 dark:text-neutral-400 max-w-3xl mx-auto leading-relaxed">
+            {t('blog.hero.description', 'Dijital dünyadaki son gelişmeler ve uzman görüşlerimizi takip edin.')}
+          </p>
+        </div>
+
         {/* Filtre & Sırala Bölümü */}
         <div className="relative py-8 lg:py-12 mb-8">
           <style jsx>{`
@@ -540,29 +563,6 @@ export function BlogPosts() {
           </m.div>
         </div>
 
-        {/* Header */}
-        <div className="text-center mb-16">
-          <div
-            className="inline-flex items-center space-x-2 glass rounded-full px-6 py-3 shadow-modern mb-8"
-            style={{ background: 'rgba(255, 255, 255, 0.1)' }}
-          >
-            <BookOpen className="h-5 w-5 text-cyan-500 fill-current" />
-            <span className="text-sm font-semibold text-neutral-700 dark:text-neutral-300">
-              {t('blog.badge', 'Son Yazılar')}
-            </span>
-          </div>
-
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-display font-bold mb-6">
-            <span className="text-neutral-900 dark:text-white">{t('blog.hero.headingNormal', 'Blog')}</span>{" "}
-            <span className="bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 bg-clip-text text-transparent">
-              {t('blog.hero.headingGradient', 'Yazıları')}
-            </span>
-          </h2>
-          <p className="text-lg sm:text-xl text-neutral-600 dark:text-neutral-400 max-w-3xl mx-auto leading-relaxed">
-            {t('blog.hero.description', 'Dijital dünyadaki son gelişmeler ve uzman görüşlerimizi takip edin.')}
-          </p>
-        </div>
-
         {/* Error Message */}
         {error && (
           <div className="p-4 bg-red-500/20 text-red-400 rounded-xl border border-red-500/30 mb-8">
@@ -661,7 +661,7 @@ export function BlogPosts() {
                   </div>
                   <div className="flex items-center space-x-1">
                     <Clock className="h-4 w-4" />
-                  <span>{post.readTime}</span>
+                  <span>{post.readTime?.replace(/\D/g, '') || '5'} {t('blog.readTime', 'dakika okuma')}</span>
                   </div>
                 </div>
 

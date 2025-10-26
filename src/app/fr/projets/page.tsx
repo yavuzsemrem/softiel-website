@@ -15,8 +15,16 @@ export default function ReferencesPage() {
     sortBy: "newest"
   })
 
+  const [projectCounts, setProjectCounts] = useState<{ [category: string]: number }>({})
+  const [totalProjects, setTotalProjects] = useState(0)
+
   const handleFilterChange = (newFilters: typeof filters) => {
     setFilters(newFilters)
+  }
+
+  const handleProjectCountsChange = (counts: { [category: string]: number }, total: number) => {
+    setProjectCounts(counts)
+    setTotalProjects(total)
   }
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-700 via-slate-800 via-slate-900 via-slate-950 to-black dark:from-slate-800 dark:via-slate-900 dark:via-slate-950 dark:via-black dark:to-black">
@@ -30,8 +38,10 @@ export default function ReferencesPage() {
         </div>
         
         <ReferencesHero />
-        <ReferencesFilter onFilterChange={handleFilterChange} />
-        <ReferencesGrid filters={filters} />
+        <ReferencesGrid 
+          filters={filters} 
+          onProjectCountsChange={handleProjectCountsChange}
+        />
         <CTA />
       </main>
       <Footer />

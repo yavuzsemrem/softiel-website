@@ -38,6 +38,7 @@
     "subtitle": "Nos derniers articles",
     "readMore": "Lire la suite",
     "readTime": "min de lecture",
+    "readTimeUnit": "min",
     "publishedOn": "Publié le",
     "category": "Catégorie",
     "tags": "Tags",
@@ -215,7 +216,8 @@
       "sendingButton": "Envoi en cours...",
       "sendButton": "Envoyer le message",
       "successMessage": "Votre message a été envoyé avec succès ! Nous vous répondrons dans les 24 heures.",
-      "errorMessage": "Une erreur s'est produite lors de l'envoi du message. Veuillez réessayer."
+      "errorMessage": "Une erreur s'est produite lors de l'envoi du message. Veuillez réessayer.",
+      "secureConnection": "Connexion sécurisée - protégée par reCAPTCHA"
     },
     "map": {
       "badge": "Emplacement du bureau",
@@ -524,29 +526,25 @@
       "experienceDesc": "Approche Professionnelle"
     },
     "filter": {
-      "title": "Filtrer & Trier",
+      "title": "Filtrer et Trier",
       "showFilters": "Afficher les Filtres",
       "hideFilters": "Masquer les Filtres",
       "clearFilters": "Effacer",
-      "searchPlaceholder": "Rechercher un projet...",
+      "searchPlaceholder": "Rechercher des projets...",
       "category": "Catégorie",
       "sortBy": "Trier par",
       "activeFilters": "Filtres Actifs",
       "categories": {
-        "all": "Tous",
-        "webDesign": "Design Web",
-        "webDevelopment": "Développement Web",
-        "mobileApp": "App Mobile",
-        "ecommerce": "E-commerce",
-        "seo": "SEO & Marketing",
-        "branding": "Identité de Marque"
+        "all": "Tous les Projets"
       },
       "sortOptions": {
-        "newest": "Plus Récent",
-        "oldest": "Plus Ancien",
-        "name": "Nom (A-Z)",
+        "newest": "Plus récents",
+        "oldest": "Plus anciens",
+        "name": "Nom A-Z",
         "category": "Catégorie"
-      }
+      },
+      "description": "Filtrez et recherchez vos projets par catégories",
+      "filters": "Filtres"
     },
     "grid": {
       "title": "Portfolio de Projets",

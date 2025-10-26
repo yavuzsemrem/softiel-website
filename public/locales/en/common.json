@@ -38,6 +38,7 @@
     "subtitle": "Our latest posts",
     "readMore": "Read More",
     "readTime": "min read",
+    "readTimeUnit": "min",
     "publishedOn": "Published on",
     "category": "Category",
     "tags": "Tags",
@@ -215,7 +216,8 @@
       "sendingButton": "Sending...",
       "sendButton": "Send Message",
       "successMessage": "Your message has been sent successfully! We will get back to you within 24 hours.",
-      "errorMessage": "An error occurred while sending the message. Please try again."
+      "errorMessage": "An error occurred while sending the message. Please try again.",
+      "secureConnection": "Secure connection - reCAPTCHA protected"
     },
     "map": {
       "badge": "Office Location",
@@ -503,8 +505,8 @@
     "understood": "Understood"
   },
   "references": {
-    "title": "Our Projects",
-    "subtitle": "Successful Projects",
+    "title": "Projects",
+    "subtitle": "Successful",
     "description": "Discover our projects that make a difference in the digital world. Explore our successful projects in a wide range from web design to mobile app development, from e-commerce solutions to corporate systems.",
     "badge": "Our Projects",
     "ctaTitle": "Explore Projects",
@@ -533,20 +535,16 @@
       "sortBy": "Sort By",
       "activeFilters": "Active Filters",
       "categories": {
-        "all": "All",
-        "webDesign": "Web Design",
-        "webDevelopment": "Web Application Development",
-        "mobileApp": "Mobile App",
-        "ecommerce": "E-commerce",
-        "seo": "SEO & Marketing",
-        "branding": "Brand Identity"
+        "all": "All Projects"
       },
       "sortOptions": {
-        "newest": "Newest",
-        "oldest": "Oldest",
-        "name": "Name (A-Z)",
+        "newest": "Newest First",
+        "oldest": "Oldest First",
+        "name": "Name A-Z",
         "category": "Category"
-      }
+      },
+      "description": "Filter and search your projects by categories",
+      "filters": "Filters"
     },
     "grid": {
       "title": "Our Project Portfolio",

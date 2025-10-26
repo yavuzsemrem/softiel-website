@@ -169,7 +169,7 @@ const urlMappings = {
     '/hizmetlerimiz/social-media-yonetimi': '/ar/خدماتنا/إدارة-وسائل-التواصل-الاجتماعي',
     '/hizmetlerimiz/yapay-zeka-entegrasyonlari': '/ar/خدماتنا/تكاملات-الذكاء-الاصطناعي',
     '/hizmetlerimiz/dijital-danismanlik': '/ar/خدماتنا/الاستشارات-الرقمية',
-    '/projelerimiz': '/ar/مشاريعنا'
+    '/projelerimiz': '/ar/projects'
   }
 };
 

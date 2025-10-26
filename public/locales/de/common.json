@@ -38,6 +38,7 @@
     "subtitle": "Unsere neuesten Beiträge",
     "readMore": "Weiterlesen",
     "readTime": "Min. Lesezeit",
+    "readTimeUnit": "Min.",
     "publishedOn": "Veröffentlicht am",
     "category": "Kategorie",
     "tags": "Tags",
@@ -215,7 +216,8 @@
       "sendingButton": "Wird gesendet...",
       "sendButton": "Nachricht senden",
       "successMessage": "Ihre Nachricht wurde erfolgreich gesendet! Wir werden uns innerhalb von 24 Stunden bei Ihnen melden.",
-      "errorMessage": "Beim Senden der Nachricht ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut."
+      "errorMessage": "Beim Senden der Nachricht ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.",
+      "secureConnection": "Sichere Verbindung - reCAPTCHA geschützt"
     },
     "map": {
       "badge": "Bürostandort",
@@ -503,8 +505,8 @@
     "understood": "Verstanden"
   },
   "references": {
-    "title": "Unsere Projekte",
-    "subtitle": "Erfolgreiche Projekte",
+    "title": "Projekte",
+    "subtitle": "Erfolgreichen",
     "description": "Entdecken Sie unsere Projekte, die in der digitalen Welt einen Unterschied machen. Erkunden Sie unsere erfolgreichen Projekte in einem breiten Spektrum von Webdesign bis hin zur mobilen App-Entwicklung, von E-Commerce-Lösungen bis hin zu Unternehmenssystemen.",
     "badge": "Unsere Projekte",
     "ctaTitle": "Projekte Erkunden",
@@ -528,25 +530,21 @@
       "showFilters": "Filter Anzeigen",
       "hideFilters": "Filter Ausblenden",
       "clearFilters": "Löschen",
-      "searchPlaceholder": "Projekt suchen...",
+      "searchPlaceholder": "Projekte suchen...",
       "category": "Kategorie",
       "sortBy": "Sortieren nach",
       "activeFilters": "Aktive Filter",
       "categories": {
-        "all": "Alle",
-        "webDesign": "Webdesign",
-        "webDevelopment": "Webentwicklung",
-        "mobileApp": "Mobile App",
-        "ecommerce": "E-Commerce",
-        "seo": "SEO & Marketing",
-        "branding": "Markenidentität"
+        "all": "Alle Projekte"
       },
       "sortOptions": {
-        "newest": "Neueste",
-        "oldest": "Älteste",
-        "name": "Name (A-Z)",
+        "newest": "Neueste zuerst",
+        "oldest": "Älteste zuerst",
+        "name": "Name A-Z",
         "category": "Kategorie"
-      }
+      },
+      "description": "Filtern und durchsuchen Sie Ihre Projekte nach Kategorien",
+      "filters": "Filter"
     },
     "grid": {
       "title": "Projekt-Portfolio",

@@ -15,8 +15,16 @@ export default function ReferencesPage() {
     sortBy: "newest"
   })
 
+  const [projectCounts, setProjectCounts] = useState<{ [category: string]: number }>({})
+  const [totalProjects, setTotalProjects] = useState(0)
+
   const handleFilterChange = (newFilters: typeof filters) => {
     setFilters(newFilters)
+  }
+
+  const handleProjectCountsChange = (counts: { [category: string]: number }, total: number) => {
+    setProjectCounts(counts)
+    setTotalProjects(total)
   }
 
   return (
@@ -31,8 +39,10 @@ export default function ReferencesPage() {
         </div>
         
         <ReferencesHero />
-        <ReferencesFilter onFilterChange={handleFilterChange} />
-        <ReferencesGrid filters={filters} />
+        <ReferencesGrid 
+          filters={filters} 
+          onProjectCountsChange={handleProjectCountsChange}
+        />
         <CTA />
       </main>
       <Footer />
