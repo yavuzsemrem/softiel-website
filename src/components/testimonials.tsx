@@ -1,153 +1,31 @@
 "use client"
 
-import React from "react"
+import React, { useMemo } from "react"
 import { motion } from "framer-motion"
 import { Star } from "lucide-react"
-
-const testimonials = [
-  {
-    name: "Mehmet Özkan",
-    company: "TechFlow",
-    role: "CEO",
-    content: "Softiel ile çalışmak harika bir deneyimdi. Profesyonel yaklaşımları ve kaliteli işleri sayesinde hedeflerimize ulaştık. Ekip gerçekten çok deneyimli ve müşteri odaklı.",
-    rating: 5
-  },
-  {
-    name: "Elif Demir",
-    company: "ShopMax",
-    role: "Pazarlama Müdürü",
-    content: "E-ticaret sitemizi Softiel'e yaptırdık. Sonuçlar beklentilerimizi aştı. Kesinlikle tavsiye ederim. Süreç boyunca çok destekleyici oldular.",
-    rating: 5
-  },
-  {
-    name: "Mehmet Kaya",
-    company: "AppVenture",
-    role: "Kurucu",
-    content: "Mobil uygulamamızı Softiel geliştirdi. Süreç boyunca çok profesyonel ve destekleyici oldular. Proje yönetimi mükemmeldi.",
-    rating: 5
-  },
-  {
-    name: "Zeynep Özkan",
-    company: "CreativeLab",
-    role: "Kurucu Ortak",
-    content: "Web sitemizi Softiel'e yeniden tasarlattık. Sonuç muhteşem! Kullanıcı deneyimi çok iyileşti ve trafiğimiz arttı. Kesinlikle tekrar çalışırız.",
-    rating: 5
-  },
-  {
-    name: "Can Arslan",
-    company: "MarketPro",
-    role: "Operasyon Müdürü",
-    content: "SEO çalışmalarımızı Softiel'e verdik. Arama motorlarında sıralamamız çok iyileşti. Profesyonel yaklaşımları ve sonuç odaklı çalışmaları takdire şayan.",
-    rating: 5
-  },
-  {
-    name: "Selin Yıldız",
-    company: "StyleHub",
-    role: "Marka Müdürü",
-    content: "Sosyal medya yönetimimizi Softiel'e bıraktık. Takipçi sayımız ve etkileşim oranlarımız katlandı. Çok memnunuz!",
-    rating: 5
-  },
-  {
-    name: "Burak Çelik",
-    company: "AI Solutions",
-    role: "CTO",
-    content: "Yapay zeka entegrasyonu projemizi Softiel'e verdik. Sonuçlar inanılmaz! Müşteri hizmetlerimiz otomatikleşti ve verimliliğimiz %300 arttı.",
-    rating: 5
-  },
-  {
-    name: "Ayşe Korkmaz",
-    company: "EduTech",
-    role: "Kurucu",
-    content: "Eğitim platformumuzu Softiel'e yaptırdık. Kullanıcı arayüzü çok kullanışlı ve öğrencilerimiz çok memnun. Kesinlikle tavsiye ederim.",
-    rating: 5
-  },
-  {
-    name: "Oğuz Demir",
-    company: "HealthCare Plus",
-    role: "Doktor & Kurucu",
-    content: "Sağlık uygulamamızı Softiel geliştirdi. Hasta takibi artık çok kolay. Doktorlar ve hastalar çok memnun. Profesyonel yaklaşımları takdire şayan.",
-    rating: 5
-  },
-  {
-    name: "Gamze Şahin",
-    company: "FinanceCore",
-    role: "Finans Müdürü",
-    content: "Finansal yönetim uygulamamızı Softiel'e yaptırdık. Güvenlik ve kullanım kolaylığı mükemmel. Müşteri memnuniyetimiz %95'e çıktı.",
-    rating: 5
-  },
-  {
-    name: "Emre Yılmaz",
-    company: "LogiTrack",
-    role: "Operasyon Direktörü",
-    content: "Lojistik takip sistemimizi Softiel'e yeniledik. Gerçek zamanlı takip özelliği sayesinde müşteri şikayetlerimiz %80 azaldı.",
-    rating: 5
-  },
-  {
-    name: "Deniz Öztürk",
-    company: "PropertyPro",
-    role: "Satış Müdürü",
-    content: "Emlak portföy yönetim sistemimizi Softiel'e yaptırdık. Satış süreçlerimiz hızlandı ve müşteri deneyimi çok iyileşti.",
-    rating: 5
-  },
-  {
-    name: "Ali Çelik",
-    company: "RestoApp",
-    role: "İşletme Sahibi",
-    content: "Restoran yönetim uygulamamızı Softiel'e yaptırdık. Sipariş takibi ve müşteri memnuniyeti çok arttı. Harika bir çalışma!",
-    rating: 5
-  },
-  {
-    name: "Seda Kaya",
-    company: "BeautyBox",
-    role: "Kurucu",
-    content: "Güzellik markamızın e-ticaret sitesini Softiel'e yaptırdık. Satışlarımız %200 arttı ve müşteri deneyimi mükemmel.",
-    rating: 5
-  },
-  {
-    name: "Murat Özkan",
-    company: "ConsultPro",
-    role: "Kurucu Ortak",
-    content: "Danışmanlık firmamızın web sitesini Softiel'e yeniledik. Profesyonel görünüm ve kullanıcı dostu arayüz sayesinde müşteri sayımız arttı.",
-    rating: 5
-  },
-  {
-    name: "Ebru Şahin",
-    company: "FitZone",
-    role: "Spor Eğitmeni",
-    content: "Spor salonumuzun mobil uygulamasını Softiel'e yaptırdık. Üye takibi ve program yönetimi artık çok kolay. Müşterilerimiz çok memnun!",
-    rating: 5
-  },
-  {
-    name: "Kemal Demir",
-    company: "AutoShow",
-    role: "Satış Müdürü",
-    content: "Araç galerimizin web sitesini Softiel'e yeniledik. Araç kataloğu ve satış süreçleri çok iyileşti. Kesinlikle tavsiye ederim.",
-    rating: 5
-  },
-  {
-    name: "Pınar Yıldız",
-    company: "EventMaster",
-    role: "Etkinlik Planlayıcısı",
-    content: "Etkinlik planlama platformumuzu Softiel'e yaptırdık. Müşteri rezervasyonları ve etkinlik yönetimi artık çok kolay. Harika bir çalışma!",
-    rating: 5
-  },
-  {
-    name: "Berk Çelik",
-    company: "LegalTech",
-    role: "Avukat",
-    content: "Hukuk büromuzun web sitesini Softiel'e yeniledik. Profesyonel görünüm ve müşteri portföyü çok iyileşti. Teşekkürler Softiel!",
-    rating: 5
-  },
-  {
-    name: "Zeynep Arslan",
-    company: "PetCare",
-    role: "Mağaza Sahibi",
-    content: "Pet shop'umuzun e-ticaret sitesini Softiel'e yaptırdık. Ürün kataloğu ve satış süreçleri mükemmel. Müşterilerimiz çok memnun!",
-    rating: 5
-  }
-]
+import { useI18n } from "@/contexts/i18n-context"
 
 export function Testimonials() {
+  const { t } = useI18n()
+
+  // Get all testimonials from translation files (0-19)
+  const translatedTestimonials = useMemo(() => {
+    const testimonials = []
+    for (let i = 0; i < 20; i++) {
+      const name = t(`about_why_choose.testimonials.${i}.name`, '')
+      const company = t(`about_why_choose.testimonials.${i}.company`, '')
+      const role = t(`about_why_choose.testimonials.${i}.role`, '')
+      const content = t(`about_why_choose.testimonials.${i}.content`, '')
+      
+      if (name && company && role && content) {
+        testimonials.push({ name, company, role, content, rating: 5 })
+      }
+    }
+    return testimonials
+  }, [t])
+
+  const testimonials = translatedTestimonials
+
   return (
     <section id="testimonials" className="relative py-20 lg:py-24 bg-black">
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -170,18 +48,18 @@ export function Testimonials() {
              >
                <Star className="h-5 w-5 text-cyan-500 fill-current" />
                <span className="text-sm font-semibold text-neutral-700 dark:text-neutral-300">
-                 Müşteri Yorumları
+                 {t('about_why_choose.testimonialsBadge', 'Müşteri Yorumları')}
                </span>
              </motion.div>
              
              <h2 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-display font-bold text-neutral-900 dark:text-white mb-8 leading-tight">
-               Müşterilerimiz{" "}
+               {t('about_why_choose.testimonialsTitle', 'Müşterilerimiz')}{" "}
                <span className="bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 bg-clip-text text-transparent">
-                 Ne Diyor?
+                 {t('about_why_choose.testimonialsTitleGradient', 'Ne Diyor?')}
                </span>
              </h2>
              <p className="text-base sm:text-lg lg:text-xl text-neutral-600 dark:text-neutral-400 mb-20 max-w-4xl mx-auto leading-relaxed">
-               Başarılı projelerimizde yer alan müşterilerimizin deneyimlerini ve görüşlerini keşfedin.
+               {t('about_why_choose.testimonialsDescription', 'Başarılı projelerimizde yer alan müşterilerimizin deneyimlerini ve görüşlerini keşfedin.')}
              </p>
            </div>
 
@@ -252,7 +130,7 @@ export function Testimonials() {
               style={{ width: 'max-content' }}
             >
               {/* Multiple testimonials for smooth infinite scroll */}
-              {[...testimonials.slice(10, 20), ...testimonials.slice(10, 20), ...testimonials.slice(10, 20), ...testimonials.slice(10, 20), ...testimonials.slice(10, 20), ...testimonials.slice(10, 20), ...testimonials.slice(10, 20), ...testimonials.slice(10, 20), ...testimonials.slice(10, 20), ...testimonials.slice(10, 20), ...testimonials.slice(10, 20), ...testimonials.slice(10, 20), ...testimonials.slice(10, 20), ...testimonials.slice(10, 20), ...testimonials.slice(10, 20), ...testimonials.slice(10, 20)].map((testimonial, index) => (
+              {[...testimonials.slice(10, 20), ...testimonials.slice(10, 20), ...testimonials.slice(10, 20), ...testimonials.slice(10, 20), ...testimonials.slice(10, 20), ...testimonials.slice(10, 20), ...testimonials.slice(10, 20), ...testimonials.slice(10, 20), ...testimonials.slice(10, 20), ...testimonials.slice(10, 20), ...testimonials.slice(10, 20), ...testimonials.slice(10, 20), ...testimonials.slice(10, 20), ...testimonials.slice(10, 20), ...testimonials.slice(10, 20), ...testimonials.slice(10, 20), ...testimonials.slice(10, 20)].map((testimonial, index) => (
                 <motion.div
                   key={`${testimonial.name}-${index}`}
                   initial={{ opacity: 0, y: 20 }}

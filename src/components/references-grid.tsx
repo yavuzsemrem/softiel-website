@@ -40,7 +40,7 @@ interface ReferencesGridProps {
 }
 
 export function ReferencesGrid({ filters = { category: "all", search: "", sortBy: "newest" }, onProjectCountsChange }: ReferencesGridProps) {
-  const { t } = useI18n()
+  const { t, locale } = useI18n()
   const [projects, setProjects] = useState<Project[]>([])
   const [filteredProjects, setFilteredProjects] = useState<Project[]>([])
   const [loading, setLoading] = useState(true)
@@ -63,7 +63,7 @@ export function ReferencesGrid({ filters = { category: "all", search: "", sortBy
         const result = await getProjects({}, 1000) // Büyük bir sayı ile tüm projeleri al
         setProjects(result.projects as Project[])
       } catch (error) {
-        setError('Projeler yüklenirken bir hata oluştu')
+        setError(t('references.gridSection.errorLoading', 'Projeler yüklenirken bir hata oluştu'))
       } finally {
         setLoading(false)
       }
@@ -74,9 +74,17 @@ export function ReferencesGrid({ filters = { category: "all", search: "", sortBy
 
   // Tarih formatı
   const formatDate = (timestamp: any) => {
-    if (!timestamp) return 'Tarih yok'
+    if (!timestamp) return t('references.gridSection.noDate', 'Tarih yok')
     const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp)
-    return date.toLocaleDateString('tr-TR')
+    const localeMap: { [key: string]: string } = {
+      'tr': 'tr-TR',
+      'en': 'en-US',
+      'de': 'de-DE',
+      'fr': 'fr-FR',
+      'ru': 'ru-RU',
+      'ar': 'ar-SA'
+    }
+    return date.toLocaleDateString(localeMap[locale] || 'tr-TR')
   }
 
   useEffect(() => {
@@ -194,7 +202,7 @@ export function ReferencesGrid({ filters = { category: "all", search: "", sortBy
           <div className="flex items-center justify-center py-16">
             <div className="text-center">
               <Loader2 className="h-12 w-12 animate-spin text-cyan-500 mx-auto mb-4" />
-              <p className="text-neutral-400">Projeler yükleniyor...</p>
+              <p className="text-neutral-400">{t('references.gridSection.loading', 'Projeler yükleniyor...')}</p>
             </div>
           </div>
         </div>
@@ -210,19 +218,32 @@ export function ReferencesGrid({ filters = { category: "all", search: "", sortBy
             <div className="w-24 h-24 bg-red-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
               <XCircle className="h-12 w-12 text-red-500" />
             </div>
-            <h3 className="text-2xl font-bold text-white mb-4">Hata Oluştu</h3>
+            <h3 className="text-2xl font-bold text-white mb-4">{t('references.gridSection.errorTitle', 'Hata Oluştu')}</h3>
             <p className="text-neutral-400 mb-6">{error}</p>
             <button
               onClick={() => window.location.reload()}
               className="inline-flex items-center space-x-2 text-white px-6 py-3 rounded-xl font-semibold shadow-modern hover:shadow-modern-lg transition-all duration-200"
               style={{ background: 'linear-gradient(to right, #06b6d4, #3b82f6)' }}
             >
-              <span>Tekrar Dene</span>
+              <span>{t('references.gridSection.tryAgain', 'Tekrar Dene')}</span>
             </button>
           </div>
         </div>
       </section>
     )
+  }
+
+  // URL pattern'ları her dil için
+  const getProjectUrl = (slug: string) => {
+    const urlPatterns: { [key: string]: string } = {
+      'tr': '/tr/projelerimiz',
+      'en': '/en/projects',
+      'de': '/de/projekte',
+      'fr': '/fr/projets',
+      'ru': '/ru/proekty',
+      'ar': '/ar/projects'
+    }
+    return `${urlPatterns[locale] || '/tr/projelerimiz'}/${slug}`
   }
 
   return (
@@ -246,18 +267,18 @@ export function ReferencesGrid({ filters = { category: "all", search: "", sortBy
           >
             <Briefcase className="h-5 w-5 text-cyan-500 fill-current" />
             <span className="text-sm font-semibold text-neutral-700 dark:text-neutral-300">
-              Proje Portföyümüz
+              {t('references.gridSection.badge', 'Proje Portföyümüz')}
             </span>
           </motion.div>
 
           <h2 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-display font-bold text-neutral-900 dark:text-white mb-6">
-            Proje{" "}
+            {t('references.gridSection.titleNormal', 'Proje')}{" "}
             <span className="bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 bg-clip-text text-transparent">
-              Portföyümüz
+              {t('references.gridSection.titleGradient', 'Portföyümüz')}
             </span>
           </h2>
           <p className="text-lg sm:text-xl text-neutral-600 dark:text-neutral-400 max-w-3xl mx-auto leading-relaxed">
-            Web tasarımından mobil uygulamalara, e-ticaret çözümlerinden yapay zeka entegrasyonlarına kadar geniş bir yelpazede gerçekleştirdiğimiz projelerimizi keşfedin. Her proje, müşteri memnuniyeti ve teknolojik mükemmellik odaklı yaklaşımımızın bir yansımasıdır.
+            {t('references.gridSection.description', 'Web tasarımından mobil uygulamalara, e-ticaret çözümlerinden yapay zeka entegrasyonlarına kadar geniş bir yelpazede gerçekleştirdiğimiz projelerimizi keşfedin. Her proje, müşteri memnuniyeti ve teknolojik mükemmellik odaklı yaklaşımımızın bir yansımasıdır.')}
           </p>
         </motion.div>
 
@@ -296,7 +317,7 @@ export function ReferencesGrid({ filters = { category: "all", search: "", sortBy
                 style={{ background: 'rgba(255, 255, 255, 0.1)' }}
               >
                 <Link 
-                  href={`/tr/projelerimiz/${project.slug || project.id}`} 
+                  href={getProjectUrl(project.slug || project.id || '')} 
                   className="block"
                 >
                 {/* Project Image */}
@@ -347,7 +368,7 @@ export function ReferencesGrid({ filters = { category: "all", search: "", sortBy
                           }}
                         >
                           <ExternalLink className="h-4 w-4" />
-                          <span>Canlı Site</span>
+                          <span>{t('references.gridSection.liveSite', 'Canlı Site')}</span>
                         </motion.button>
                       )}
                       {project.githubUrl && project.githubUrl.startsWith('http') && (
@@ -361,7 +382,7 @@ export function ReferencesGrid({ filters = { category: "all", search: "", sortBy
                           }}
                         >
                           <Github className="h-4 w-4" />
-                          <span>GitHub</span>
+                          <span>{t('references.gridSection.github', 'GitHub')}</span>
                         </motion.button>
                       )}
                     </div>

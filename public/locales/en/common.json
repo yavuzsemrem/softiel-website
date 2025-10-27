@@ -31,7 +31,77 @@
     "automation": "Automation & Integration",
     "digitalConsulting": "Digital Consulting",
     "noCode": "No-Code / Low-Code Solutions",
-    "education": "Training & Mentoring"
+    "education": "Training & Mentoring",
+    "items": {
+      "webDesign": {
+        "title": "Website Design",
+        "description": "Make your brand stand out in the digital world with modern, user-friendly and responsive web designs"
+      },
+      "webDevelopment": {
+        "title": "Web Application Development",
+        "description": "Achieve your digital goals with fast, secure and scalable web applications"
+      },
+      "mobileApp": {
+        "title": "Mobile App Development",
+        "description": "Take your place in the mobile market with native and cross-platform applications for iOS and Android"
+      },
+      "seo": {
+        "title": "SEO Optimization",
+        "description": "Rank high in search engines and gain organic traffic and customers"
+      },
+      "googleAds": {
+        "title": "Google Ads Management",
+        "description": "Gain customers and increase your sales with targeted ad campaigns"
+      },
+      "aiIntegration": {
+        "title": "Artificial Intelligence Integrations",
+        "description": "Move your business into the future with AI technologies and gain competitive advantage"
+      },
+      "wordpress": {
+        "title": "WordPress Solutions",
+        "description": "Keep your website up to date with easy-to-manage content management systems"
+      },
+      "logoDesign": {
+        "title": "Logo & Corporate Identity Design",
+        "description": "Professional logo and corporate identity designs that reflect your brand"
+      },
+      "socialMedia": {
+        "title": "Social Media Management",
+        "description": "Manage your social media accounts professionally and increase your follower count"
+      },
+      "digitalConsulting": {
+        "title": "Digital Consulting",
+        "description": "Strategic guidance and consulting services in your digital transformation journey"
+      }
+    }
+  },
+  "process": {
+    "items": {
+      "analysis": {
+        "title": "Analysis & Planning",
+        "description": "We analyze your project in detail and develop strategies"
+      },
+      "design": {
+        "title": "Design & Development",
+        "description": "We bring it to life with modern design and coding"
+      },
+      "testing": {
+        "title": "Testing & Optimization",
+        "description": "We perform quality control and performance optimization"
+      },
+      "delivery": {
+        "title": "Delivery & Support",
+        "description": "We deliver the project and provide continuous support"
+      },
+      "monitoring": {
+        "title": "Monitoring & Reporting",
+        "description": "We track project performance and provide detailed reports"
+      },
+      "improvement": {
+        "title": "Continuous Improvement",
+        "description": "We make continuous updates based on user feedback"
+      }
+    }
   },
   "blog": {
     "title": "Blog",
@@ -81,6 +151,53 @@
       "mostViewed": "Most Viewed"
     }
   },
+  "servicesHero": {
+    "badge": "Our Services",
+    "titlePart1": "Digital World",
+    "titlePart2": "Succeed",
+    "description": "We offer all the services you need to succeed in the digital world.",
+    "descriptionDesktop": "We offer all the services you need to succeed in the digital world.",
+    "descriptionDesktop2": "Comprehensive solutions from web design to artificial intelligence integration.",
+    "button1": "Explore Our Services",
+    "button2": "WhatsApp Chat",
+    "whatsappMessage": "Hello! I would like to get information about your services.",
+    "stats": {
+      "expertTeam": {
+        "title": "Expert Team",
+        "subtitle": "Experienced Professionals",
+        "description": "Expert Staff"
+      },
+      "quality": {
+        "title": "Quality Guarantee",
+        "subtitle": "100% Customer Satisfaction",
+        "description": "Quality Solutions"
+      },
+      "fastDelivery": {
+        "title": "Fast Delivery",
+        "subtitle": "On-Time Project Delivery",
+        "description": "24/7 Support"
+      },
+      "goalOriented": {
+        "title": "Goal Oriented",
+        "subtitle": "Suitable for Your Business Goals",
+        "description": "Customized Solutions"
+      }
+    }
+  },
+  "servicesNew": {
+    "badge": "Our Services",
+    "titlePart1": "Digital",
+    "titlePart2": "Services",
+    "description": "Comprehensive solutions that make your brand stand out in the digital world.",
+    "description2": "From web design to AI integration, from mobile app development to SEO optimization, we are your one-stop solution for all your digital needs.",
+    "viewDetails": "View Details"
+  },
+  "processNew": {
+    "badge": "Our Process",
+    "titlePart1": "Bring Your Project",
+    "titlePart2": "to Life",
+    "description": "We plan and implement your project in the most efficient way together with our experienced team."
+  },
   "pricingCTA": {
     "headingNormal": "Bring Your",
     "headingGradient": "Project to Life",
@@ -126,6 +243,8 @@
     "reply": "Reply",
     "cancel": "Cancel",
     "replies": "replies",
+    "noCommentsYet": "No comments yet",
+    "beFirstToComment": "Be the first to comment!",
     "replyFormTitle": "Write a Reply",
     "replyContent": "Your Reply",
     "replyPlaceholder": "Write your reply here...",
@@ -557,11 +676,38 @@
         "ongoing": "Ongoing",
         "upcoming": "Upcoming"
       },
+      "category": {
+        "webDesign": "Web Design",
+        "webDevelopment": "Web Development",
+        "mobileApp": "Mobile Application",
+        "ecommerce": "E-commerce",
+        "seo": "SEO",
+        "branding": "Branding",
+        "socialMedia": "Social Media",
+        "aiIntegration": "AI Integration",
+        "automation": "Automation",
+        "digitalConsulting": "Digital Consulting",
+        "noCode": "No-Code",
+        "education": "Education"
+      },
       "emptyState": {
         "title": "No Projects Found",
         "description": "No projects found matching your criteria. Try changing the filters.",
         "resetFilters": "Reset Filters"
       }
+    },
+    "gridSection": {
+      "loading": "Loading projects...",
+      "errorLoading": "An error occurred while loading projects",
+      "errorTitle": "Error Occurred",
+      "tryAgain": "Try Again",
+      "badge": "Our Project Portfolio",
+      "titleNormal": "Our Project",
+      "titleGradient": "Portfolio",
+      "description": "Discover our projects across a wide range from web design to mobile applications, from e-commerce solutions to artificial intelligence integrations. Each project is a reflection of our customer satisfaction and technology excellence-focused approach.",
+      "noDate": "No date",
+      "liveSite": "Live Site",
+      "github": "GitHub"
     },
     "projectDetail": {
       "backToProjects": "Back to Projects",
@@ -569,15 +715,386 @@
       "viewCode": "View Code",
       "client": "Client",
       "clientDesc": "Project Owner",
-      "duration": "Duration",
-      "durationDesc": "Project Duration",
+      "endDate": "End Date",
+      "endDateDesc": "Project End Date",
       "status": "Status",
       "statusDesc": "Project Status",
       "category": "Category",
       "categoryDesc": "Project Category",
       "technologies": "Technologies Used",
       "features": "Project Features",
-      "gallery": "Project Gallery"
+      "gallery": "Project Gallery",
+      "loading": "Loading project...",
+      "error": "Project not found",
+      "errorLoading": "An error occurred while loading the project",
+      "errorTitle": "Error Occurred",
+      "noDate": "No date",
+      "notSpecified": "Not specified",
+      "galleryTitle": "Project Images",
+      "galleryBadge": "Project Gallery",
+      "galleryDescription": "Explore the details of our project visually.",
+      "clickToEnlarge": "Click to enlarge"
+    }
+  },
+  "pricing": {
+    "title": "Pricing",
+    "subtitle": "Plans",
+    "description": "Choose the plan that suits you and bring your project to life.",
+    "popular": "Most Popular",
+    "delivery": "Delivery",
+    "notice": "Domain + SSL + hosting fees are not included in the package",
+    "cta": "Get Quote",
+    "whatsappMessage": "Hello!",
+    "whatsappPackage": "I want to get information about the package.",
+    "hero": {
+      "badge": "Pricing",
+      "title": "Affordable",
+      "titleGradient": "Price List",
+      "description": {
+        "0": "Discover the most suitable pricing options for your project.",
+        "1": "Bring your project to life with packages suitable for every budget."
+      },
+      "button1": "Explore Packages",
+      "button2": "Get Custom Quote"
+    },
+    "stats": {
+      "0": {
+        "title": "Transparent",
+        "description": "No hidden costs"
+      },
+      "1": {
+        "title": "Flexible",
+        "description": "Suitable for every budget"
+      },
+      "2": {
+        "title": "Customizable",
+        "description": "According to your needs"
+      },
+      "3": {
+        "title": "Guaranteed",
+        "description": "Quality guarantee"
+      }
+    },
+    "plans": {
+      "period": "project",
+      "basic": {
+        "name": "Basic – Digital Starter Package",
+        "description": "For newly established businesses or small brands that need an online presence. This package provides basic digital visibility.",
+        "deliveryTime": "7-14 days",
+        "features": {
+          "0": "Website Design (Basic level: 5-7 pages)",
+          "1": "Logo & Corporate Identity (logo + color palette + business card)",
+          "2": "Basic SEO Settings (meta, sitemap, indexing)",
+          "3": "Google My Business setup",
+          "4": "1 month social media starter support (profile editing, 4 posts)"
+        }
+      },
+      "pro": {
+        "name": "Pro – Digital Growth Package",
+        "description": "For brands that already exist digitally but want traffic, visibility and engagement.",
+        "deliveryTime": "14-21 days",
+        "features": {
+          "0": "Website Design (Pro level: custom homepage + blog)",
+          "1": "SEO Optimization (monthly work, content plan)",
+          "2": "Google Ads Management (monthly 1 campaign management)",
+          "3": "Social Media Management (2 platforms, 8 posts/month)",
+          "4": "Maintenance and Updates",
+          "5": "Monthly performance report"
+        }
+      },
+      "enterprise": {
+        "name": "Enterprise – Digital Transformation Package",
+        "description": "For corporate businesses and companies that want to expand to global markets. Goal: digital systematization, automation and integration.",
+        "deliveryTime": "21-30 days",
+        "features": {
+          "0": "Web Application Development (customized workflow / portal)",
+          "1": "Website Design (Enterprise level, CMS + multi-language)",
+          "2": "SEO + Google Ads full management (ongoing)",
+          "3": "Social Media Management (4 platforms, professional content + advertising)",
+          "4": "AI Integration (chatbot or reporting AI)",
+          "5": "Digital Consulting (monthly strategy + report)",
+          "6": "3 months maintenance & SLA support"
+        }
+      }
+    },
+    "faq": {
+      "badge": "Frequently Asked Questions",
+      "title": "What You're",
+      "titleGradient": "Curious About",
+      "description": "We answered the most frequently asked questions about pricing.",
+      "0": {
+        "question": "How is pricing calculated?",
+        "answer": "Our pricing is determined based on the complexity of your project, number of pages and special features. Basic package starts from $1,000, Pro package $2,000, and Enterprise package starts from $3,000. We do custom pricing for special projects."
+      },
+      "1": {
+        "question": "What payment options are available?",
+        "answer": "You can pay 50% upfront, 50% after delivery."
+      },
+      "2": {
+        "question": "What is the project delivery time?",
+        "answer": "Basic package is delivered in 7-14 days, Pro package in 14-21 days, and Enterprise package in 21-30 days. Duration may vary depending on project complexity."
+      },
+      "3": {
+        "question": "Are hosting and domain included?",
+        "answer": "No, hosting and domain fees are not included in packages. We provide consulting on suitable hosting and domain options for you. We have hosting installation and management services."
+      },
+      "4": {
+        "question": "Is there support after the project?",
+        "answer": "Yes! We provide free support for 1 month in Basic package, 3 months in Pro package, 6 months in Enterprise package. Small updates and bug fixes are free. We also have monthly maintenance packages."
+      },
+      "5": {
+        "question": "What is the cancellation and refund policy?",
+        "answer": "If cancelled before the project starts, 100% refund is given. After the project starts, payment is taken for the completed part only. Your revision rights are determined according to the package contents."
+      },
+      "6": {
+        "question": "Is SEO service included?",
+        "answer": "Basic package includes basic SEO settings, Pro package includes monthly SEO work, Enterprise package includes full SEO management. We also have monthly SEO packages."
+      },
+      "7": {
+        "question": "Is there social media management?",
+        "answer": "Yes! Basic package includes 1 month social media starter support, Pro package includes 2 platforms 8 posts/month, Enterprise package includes 4 platforms professional content + advertising management."
+      },
+      "8": {
+        "question": "Do you offer multilingual support?",
+        "answer": "Yes! We set up infrastructure in all languages. We offer support for Turkish, English, German, French, Arabic and Russian. Enterprise package includes multilingual infrastructure."
+      }
+    }
+  },
+  "about_hero": {
+    "page_indicator": "About Us",
+    "main_heading_1": "Your Trustworthy",
+    "main_heading_2": "Partner",
+    "description": "Your reliable and experienced partner in your digital transformation journey. We carry your business to the future with modern technologies and our expert team.",
+    "cta_button_1": "Discover Our Story",
+    "cta_button_2": "Get in Touch",
+    "image_alt": "About Us",
+    "stats": {
+      "web_design": "Web Design",
+      "web_design_description": "Modern and responsive websites",
+      "mobile_app": "Mobile Application",
+      "mobile_app_description": "iOS and Android applications",
+      "seo_optimization": "SEO Optimization",
+      "seo_optimization_description": "Search engine optimization"
+    }
+  },
+  "about_mission": {
+    "badge": "Mission & Vision",
+    "title": "Our Mission and",
+    "titleGradient": "Vision",
+    "description": "As Softiel, we make a difference in the digital world with our mission and vision that we have set to provide the best service to our customers.",
+    "mission": {
+      "title": "Our Mission",
+      "subtitle": "What We Do?",
+      "description": "We make your brand stand out in the digital world and help you achieve your goals with modern technologies, creative design approach and our experienced team. We offer quality and sustainable solutions by keeping customer satisfaction at the forefront in every project."
+    },
+    "vision": {
+      "title": "Our Vision",
+      "subtitle": "Where Are We Going?",
+      "description": "To be a leading digital agency serving our customers worldwide and to be the most trusted partner in our customers' digital transformation journey. To continue to be a pioneer in the industry with innovative solutions by following constantly developing technologies."
+    },
+    "valuesBadge": "Our Values",
+    "valuesTitle": "Working",
+    "valuesTitleGradient": "Principles",
+    "valuesDescription": "We make a difference with our values and approach that we have set to provide the best service to our customers.",
+    "values": {
+      "0": {
+        "title": "Goal Oriented",
+        "description": "We help our customers achieve their goals in every project. We produce result-oriented solutions with our strategic approach.",
+        "features": {
+          "0": "Strategic Planning",
+          "1": "Goal Setting",
+          "2": "Result Oriented",
+          "3": "Performance Tracking"
+        }
+      },
+      "1": {
+        "title": "Customer Satisfaction",
+        "description": "Customer satisfaction is our priority. We keep customer experience at the highest level at every step.",
+        "features": {
+          "0": "24/7 Support",
+          "1": "Personal Approach",
+          "2": "Quick Solution",
+          "3": "Continuous Communication"
+        }
+      },
+      "2": {
+        "title": "Innovation",
+        "description": "We follow constantly developing technologies and provide advantages to our customers with creative solutions.",
+        "features": {
+          "0": "New Technologies",
+          "1": "Creative Solutions",
+          "2": "Continuous Development",
+          "3": "Research & Development"
+        }
+      },
+      "3": {
+        "title": "Transparency",
+        "description": "We strive to be transparent in all processes and maintain open communication with our customers.",
+        "features": {
+          "0": "Open Communication",
+          "1": "Regular Reporting",
+          "2": "Project Tracking",
+          "3": "Reliable Information"
+        }
+      }
+    }
+  },
+  "about_why_choose": {
+    "badge": "Why Softiel?",
+    "title": "Why You Should",
+    "titleGradient": "Choose Us",
+    "description": "As Softiel, we constantly improve to provide the best service to our customers. Here are our reasons for you to choose us.",
+    "testimonialsBadge": "Customer Reviews",
+    "testimonialsTitle": "What Our",
+    "testimonialsTitleGradient": "Customers Say?",
+    "testimonialsDescription": "Discover the experiences and opinions of our customers who have participated in our successful projects.",
+    "advantages": {
+      "0": {
+        "title": "Quality Service",
+        "description": "We achieve excellent results with highest quality standards in all our services for optimal success."
+      },
+      "1": {
+        "title": "Goal Oriented",
+        "description": "We develop tailored strategies that help customers effectively achieve their business objectives."
+      },
+      "2": {
+        "title": "Customer Satisfaction",
+        "description": "Your satisfaction is our top priority in every project and at every stage of collaboration."
+      },
+      "3": {
+        "title": "Timely Delivery",
+        "description": "We guarantee timely delivery of your projects within the agreed timeframes."
+      },
+      "4": {
+        "title": "Trusted Partner",
+        "description": "Transparent communication and reliable working principles for successful long-term partnership."
+      },
+      "5": {
+        "title": "Modern Technologies",
+        "description": "Future-proof solutions with cutting-edge technologies for sustainable business growth and innovation."
+      }
+    },
+    "testimonials": {
+      "0": {
+        "name": "Rika Matbaa",
+        "company": "Rika Matbaa",
+        "role": "Project Owner",
+        "content": "A modern website design tailored to the printing industry, reflecting corporate identity. A structure that increases customer interaction by professionally showcasing products and services in the digital environment."
+      },
+      "1": {
+        "name": "Palyacco Dünyası",
+        "company": "Palyacco Dünyası",
+        "role": "Project Owner",
+        "content": "An energetic, colorful website for the event and organization sector. Successfully reflects the brand's fun side to the digital world with a user-friendly structure that highlights clown services."
+      },
+      "2": {
+        "name": "Candleiyj",
+        "company": "Candleiyj",
+        "role": "Project Owner",
+        "content": "A project supporting social media sales through Instagram posts and Shopier store management. Strongly created digital showcase effect through visual harmony, brand language and product presentation."
+      },
+      "3": {
+        "name": "Nevaa Yazılım",
+        "company": "Nevaa Yazılım",
+        "role": "Project Owner",
+        "content": "Modern frontend design for corporate website and CRM application for a software company. A work that reflects the company's technology vision with a user experience-focused, simple yet professional interface."
+      },
+      "4": {
+        "name": "Hesapify",
+        "company": "Hesapify",
+        "role": "Project Owner",
+        "content": "Comprehensive digital structure developed for a software company: website, blog content, ERP application interface, YouTube video editing and Instagram management. A project that strengthens the brand's digital presence in many ways."
+      },
+      "5": {
+        "name": "Bot Group",
+        "company": "Bot Group",
+        "role": "Project Owner",
+        "content": "Strong and corporate website design for the logistics sector. The company's reliable and professional image has been transferred to the digital world by presenting service scope, fleet information and operational processes in a simple structure."
+      },
+      "6": {
+        "name": "Yusuf İnci",
+        "company": "Yusuf İnci",
+        "role": "Project Owner",
+        "content": "An elegant and minimalist website prepared for an architecture office. Strongly reflects the brand's design understanding by combining aesthetics, functionality and professionalism with a design that highlights the project portfolio."
+      },
+      "7": {
+        "name": "Ayşe Korkmaz",
+        "company": "EduTech",
+        "role": "Founder",
+        "content": "We had our education platform built by Softiel. The user interface is very user-friendly and our students are very happy. I definitely recommend it."
+      },
+      "8": {
+        "name": "Oğuz Demir",
+        "company": "HealthCare Plus",
+        "role": "Doctor & Founder",
+        "content": "Softiel developed our health application. Patient tracking is now very easy. Doctors and patients are very satisfied. Their professional approach is commendable."
+      },
+      "9": {
+        "name": "Gamze Şahin",
+        "company": "FinanceCore",
+        "role": "Finance Manager",
+        "content": "We had our financial management application built by Softiel. Security and ease of use are excellent. Our customer satisfaction reached 95%."
+      },
+      "10": {
+        "name": "Emre Yılmaz",
+        "company": "LogiTrack",
+        "role": "Operations Director",
+        "content": "We renewed our logistics tracking system with Softiel. Thanks to the real-time tracking feature, our customer complaints decreased by 80%."
+      },
+      "11": {
+        "name": "Deniz Öztürk",
+        "company": "PropertyPro",
+        "role": "Sales Manager",
+        "content": "We had our real estate portfolio management system built by Softiel. Our sales processes accelerated and customer experience improved significantly."
+      },
+      "12": {
+        "name": "Ali Çelik",
+        "company": "RestoApp",
+        "role": "Business Owner",
+        "content": "We had our restaurant management application built by Softiel. Order tracking and customer satisfaction increased significantly. Great work!"
+      },
+      "13": {
+        "name": "Seda Kaya",
+        "company": "BeautyBox",
+        "role": "Founder",
+        "content": "We had our beauty brand's e-commerce site built by Softiel. Our sales increased by 200% and customer experience is excellent."
+      },
+      "14": {
+        "name": "Murat Özkan",
+        "company": "ConsultPro",
+        "role": "Founding Partner",
+        "content": "We renewed our consulting firm's website with Softiel. Thanks to the professional appearance and user-friendly interface, our customer count increased."
+      },
+      "15": {
+        "name": "Ebru Şahin",
+        "company": "FitZone",
+        "role": "Fitness Trainer",
+        "content": "We had our gym's mobile application built by Softiel. Member tracking and program management is now very easy. Our customers are very happy!"
+      },
+      "16": {
+        "name": "Kemal Demir",
+        "company": "AutoShow",
+        "role": "Sales Manager",
+        "content": "We renewed our car gallery's website with Softiel. Vehicle catalog and sales processes improved significantly. I definitely recommend it."
+      },
+      "17": {
+        "name": "Pınar Yıldız",
+        "company": "EventMaster",
+        "role": "Event Planner",
+        "content": "We had our event planning platform built by Softiel. Customer reservations and event management is now very easy. Great work!"
+      },
+      "18": {
+        "name": "Berk Çelik",
+        "company": "LegalTech",
+        "role": "Lawyer",
+        "content": "We renewed our law firm's website with Softiel. Professional appearance and customer portfolio improved significantly. Thanks Softiel!"
+      },
+      "19": {
+        "name": "Zeynep Arslan",
+        "company": "PetCare",
+        "role": "Store Owner",
+        "content": "We had our pet shop's e-commerce site built by Softiel. Product catalog and sales processes are excellent. Our customers are very happy!"
+      }
     }
   }
 }

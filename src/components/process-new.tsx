@@ -2,6 +2,7 @@
 
 import React from "react"
 import { motion } from "framer-motion"
+import { useI18n } from "@/contexts/i18n-context"
 import { 
   MessageCircle, 
   Lightbulb, 
@@ -10,58 +11,60 @@ import {
   CheckCircle
 } from "lucide-react"
 
-const processSteps = [
-  {
-    icon: MessageCircle,
-    title: "Analiz & Planlama",
-    description: "Projenizi detaylı analiz eder, strateji geliştiririz",
-    features: ["Ücretsiz Danışmanlık", "İhtiyaç Analizi", "Teknik Değerlendirme"],
-    color: "from-blue-500 to-cyan-500",
-    step: "01"
-  },
-  {
-    icon: Lightbulb,
-    title: "Tasarım & Geliştirme",
-    description: "Modern tasarım ve kodlama ile hayata geçiririz",
-    features: ["UI/UX Tasarım", "Prototip Oluşturma", "Proje Planlaması"],
-    color: "from-cyan-500 to-sky-500",
-    step: "02"
-  },
-  {
-    icon: Code,
-    title: "Test & Optimizasyon",
-    description: "Kalite kontrolü ve performans optimizasyonu yaparız",
-    features: ["Kod Geliştirme", "Test & Optimizasyon", "Güvenlik Kontrolleri"],
-    color: "from-sky-500 to-indigo-500",
-    step: "03"
-  },
-  {
-    icon: Rocket,
-    title: "Teslimat & Destek",
-    description: "Projeyi teslim eder, sürekli destek sağlarız",
-    features: ["Canlıya Alma", "7/24 Destek", "Sürekli Güncelleme"],
-    color: "from-indigo-500 to-purple-500",
-    step: "04"
-  },
-  {
-    icon: CheckCircle,
-    title: "İzleme & Raporlama",
-    description: "Proje performansını takip eder, detaylı raporlar sunarız",
-    features: ["Performans İzleme", "Detaylı Raporlar", "Analiz"],
-    color: "from-purple-500 to-pink-500",
-    step: "05"
-  },
-  {
-    icon: MessageCircle,
-    title: "Sürekli İyileştirme",
-    description: "Kullanıcı geri bildirimlerine göre sürekli güncelleme yaparız",
-    features: ["Geri Bildirim", "Güncellemeler", "İyileştirmeler"],
-    color: "from-pink-500 to-red-500",
-    step: "06"
-  }
-]
-
 export function ProcessNew() {
+  const { t } = useI18n()
+  
+  const processSteps = [
+    {
+      icon: MessageCircle,
+      title: t('process.items.analysis.title', 'Analiz & Planlama'),
+      description: t('process.items.analysis.description', 'Projenizi detaylı analiz eder, strateji geliştiririz'),
+      features: ["Ücretsiz Danışmanlık", "İhtiyaç Analizi", "Teknik Değerlendirme"],
+      color: "from-blue-500 to-cyan-500",
+      step: "01"
+    },
+    {
+      icon: Lightbulb,
+      title: t('process.items.design.title', 'Tasarım & Geliştirme'),
+      description: t('process.items.design.description', 'Modern tasarım ve kodlama ile hayata geçiririz'),
+      features: ["UI/UX Tasarım", "Prototip Oluşturma", "Proje Planlaması"],
+      color: "from-cyan-500 to-sky-500",
+      step: "02"
+    },
+    {
+      icon: Code,
+      title: t('process.items.testing.title', 'Test & Optimizasyon'),
+      description: t('process.items.testing.description', 'Kalite kontrolü ve performans optimizasyonu yaparız'),
+      features: ["Kod Geliştirme", "Test & Optimizasyon", "Güvenlik Kontrolleri"],
+      color: "from-sky-500 to-indigo-500",
+      step: "03"
+    },
+    {
+      icon: Rocket,
+      title: t('process.items.delivery.title', 'Teslimat & Destek'),
+      description: t('process.items.delivery.description', 'Projeyi teslim eder, sürekli destek sağlarız'),
+      features: ["Canlıya Alma", "7/24 Destek", "Sürekli Güncelleme"],
+      color: "from-indigo-500 to-purple-500",
+      step: "04"
+    },
+    {
+      icon: CheckCircle,
+      title: t('process.items.monitoring.title', 'İzleme & Raporlama'),
+      description: t('process.items.monitoring.description', 'Proje performansını takip eder, detaylı raporlar sunarız'),
+      features: ["Performans İzleme", "Detaylı Raporlar", "Analiz"],
+      color: "from-purple-500 to-pink-500",
+      step: "05"
+    },
+    {
+      icon: MessageCircle,
+      title: t('process.items.improvement.title', 'Sürekli İyileştirme'),
+      description: t('process.items.improvement.description', 'Kullanıcı geri bildirimlerine göre sürekli güncelleme yaparız'),
+      features: ["Geri Bildirim", "Güncellemeler", "İyileştirmeler"],
+      color: "from-pink-500 to-red-500",
+      step: "06"
+    }
+  ]
+  
   return (
     <section className="py-16 lg:py-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -83,19 +86,18 @@ export function ProcessNew() {
           >
             <CheckCircle className="h-5 w-5 text-cyan-500 fill-current" />
             <span className="text-sm font-semibold text-neutral-700 dark:text-neutral-300">
-              Çalışma Sürecimiz
+              {t('processNew.badge', 'Çalışma Sürecimiz')}
             </span>
           </motion.div>
 
           <h2 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-display font-bold text-neutral-900 dark:text-white mb-6">
-            Projenizi{" "}
+            {t('processNew.titlePart1', 'Projenizi')}{" "}
             <span className="bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 bg-clip-text text-transparent">
-              Hayata Geçiriyoruz
+              {t('processNew.titlePart2', 'Hayata Geçiriyoruz')}
             </span>
           </h2>
           <p className="text-lg sm:text-xl text-neutral-600 dark:text-neutral-400 max-w-3xl mx-auto leading-relaxed">
-            Deneyimli ekibimizle birlikte projenizi en verimli şekilde 
-            planlayıp hayata geçiriyoruz.
+            {t('processNew.description', 'Deneyimli ekibimizle birlikte projenizi en verimli şekilde planlayıp hayata geçiriyoruz.')}
           </p>
         </motion.div>
 

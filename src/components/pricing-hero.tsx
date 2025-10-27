@@ -3,8 +3,11 @@
 import React from "react"
 import { motion } from "framer-motion"
 import { Sparkles, ArrowRight, CheckCircle, DollarSign, CreditCard, Calculator, TrendingUp, PieChart, Target, Zap, Shield, Star } from "lucide-react"
+import { useI18n } from "@/contexts/i18n-context"
 
 export function PricingHero() {
+  const { t, locale, getLocalizedUrl } = useI18n()
+
   return (
     <section className="relative bg-gradient-to-b from-slate-900 via-slate-850 to-slate-900 overflow-hidden">
         {/* Background Elements */}
@@ -124,7 +127,7 @@ export function PricingHero() {
           >
             <Sparkles className="h-5 w-5 text-cyan-500 fill-current" />
             <span className="text-sm font-semibold text-neutral-700 dark:text-neutral-300">
-              Fiyatlandırma
+              {t('pricing.hero.badge', 'Fiyatlandırma')}
             </span>
           </motion.div>
 
@@ -135,10 +138,10 @@ export function PricingHero() {
             transition={{ delay: 0.2, duration: 0.6 }}
             className="text-5xl sm:text-6xl font-bold text-white mb-6 leading-tight"
           >
-            Uygun{" "}
+            {t('pricing.hero.title', 'Uygun')}{" "}
             <br />
             <span className="bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 bg-clip-text text-transparent">
-              Fiyat Listesi
+              {t('pricing.hero.titleGradient', 'Fiyat Listesi')}
             </span>
           </motion.h1>
           
@@ -149,8 +152,8 @@ export function PricingHero() {
             transition={{ delay: 0.3, duration: 0.6 }}
             className="text-lg sm:text-xl text-gray-300 mb-8 space-y-2"
           >
-            <p>Projeniz için en uygun fiyatlandırma seçeneklerini keşfedin.</p>
-            <p>Her bütçeye uygun paketlerimizle projenizi hayata geçirin.</p>
+            <p>{t('pricing.hero.description.0', 'Projeniz için en uygun fiyatlandırma seçeneklerini keşfedin.')}</p>
+            <p>{t('pricing.hero.description.1', 'Her bütçeye uygun paketlerimizle projenizi hayata geçirin.')}</p>
           </motion.div>
       
           {/* CTA Buttons */}
@@ -199,18 +202,18 @@ export function PricingHero() {
               whileTap={{ scale: 0.95 }}
               className="inline-flex items-center justify-center space-x-2 text-white px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-200 bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 cursor-pointer"
             >
-              <span>Paketleri İncele</span>
+              <span>{t('pricing.hero.button1', 'Paketleri İncele')}</span>
               <ArrowRight className="h-5 w-5" />
             </motion.button>
               
             <motion.a
-              href="/tr/iletisim"
+              href={getLocalizedUrl('/iletisim')}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="inline-flex items-center justify-center space-x-2 bg-gray-700 hover:bg-gray-600 text-white px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-200"
             >
               <CheckCircle className="h-5 w-5" />
-              <span>Özel Teklif Al</span>
+              <span>{t('pricing.hero.button2', 'Özel Teklif Al')}</span>
             </motion.a>
           </motion.div>
 
@@ -251,23 +254,23 @@ export function PricingHero() {
             >
               <Sparkles className="h-5 w-5 text-cyan-500 fill-current" />
               <span className="text-sm font-semibold text-neutral-700 dark:text-neutral-300">
-                Fiyatlandırma
+                {t('pricing.hero.badge', 'Fiyatlandırma')}
               </span>
             </motion.div>
 
             {/* Main Heading */}
             <h1 className="text-6xl lg:text-7xl xl:text-8xl font-bold text-white mb-8 leading-tight">
-              Uygun{" "}
+              {t('pricing.hero.title', 'Uygun')}{" "}
               <br />
               <span className="bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 bg-clip-text text-transparent">
-                Fiyat Listesi
+                {t('pricing.hero.titleGradient', 'Fiyat Listesi')}
               </span>
             </h1>
             
             {/* Description */}
             <div className="text-lg lg:text-xl text-gray-300 mb-10 space-y-2">
-              <p>Projeniz için en uygun fiyatlandırma seçeneklerini keşfedin.</p>
-            <p>Her bütçeye uygun paketlerimizle projenizi hayata geçirin.</p>
+              <p>{t('pricing.hero.description.0', 'Projeniz için en uygun fiyatlandırma seçeneklerini keşfedin.')}</p>
+            <p>{t('pricing.hero.description.1', 'Her bütçeye uygun paketlerimizle projenizi hayata geçirin.')}</p>
             </div>
         
             {/* CTA Buttons */}
@@ -316,18 +319,18 @@ export function PricingHero() {
                 whileTap={{ scale: 0.95 }}
                 className="inline-flex items-center justify-center space-x-2 text-white px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-200 bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 cursor-pointer"
               >
-                <span>Paketleri İncele</span>
+                <span>{t('pricing.hero.button1', 'Paketleri İncele')}</span>
                 <ArrowRight className="h-5 w-5" />
               </motion.button>
                 
               <motion.a
-                href="/tr/iletisim"
+                href={getLocalizedUrl('/iletisim')}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 className="inline-flex items-center justify-center space-x-2 bg-gray-700 hover:bg-gray-600 text-white px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-200"
               >
                 <CheckCircle className="h-5 w-5" />
-                <span>Özel Teklif Al</span>
+                <span>{t('pricing.hero.button2', 'Özel Teklif Al')}</span>
               </motion.a>
             </motion.div>
           </motion.div>
@@ -363,8 +366,8 @@ export function PricingHero() {
             <div className="w-12 h-12 bg-gradient-to-r from-green-500 via-emerald-500 to-teal-500 rounded-xl flex items-center justify-center mx-auto mb-4">
               <DollarSign className="h-6 w-6 text-white" />
             </div>
-            <h3 className="text-lg font-semibold text-white mb-2">Şeffaf</h3>
-            <p className="text-gray-400 text-sm">Gizli maliyet yok</p>
+            <h3 className="text-lg font-semibold text-white mb-2">{t('pricing.stats.0.title', 'Şeffaf')}</h3>
+            <p className="text-gray-400 text-sm">{t('pricing.stats.0.description', 'Gizli maliyet yok')}</p>
           </motion.div>
 
           <motion.div
@@ -376,8 +379,8 @@ export function PricingHero() {
             <div className="w-12 h-12 bg-gradient-to-r from-purple-500 via-violet-500 to-indigo-500 rounded-xl flex items-center justify-center mx-auto mb-4">
               <CreditCard className="h-6 w-6 text-white" />
             </div>
-            <h3 className="text-lg font-semibold text-white mb-2">Esnek</h3>
-            <p className="text-gray-400 text-sm">Her bütçeye uygun</p>
+            <h3 className="text-lg font-semibold text-white mb-2">{t('pricing.stats.1.title', 'Esnek')}</h3>
+            <p className="text-gray-400 text-sm">{t('pricing.stats.1.description', 'Her bütçeye uygun')}</p>
           </motion.div>
 
           <motion.div
@@ -389,8 +392,8 @@ export function PricingHero() {
             <div className="w-12 h-12 bg-gradient-to-r from-orange-500 via-amber-500 to-yellow-500 rounded-xl flex items-center justify-center mx-auto mb-4">
               <Calculator className="h-6 w-6 text-white" />
             </div>
-            <h3 className="text-lg font-semibold text-white mb-2">Özelleştirilebilir</h3>
-            <p className="text-gray-400 text-sm">İhtiyaçlarınıza göre</p>
+            <h3 className="text-lg font-semibold text-white mb-2">{t('pricing.stats.2.title', 'Özelleştirilebilir')}</h3>
+            <p className="text-gray-400 text-sm">{t('pricing.stats.2.description', 'İhtiyaçlarınıza göre')}</p>
           </motion.div>
 
           <motion.div
@@ -402,8 +405,8 @@ export function PricingHero() {
             <div className="w-12 h-12 bg-gradient-to-r from-red-500 via-pink-500 to-rose-500 rounded-xl flex items-center justify-center mx-auto mb-4">
               <CheckCircle className="h-6 w-6 text-white" />
             </div>
-            <h3 className="text-lg font-semibold text-white mb-2">Garantili</h3>
-            <p className="text-gray-400 text-sm">Kalite garantisi</p>
+            <h3 className="text-lg font-semibold text-white mb-2">{t('pricing.stats.3.title', 'Garantili')}</h3>
+            <p className="text-gray-400 text-sm">{t('pricing.stats.3.description', 'Kalite garantisi')}</p>
           </motion.div>
         </div>
       </div>

@@ -56,10 +56,10 @@ export function Hero() {
   useEffect(() => {
     const handleLoad = () => {
       setIsPageReady(true)
-      // Daha hızlı yükleme - 0.5 saniye
+      // Daha hızlı yükleme - 0.1 saniye
       setTimeout(() => {
         setIsLoaded(true)
-      }, 500)
+      }, 100)
     }
 
     // Sayfa zaten yüklenmişse
@@ -70,22 +70,22 @@ export function Hero() {
       document.addEventListener('DOMContentLoaded', handleLoad)
     }
 
+    // Immediate render için hemen true yap
+    handleLoad()
+
     return () => {
       document.removeEventListener('DOMContentLoaded', handleLoad)
     }
   }, [])
 
   return (
-        <section 
+        <section
           className="relative flex items-center justify-center overflow-hidden" 
           style={{ 
             minHeight: '100vh',
-            opacity: isLoaded ? 1 : 0,
-            visibility: isLoaded ? 'visible' : 'hidden',
             transform: 'translateZ(0)',
             backfaceVisibility: 'hidden',
-            WebkitBackfaceVisibility: 'hidden',
-            transition: 'opacity 0.5s ease-in-out, visibility 0.5s ease-in-out'
+            WebkitBackfaceVisibility: 'hidden'
           }}
         >
       {/* Cinematic Background */}
@@ -197,11 +197,8 @@ export function Hero() {
           <div 
             className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 sm:pt-40 lg:pt-48 pb-8 sm:pb-12 lg:pb-16 w-full"
             style={{
-              opacity: isLoaded ? 1 : 0,
-              visibility: isLoaded ? 'visible' : 'hidden',
               transform: 'translateZ(0)',
-              willChange: 'auto',
-              transition: 'opacity 0.5s ease-in-out, visibility 0.5s ease-in-out'
+              willChange: 'auto'
             }}
           >
         <div className="text-center space-y-8 sm:space-y-12 lg:space-y-16" 
@@ -216,12 +213,12 @@ export function Hero() {
 
           {/* Enhanced Hero Title with Modern Design - optimize edildi */}
           <MotionDiv
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: isLoaded ? 1 : 0, y: 0 }}
+            initial={{ opacity: 0, y: 50, scale: 0.95 }}
+            animate={{ opacity: isLoaded ? 1 : 0, y: 0, scale: 1 }}
             transition={{ 
-              duration: 0.3, 
-              delay: isLoaded ? 0 : 0,
-              ease: "easeOut"
+              duration: 1, 
+              delay: isLoaded ? 0.3 : 0,
+              ease: [0.25, 0.46, 0.45, 0.94]
             }}
             style={{ 
               transform: 'translate3d(0, 0, 0)',
@@ -236,19 +233,16 @@ export function Hero() {
               className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-display font-bold text-white leading-[0.9] tracking-tight"
               style={{
                 textShadow: '0 0 40px rgba(6, 182, 212, 0.6), 0 0 80px rgba(6, 182, 212, 0.4), 0 0 120px rgba(6, 182, 212, 0.2)',
-                opacity: isLoaded ? 1 : 0,
-                visibility: isLoaded ? 'visible' : 'hidden',
-                transform: 'translateZ(0)',
-                transition: 'opacity 0.3s ease-in-out, visibility 0.3s ease-in-out'
+                transform: 'translateZ(0)'
               }}
             >
               <MotionDiv
-                initial={{ opacity: 0, x: -10 }}
-                animate={{ opacity: isLoaded ? 1 : 0, x: 0 }}
+                initial={{ opacity: 0, x: -50, scale: 0.95 }}
+                animate={{ opacity: isLoaded ? 1 : 0, x: 0, scale: 1 }}
                 transition={{ 
-                  duration: 0.4, 
-                  delay: isLoaded ? 0.1 : 0, 
-                  ease: "easeOut"
+                  duration: 0.8, 
+                  delay: isLoaded ? 0.5 : 0, 
+                  ease: [0.25, 0.46, 0.45, 0.94]
                 }}
                 className="block"
                 style={{
@@ -260,12 +254,12 @@ export function Hero() {
               </MotionDiv>
               <MotionDiv 
                 className="block bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 bg-clip-text text-transparent"
-                initial={{ opacity: 0, scale: 0.9, y: 10 }}
+                initial={{ opacity: 0, scale: 0.9, y: 30 }}
                 animate={{ opacity: isLoaded ? 1 : 0, scale: 1, y: 0 }}
                 transition={{ 
-                  duration: 0.4, 
-                  delay: isLoaded ? 0.2 : 0,
-                  ease: "easeOut"
+                  duration: 0.8, 
+                  delay: isLoaded ? 0.7 : 0,
+                  ease: [0.25, 0.46, 0.45, 0.94]
                 }}
                 style={{
                   WebkitBackgroundClip: 'text',
@@ -283,11 +277,11 @@ export function Hero() {
 
           {/* Enhanced Modern Subtitle */}
           <MotionDiv
-            initial={{ opacity: 0, y: 20, scale: 0.95 }}
+            initial={{ opacity: 0, y: 40, scale: 0.95 }}
             animate={{ opacity: isLoaded ? 1 : 0, y: 0, scale: 1 }}
             transition={{ 
-              duration: 0.6, 
-              delay: isLoaded ? 0.6 : 0,
+              duration: 0.8, 
+              delay: isLoaded ? 0.9 : 0,
               ease: [0.25, 0.46, 0.45, 0.94]
             }}
             style={{ 
@@ -305,8 +299,8 @@ export function Hero() {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: isLoaded ? 1 : 0, y: 0 }}
               transition={{ 
-                duration: 0.5, 
-                delay: isLoaded ? 0.8 : 0, 
+                duration: 0.8, 
+                delay: isLoaded ? 1.1 : 0, 
                 ease: [0.25, 0.46, 0.45, 0.94]
               }}
               style={{
@@ -328,9 +322,9 @@ export function Hero() {
 
           {/* Enhanced Quick Stats */}
           <MotionDiv
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: isLoaded ? 1 : 0, y: 0 }}
-            transition={{ duration: 0.4, delay: isLoaded ? 0.4 : 0, ease: "easeOut" }}
+            transition={{ duration: 0.8, delay: isLoaded ? 1.3 : 0, ease: [0.25, 0.46, 0.45, 0.94] }}
             style={{ transform: 'translate3d(0, 0, 0)' }}
             className="grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-6xl mx-auto"
           >
@@ -341,12 +335,12 @@ export function Hero() {
             ].map((stat, index) => (
               <MotionDiv
                 key={stat.label}
-                initial={{ opacity: 0, y: 20, scale: 0.9 }}
+                initial={{ opacity: 0, y: 30, scale: 0.9 }}
                 animate={{ opacity: isLoaded ? 1 : 0, y: 0, scale: 1 }}
                 transition={{ 
-                  duration: 0.3, 
-                  delay: isLoaded ? 0.5 + index * 0.05 : 0,
-                  ease: "easeOut"
+                  duration: 0.6, 
+                  delay: isLoaded ? 1.4 + index * 0.1 : 0,
+                  ease: [0.25, 0.46, 0.45, 0.94]
                 }}
                 whileHover={{ 
                   boxShadow: `0 0 40px rgba(${stat.color === 'cyan' ? '6, 182, 212' : stat.color === 'blue' ? '59, 130, 246' : '139, 92, 246'}, 0.6)`
@@ -388,17 +382,17 @@ export function Hero() {
 
           {/* Enhanced Cinematic CTA Buttons */}
           <MotionDiv
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: isLoaded ? 1 : 0, y: 0 }}
-            transition={{ duration: 0.4, delay: isLoaded ? 0.6 : 0, ease: "easeOut" }}
+            transition={{ duration: 0.8, delay: isLoaded ? 1.6 : 0, ease: [0.25, 0.46, 0.45, 0.94] }}
             style={{ transform: 'translate3d(0, 0, 0)' }}
             className="flex flex-col sm:flex-row gap-8 justify-center items-center"
           >
             <Link href="/tr/iletisim">
               <MotionDiv
-                initial={{ opacity: 0, scale: 0.8, y: 20 }}
+                initial={{ opacity: 0, scale: 0.8, y: 30 }}
                 animate={{ opacity: isLoaded ? 1 : 0, scale: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: isLoaded ? 1.0 : 0, ease: [0.25, 0.46, 0.45, 0.94] }}
+                transition={{ duration: 0.7, delay: isLoaded ? 1.7 : 0, ease: [0.25, 0.46, 0.45, 0.94] }}
                 whileHover={{ 
                   boxShadow: '0 0 50px rgba(6, 182, 212, 0.8)',
                   scale: 1.05
@@ -423,9 +417,9 @@ export function Hero() {
             
             <Link href="/tr/hizmetlerimiz">
               <MotionDiv
-                initial={{ opacity: 0, scale: 0.8, y: 20 }}
+                initial={{ opacity: 0, scale: 0.8, y: 30 }}
                 animate={{ opacity: isLoaded ? 1 : 0, scale: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: isLoaded ? 1.1 : 0, ease: [0.25, 0.46, 0.45, 0.94] }}
+                transition={{ duration: 0.7, delay: isLoaded ? 1.8 : 0, ease: [0.25, 0.46, 0.45, 0.94] }}
                 whileHover={{ 
                   backgroundColor: 'rgba(255, 255, 255, 0.2)',
                   borderColor: 'rgba(6, 182, 212, 0.8)',
@@ -448,9 +442,9 @@ export function Hero() {
 
           {/* Enhanced Cinematic Features */}
           <MotionDiv
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: isLoaded ? 1 : 0, y: 0 }}
-            transition={{ duration: 0.4, delay: isLoaded ? 0.8 : 0, ease: "easeOut" }}
+            transition={{ duration: 0.8, delay: isLoaded ? 1.8 : 0, ease: [0.25, 0.46, 0.45, 0.94] }}
             style={{ transform: 'translate3d(0, 0, 0)' }}
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto"
           >
@@ -462,12 +456,12 @@ export function Hero() {
             ].map((feature, index) => (
               <MotionDiv
                 key={feature.text}
-                initial={{ opacity: 0, y: 20, scale: 0.9 }}
+                initial={{ opacity: 0, y: 40, scale: 0.9 }}
                 animate={{ opacity: isLoaded ? 1 : 0, y: 0, scale: 1 }}
                 transition={{ 
-                  duration: 0.3, 
-                  delay: isLoaded ? 0.9 + index * 0.05 : 0,
-                  ease: "easeOut"
+                  duration: 0.6, 
+                  delay: isLoaded ? 1.9 + index * 0.15 : 0,
+                  ease: [0.25, 0.46, 0.45, 0.94]
                 }}
                 className={`relative flex flex-col items-center justify-center backdrop-blur-xl rounded-3xl p-8 transition-all duration-500 overflow-hidden group cursor-pointer hover:shadow-2xl`}
                 style={{ 
@@ -505,6 +499,6 @@ export function Hero() {
 
         </div>
       </div>
-    </section>
+        </section>
   )
 }

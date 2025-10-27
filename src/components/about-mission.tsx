@@ -3,35 +3,58 @@
 import React from "react"
 import { motion } from "framer-motion"
 import { Target, Eye, Heart, Lightbulb, CheckCircle, ArrowRight, Award } from "lucide-react"
-
-const values = [
-  {
-    icon: Target,
-    title: "Hedef Odaklılık",
-    description: "Her projede müşterinin hedeflerine ulaşmasını sağlıyoruz. Stratejik yaklaşımımızla sonuç odaklı çözümler üretiyoruz.",
-    features: ["Stratejik Planlama", "Hedef Belirleme", "Sonuç Odaklılık", "Performans Takibi"]
-  },
-  {
-    icon: Heart,
-    title: "Müşteri Memnuniyeti",
-    description: "Müşteri memnuniyeti bizim önceliğimizdir. Her adımda müşteri deneyimini en üst seviyede tutuyoruz.",
-    features: ["7/24 Destek", "Kişisel Yaklaşım", "Hızlı Çözüm", "Sürekli İletişim"]
-  },
-  {
-    icon: Lightbulb,
-    title: "İnovasyon",
-    description: "Sürekli gelişen teknolojileri takip ediyor, yaratıcı çözümlerle müşterilerimize avantaj sağlıyoruz.",
-    features: ["Yeni Teknolojiler", "Yaratıcı Çözümler", "Sürekli Gelişim", "Araştırma & Geliştirme"]
-  },
-  {
-    icon: Eye,
-    title: "Şeffaflık",
-    description: "Tüm süreçlerde şeffaf olmaya özen gösteriyor, müşterilerimizle açık iletişim kuruyoruz.",
-    features: ["Açık İletişim", "Düzenli Raporlama", "Proje Takibi", "Güvenilir Bilgi"]
-  }
-]
+import { useI18n } from "@/contexts/i18n-context"
 
 export function AboutMission() {
+  const { t, locale, getLocalizedUrl } = useI18n()
+  
+  const values = [
+    {
+      icon: Target,
+      title: t('about_mission.values.0.title', 'Hedef Odaklılık'),
+      description: t('about_mission.values.0.description', 'Her projede müşterinin hedeflerine ulaşmasını sağlıyoruz. Stratejik yaklaşımımızla sonuç odaklı çözümler üretiyoruz.'),
+      features: [
+        t('about_mission.values.0.features.0', 'Stratejik Planlama'),
+        t('about_mission.values.0.features.1', 'Hedef Belirleme'),
+        t('about_mission.values.0.features.2', 'Sonuç Odaklılık'),
+        t('about_mission.values.0.features.3', 'Performans Takibi')
+      ]
+    },
+    {
+      icon: Heart,
+      title: t('about_mission.values.1.title', 'Müşteri Memnuniyeti'),
+      description: t('about_mission.values.1.description', 'Müşteri memnuniyeti bizim önceliğimizdir. Her adımda müşteri deneyimini en üst seviyede tutuyoruz.'),
+      features: [
+        t('about_mission.values.1.features.0', '7/24 Destek'),
+        t('about_mission.values.1.features.1', 'Kişisel Yaklaşım'),
+        t('about_mission.values.1.features.2', 'Hızlı Çözüm'),
+        t('about_mission.values.1.features.3', 'Sürekli İletişim')
+      ]
+    },
+    {
+      icon: Lightbulb,
+      title: t('about_mission.values.2.title', 'İnovasyon'),
+      description: t('about_mission.values.2.description', 'Sürekli gelişen teknolojileri takip ediyor, yaratıcı çözümlerle müşterilerimize avantaj sağlıyoruz.'),
+      features: [
+        t('about_mission.values.2.features.0', 'Yeni Teknolojiler'),
+        t('about_mission.values.2.features.1', 'Yaratıcı Çözümler'),
+        t('about_mission.values.2.features.2', 'Sürekli Gelişim'),
+        t('about_mission.values.2.features.3', 'Araştırma & Geliştirme')
+      ]
+    },
+    {
+      icon: Eye,
+      title: t('about_mission.values.3.title', 'Şeffaflık'),
+      description: t('about_mission.values.3.description', 'Tüm süreçlerde şeffaf olmaya özen gösteriyor, müşterilerimizle açık iletişim kuruyoruz.'),
+      features: [
+        t('about_mission.values.3.features.0', 'Açık İletişim'),
+        t('about_mission.values.3.features.1', 'Düzenli Raporlama'),
+        t('about_mission.values.3.features.2', 'Proje Takibi'),
+        t('about_mission.values.3.features.3', 'Güvenilir Bilgi')
+      ]
+    }
+  ]
+
   return (
     <section id="our-mission" className="relative pt-20 pb-16 lg:pt-32 lg:pb-20">
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -52,19 +75,18 @@ export function AboutMission() {
           >
             <Target className="h-6 w-6 text-cyan-500" />
             <span className="text-sm font-semibold text-neutral-700 dark:text-neutral-300">
-              Misyon & Vizyon
+              {t('about_mission.badge', 'Misyon & Vizyon')}
             </span>
           </motion.div>
 
           <h2 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-display font-bold text-neutral-900 dark:text-white mb-6">
-            Misyonumuz ve{" "}
+            {t('about_mission.title', 'Misyonumuz ve')}{" "}
             <span className="bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 bg-clip-text text-transparent">
-              Vizyonumuz
+              {t('about_mission.titleGradient', 'Vizyonumuz')}
             </span>
           </h2>
           <p className="text-lg sm:text-xl text-neutral-600 dark:text-neutral-400 max-w-3xl mx-auto leading-relaxed">
-            Softiel olarak, müşterilerimize en iyi hizmeti sunmak için belirlediğimiz misyon ve vizyonumuzla 
-            dijital dünyada fark yaratıyoruz.
+            {t('about_mission.description', 'Softiel olarak, müşterilerimize en iyi hizmeti sunmak için belirlediğimiz misyon ve vizyonumuzla dijital dünyada fark yaratıyoruz.')}
           </p>
         </motion.div>
 
@@ -85,18 +107,15 @@ export function AboutMission() {
               </div>
               <div>
                 <h3 className="text-2xl font-bold text-neutral-900 dark:text-white">
-                  Misyonumuz
+                  {t('about_mission.mission.title', 'Misyonumuz')}
                 </h3>
                 <p className="text-cyan-600 dark:text-cyan-400 font-medium">
-                  Ne Yapıyoruz?
+                  {t('about_mission.mission.subtitle', 'Ne Yapıyoruz?')}
                 </p>
               </div>
             </div>
             <p className="text-neutral-600 dark:text-neutral-400 leading-relaxed text-lg">
-              Modern teknolojiler, yaratıcı tasarım anlayışı ve deneyimli ekibimizle 
-              markanızı dijital dünyada öne çıkarıyor, hedeflerinize ulaşmanızı sağlıyoruz. 
-              Her projede müşteri memnuniyetini ön planda tutarak, kaliteli ve sürdürülebilir 
-              çözümler sunuyoruz.
+              {t('about_mission.mission.description', 'Modern teknolojiler, yaratıcı tasarım anlayışı ve deneyimli ekibimizle markanızı dijital dünyada öne çıkarıyor, hedeflerinize ulaşmanızı sağlıyoruz. Her projede müşteri memnuniyetini ön planda tutarak, kaliteli ve sürdürülebilir çözümler sunuyoruz.')}
             </p>
           </motion.div>
 
@@ -115,17 +134,15 @@ export function AboutMission() {
               </div>
               <div>
                 <h3 className="text-2xl font-bold text-neutral-900 dark:text-white">
-                  Vizyonumuz
+                  {t('about_mission.vision.title', 'Vizyonumuz')}
                 </h3>
                 <p className="text-blue-600 dark:text-blue-400 font-medium">
-                  Nereye Gidiyoruz?
+                  {t('about_mission.vision.subtitle', 'Nereye Gidiyoruz?')}
                 </p>
               </div>
             </div>
             <p className="text-neutral-600 dark:text-neutral-400 leading-relaxed text-lg">
-              Dünya çapında müşterilerimize hizmet veren önde gelen dijital ajans olmak ve 
-              müşterilerimizin dijital dönüşüm yolculuğunda en güvenilir partner olmak. 
-              Sürekli gelişen teknolojileri takip ederek, inovatif çözümlerle sektörde öncü olmaya devam etmek.
+              {t('about_mission.vision.description', 'Dünya çapında müşterilerimize hizmet veren önde gelen dijital ajans olmak ve müşterilerimizin dijital dönüşüm yolculuğunda en güvenilir partner olmak. Sürekli gelişen teknolojileri takip ederek, inovatif çözümlerle sektörde öncü olmaya devam etmek.')}
             </p>
           </motion.div>
         </div>
@@ -148,18 +165,18 @@ export function AboutMission() {
           >
             <Award className="h-6 w-6 text-cyan-500" />
             <span className="text-sm font-semibold text-neutral-700 dark:text-neutral-300">
-              Değerlerimiz
+              {t('about_mission.valuesBadge', 'Değerlerimiz')}
             </span>
           </motion.div>
           
           <h3 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-display font-bold text-neutral-900 dark:text-white mb-6">
-            Çalışma{" "}
+            {t('about_mission.valuesTitle', 'Çalışma')}{" "}
             <span className="bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 bg-clip-text text-transparent">
-              Prensiplerimiz
+              {t('about_mission.valuesTitleGradient', 'Prensiplerimiz')}
             </span>
           </h3>
           <p className="text-lg text-neutral-600 dark:text-neutral-400 max-w-3xl mx-auto leading-relaxed">
-            Müşterilerimize en iyi hizmeti sunmak için belirlediğimiz değerler ve yaklaşımımızla fark yaratıyoruz.
+            {t('about_mission.valuesDescription', 'Müşterilerimize en iyi hizmeti sunmak için belirlediğimiz değerler ve yaklaşımımızla fark yaratıyoruz.')}
           </p>
         </motion.div>
 

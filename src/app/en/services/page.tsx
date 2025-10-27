@@ -1,19 +1,35 @@
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
-import { ServicesHero } from "@/components/services-hero"
-import { Services } from "@/components/services"
-import { Process } from "@/components/process"
-import { CTA } from "@/components/cta"
+import { ServicesHeroNew } from "@/components/services-hero-new"
+import { ServicesNew } from "@/components/services-new"
+import { ProcessNew } from "@/components/process-new"
+import { PricingCTA } from "@/components/pricing-cta"
+
+// Static generation için metadata
+export const metadata = {
+  title: "Services - Softiel",
+  description: "Web design, development, SEO, digital marketing and mobile app development services. Professional digital solutions.",
+}
+
+// Static generation - sayfa önceden oluşturulsun
+export const dynamic = 'force-static'
 
 export default function ServicesPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 dark:from-slate-900 dark:to-blue-900">
+    <div className="min-h-screen bg-gradient-to-b from-slate-700 via-slate-800 via-slate-900 via-slate-950 to-black dark:from-slate-800 dark:via-slate-900 dark:via-slate-950 dark:via-black dark:to-black">
       <Header />
-      <main>
-        <ServicesHero />
-        <Services />
-        <Process />
-        <CTA />
+      <main className="relative overflow-hidden">
+        {/* Background Elements */}
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute -top-20 -right-20 w-40 h-40 bg-blue-200 dark:bg-blue-700 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-xl opacity-30 animate-pulse"></div>
+          <div className="absolute -bottom-20 -left-20 w-40 h-40 bg-cyan-200 dark:bg-cyan-700 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-xl opacity-30 animate-pulse"></div>
+          <div className="absolute top-1/2 right-1/4 w-32 h-32 bg-sky-200 dark:bg-sky-700 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-xl opacity-20 animate-pulse"></div>
+        </div>
+        
+        <ServicesHeroNew />
+        <ServicesNew />
+        <ProcessNew />
+        <PricingCTA />
       </main>
       <Footer />
     </div>

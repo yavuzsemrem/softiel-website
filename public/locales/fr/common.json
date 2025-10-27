@@ -31,7 +31,77 @@
     "automation": "Automatisation & Intégration",
     "digitalConsulting": "Conseil Numérique",
     "noCode": "Solutions No-Code / Low-Code",
-    "education": "Formation & Mentorat"
+    "education": "Formation & Mentorat",
+    "items": {
+      "webDesign": {
+        "title": "Design de Site Web",
+        "description": "Faites briller votre marque dans le monde numérique avec des designs web modernes, conviviaux et responsives"
+      },
+      "webDevelopment": {
+        "title": "Développement d'Application Web",
+        "description": "Atteignez vos objectifs numériques avec des applications web rapides, sécurisées et évolutives"
+      },
+      "mobileApp": {
+        "title": "Développement d'Application Mobile",
+        "description": "Prenez votre place sur le marché mobile avec des applications natives et multiplateformes pour iOS et Android"
+      },
+      "seo": {
+        "title": "Optimisation SEO",
+        "description": "Classez haut dans les moteurs de recherche et gagnez du trafic organique et des clients"
+      },
+      "googleAds": {
+        "title": "Gestion Google Ads",
+        "description": "Gagnez des clients et augmentez vos ventes avec des campagnes publicitaires ciblées"
+      },
+      "aiIntegration": {
+        "title": "Intégrations d'Intelligence Artificielle",
+        "description": "Propulsez votre entreprise vers l'avenir avec les technologies IA et obtenez un avantage concurrentiel"
+      },
+      "wordpress": {
+        "title": "Solutions WordPress",
+        "description": "Maintenez votre site web à jour avec des systèmes de gestion de contenu faciles à gérer"
+      },
+      "logoDesign": {
+        "title": "Design de Logo & Identité Corporative",
+        "description": "Designs de logo et d'identité corporative professionnels qui reflètent votre marque"
+      },
+      "socialMedia": {
+        "title": "Gestion des Médias Sociaux",
+        "description": "Gérez vos comptes de médias sociaux professionnellement et augmentez votre nombre de followers"
+      },
+      "digitalConsulting": {
+        "title": "Conseil Numérique",
+        "description": "Guidance stratégique et services de conseil dans votre parcours de transformation numérique"
+      }
+    }
+  },
+  "process": {
+    "items": {
+      "analysis": {
+        "title": "Analyse & Planification",
+        "description": "Nous analysons votre projet en détail et développons des stratégies"
+      },
+      "design": {
+        "title": "Design & Développement",
+        "description": "Nous le concrétisons avec un design moderne et du codage"
+      },
+      "testing": {
+        "title": "Test & Optimisation",
+        "description": "Nous effectuons le contrôle qualité et l'optimisation des performances"
+      },
+      "delivery": {
+        "title": "Livraison & Support",
+        "description": "Nous livrons le projet et fournissons un support continu"
+      },
+      "monitoring": {
+        "title": "Suivi & Reporting",
+        "description": "Nous suivons la performance du projet et fournissons des rapports détaillés"
+      },
+      "improvement": {
+        "title": "Amélioration Continue",
+        "description": "Nous effectuons des mises à jour continues basées sur les retours utilisateurs"
+      }
+    }
   },
   "blog": {
     "title": "Blog",
@@ -81,6 +151,177 @@
       "mostViewed": "Plus consultés"
     }
   },
+  "pricing": {
+    "title": "Tarifs",
+    "subtitle": "Forfaits",
+    "description": "Choisissez le forfait qui vous convient et concrétisez votre projet.",
+    "popular": "Le Plus Populaire",
+    "delivery": "Livraison",
+    "notice": "Les frais de domaine + SSL + hébergement ne sont pas inclus dans le forfait",
+    "cta": "Demander un Devis",
+    "whatsappMessage": "Bonjour!",
+    "whatsappPackage": "Je souhaite obtenir des informations sur le forfait.",
+    "hero": {
+      "badge": "Tarifs",
+      "title": "Abordable",
+      "titleGradient": "Liste des Prix",
+      "description": {
+        "0": "Découvrez les options de tarification les plus adaptées à votre projet.",
+        "1": "Concrétisez votre projet avec des forfaits adaptés à chaque budget."
+      },
+      "button1": "Voir les Forfaits",
+      "button2": "Devis Personnalisé"
+    },
+    "stats": {
+      "0": {
+        "title": "Transparent",
+        "description": "Pas de coûts cachés"
+      },
+      "1": {
+        "title": "Flexible",
+        "description": "Adapté à chaque budget"
+      },
+      "2": {
+        "title": "Personnalisable",
+        "description": "Selon vos besoins"
+      },
+      "3": {
+        "title": "Garanti",
+        "description": "Garantie qualité"
+      }
+    },
+    "plans": {
+      "period": "projet",
+      "basic": {
+        "name": "Basic – Forfait Démarrage Digital",
+        "description": "Pour les entreprises nouvellement créées ou les petites marques qui ont besoin d'une présence en ligne. Ce forfait offre une visibilité numérique de base.",
+        "deliveryTime": "7-14 jours",
+        "features": {
+          "0": "Design de Site Web (Niveau Basic: 5-7 pages)",
+          "1": "Logo & Identité Corporative (logo + palette de couleurs + carte de visite)",
+          "2": "Paramètres SEO de Base (meta, sitemap, indexation)",
+          "3": "Configuration Google My Business",
+          "4": "1 mois de support de démarrage sur les réseaux sociaux (édition de profil, 4 publications)"
+        }
+      },
+      "pro": {
+        "name": "Pro – Forfait Croissance Digital",
+        "description": "Pour les marques qui existent déjà numériquement mais qui cherchent du trafic, de la visibilité et de l'engagement.",
+        "deliveryTime": "14-21 jours",
+        "features": {
+          "0": "Design de Site Web (Niveau Pro: page d'accueil personnalisée + blog)",
+          "1": "Optimisation SEO (travail mensuel, plan de contenu)",
+          "2": "Gestion Google Ads (gestion de 1 campagne mensuelle)",
+          "3": "Gestion des Réseaux Sociaux (2 plateformes, 8 publications/mois)",
+          "4": "Maintenance et Mises à Jour",
+          "5": "Rapport de performance mensuel"
+        }
+      },
+      "enterprise": {
+        "name": "Enterprise – Forfait Transformation Digital",
+        "description": "Pour les entreprises et sociétés qui souhaitent s'étendre sur les marchés mondiaux. Objectif: systématisation digitale, automatisation et intégration.",
+        "deliveryTime": "21-30 jours",
+        "features": {
+          "0": "Développement d'Application Web (workflow personnalisé / portal)",
+          "1": "Design de Site Web (Niveau Enterprise, CMS + multilingue)",
+          "2": "SEO + Gestion complète Google Ads (continu)",
+          "3": "Gestion des Réseaux Sociaux (4 plateformes, contenu professionnel + publicité)",
+          "4": "Intégration IA (chatbot ou IA de reporting)",
+          "5": "Conseil Digital (stratégie mensuelle + rapport)",
+          "6": "3 mois de maintenance & support SLA"
+        }
+      }
+    },
+    "faq": {
+      "badge": "Questions Fréquentes",
+      "title": "Ce dont",
+      "titleGradient": "vous êtes Curieux",
+      "description": "Nous avons répondu aux questions les plus fréquentes sur les tarifs.",
+      "0": {
+        "question": "Comment le tarif est-il calculé?",
+        "answer": "Notre tarification est déterminée en fonction de la complexité de votre projet, du nombre de pages et des fonctionnalités spéciales. Le forfait Basic commence à partir de €920, le forfait Pro €1.840, et le forfait Enterprise commence à partir de €2.760. Nous faisons de la tarification personnalisée pour les projets spéciaux."
+      },
+      "1": {
+        "question": "Quelles sont les options de paiement?",
+        "answer": "Vous pouvez payer 50% d'avance, 50% après la livraison."
+      },
+      "2": {
+        "question": "Quel est le délai de livraison du projet?",
+        "answer": "Le forfait Basic est livré en 7-14 jours, le forfait Pro en 14-21 jours, et le forfait Enterprise en 21-30 jours. La durée peut varier selon la complexité du projet."
+      },
+      "3": {
+        "question": "L'hébergement et le domaine sont-ils inclus?",
+        "answer": "Non, les frais d'hébergement et de domaine ne sont pas inclus dans les forfaits. Nous fournissons des conseils sur les options d'hébergement et de domaine qui vous conviennent. Nous avons des services d'installation et de gestion d'hébergement."
+      },
+      "4": {
+        "question": "Y a-t-il un support après le projet?",
+        "answer": "Oui! Nous fournissons un support gratuit pendant 1 mois dans le forfait Basic, 3 mois dans le forfait Pro, 6 mois dans le forfait Enterprise. Les petites mises à jour et corrections de bugs sont gratuites. Nous avons également des forfaits de maintenance mensuels."
+      },
+      "5": {
+        "question": "Quelle est la politique d'annulation et de remboursement?",
+        "answer": "Si annulé avant le début du projet, un remboursement à 100% est accordé. Après le début du projet, le paiement est pris uniquement pour la partie terminée. Vos droits de révision sont déterminés selon le contenu du forfait."
+      },
+      "6": {
+        "question": "Le service SEO est-il inclus?",
+        "answer": "Le forfait Basic comprend les paramètres SEO de base, le forfait Pro comprend le travail SEO mensuel, le forfait Enterprise comprend la gestion SEO complète. Nous avons également des forfaits SEO mensuels."
+      },
+      "7": {
+        "question": "Y a-t-il une gestion des réseaux sociaux?",
+        "answer": "Oui! Le forfait Basic comprend 1 mois de support de démarrage sur les réseaux sociaux, le forfait Pro comprend 2 plateformes 8 publications/mois, le forfait Enterprise comprend 4 plateformes contenu professionnel + gestion publicitaire."
+      },
+      "8": {
+        "question": "Offrez-vous un support multilingue?",
+        "answer": "Oui! Nous mettons en place une infrastructure dans toutes les langues. Nous offrons un support pour le turc, l'anglais, l'allemand, le français, l'arabe et le russe. Le forfait Enterprise comprend une infrastructure multilingue."
+      }
+    }
+  },
+  "servicesHero": {
+    "badge": "Nos Services",
+    "titlePart1": "Monde Numérique",
+    "titlePart2": "Réussissez",
+    "description": "Nous offrons tous les services dont vous avez besoin pour réussir dans le monde numérique.",
+    "descriptionDesktop": "Nous offrons tous les services dont vous avez besoin pour réussir dans le monde numérique.",
+    "descriptionDesktop2": "Solutions complètes du design web à l'intégration de l'intelligence artificielle.",
+    "button1": "Découvrir Nos Services",
+    "button2": "Chat WhatsApp",
+    "whatsappMessage": "Bonjour! Je souhaiterais obtenir des informations sur vos services.",
+    "stats": {
+      "expertTeam": {
+        "title": "Équipe d'Experts",
+        "subtitle": "Professionnels Expérimentés",
+        "description": "Personnel Expert"
+      },
+      "quality": {
+        "title": "Garantie de Qualité",
+        "subtitle": "100% Satisfaction Client",
+        "description": "Solutions de Qualité"
+      },
+      "fastDelivery": {
+        "title": "Livraison Rapide",
+        "subtitle": "Livraison Ponctuelle des Projets",
+        "description": "Support 24/7"
+      },
+      "goalOriented": {
+        "title": "Orientation Objectifs",
+        "subtitle": "Adapté à Vos Objectifs d'Entreprise",
+        "description": "Solutions Personnalisées"
+      }
+    }
+  },
+  "servicesNew": {
+    "badge": "Nos Services",
+    "titlePart1": "Services",
+    "titlePart2": "Numériques",
+    "description": "Solutions complètes qui font briller votre marque dans le monde numérique.",
+    "description2": "Du design web à l'intégration IA, du développement d'applications mobiles à l'optimisation SEO, nous sommes votre solution unique pour tous vos besoins numériques.",
+    "viewDetails": "Voir les Détails"
+  },
+  "processNew": {
+    "badge": "Notre Processus",
+    "titlePart1": "Donnez Vie à",
+    "titlePart2": "Votre Projet",
+    "description": "Nous planifions et réalisons votre projet de la manière la plus efficace avec notre équipe expérimentée."
+  },
   "pricingCTA": {
     "headingNormal": "Donnez Vie à",
     "headingGradient": "Votre Projet",
@@ -126,6 +367,8 @@
     "reply": "Répondre",
     "cancel": "Annuler",
     "replies": "réponses",
+    "noCommentsYet": "Pas encore de commentaires",
+    "beFirstToComment": "Soyez le premier à commenter!",
     "replyFormTitle": "Écrire une Réponse",
     "replyContent": "Votre Réponse",
     "replyPlaceholder": "Écrivez votre réponse ici...",
@@ -557,11 +800,236 @@
         "ongoing": "En Cours",
         "upcoming": "Bientôt"
       },
+      "category": {
+        "webDesign": "Design Web",
+        "webDevelopment": "Développement Web",
+        "mobileApp": "Application Mobile",
+        "ecommerce": "E-commerce",
+        "seo": "SEO",
+        "branding": "Branding",
+        "socialMedia": "Médias Sociaux",
+        "aiIntegration": "Intégration IA",
+        "automation": "Automatisation",
+        "digitalConsulting": "Conseil Numérique",
+        "noCode": "No-Code",
+        "education": "Éducation"
+      },
       "emptyState": {
         "title": "Aucun Projet Trouvé",
         "description": "Aucun projet ne correspond à vos critères de recherche. Essayez de modifier les filtres.",
         "resetFilters": "Réinitialiser les Filtres"
       }
+    },
+    "gridSection": {
+      "loading": "Chargement des projets...",
+      "errorLoading": "Une erreur s'est produite lors du chargement des projets",
+      "errorTitle": "Erreur survenue",
+      "tryAgain": "Réessayer",
+      "badge": "Notre Portfolio de Projets",
+      "titleNormal": "Notre Portfolio",
+      "titleGradient": "de Projets",
+      "description": "Découvrez nos projets dans un large éventail, du design web aux applications mobiles, des solutions e-commerce aux intégrations d'intelligence artificielle. Chaque projet reflète notre approche axée sur la satisfaction client et l'excellence technologique.",
+      "noDate": "Pas de date",
+      "liveSite": "Site en direct",
+      "github": "GitHub"
+    },
+    "projectDetail": {
+      "backToProjects": "Retour aux Projets",
+      "viewLive": "Voir en Direct",
+      "viewCode": "Voir le Code",
+      "client": "Client",
+      "clientDesc": "Propriétaire du Projet",
+      "endDate": "Date de Fin",
+      "endDateDesc": "Date de Fin du Projet",
+      "status": "Statut",
+      "statusDesc": "Statut du Projet",
+      "category": "Catégorie",
+      "categoryDesc": "Catégorie du Projet",
+      "technologies": "Technologies Utilisées",
+      "features": "Fonctionnalités du Projet",
+      "gallery": "Galerie du Projet",
+      "loading": "Chargement du projet...",
+      "error": "Projet introuvable",
+      "errorLoading": "Une erreur s'est produite lors du chargement du projet",
+      "errorTitle": "Erreur survenue",
+      "noDate": "Pas de date",
+      "notSpecified": "Non spécifié",
+      "galleryTitle": "Images du Projet",
+      "galleryBadge": "Galerie du Projet",
+      "galleryDescription": "Explorez visuellement les détails de notre projet.",
+      "clickToEnlarge": "Cliquez pour agrandir"
+    }
+  },
+  "about_hero": {
+    "page_indicator": "À Propos",
+    "main_heading_1": "Votre Partenaire",
+    "main_heading_2": "De Confiance",
+    "description": "Votre partenaire fiable et expérimenté dans votre parcours de transformation numérique. Nous portons votre entreprise vers l'avenir avec des technologies modernes et notre équipe d'experts.",
+    "cta_button_1": "Découvrir Notre Histoire",
+    "cta_button_2": "Nous Contacter",
+    "image_alt": "À Propos",
+    "stats": {
+      "web_design": "Design Web",
+      "web_design_description": "Sites web modernes et responsives",
+      "mobile_app": "Application Mobile",
+      "mobile_app_description": "Applications iOS et Android",
+      "seo_optimization": "Optimisation SEO",
+      "seo_optimization_description": "Optimisation pour les moteurs de recherche"
+    }
+  },
+  "about_mission": {
+    "badge": "Mission & Vision",
+    "title": "Notre Mission et",
+    "titleGradient": "Vision",
+    "description": "En tant que Softiel, nous faisons une différence dans le monde numérique avec notre mission et notre vision que nous avons établies pour fournir le meilleur service à nos clients.",
+    "mission": {
+      "title": "Notre Mission",
+      "subtitle": "Ce Que Nous Faisons?",
+      "description": "Nous faisons briller votre marque dans le monde numérique et vous aidons à atteindre vos objectifs avec des technologies modernes, une approche de conception créative et notre équipe expérimentée. Nous offrons des solutions de qualité et durables en plaçant la satisfaction client au premier plan dans chaque projet."
+    },
+    "vision": {
+      "title": "Notre Vision",
+      "subtitle": "Où Allons-Nous?",
+      "description": "Être une agence numérique de premier plan au service de nos clients dans le monde entier et être le partenaire le plus fiable dans le parcours de transformation numérique de nos clients. Continuer à être un pionnier de l'industrie avec des solutions innovantes en suivant les technologies en constante évolution."
+    },
+    "valuesBadge": "Nos Valeurs",
+    "valuesTitle": "Principes de",
+    "valuesTitleGradient": "Travail",
+    "valuesDescription": "Nous faisons une différence avec nos valeurs et approches que nous avons établies pour fournir le meilleur service à nos clients.",
+    "values": {
+      "0": {
+        "title": "Orienté Objectifs",
+        "description": "Nous aidons nos clients à atteindre leurs objectifs dans chaque projet. Nous produisons des solutions axées sur les résultats avec notre approche stratégique.",
+        "features": {
+          "0": "Planification Stratégique",
+          "1": "Fixation d'Objectifs",
+          "2": "Orientation Résultats",
+          "3": "Suivi des Performances"
+        }
+      },
+      "1": {
+        "title": "Satisfaction Client",
+        "description": "La satisfaction client est notre priorité. Nous maintenons l'expérience client au plus haut niveau à chaque étape.",
+        "features": {
+          "0": "Support 24/7",
+          "1": "Approche Personnelle",
+          "2": "Solution Rapide",
+          "3": "Communication Continue"
+        }
+      },
+      "2": {
+        "title": "Innovation",
+        "description": "Nous suivons les technologies en constante évolution et offrons des avantages à nos clients grâce à des solutions créatives.",
+        "features": {
+          "0": "Nouvelles Technologies",
+          "1": "Solutions Créatives",
+          "2": "Développement Continu",
+          "3": "Recherche & Développement"
+        }
+      },
+      "3": {
+        "title": "Transparence",
+        "description": "Nous nous efforçons d'être transparents dans tous les processus et de maintenir une communication ouverte avec nos clients.",
+        "features": {
+          "0": "Communication Ouverte",
+          "1": "Rapports Réguliers",
+          "2": "Suivi de Projet",
+          "3": "Informations Fiables"
+        }
+      }
+    }
+  },
+  "about_why_choose": {
+    "badge": "Pourquoi Softiel?",
+    "title": "Pourquoi Nous",
+    "titleGradient": "Choisir",
+    "description": "En tant que Softiel, nous nous améliorons constamment pour fournir le meilleur service à nos clients. Voici nos raisons pour lesquelles vous devriez nous choisir.",
+    "testimonialsBadge": "Avis Clients",
+    "testimonialsTitle": "Ce Que Disent",
+    "testimonialsTitleGradient": "Nos Clients",
+    "testimonialsDescription": "Découvrez les expériences et opinions de nos clients qui ont participé à nos projets réussis.",
+    "advantages": {
+      "0": {
+        "title": "Service de Qualité",
+        "description": "Nous obtenons d'excellents résultats avec des normes de qualité élevées dans tous nos services pour un succès optimal."
+      },
+      "1": {
+        "title": "Orienté Objectifs",
+        "description": "Nous développons des stratégies sur mesure qui aident les clients à atteindre efficacement leurs objectifs commerciaux."
+      },
+      "2": {
+        "title": "Satisfaction Client",
+        "description": "Votre satisfaction est notre priorité absolue dans chaque projet et à chaque étape de collaboration."
+      },
+      "3": {
+        "title": "Livraison Ponctuelle",
+        "description": "Nous garantissons la livraison ponctuelle de vos projets dans les délais convenus."
+      },
+      "4": {
+        "title": "Partenaire Fiable",
+        "description": "Communication transparente et principes de travail fiables pour un partenariat à long terme réussi."
+      },
+      "5": {
+        "title": "Technologies Modernes",
+        "description": "Solutions tournées vers l'avenir avec technologies de pointe pour croissance durable et innovation."
+      }
+    },
+    "testimonials": {
+      "0": {
+        "name": "Rika Matbaa",
+        "company": "Rika Matbaa",
+        "role": "Propriétaire du Projet",
+        "content": "Un design de site web moderne adapté à l'industrie de l'imprimerie, reflétant l'identité d'entreprise. Une structure qui augmente l'interaction client en présentant professionnellement les produits et services dans l'environnement numérique."
+      },
+      "1": {
+        "name": "Palyacco Dünyası",
+        "company": "Palyacco Dünyası",
+        "role": "Propriétaire du Projet",
+        "content": "Un site web énergique et coloré pour le secteur des événements et de l'organisation. Reflète avec succès le côté amusant de la marque dans le monde numérique avec une structure conviviale qui met en valeur les services de clown."
+      },
+      "2": {
+        "name": "Candleiyj",
+        "company": "Candleiyj",
+        "role": "Propriétaire du Projet",
+        "content": "Un projet soutenant les ventes sur les réseaux sociaux via des publications Instagram et la gestion de boutique Shopier. Effet vitrine numérique fortement créé grâce à l'harmonie visuelle, au langage de marque et à la présentation des produits."
+      },
+      "3": {
+        "name": "Nevaa Yazılım",
+        "company": "Nevaa Yazılım",
+        "role": "Propriétaire du Projet",
+        "content": "Design frontend moderne pour site web d'entreprise et application CRM pour une entreprise logicielle. Une œuvre qui reflète la vision technologique de l'entreprise avec une interface centrée sur l'expérience utilisateur, simple mais professionnelle."
+      },
+      "4": {
+        "name": "Hesapify",
+        "company": "Hesapify",
+        "role": "Propriétaire du Projet",
+        "content": "Structure numérique complète développée pour une entreprise logicielle : site web, contenu de blog, interface d'application ERP, édition vidéo YouTube et gestion Instagram. Un projet qui renforce la présence numérique de la marque de multiples façons."
+      },
+      "5": {
+        "name": "Bot Group",
+        "company": "Bot Group",
+        "role": "Propriétaire du Projet",
+        "content": "Design de site web fort et corporatif pour le secteur de la logistique. L'image fiable et professionnelle de l'entreprise a été transférée dans le monde numérique en présentant la portée des services, les informations de la flotte et les processus opérationnels dans une structure simple."
+      },
+      "6": {
+        "name": "Yusuf İnci",
+        "company": "Yusuf İnci",
+        "role": "Propriétaire du Projet",
+        "content": "Un site web élégant et minimaliste préparé pour un bureau d'architecture. Reflète fortement la compréhension du design de la marque en combinant l'esthétique, la fonctionnalité et le professionnalisme avec un design qui met en valeur le portefeuille de projets."
+      },
+      "7": {"name": "Ayşe Korkmaz", "company": "EduTech", "role": "Fondatrice", "content": "Nous avons fait construire notre plateforme éducative par Softiel. L'interface utilisateur est très conviviale et nos étudiants sont très satisfaits. Je le recommande vivement."},
+      "8": {"name": "Oğuz Demir", "company": "HealthCare Plus", "role": "Médecin & Fondateur", "content": "Softiel a développé notre application de santé. Le suivi des patients est maintenant très facile. Les médecins et les patients sont très satisfaits. Leur approche professionnelle est digne d'éloges."},
+      "9": {"name": "Gamze Şahin", "company": "FinanceCore", "role": "Directrice Financière", "content": "Nous avons fait construire notre application de gestion financière par Softiel. La sécurité et la facilité d'utilisation sont excellentes. Notre satisfaction client a atteint 95%."},
+      "10": {"name": "Emre Yılmaz", "company": "LogiTrack", "role": "Directeur des Opérations", "content": "Nous avons renouvelé notre système de suivi logistique avec Softiel. Grâce à la fonctionnalité de suivi en temps réel, nos plaintes clients ont diminué de 80%."},
+      "11": {"name": "Deniz Öztürk", "company": "PropertyPro", "role": "Directeur Commercial", "content": "Nous avons fait construire notre système de gestion de portefeuille immobilier par Softiel. Nos processus de vente se sont accélérés et l'expérience client s'est considérablement améliorée."},
+      "12": {"name": "Ali Çelik", "company": "RestoApp", "role": "Propriétaire d'Entreprise", "content": "Nous avons fait construire notre application de gestion de restaurant par Softiel. Le suivi des commandes et la satisfaction client ont considérablement augmenté. Excellent travail !"},
+      "13": {"name": "Seda Kaya", "company": "BeautyBox", "role": "Fondatrice", "content": "Nous avons fait construire le site e-commerce de notre marque de beauté par Softiel. Nos ventes ont augmenté de 200% et l'expérience client est excellente."},
+      "14": {"name": "Murat Özkan", "company": "ConsultPro", "role": "Co-fondateur", "content": "Nous avons renouvelé le site web de notre cabinet de conseil avec Softiel. Grâce à l'apparence professionnelle et à l'interface conviviale, notre nombre de clients a augmenté."},
+      "15": {"name": "Ebru Şahin", "company": "FitZone", "role": "Coach Sportive", "content": "Nous avons fait construire l'application mobile de notre salle de sport par Softiel. Le suivi des membres et la gestion des programmes sont maintenant très faciles. Nos clients sont très satisfaits !"},
+      "16": {"name": "Kemal Demir", "company": "AutoShow", "role": "Directeur Commercial", "content": "Nous avons renouvelé le site web de notre galerie automobile avec Softiel. Le catalogue de véhicules et les processus de vente se sont considérablement améliorés. Je le recommande vivement."},
+      "17": {"name": "Pınar Yıldız", "company": "EventMaster", "role": "Planificatrice d'Événements", "content": "Nous avons fait construire notre plateforme de planification d'événements par Softiel. Les réservations clients et la gestion des événements sont maintenant très faciles. Excellent travail !"},
+      "18": {"name": "Berk Çelik", "company": "LegalTech", "role": "Avocat", "content": "Nous avons renouvelé le site web de notre cabinet d'avocats avec Softiel. L'apparence professionnelle et le portefeuille client se sont considérablement améliorés. Merci Softiel !"},
+      "19": {"name": "Zeynep Arslan", "company": "PetCare", "role": "Propriétaire de Magasin", "content": "Nous avons fait construire le site e-commerce de notre animalerie par Softiel. Le catalogue de produits et les processus de vente sont excellents. Nos clients sont très satisfaits !"}
     }
   }
 }

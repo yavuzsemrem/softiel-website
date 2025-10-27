@@ -3,65 +3,106 @@
 import React from "react"
 import { motion } from "framer-motion"
 import { CheckCircle, Star, ArrowRight, Zap, Shield, Clock } from "lucide-react"
+import { useI18n } from "@/contexts/i18n-context"
 
-const plans = [
-  {
-    name: "Basic – Dijital Başlangıç Paketi",
-    price: "₺30.000",
-    period: "proje",
-    description: "Yeni kurulan işletmeler veya online vitrine ihtiyaç duyan küçük markalar için. Bu pakette temel dijital görünürlük sağlanır.",
-    features: [
-      "Web Sitesi Tasarımı (Basic seviye: 5–7 sayfa)",
-      "Logo & Kurumsal Kimlik (logo + renk paleti + kartvizit)",
-      "SEO Temel Ayarları (meta, sitemap, indeksleme)",
-      "Google My Business kurulumu",
-      "1 ay sosyal medya başlangıç desteği (profil düzenleme, 4 paylaşım)"
-    ],
-    popular: false,
-    icon: Zap,
-    color: "from-green-500 to-emerald-500",
-    deliveryTime: "7-14 gün"
-  },
-  {
-    name: "Pro – Dijital Büyüme Paketi",
-    price: "₺60.000",
-    period: "proje",
-    description: "Halihazırda dijitalde var olan ama trafik, görünürlük ve etkileşim isteyen markalar için.",
-    features: [
-      "Web Sitesi Tasarımı (Pro seviye: özel ana sayfa + blog)",
-      "SEO Optimizasyonu (aylık çalışma, içerik planı)",
-      "Google Ads Yönetimi (aylık 1 kampanya yönetimi)",
-      "Sosyal Medya Yönetimi (2 platform, 8 paylaşım/ay)",
-      "Bakım ve Güncelleme",
-      "Aylık performans raporu"
-    ],
-    popular: true,
-    icon: Star,
-    color: "from-yellow-500 to-orange-500",
-    deliveryTime: "14-21 gün"
-  },
-  {
-    name: "Enterprise – Dijital Dönüşüm Paketi",
-    price: "₺90.000",
-    period: "proje",
-    description: "Kurumsal işletmeler ve global pazara açılmak isteyen firmalar için. Amaç: dijital sistemleşme, otomasyon ve entegrasyon.",
-    features: [
-      "Web Uygulaması Geliştirme (özelleştirilmiş iş akışı / portal)",
-      "Web Sitesi Tasarımı (Enterprise seviye, CMS + çok dil)",
-      "SEO + Google Ads tam yönetim (süreklilik)",
-      "Sosyal Medya Yönetimi (4 platform, profesyonel içerik + reklam)",
-      "Yapay Zeka Entegrasyonu (chatbot veya raporlama AI)",
-      "Dijital Danışmanlık (aylık strateji + rapor)",
-      "3 ay bakım & SLA desteği"
-    ],
-    popular: false,
-    icon: Shield,
-    color: "from-blue-500 to-indigo-500",
-    deliveryTime: "21-30 gün"
+// Para birimi dönüştürme fonksiyonları
+const getCurrency = (locale: string) => {
+  switch (locale) {
+    case 'tr':
+      return '₺'
+    case 'de':
+    case 'fr':
+      return '€'
+    case 'en':
+    case 'ru':
+    case 'ar':
+      return '$'
+    default:
+      return '₺'
   }
-]
+}
+
+const getPrice = (basePrice: number, locale: string) => {
+  switch (locale) {
+    case 'tr':
+      return basePrice * 30 // TRY
+    case 'de':
+    case 'fr':
+      return Math.round(basePrice * 0.92) // EUR (1 USD ≈ 0.92 EUR)
+    case 'en':
+    case 'ru':
+    case 'ar':
+      return basePrice // USD
+    default:
+      return basePrice * 30
+  }
+}
+
+const formatPrice = (price: number, currency: string) => {
+  return price.toLocaleString()
+}
 
 export function PricingPlans() {
+  const { t, locale, getLocalizedUrl } = useI18n()
+  const currency = getCurrency(locale)
+
+  const plans = [
+    {
+      name: t('pricing.plans.basic.name', 'Basic – Dijital Başlangıç Paketi'),
+      price: formatPrice(getPrice(1000, locale), currency),
+      period: t('pricing.plans.period', 'proje'),
+      description: t('pricing.plans.basic.description', 'Yeni kurulan işletmeler veya online vitrine ihtiyaç duyan küçük markalar için. Bu pakette temel dijital görünürlük sağlanır.'),
+      features: [
+        t('pricing.plans.basic.features.0', 'Web Sitesi Tasarımı (Basic seviye: 5–7 sayfa)'),
+        t('pricing.plans.basic.features.1', 'Logo & Kurumsal Kimlik (logo + renk paleti + kartvizit)'),
+        t('pricing.plans.basic.features.2', 'SEO Temel Ayarları (meta, sitemap, indeksleme)'),
+        t('pricing.plans.basic.features.3', 'Google My Business kurulumu'),
+        t('pricing.plans.basic.features.4', '1 ay sosyal medya başlangıç desteği (profil düzenleme, 4 paylaşım)')
+      ],
+      popular: false,
+      icon: Zap,
+      color: "from-green-500 to-emerald-500",
+      deliveryTime: t('pricing.plans.basic.deliveryTime', '7-14 gün')
+    },
+    {
+      name: t('pricing.plans.pro.name', 'Pro – Dijital Büyüme Paketi'),
+      price: formatPrice(getPrice(2000, locale), currency),
+      period: t('pricing.plans.period', 'proje'),
+      description: t('pricing.plans.pro.description', 'Halihazırda dijitalde var olan ama trafik, görünürlük ve etkileşim isteyen markalar için.'),
+      features: [
+        t('pricing.plans.pro.features.0', 'Web Sitesi Tasarımı (Pro seviye: özel ana sayfa + blog)'),
+        t('pricing.plans.pro.features.1', 'SEO Optimizasyonu (aylık çalışma, içerik planı)'),
+        t('pricing.plans.pro.features.2', 'Google Ads Yönetimi (aylık 1 kampanya yönetimi)'),
+        t('pricing.plans.pro.features.3', 'Sosyal Medya Yönetimi (2 platform, 8 paylaşım/ay)'),
+        t('pricing.plans.pro.features.4', 'Bakım ve Güncelleme'),
+        t('pricing.plans.pro.features.5', 'Aylık performans raporu')
+      ],
+      popular: true,
+      icon: Star,
+      color: "from-yellow-500 to-orange-500",
+      deliveryTime: t('pricing.plans.pro.deliveryTime', '14-21 gün')
+    },
+    {
+      name: t('pricing.plans.enterprise.name', 'Enterprise – Dijital Dönüşüm Paketi'),
+      price: formatPrice(getPrice(3000, locale), currency),
+      period: t('pricing.plans.period', 'proje'),
+      description: t('pricing.plans.enterprise.description', 'Kurumsal işletmeler ve global pazara açılmak isteyen firmalar için. Amaç: dijital sistemleşme, otomasyon ve entegrasyon.'),
+      features: [
+        t('pricing.plans.enterprise.features.0', 'Web Uygulaması Geliştirme (özelleştirilmiş iş akışı / portal)'),
+        t('pricing.plans.enterprise.features.1', 'Web Sitesi Tasarımı (Enterprise seviye, CMS + çok dil)'),
+        t('pricing.plans.enterprise.features.2', 'SEO + Google Ads tam yönetim (süreklilik)'),
+        t('pricing.plans.enterprise.features.3', 'Sosyal Medya Yönetimi (4 platform, profesyonel içerik + reklam)'),
+        t('pricing.plans.enterprise.features.4', 'Yapay Zeka Entegrasyonu (chatbot veya raporlama AI)'),
+        t('pricing.plans.enterprise.features.5', 'Dijital Danışmanlık (aylık strateji + rapor)'),
+        t('pricing.plans.enterprise.features.6', '3 ay bakım & SLA desteği')
+      ],
+      popular: false,
+      icon: Shield,
+      color: "from-blue-500 to-indigo-500",
+      deliveryTime: t('pricing.plans.enterprise.deliveryTime', '21-30 gün')
+    }
+  ]
+
   return (
     <section id="pricing-plans" className="relative py-16 lg:py-20">
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -74,13 +115,13 @@ export function PricingPlans() {
           className="text-center mb-16"
         >
           <h2 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-display font-bold text-white mb-6">
-            Fiyat{" "}
+            {t('pricing.title', 'Fiyat')}{" "}
             <span className="bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 bg-clip-text text-transparent">
-              Planları
+              {t('pricing.subtitle', 'Planları')}
             </span>
           </h2>
           <p className="text-lg sm:text-xl text-white/80 max-w-2xl mx-auto">
-            Size uygun planı seçin ve projenizi hayata geçirin.
+            {t('pricing.description', 'Size uygun planı seçin ve projenizi hayata geçirin.')}
           </p>
         </motion.div>
 
@@ -105,7 +146,7 @@ export function PricingPlans() {
                 <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
                   <div className="bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 text-white px-4 py-2 rounded-full text-sm font-semibold flex items-center space-x-1 shadow-modern">
                     <Star className="h-4 w-4 fill-current" />
-                    <span>En Popüler</span>
+                    <span>{t('pricing.popular', 'En Popüler')}</span>
                   </div>
                 </div>
               )}
@@ -120,7 +161,7 @@ export function PricingPlans() {
                 </h3>
                 <div className="flex items-baseline justify-center">
                   <span className="text-3xl lg:text-4xl font-bold text-neutral-900 dark:text-white">
-                    {plan.price}
+                    {currency}{plan.price}
                   </span>
                   <span className="text-neutral-600 dark:text-neutral-400 ml-2">
                     /{plan.period}
@@ -131,7 +172,7 @@ export function PricingPlans() {
                 </p>
                 <div className="flex items-center justify-center space-x-2 text-sm text-neutral-500 dark:text-neutral-500 mt-2">
                   <Clock className="h-4 w-4" />
-                  <span>Teslimat: {plan.deliveryTime}</span>
+                  <span>{t('pricing.delivery', 'Teslimat')}: {plan.deliveryTime}</span>
                 </div>
               </div>
 
@@ -150,13 +191,13 @@ export function PricingPlans() {
               {/* Domain/Hosting Notice */}
               <div className="mt-auto mb-4 pt-3 border-t border-neutral-200/20 dark:border-neutral-700/20">
                 <span className="text-xs text-neutral-500 dark:text-neutral-500 italic text-center block">
-                  Domain + SSL + hosting ücretleri pakete dahil değildir
+                  {t('pricing.notice', 'Domain + SSL + hosting ücretleri pakete dahil değildir')}
                 </span>
               </div>
 
               {/* CTA Button */}
               <motion.a
-                href={`https://wa.me/905411823045?text=Merhaba! ${plan.name} paketi hakkında bilgi almak istiyorum.`}
+                href={`https://wa.me/905411823045?text=${encodeURIComponent(t('pricing.whatsappMessage', 'Merhaba!') + ' ' + plan.name + ' ' + t('pricing.whatsappPackage', 'paketi hakkında bilgi almak istiyorum.'))}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 whileHover={{ scale: 1.02 }}
@@ -171,7 +212,7 @@ export function PricingPlans() {
                   : { background: 'rgba(255, 255, 255, 0.1)' }
                 }
               >
-                <span>Teklif Al</span>
+                <span>{t('pricing.cta', 'Teklif Al')}</span>
                 <ArrowRight className="h-4 w-4" />
               </motion.a>
             </motion.div>

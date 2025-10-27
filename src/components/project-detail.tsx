@@ -43,7 +43,7 @@ const categoryLabels = {
 }
 
 export function ProjectDetail({ slug }: ProjectDetailProps) {
-  const { t } = useI18n()
+  const { t, locale, getLocalizedUrl } = useI18n()
   const [project, setProject] = useState<ProjectType | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState("")
@@ -68,10 +68,10 @@ export function ProjectDetail({ slug }: ProjectDetailProps) {
         if (projectData) {
           setProject(projectData)
         } else {
-          setError('Proje bulunamadı')
+          setError(t('references.projectDetail.error', 'Proje bulunamadı'))
         }
       } catch (error) {
-        setError('Proje yüklenirken bir hata oluştu')
+        setError(t('references.projectDetail.errorLoading', 'Proje yüklenirken bir hata oluştu'))
       } finally {
         setLoading(false)
       }
@@ -82,16 +82,32 @@ export function ProjectDetail({ slug }: ProjectDetailProps) {
 
   // Tarih formatı
   const formatDate = (timestamp: any) => {
-    if (!timestamp) return 'Tarih yok'
+    if (!timestamp) return t('references.projectDetail.noDate', 'Tarih yok')
     const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp)
-    return date.toLocaleDateString('tr-TR')
+    const localeMap: { [key: string]: string } = {
+      'tr': 'tr-TR',
+      'en': 'en-US',
+      'de': 'de-DE',
+      'fr': 'fr-FR',
+      'ru': 'ru-RU',
+      'ar': 'ar-SA'
+    }
+    return date.toLocaleDateString(localeMap[locale] || 'tr-TR')
   }
 
   // Bitiş tarihi formatı
   const formatEndDate = (endDate: string) => {
-    if (!endDate) return "Belirtilmemiş"
+    if (!endDate) return t('references.projectDetail.notSpecified', 'Belirtilmemiş')
     const date = new Date(endDate)
-    return date.toLocaleDateString("tr-TR", {
+    const localeMap: { [key: string]: string } = {
+      'tr': 'tr-TR',
+      'en': 'en-US',
+      'de': 'de-DE',
+      'fr': 'fr-FR',
+      'ru': 'ru-RU',
+      'ar': 'ar-SA'
+    }
+    return date.toLocaleDateString(localeMap[locale] || 'tr-TR', {
       year: "numeric",
       month: "long",
       day: "numeric"
@@ -114,7 +130,7 @@ export function ProjectDetail({ slug }: ProjectDetailProps) {
           <div className="flex items-center justify-center py-16">
             <div className="text-center">
               <Loader2 className="h-12 w-12 animate-spin text-cyan-500 mx-auto mb-4" />
-              <p className="text-neutral-400">Proje yükleniyor...</p>
+              <p className="text-neutral-400">{t('references.projectDetail.loading', 'Proje yükleniyor...')}</p>
             </div>
           </div>
         </div>
@@ -130,15 +146,15 @@ export function ProjectDetail({ slug }: ProjectDetailProps) {
             <div className="w-24 h-24 bg-red-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
               <XCircle className="h-12 w-12 text-red-500" />
             </div>
-            <h3 className="text-2xl font-bold text-white mb-4">Hata Oluştu</h3>
-            <p className="text-neutral-400 mb-6">{error || 'Proje bulunamadı'}</p>
+            <h3 className="text-2xl font-bold text-white mb-4">{t('references.projectDetail.errorTitle', 'Hata Oluştu')}</h3>
+            <p className="text-neutral-400 mb-6">{error || t('references.projectDetail.error', 'Proje bulunamadı')}</p>
             <Link
-              href="/tr/projelerimiz"
+              href={getLocalizedUrl('/projelerimiz')}
               className="inline-flex items-center space-x-2 text-white px-6 py-3 rounded-xl font-semibold shadow-modern hover:shadow-modern-lg transition-all duration-200"
               style={{ background: 'linear-gradient(to right, #06b6d4, #3b82f6)' }}
             >
               <ArrowLeft className="h-5 w-5" />
-              <span>Projelere Dön</span>
+              <span>{t('references.projectDetail.backToProjects', 'Projelere Dön')}</span>
             </Link>
           </div>
         </div>
@@ -159,12 +175,12 @@ export function ProjectDetail({ slug }: ProjectDetailProps) {
           className="mb-8"
         >
           <Link
-            href="/tr/projelerimiz"
+            href={getLocalizedUrl('/projelerimiz')}
             className="inline-flex items-center space-x-2 glass rounded-full px-4 py-2 text-neutral-700 dark:text-neutral-300 hover:text-cyan-600 dark:hover:text-cyan-400 transition-all duration-200 group"
             style={{ background: 'rgba(255, 255, 255, 0.1)' }}
           >
             <ArrowLeft className="h-4 w-4 group-hover:-translate-x-1 transition-transform" />
-            <span>{t('projectDetail.backToProjects', 'Projelere Dön')}</span>
+            <span>{t('references.projectDetail.backToProjects', 'Projelere Dön')}</span>
           </Link>
         </motion.div>
 
@@ -184,7 +200,7 @@ export function ProjectDetail({ slug }: ProjectDetailProps) {
           >
             <CategoryIcon className="h-5 w-5 text-cyan-500 fill-current" />
             <span className="text-sm font-semibold text-neutral-700 dark:text-neutral-300">
-              {categoryLabels[project.category as keyof typeof categoryLabels] || project.category}
+              {t(`references.grid.category.${project.category}`, categoryLabels[project.category as keyof typeof categoryLabels] || project.category)}
             </span>
           </motion.div>
 
@@ -222,7 +238,7 @@ export function ProjectDetail({ slug }: ProjectDetailProps) {
                 style={{ background: 'linear-gradient(to right, #06b6d4, #3b82f6)' }}
               >
                 <ExternalLink className="h-5 w-5" />
-                <span>{t('projectDetail.viewLive', 'Canlı Görüntüle')}</span>
+                <span>{t('references.projectDetail.viewLive', 'Canlı Görüntüle')}</span>
               </motion.a>
             )}
             {project.githubUrl && (
@@ -236,7 +252,7 @@ export function ProjectDetail({ slug }: ProjectDetailProps) {
                 style={{ background: 'rgba(148, 148, 148, 0.1)' }}
               >
                 <Github className="h-5 w-5" />
-                <span>{t('projectDetail.viewCode', 'Kodu Görüntüle')}</span>
+                <span>{t('references.projectDetail.viewCode', 'Kodu Görüntüle')}</span>
               </motion.a>
             )}
           </motion.div>
@@ -247,30 +263,30 @@ export function ProjectDetail({ slug }: ProjectDetailProps) {
           {[
             {
               icon: User,
-              title: t('projectDetail.client', 'Müşteri'),
+              title: t('references.projectDetail.client', 'Müşteri'),
               info: project.client,
-              description: t('projectDetail.clientDesc', 'Proje Sahibi'),
+              description: t('references.projectDetail.clientDesc', 'Proje Sahibi'),
               color: "from-blue-500 to-blue-600"
             },
             {
               icon: Calendar,
-              title: t('projectDetail.endDate', 'Bitiş Tarihi'),
+              title: t('references.projectDetail.endDate', 'Bitiş Tarihi'),
               info: formatEndDate(project.endDate || ''),
-              description: t('projectDetail.endDateDesc', 'Proje Bitiş Tarihi'),
+              description: t('references.projectDetail.endDateDesc', 'Proje Bitiş Tarihi'),
               color: "from-green-500 to-green-600"
             },
             {
               icon: Tag,
-              title: t('projectDetail.status', 'Durum'),
+              title: t('references.projectDetail.status', 'Durum'),
               info: t(`references.grid.status.${project.status}`, project.status),
-              description: t('projectDetail.statusDesc', 'Proje Durumu'),
+              description: t('references.projectDetail.statusDesc', 'Proje Durumu'),
               color: "from-sky-500 to-sky-600"
             },
             {
               icon: CategoryIcon,
-              title: t('projectDetail.category', 'Kategori'),
-              info: categoryLabels[project.category as keyof typeof categoryLabels] || project.category,
-              description: t('projectDetail.categoryDesc', 'Proje Kategorisi'),
+              title: t('references.projectDetail.category', 'Kategori'),
+              info: t(`references.grid.category.${project.category}`, categoryLabels[project.category as keyof typeof categoryLabels] || project.category),
+              description: t('references.projectDetail.categoryDesc', 'Proje Kategorisi'),
               color: "from-purple-500 to-purple-600"
             }
           ].map((item, index) => (
@@ -334,7 +350,7 @@ export function ProjectDetail({ slug }: ProjectDetailProps) {
           >
             <h3 className="text-xl font-bold text-neutral-900 dark:text-white mb-6 flex items-center">
               <Code className="h-6 w-6 text-cyan-500 mr-3" />
-              {t('projectDetail.technologies', 'Kullanılan Teknolojiler')}
+              {t('references.projectDetail.technologies', 'Kullanılan Teknolojiler')}
             </h3>
             <div className="flex flex-wrap gap-3">
               {project.technologies.map((tech, index) => (
@@ -361,7 +377,7 @@ export function ProjectDetail({ slug }: ProjectDetailProps) {
           >
             <h3 className="text-xl font-bold text-neutral-900 dark:text-white mb-6 flex items-center">
               <Target className="h-6 w-6 text-blue-500 mr-3" />
-              {t('projectDetail.features', 'Proje Özellikleri')}
+              {t('references.projectDetail.features', 'Proje Özellikleri')}
             </h3>
             <ul className="space-y-3">
               {project.features.map((feature, index) => (
@@ -404,20 +420,17 @@ export function ProjectDetail({ slug }: ProjectDetailProps) {
                 style={{ background: 'rgba(255, 255, 255, 0.1)' }}
               >
                 <Video className="h-5 w-5 text-cyan-500 fill-current" />
-                <span className="text-sm font-semibold text-neutral-700 dark:text-neutral-300">
-                  Proje Görselleri
-                </span>
-              </motion.div>
+              <span className="text-sm font-semibold text-neutral-700 dark:text-neutral-300">
+                {t('references.projectDetail.galleryBadge', 'Proje Galerisi')}
+              </span>
+            </motion.div>
 
-              <h3 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-display font-bold text-neutral-900 dark:text-white mb-6">
-                Proje{" "}
-                <span className="bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 bg-clip-text text-transparent">
-                  Galerisi
-                </span>
-              </h3>
-              <p className="text-lg sm:text-xl text-neutral-600 dark:text-neutral-400 max-w-3xl mx-auto leading-relaxed">
-                Projemizin detaylarını görsel olarak keşfedin.
-              </p>
+            <h3 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-display font-bold text-neutral-900 dark:text-white mb-6">
+              {t('references.projectDetail.galleryTitle', 'Proje Görselleri')}
+            </h3>
+            <p className="text-lg sm:text-xl text-neutral-600 dark:text-neutral-400 max-w-3xl mx-auto leading-relaxed">
+              {t('references.projectDetail.galleryDescription', 'Projemizin detaylarını görsel olarak keşfedin.')}
+            </p>
             </motion.div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {project.gallery.map((image, index) => (
@@ -439,7 +452,7 @@ export function ProjectDetail({ slug }: ProjectDetailProps) {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                     <div className="text-white text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      Büyütmek için tıklayın
+                      {t('references.projectDetail.clickToEnlarge', 'Büyütmek için tıklayın')}
                     </div>
                   </div>
                 </motion.div>

@@ -549,8 +549,8 @@ export function BlogCommentsList({
         style={{ background: 'rgba(255, 255, 255, 0.1)' }}
       >
         <MessageSquare className="h-12 w-12 text-neutral-400 mx-auto mb-4" />
-        <h3 className="text-lg font-semibold text-white mb-2">Henüz yorum yok</h3>
-        <p className="text-neutral-400">İlk yorumu siz yapın!</p>
+        <h3 className="text-lg font-semibold text-white mb-2">{t('blogDetail.noCommentsYet', 'Henüz yorum yok')}</h3>
+        <p className="text-neutral-400">{t('blogDetail.beFirstToComment', 'İlk yorumu siz yapın!')}</p>
       </MotionDiv>
     )
   }

@@ -3,6 +3,7 @@
 import React from "react"
 import { motion } from "framer-motion"
 import { MessageCircle, Phone, Mail, MapPin, ArrowRight, CheckCircle, Sparkles, Shield, Globe, Code, Palette, Search, Clock, Headphones, Zap, Star, Users, Award, Target, Lightbulb, Settings } from "lucide-react"
+import { useI18n } from "@/contexts/i18n-context"
 
 // WhatsApp icon component
 const WhatsAppIcon = ({ className }: { className?: string }) => (
@@ -12,6 +13,8 @@ const WhatsAppIcon = ({ className }: { className?: string }) => (
 )
 
 export function ServicesHeroNew() {
+  const { t } = useI18n()
+  
   return (
     <section className="relative bg-gradient-to-b from-slate-900 via-slate-850 to-slate-900 overflow-hidden">
       {/* Background Elements */}
@@ -142,7 +145,7 @@ export function ServicesHeroNew() {
           >
             <Settings className="h-5 w-5 text-cyan-500 fill-current" />
             <span className="text-sm font-semibold text-neutral-700 dark:text-neutral-300">
-              Hizmetlerimiz
+              {t('servicesHero.badge', 'Hizmetlerimiz')}
             </span>
           </motion.div>
 
@@ -153,10 +156,10 @@ export function ServicesHeroNew() {
             transition={{ delay: 0.2, duration: 0.6 }}
             className="text-5xl sm:text-6xl font-bold text-white mb-6 leading-tight"
           >
-            Dijital Dünyada{" "}
+            {t('servicesHero.titlePart1', 'Dijital Dünyada')}{" "}
             <br />
             <span className="bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 bg-clip-text text-transparent">
-              Başarıya Ulaşın
+              {t('servicesHero.titlePart2', 'Başarıya Ulaşın')}
             </span>
           </motion.h1>
           
@@ -167,7 +170,7 @@ export function ServicesHeroNew() {
             transition={{ delay: 0.3, duration: 0.6 }}
             className="text-lg sm:text-xl text-gray-300 mb-8 space-y-2"
           >
-            <p>Dijital dünyada başarılı olmak için ihtiyacınız olan tüm hizmetleri sunuyoruz.</p>
+            <p>{t('servicesHero.description', 'Dijital dünyada başarılı olmak için ihtiyacınız olan tüm hizmetleri sunuyoruz.')}</p>
           </motion.div>
       
           {/* CTA Buttons */}
@@ -188,7 +191,7 @@ export function ServicesHeroNew() {
             </motion.a>
               
             <motion.a
-              href="https://wa.me/905411883045?text=Merhaba!%20Hizmetleriniz%20hakkında%20bilgi%20almak%20istiyorum."
+              href={`https://wa.me/905411883045?text=${encodeURIComponent(t('servicesHero.whatsappMessage', 'Merhaba! Hizmetleriniz hakkında bilgi almak istiyorum.'))}`}
               target="_blank"
               rel="noopener noreferrer"
               whileHover={{ scale: 1.05 }}
@@ -196,7 +199,7 @@ export function ServicesHeroNew() {
               className="inline-flex items-center justify-center space-x-2 bg-gray-700 hover:bg-gray-600 text-white px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-200"
             >
               <WhatsAppIcon className="h-5 w-5" />
-              <span>WhatsApp Sohbet</span>
+              <span>{t('servicesHero.button2', 'WhatsApp Sohbet')}</span>
             </motion.a>
           </motion.div>
 
@@ -237,23 +240,23 @@ export function ServicesHeroNew() {
             >
               <Settings className="h-5 w-5 text-cyan-500 fill-current" />
               <span className="text-sm font-semibold text-neutral-700 dark:text-neutral-300">
-                Hizmetlerimiz
+                {t('servicesHero.badge', 'Hizmetlerimiz')}
               </span>
             </motion.div>
 
             {/* Main Heading */}
             <h1 className="text-6xl lg:text-7xl xl:text-8xl font-bold text-white mb-8 leading-tight">
-              Dijital Dünyada{" "}
+              {t('servicesHero.titlePart1', 'Dijital Dünyada')}{" "}
               <br />
               <span className="bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 bg-clip-text text-transparent">
-                Başarıya Ulaşın
+                {t('servicesHero.titlePart2', 'Başarıya Ulaşın')}
               </span>
             </h1>
             
             {/* Description */}
             <div className="text-lg lg:text-xl text-gray-300 mb-10 space-y-2">
-              <p>Dijital dünyada başarılı olmak için ihtiyacınız olan tüm hizmetleri sunuyoruz.<br/>
-              Web tasarımından yapay zeka entegrasyonuna kadar kapsamlı çözümler.</p>
+              <p>{t('servicesHero.descriptionDesktop', 'Dijital dünyada başarılı olmak için ihtiyacınız olan tüm hizmetleri sunuyoruz.')}<br/>
+              {t('servicesHero.descriptionDesktop2', 'Web tasarımından yapay zeka entegrasyonuna kadar kapsamlı çözümler.')}</p>
             </div>
         
             {/* CTA Buttons */}
@@ -302,12 +305,12 @@ export function ServicesHeroNew() {
                 whileTap={{ scale: 0.95 }}
                 className="inline-flex items-center justify-center space-x-2 text-white px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-200 bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 cursor-pointer"
               >
-                <span>Hizmetlerimizi Keşfedin</span>
+                <span>{t('servicesHero.button1', 'Hizmetlerimizi Keşfedin')}</span>
                 <ArrowRight className="h-5 w-5" />
               </motion.button>
                 
               <motion.a
-                href="https://wa.me/905411883045?text=Merhaba!%20Hizmetleriniz%20hakkında%20bilgi%20almak%20istiyorum."
+                href={`https://wa.me/905411883045?text=${encodeURIComponent(t('servicesHero.whatsappMessage', 'Merhaba! Hizmetleriniz hakkında bilgi almak istiyorum.'))}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 whileHover={{ scale: 1.05 }}
@@ -315,7 +318,7 @@ export function ServicesHeroNew() {
                 className="inline-flex items-center justify-center space-x-2 bg-gray-700 hover:bg-gray-600 text-white px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-200"
               >
                 <WhatsAppIcon className="h-5 w-5" />
-                <span>WhatsApp Sohbet</span>
+                <span>{t('servicesHero.button2', 'WhatsApp Sohbet')}</span>
               </motion.a>
             </motion.div>
           </motion.div>
@@ -351,9 +354,9 @@ export function ServicesHeroNew() {
             <div className="w-12 h-12 bg-gradient-to-r from-green-500 via-emerald-500 to-teal-500 rounded-xl flex items-center justify-center mx-auto mb-4">
               <Users className="h-6 w-6 text-white" />
             </div>
-            <h3 className="text-lg font-semibold text-white mb-2">Uzman Ekip</h3>
-            <p className="text-blue-400 font-medium mb-1 text-lg">Deneyimli Profesyoneller</p>
-            <p className="text-gray-400 text-sm">Alanında Uzman Kadro</p>
+            <h3 className="text-lg font-semibold text-white mb-2">{t('servicesHero.stats.expertTeam.title', 'Uzman Ekip')}</h3>
+            <p className="text-blue-400 font-medium mb-1 text-lg">{t('servicesHero.stats.expertTeam.subtitle', 'Deneyimli Profesyoneller')}</p>
+            <p className="text-gray-400 text-sm">{t('servicesHero.stats.expertTeam.description', 'Alanında Uzman Kadro')}</p>
           </motion.div>
 
           <motion.div
@@ -365,9 +368,9 @@ export function ServicesHeroNew() {
             <div className="w-12 h-12 bg-gradient-to-r from-purple-500 via-violet-500 to-indigo-500 rounded-xl flex items-center justify-center mx-auto mb-4">
               <Award className="h-6 w-6 text-white" />
             </div>
-            <h3 className="text-lg font-semibold text-white mb-2">Kalite Garantisi</h3>
-            <p className="text-blue-400 font-medium mb-1 text-lg">%100 Müşteri Memnuniyeti</p>
-            <p className="text-gray-400 text-sm">Kaliteli Çözümler</p>
+            <h3 className="text-lg font-semibold text-white mb-2">{t('servicesHero.stats.quality.title', 'Kalite Garantisi')}</h3>
+            <p className="text-blue-400 font-medium mb-1 text-lg">{t('servicesHero.stats.quality.subtitle', '%100 Müşteri Memnuniyeti')}</p>
+            <p className="text-gray-400 text-sm">{t('servicesHero.stats.quality.description', 'Kaliteli Çözümler')}</p>
           </motion.div>
 
           <motion.div
@@ -379,9 +382,9 @@ export function ServicesHeroNew() {
             <div className="w-12 h-12 bg-gradient-to-r from-orange-500 via-amber-500 to-yellow-500 rounded-xl flex items-center justify-center mx-auto mb-4">
               <Clock className="h-6 w-6 text-white" />
             </div>
-            <h3 className="text-lg font-semibold text-white mb-2">Hızlı Teslimat</h3>
-            <p className="text-blue-400 font-medium mb-1 text-lg">Zamanında Proje Teslimi</p>
-            <p className="text-gray-400 text-sm">7/24 Destek</p>
+            <h3 className="text-lg font-semibold text-white mb-2">{t('servicesHero.stats.fastDelivery.title', 'Hızlı Teslimat')}</h3>
+            <p className="text-blue-400 font-medium mb-1 text-lg">{t('servicesHero.stats.fastDelivery.subtitle', 'Zamanında Proje Teslimi')}</p>
+            <p className="text-gray-400 text-sm">{t('servicesHero.stats.fastDelivery.description', '7/24 Destek')}</p>
           </motion.div>
 
           <motion.div
@@ -393,9 +396,9 @@ export function ServicesHeroNew() {
             <div className="w-12 h-12 bg-gradient-to-r from-cyan-500 via-blue-500 to-indigo-500 rounded-xl flex items-center justify-center mx-auto mb-4">
               <Target className="h-6 w-6 text-white" />
             </div>
-            <h3 className="text-lg font-semibold text-white mb-2">Hedef Odaklı</h3>
-            <p className="text-blue-400 font-medium mb-1 text-lg">İş Hedeflerinize Uygun</p>
-            <p className="text-gray-400 text-sm">Özelleştirilmiş Çözümler</p>
+            <h3 className="text-lg font-semibold text-white mb-2">{t('servicesHero.stats.goalOriented.title', 'Hedef Odaklı')}</h3>
+            <p className="text-blue-400 font-medium mb-1 text-lg">{t('servicesHero.stats.goalOriented.subtitle', 'İş Hedeflerinize Uygun')}</p>
+            <p className="text-gray-400 text-sm">{t('servicesHero.stats.goalOriented.description', 'Özelleştirilmiş Çözümler')}</p>
           </motion.div>
         </div>
       </div>

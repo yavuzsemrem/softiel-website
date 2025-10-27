@@ -4,6 +4,7 @@ import React from "react"
 import Link from "next/link"
 import { motion } from "framer-motion"
 import { ArrowRight, Phone, Mail, MessageCircle } from "lucide-react"
+import { useI18n } from "@/contexts/i18n-context"
 
 // WhatsApp icon component
 const WhatsAppIcon = ({ className }: { className?: string }) => (
@@ -13,6 +14,24 @@ const WhatsAppIcon = ({ className }: { className?: string }) => (
 )
 
 export function CTA() {
+  const { t, locale, getLocalizedUrl } = useI18n()
+  
+  // Dinamik WhatsApp mesajı oluştur
+  const whatsappMessages = {
+    tr: 'Merhaba! Hizmetleriniz hakkında bilgi almak istiyorum.',
+    en: 'Hello! I would like to get information about your services.',
+    de: 'Hallo! Ich möchte Informationen über Ihre Dienstleistungen erhalten.',
+    fr: 'Bonjour! Je souhaiterais obtenir des informations sur vos services.',
+    ru: 'Здравствуйте! Я хотел бы получить информацию о ваших услугах.',
+    ar: 'مرحبا! أود الحصول على معلومات حول خدماتك.'
+  }
+  
+  const whatsappMessage = whatsappMessages[locale as keyof typeof whatsappMessages] || whatsappMessages.tr
+  const whatsappLink = `https://wa.me/905411883045?text=${encodeURIComponent(whatsappMessage)}`
+  
+  // Dinamik iletişim linki
+  const contactLink = getLocalizedUrl('/iletisim')
+  
   return (
     <section className="py-20 lg:py-24 bg-slate-900/95 backdrop-blur-md relative overflow-hidden">
       {/* Background Elements */}
@@ -32,14 +51,13 @@ export function CTA() {
             viewport={{ once: true }}
           >
                         <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold text-neutral-900 dark:text-white mb-8 text-center">
-                          Projenizi Hayata Geçirmeye{" "}
+                          {t('pricingCTA.headingNormal', 'Projenizi')}{" "}
                           <span className="bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 bg-clip-text text-transparent">
-                            Hazır mısınız?
+                            {t('pricingCTA.headingGradient', 'Hayata Geçirin')}
                           </span>
                         </h2>
                         <p className="text-xl text-neutral-600 dark:text-neutral-400 mb-12 max-w-3xl mx-auto leading-relaxed text-center">
-                          Uzman ekibimizle birlikte dijital dünyada fark yaratın. 
-                          Ücretsiz danışmanlık için hemen iletişime geçin.
+                          {t('pricingCTA.description', 'Dijital dünyada fark yaratacak projeniz için bugün başlayın. Uzman ekibimizle birlikte hayalinizdeki projeyi gerçeğe dönüştürün.')}
                         </p>
           </motion.div>
 
@@ -51,19 +69,19 @@ export function CTA() {
             viewport={{ once: true }}
             className="flex flex-col sm:flex-row gap-4 justify-center mb-16"
           >
-            <Link href="/tr/iletisim">
+            <Link href={contactLink}>
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 className="group flex items-center justify-center space-x-2 bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-semibold text-base sm:text-lg shadow-modern hover:shadow-modern-lg transition-all duration-200 hover:from-cyan-600 hover:via-blue-600 hover:to-blue-700 w-full sm:w-auto"
               >
-                <span>Ücretsiz Danışmanlık Alın</span>
+                <span>{t('pricingCTA.button1', 'Ücretsiz Teklif Al')}</span>
                 <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5 group-hover:translate-x-1 transition-transform" />
               </motion.button>
             </Link>
 
             <motion.a
-              href="https://wa.me/905411883045?text=Merhaba!%20Hizmetleriniz%20hakkında%20bilgi%20almak%20istiyorum."
+              href={whatsappLink}
               target="_blank"
               rel="noopener noreferrer"
               whileHover={{ scale: 1.05 }}
@@ -71,7 +89,7 @@ export function CTA() {
               className="group flex items-center justify-center space-x-2 bg-gradient-to-r from-green-500 to-emerald-500 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-semibold text-base sm:text-lg shadow-modern hover:shadow-modern-lg transition-all duration-200 hover:from-green-600 hover:to-emerald-600 w-full sm:w-auto"
             >
               <WhatsAppIcon className="h-4 w-4 sm:h-5 sm:w-5 group-hover:scale-110 transition-transform" />
-              <span>WhatsApp Sohbet</span>
+              <span>{t('pricingCTA.button2', 'Hemen İletişime Geç')}</span>
             </motion.a>
           </motion.div>
 
@@ -91,9 +109,9 @@ export function CTA() {
               <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:from-blue-600 group-hover:to-cyan-600 transition-all duration-300 shadow-lg group-hover:shadow-xl">
                 <Phone className="h-8 w-8 text-white" />
               </div>
-              <h3 className="text-lg font-semibold text-white mb-2">Telefon</h3>
+              <h3 className="text-lg font-semibold text-white mb-2">{t('contact.hero.phoneTitle', 'Telefon')}</h3>
               <p className="text-white/80 text-sm">0541 188 30 45</p>
-              <p className="text-white/60 text-xs mt-1">7/24 Destek</p>
+              <p className="text-white/60 text-xs mt-1">{t('contact.hero.phoneDesc', '7/24 Destek')}</p>
             </motion.div>
 
             {/* Email */}
@@ -104,9 +122,9 @@ export function CTA() {
               <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:from-purple-600 group-hover:to-pink-600 transition-all duration-300 shadow-lg group-hover:shadow-xl">
                 <Mail className="h-8 w-8 text-white" />
               </div>
-              <h3 className="text-lg font-semibold text-white mb-2">E-posta</h3>
+              <h3 className="text-lg font-semibold text-white mb-2">{t('contact.hero.emailTitle', 'E-posta')}</h3>
               <p className="text-white/80 text-sm">info@softiel.com</p>
-              <p className="text-white/60 text-xs mt-1">24 Saat İçinde Yanıt</p>
+              <p className="text-white/60 text-xs mt-1">{t('contact.hero.emailDesc', '22 Saat içinde Yanıt')}</p>
             </motion.div>
 
             {/* WhatsApp */}
@@ -117,9 +135,9 @@ export function CTA() {
               <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-500 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:from-green-600 group-hover:to-emerald-600 transition-all duration-300 shadow-lg group-hover:shadow-xl">
                 <WhatsAppIcon className="h-8 w-8 text-white" />
               </div>
-              <h3 className="text-lg font-semibold text-white mb-2">WhatsApp</h3>
+              <h3 className="text-lg font-semibold text-white mb-2">{t('contact.hero.whatsappTitle', 'WhatsApp')}</h3>
               <p className="text-white/80 text-sm">0541 188 30 45</p>
-              <p className="text-white/60 text-xs mt-1">Anında Yanıt</p>
+              <p className="text-white/60 text-xs mt-1">{t('contact.hero.whatsappDesc', 'Anında Yanıt')}</p>
             </motion.div>
           </motion.div>
 

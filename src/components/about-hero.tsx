@@ -3,8 +3,10 @@
 import React from "react"
 import { motion } from "framer-motion"
 import { Users, Award, Target, Lightbulb, ArrowRight, Calendar, MapPin, Phone, CheckCircle, Sparkles, Shield, Globe, Code, Palette, Search, Clock, Headphones, MessageCircle, Zap, Star } from "lucide-react"
+import { useI18n } from "@/contexts/i18n-context"
 
 export function AboutHero() {
+  const { t, locale, getLocalizedUrl } = useI18n()
   return (
     <section className="relative bg-gradient-to-b from-slate-900 via-slate-850 to-slate-900 overflow-hidden">
       {/* Background Elements */}
@@ -135,7 +137,7 @@ export function AboutHero() {
           >
             <Users className="h-5 w-5 text-cyan-500 fill-current" />
             <span className="text-sm font-semibold text-neutral-700 dark:text-neutral-300">
-              Hakkımızda
+              {t('about_hero.page_indicator')}
             </span>
           </motion.div>
 
@@ -146,10 +148,10 @@ export function AboutHero() {
             transition={{ delay: 0.2, duration: 0.6 }}
             className="text-5xl sm:text-6xl font-bold text-white mb-6 leading-tight"
           >
-            Güvenilir{" "}
+            {t('about_hero.main_heading_1')}
             <br />
             <span className="bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 bg-clip-text text-transparent">
-              Partneriniz
+              {t('about_hero.main_heading_2')}
             </span>
           </motion.h1>
           
@@ -160,7 +162,7 @@ export function AboutHero() {
             transition={{ delay: 0.3, duration: 0.6 }}
             className="text-lg sm:text-xl text-gray-300 mb-8 space-y-2"
           >
-            <p>Dijital dönüşüm yolculuğunuzda güvenilir ve deneyimli partneriniz. Modern teknolojiler ve uzman ekibimizle işinizi geleceğe taşıyoruz.</p>
+            <p>{t('about_hero.description')}</p>
           </motion.div>
       
           {/* CTA Buttons */}
@@ -209,18 +211,18 @@ export function AboutHero() {
               whileTap={{ scale: 0.95 }}
               className="inline-flex items-center justify-center space-x-2 text-white px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-200 bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 cursor-pointer"
             >
-              <span>Hikayemizi Keşfedin</span>
+              <span>{t('about_hero.cta_button_1')}</span>
               <ArrowRight className="h-5 w-5" />
             </motion.button>
               
             <motion.a
-              href="/tr/iletisim"
+              href={getLocalizedUrl('/iletisim')}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="inline-flex items-center justify-center space-x-2 bg-gray-700 hover:bg-gray-600 text-white px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-200"
             >
               <Phone className="h-5 w-5" />
-              <span>İletişime Geçin</span>
+              <span>{t('about_hero.cta_button_2')}</span>
             </motion.a>
           </motion.div>
 
@@ -234,7 +236,7 @@ export function AboutHero() {
             <div className="relative w-full max-w-sm sm:max-w-md">
               <img
                 src="/images/about.webp"
-                alt="Hakkımızda"
+                alt={t('about_hero.image_alt')}
                 className="w-full h-auto object-contain"
                 loading="eager"
               />
@@ -261,22 +263,22 @@ export function AboutHero() {
             >
               <Users className="h-5 w-5 text-cyan-500 fill-current" />
               <span className="text-sm font-semibold text-neutral-700 dark:text-neutral-300">
-                Hakkımızda
+                {t('about_hero.page_indicator')}
               </span>
             </motion.div>
 
             {/* Main Heading */}
             <h1 className="text-6xl lg:text-7xl xl:text-8xl font-bold text-white mb-8 leading-tight">
-              Güvenilir{" "}
+              {t('about_hero.main_heading_1')}
               <br />
               <span className="bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 bg-clip-text text-transparent">
-                Partneriniz
+                {t('about_hero.main_heading_2')}
               </span>
             </h1>
             
             {/* Description */}
             <div className="text-lg lg:text-xl text-gray-300 mb-10 space-y-2">
-              <p>Dijital dönüşüm yolculuğunuzda güvenilir ve deneyimli partneriniz. Modern teknolojiler ve uzman ekibimizle işinizi geleceğe taşıyoruz.</p>
+              <p>{t('about_hero.description')}</p>
             </div>
         
             {/* CTA Buttons */}
@@ -325,18 +327,18 @@ export function AboutHero() {
                 whileTap={{ scale: 0.95 }}
                 className="inline-flex items-center justify-center space-x-2 text-white px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-200 bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 cursor-pointer"
               >
-                <span>Hikayemizi Keşfedin</span>
+                <span>{t('about_hero.cta_button_1')}</span>
                 <ArrowRight className="h-5 w-5" />
               </motion.button>
                 
               <motion.a
-                href="/tr/iletisim"
+                href={getLocalizedUrl('/iletisim')}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 className="inline-flex items-center justify-center space-x-2 bg-gray-700 hover:bg-gray-600 text-white px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-200"
               >
                 <Phone className="h-5 w-5" />
-                <span>İletişime Geçin</span>
+                <span>{t('about_hero.cta_button_2')}</span>
               </motion.a>
             </motion.div>
           </motion.div>
@@ -351,7 +353,7 @@ export function AboutHero() {
             <div className="relative w-full max-w-xl xl:max-w-2xl">
               <img
                 src="/images/about.webp"
-                alt="Hakkımızda"
+                alt={t('about_hero.image_alt')}
                 className="w-full h-auto object-contain lg:translate-x-4 xl:translate-x-6 scale-110 lg:scale-125 xl:scale-135"
                 loading="eager"
               />
@@ -372,8 +374,8 @@ export function AboutHero() {
             <div className="w-12 h-12 bg-gradient-to-r from-green-500 via-emerald-500 to-teal-500 rounded-xl flex items-center justify-center mx-auto mb-4">
               <Target className="h-6 w-6 text-white" />
             </div>
-            <h3 className="text-lg font-semibold text-white mb-2">Web Tasarımı</h3>
-            <p className="text-blue-400 font-medium mb-1 text-lg">Modern ve responsive web siteleri</p>
+            <h3 className="text-lg font-semibold text-white mb-2">{t('about_hero.stats.web_design')}</h3>
+            <p className="text-blue-400 font-medium mb-1 text-lg">{t('about_hero.stats.web_design_description')}</p>
           </motion.div>
 
           <motion.div
@@ -385,8 +387,8 @@ export function AboutHero() {
             <div className="w-12 h-12 bg-gradient-to-r from-purple-500 via-violet-500 to-indigo-500 rounded-xl flex items-center justify-center mx-auto mb-4">
               <Lightbulb className="h-6 w-6 text-white" />
             </div>
-            <h3 className="text-lg font-semibold text-white mb-2">Mobil Uygulama</h3>
-            <p className="text-blue-400 font-medium mb-1 text-lg">iOS ve Android uygulamaları</p>
+            <h3 className="text-lg font-semibold text-white mb-2">{t('about_hero.stats.mobile_app')}</h3>
+            <p className="text-blue-400 font-medium mb-1 text-lg">{t('about_hero.stats.mobile_app_description')}</p>
           </motion.div>
 
           <motion.div
@@ -398,8 +400,8 @@ export function AboutHero() {
             <div className="w-12 h-12 bg-gradient-to-r from-orange-500 via-amber-500 to-yellow-500 rounded-xl flex items-center justify-center mx-auto mb-4">
               <Award className="h-6 w-6 text-white" />
             </div>
-            <h3 className="text-lg font-semibold text-white mb-2">SEO Optimizasyonu</h3>
-            <p className="text-blue-400 font-medium mb-1 text-lg">Arama motoru optimizasyonu</p>
+            <h3 className="text-lg font-semibold text-white mb-2">{t('about_hero.stats.seo_optimization')}</h3>
+            <p className="text-blue-400 font-medium mb-1 text-lg">{t('about_hero.stats.seo_optimization_description')}</p>
           </motion.div>
         </div>
       </div>

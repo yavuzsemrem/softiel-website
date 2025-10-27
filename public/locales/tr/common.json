@@ -31,7 +31,77 @@
     "automation": "Otomasyon & Entegrasyon",
     "digitalConsulting": "Dijital Danışmanlık",
     "noCode": "No-Code Çözümleri",
-    "education": "Eğitim & Mentorluk"
+    "education": "Eğitim & Mentorluk",
+    "items": {
+      "webDesign": {
+        "title": "Web Sitesi Tasarımı",
+        "description": "Modern, kullanıcı dostu ve responsive web tasarımları ile markanızı dijital dünyada öne çıkarın"
+      },
+      "webDevelopment": {
+        "title": "Web Uygulaması Geliştirme",
+        "description": "Hızlı, güvenli ve ölçeklenebilir web uygulamaları ile dijital hedeflerinize ulaşın"
+      },
+      "mobileApp": {
+        "title": "Mobil Uygulama Geliştirme",
+        "description": "iOS ve Android için native ve cross-platform uygulamalar ile mobil pazarda yerinizi alın"
+      },
+      "seo": {
+        "title": "SEO Optimizasyonu",
+        "description": "Arama motorlarında üst sıralarda yer alarak organik trafik ve müşteri kazanın"
+      },
+      "googleAds": {
+        "title": "Google Ads Yönetimi",
+        "description": "Hedefli reklam kampanyaları ile müşteri kazanın ve satışlarınızı artırın"
+      },
+      "aiIntegration": {
+        "title": "Yapay Zeka Entegrasyonları",
+        "description": "AI teknolojileri ile işinizi geleceğe taşıyın ve rekabet avantajı elde edin"
+      },
+      "wordpress": {
+        "title": "WordPress Çözümleri",
+        "description": "Kolay yönetilebilir içerik yönetim sistemleri ile web sitenizi güncel tutun"
+      },
+      "logoDesign": {
+        "title": "Logo & Kurumsal Kimlik Tasarımı",
+        "description": "Markanızı yansıtan profesyonel logo ve kurumsal kimlik tasarımları"
+      },
+      "socialMedia": {
+        "title": "Sosyal Medya Yönetimi",
+        "description": "Sosyal medya hesaplarınızı profesyonel şekilde yönetin ve takipçi sayınızı artırın"
+      },
+      "digitalConsulting": {
+        "title": "Dijital Danışmanlık",
+        "description": "Dijital dönüşüm yolculuğunuzda stratejik rehberlik ve danışmanlık hizmetleri"
+      }
+    }
+  },
+  "process": {
+    "items": {
+      "analysis": {
+        "title": "Analiz & Planlama",
+        "description": "Projenizi detaylı analiz eder, strateji geliştiririz"
+      },
+      "design": {
+        "title": "Tasarım & Geliştirme",
+        "description": "Modern tasarım ve kodlama ile hayata geçiririz"
+      },
+      "testing": {
+        "title": "Test & Optimizasyon",
+        "description": "Kalite kontrolü ve performans optimizasyonu yaparız"
+      },
+      "delivery": {
+        "title": "Teslimat & Destek",
+        "description": "Projeyi teslim eder, sürekli destek sağlarız"
+      },
+      "monitoring": {
+        "title": "İzleme & Raporlama",
+        "description": "Proje performansını takip eder, detaylı raporlar sunarız"
+      },
+      "improvement": {
+        "title": "Sürekli İyileştirme",
+        "description": "Kullanıcı geri bildirimlerine göre sürekli güncelleme yaparız"
+      }
+    }
   },
   "blog": {
     "title": "Blog",
@@ -81,6 +151,53 @@
       "mostViewed": "En Çok İzlenen"
     }
   },
+  "servicesHero": {
+    "badge": "Hizmetlerimiz",
+    "titlePart1": "Dijital Dünyada",
+    "titlePart2": "Başarıya Ulaşın",
+    "description": "Dijital dünyada başarılı olmak için ihtiyacınız olan tüm hizmetleri sunuyoruz.",
+    "descriptionDesktop": "Dijital dünyada başarılı olmak için ihtiyacınız olan tüm hizmetleri sunuyoruz.",
+    "descriptionDesktop2": "Web tasarımından yapay zeka entegrasyonuna kadar kapsamlı çözümler.",
+    "button1": "Hizmetlerimizi Keşfedin",
+    "button2": "WhatsApp Sohbet",
+    "whatsappMessage": "Merhaba! Hizmetleriniz hakkında bilgi almak istiyorum.",
+    "stats": {
+      "expertTeam": {
+        "title": "Uzman Ekip",
+        "subtitle": "Deneyimli Profesyoneller",
+        "description": "Alanında Uzman Kadro"
+      },
+      "quality": {
+        "title": "Kalite Garantisi",
+        "subtitle": "%100 Müşteri Memnuniyeti",
+        "description": "Kaliteli Çözümler"
+      },
+      "fastDelivery": {
+        "title": "Hızlı Teslimat",
+        "subtitle": "Zamanında Proje Teslimi",
+        "description": "7/24 Destek"
+      },
+      "goalOriented": {
+        "title": "Hedef Odaklı",
+        "subtitle": "İş Hedeflerinize Uygun",
+        "description": "Özelleştirilmiş Çözümler"
+      }
+    }
+  },
+  "servicesNew": {
+    "badge": "Hizmetlerimiz",
+    "titlePart1": "Dijital",
+    "titlePart2": "Hizmetlerimiz",
+    "description": "Markanızı dijital dünyada öne çıkaran kapsamlı çözümler.",
+    "description2": "Web tasarımından yapay zeka entegrasyonuna, mobil uygulama geliştirmeden SEO optimizasyonuna kadar tüm dijital ihtiyaçlarınız için tek durak noktanızız.",
+    "viewDetails": "Detayları İncele"
+  },
+  "processNew": {
+    "badge": "Çalışma Sürecimiz",
+    "titlePart1": "Projenizi",
+    "titlePart2": "Hayata Geçiriyoruz",
+    "description": "Deneyimli ekibimizle birlikte projenizi en verimli şekilde planlayıp hayata geçiriyoruz."
+  },
   "pricingCTA": {
     "headingNormal": "Projenizi",
     "headingGradient": "Hayata Geçirin",
@@ -126,6 +243,8 @@
     "reply": "Yanıtla",
     "cancel": "İptal",
     "replies": "yanıt",
+    "noCommentsYet": "Henüz yorum yok",
+    "beFirstToComment": "İlk yorumu siz yapın!",
     "replyFormTitle": "Yanıt Yaz",
     "replyContent": "Yanıtınız",
     "replyPlaceholder": "Yanıtınızı buraya yazınız...",
@@ -563,11 +682,38 @@
         "ongoing": "Devam Ediyor",
         "upcoming": "Yakında"
       },
+      "category": {
+        "webDesign": "Web Tasarım",
+        "webDevelopment": "Web Geliştirme",
+        "mobileApp": "Mobil Uygulama",
+        "ecommerce": "E-ticaret",
+        "seo": "SEO",
+        "branding": "Branding",
+        "socialMedia": "Sosyal Medya",
+        "aiIntegration": "AI Entegrasyonu",
+        "automation": "Otomasyon",
+        "digitalConsulting": "Dijital Danışmanlık",
+        "noCode": "No-Code",
+        "education": "Eğitim"
+      },
       "emptyState": {
         "title": "Proje Bulunamadı",
         "description": "Aradığınız kriterlere uygun proje bulunamadı. Filtreleri değiştirmeyi deneyin.",
         "resetFilters": "Filtreleri Sıfırla"
       }
+    },
+    "gridSection": {
+      "loading": "Projeler yükleniyor...",
+      "errorLoading": "Projeler yüklenirken bir hata oluştu",
+      "errorTitle": "Hata Oluştu",
+      "tryAgain": "Tekrar Dene",
+      "badge": "Proje Portföyümüz",
+      "titleNormal": "Proje",
+      "titleGradient": "Portföyümüz",
+      "description": "Web tasarımından mobil uygulamalara, e-ticaret çözümlerinden yapay zeka entegrasyonlarına kadar geniş bir yelpazede gerçekleştirdiğimiz projelerimizi keşfedin. Her proje, müşteri memnuniyeti ve teknolojik mükemmellik odaklı yaklaşımımızın bir yansımasıdır.",
+      "noDate": "Tarih yok",
+      "liveSite": "Canlı Site",
+      "github": "GitHub"
     },
     "projectDetail": {
       "backToProjects": "Projelere Dön",
@@ -575,15 +721,386 @@
       "viewCode": "Kodu Görüntüle",
       "client": "Müşteri",
       "clientDesc": "Proje Sahibi",
-      "duration": "Süre",
-      "durationDesc": "Proje Süresi",
+      "endDate": "Bitiş Tarihi",
+      "endDateDesc": "Proje Bitiş Tarihi",
       "status": "Durum",
       "statusDesc": "Proje Durumu",
       "category": "Kategori",
       "categoryDesc": "Proje Kategorisi",
       "technologies": "Kullanılan Teknolojiler",
       "features": "Proje Özellikleri",
-      "gallery": "Proje Galerisi"
+      "gallery": "Proje Galerisi",
+      "loading": "Proje yükleniyor...",
+      "error": "Proje bulunamadı",
+      "errorLoading": "Proje yüklenirken bir hata oluştu",
+      "errorTitle": "Hata Oluştu",
+      "noDate": "Tarih yok",
+      "notSpecified": "Belirtilmemiş",
+      "galleryTitle": "Proje Görselleri",
+      "galleryBadge": "Proje Galerisi",
+      "galleryDescription": "Projemizin detaylarını görsel olarak keşfedin.",
+      "clickToEnlarge": "Büyütmek için tıklayın"
+    }
+  },
+  "pricing": {
+    "title": "Fiyat",
+    "subtitle": "Planları",
+    "description": "Size uygun planı seçin ve projenizi hayata geçirin.",
+    "popular": "En Popüler",
+    "delivery": "Teslimat",
+    "notice": "Domain + SSL + hosting ücretleri pakete dahil değildir",
+    "cta": "Teklif Al",
+    "whatsappMessage": "Merhaba!",
+    "whatsappPackage": "paketi hakkında bilgi almak istiyorum.",
+    "hero": {
+      "badge": "Fiyatlandırma",
+      "title": "Uygun",
+      "titleGradient": "Fiyat Listesi",
+      "description": {
+        "0": "Projeniz için en uygun fiyatlandırma seçeneklerini keşfedin.",
+        "1": "Her bütçeye uygun paketlerimizle projenizi hayata geçirin."
+      },
+      "button1": "Paketleri İncele",
+      "button2": "Özel Teklif Al"
+    },
+    "stats": {
+      "0": {
+        "title": "Şeffaf",
+        "description": "Gizli maliyet yok"
+      },
+      "1": {
+        "title": "Esnek",
+        "description": "Her bütçeye uygun"
+      },
+      "2": {
+        "title": "Özelleştirilebilir",
+        "description": "İhtiyaçlarınıza göre"
+      },
+      "3": {
+        "title": "Garantili",
+        "description": "Kalite garantisi"
+      }
+    },
+    "plans": {
+      "period": "proje",
+      "basic": {
+        "name": "Basic – Dijital Başlangıç Paketi",
+        "description": "Yeni kurulan işletmeler veya online vitrine ihtiyaç duyan küçük markalar için. Bu pakette temel dijital görünürlük sağlanır.",
+        "deliveryTime": "7-14 gün",
+        "features": {
+          "0": "Web Sitesi Tasarımı (Basic seviye: 5–7 sayfa)",
+          "1": "Logo & Kurumsal Kimlik (logo + renk paleti + kartvizit)",
+          "2": "SEO Temel Ayarları (meta, sitemap, indeksleme)",
+          "3": "Google My Business kurulumu",
+          "4": "1 ay sosyal medya başlangıç desteği (profil düzenleme, 4 paylaşım)"
+        }
+      },
+      "pro": {
+        "name": "Pro – Dijital Büyüme Paketi",
+        "description": "Halihazırda dijitalde var olan ama trafik, görünürlük ve etkileşim isteyen markalar için.",
+        "deliveryTime": "14-21 gün",
+        "features": {
+          "0": "Web Sitesi Tasarımı (Pro seviye: özel ana sayfa + blog)",
+          "1": "SEO Optimizasyonu (aylık çalışma, içerik planı)",
+          "2": "Google Ads Yönetimi (aylık 1 kampanya yönetimi)",
+          "3": "Sosyal Medya Yönetimi (2 platform, 8 paylaşım/ay)",
+          "4": "Bakım ve Güncelleme",
+          "5": "Aylık performans raporu"
+        }
+      },
+      "enterprise": {
+        "name": "Enterprise – Dijital Dönüşüm Paketi",
+        "description": "Kurumsal işletmeler ve global pazara açılmak isteyen firmalar için. Amaç: dijital sistemleşme, otomasyon ve entegrasyon.",
+        "deliveryTime": "21-30 gün",
+        "features": {
+          "0": "Web Uygulaması Geliştirme (özelleştirilmiş iş akışı / portal)",
+          "1": "Web Sitesi Tasarımı (Enterprise seviye, CMS + çok dil)",
+          "2": "SEO + Google Ads tam yönetim (süreklilik)",
+          "3": "Sosyal Medya Yönetimi (4 platform, profesyonel içerik + reklam)",
+          "4": "Yapay Zeka Entegrasyonu (chatbot veya raporlama AI)",
+          "5": "Dijital Danışmanlık (aylık strateji + rapor)",
+          "6": "3 ay bakım & SLA desteği"
+        }
+      }
+    },
+    "faq": {
+      "badge": "Sık Sorulan Sorular",
+      "title": "Merak",
+      "titleGradient": "Ettikleriniz",
+      "description": "Fiyatlandırma hakkında en çok sorulan soruları yanıtladık.",
+      "0": {
+        "question": "Fiyatlandırma nasıl hesaplanıyor?",
+        "answer": "Fiyatlandırmamız projenizin karmaşıklığına, sayfa sayısına ve özel özelliklerine göre belirlenir. Basic paket 30.000₺'den, Pro paket 60.000₺, Enterprise paket ise 90.000₺'den başlar. Özel projeler için özel fiyatlandırma yapıyoruz."
+      },
+      "1": {
+        "question": "Ödeme seçenekleri nelerdir?",
+        "answer": "%50 peşin, %50 teslimat sonrası ödeme yapabilirsiniz."
+      },
+      "2": {
+        "question": "Proje teslimat süresi ne kadar?",
+        "answer": "Basic paket 7-14 gün, Pro paket 14-21 gün, Enterprise paket ise 21-30 gün içinde teslim edilir. Proje karmaşıklığına göre süre değişebilir."
+      },
+      "3": {
+        "question": "Hosting ve domain dahil mi?",
+        "answer": "Hayır, hosting ve domain ücretleri paketlere dahil değildir. Size uygun hosting ve domain seçenekleri konusunda danışmanlık sağlıyoruz. Hosting kurulumu ve yönetimi hizmetlerimiz mevcuttur."
+      },
+      "4": {
+        "question": "Proje sonrası destek var mı?",
+        "answer": "Evet! Basic pakette 1 ay, Pro pakette 3 ay, Enterprise pakette 6 ay ücretsiz destek sağlıyoruz. Küçük güncellemeler ve hata düzeltmeleri ücretsizdir. Aylık bakım paketlerimiz de mevcuttur."
+      },
+      "5": {
+        "question": "İptal ve iade politikası nedir?",
+        "answer": "Proje başlamadan önce iptal edilirse %100 iade yapılır. Proje başladıktan sonra tamamlanan kısım kadar ücret alınır. Revizyon haklarınız paket içeriğine göre belirlenir."
+      },
+      "6": {
+        "question": "SEO hizmeti dahil mi?",
+        "answer": "Basic pakette temel SEO ayarları, Pro pakette aylık SEO çalışması, Enterprise pakette tam SEO yönetimi dahildir. Ayrıca aylık SEO paketlerimiz de mevcuttur."
+      },
+      "7": {
+        "question": "Sosyal medya yönetimi var mı?",
+        "answer": "Evet! Basic pakette 1 ay sosyal medya başlangıç desteği, Pro pakette 2 platform 8 paylaşım/ay, Enterprise pakette 4 platform profesyonel içerik + reklam yönetimi dahildir."
+      },
+      "8": {
+        "question": "Çok dilli destek sunuyor musunuz?",
+        "answer": "Evet! Bütün dillerde altyapı kuruyoruz. Türkçe, İngilizce, Almanca, Fransızca, Arapça ve Rusça dil desteği sunuyoruz. Enterprise pakette çok dilli altyapı dahildir."
+      }
+    }
+  },
+  "about_hero": {
+    "page_indicator": "Hakkımızda",
+    "main_heading_1": "Güvenilir",
+    "main_heading_2": "Partneriniz",
+    "description": "Dijital dönüşüm yolculuğunuzda güvenilir ve deneyimli partneriniz. Modern teknolojiler ve uzman ekibimizle işinizi geleceğe taşıyoruz.",
+    "cta_button_1": "Hikayemizi Keşfedin",
+    "cta_button_2": "İletişime Geçin",
+    "image_alt": "Hakkımızda",
+    "stats": {
+      "web_design": "Web Tasarımı",
+      "web_design_description": "Modern ve responsive web siteleri",
+      "mobile_app": "Mobil Uygulama",
+      "mobile_app_description": "iOS ve Android uygulamaları",
+      "seo_optimization": "SEO Optimizasyonu",
+      "seo_optimization_description": "Arama motoru optimizasyonu"
+    }
+  },
+  "about_mission": {
+    "badge": "Misyon & Vizyon",
+    "title": "Misyonumuz ve",
+    "titleGradient": "Vizyonumuz",
+    "description": "Softiel olarak, müşterilerimize en iyi hizmeti sunmak için belirlediğimiz misyon ve vizyonumuzla dijital dünyada fark yaratıyoruz.",
+    "mission": {
+      "title": "Misyonumuz",
+      "subtitle": "Ne Yapıyoruz?",
+      "description": "Modern teknolojiler, yaratıcı tasarım anlayışı ve deneyimli ekibimizle markanızı dijital dünyada öne çıkarıyor, hedeflerinize ulaşmanızı sağlıyoruz. Her projede müşteri memnuniyetini ön planda tutarak, kaliteli ve sürdürülebilir çözümler sunuyoruz."
+    },
+    "vision": {
+      "title": "Vizyonumuz",
+      "subtitle": "Nereye Gidiyoruz?",
+      "description": "Dünya çapında müşterilerimize hizmet veren önde gelen dijital ajans olmak ve müşterilerimizin dijital dönüşüm yolculuğunda en güvenilir partner olmak. Sürekli gelişen teknolojileri takip ederek, inovatif çözümlerle sektörde öncü olmaya devam etmek."
+    },
+    "valuesBadge": "Değerlerimiz",
+    "valuesTitle": "Çalışma",
+    "valuesTitleGradient": "Prensiplerimiz",
+    "valuesDescription": "Müşterilerimize en iyi hizmeti sunmak için belirlediğimiz değerler ve yaklaşımımızla fark yaratıyoruz.",
+    "values": {
+      "0": {
+        "title": "Hedef Odaklılık",
+        "description": "Her projede müşterinin hedeflerine ulaşmasını sağlıyoruz. Stratejik yaklaşımımızla sonuç odaklı çözümler üretiyoruz.",
+        "features": {
+          "0": "Stratejik Planlama",
+          "1": "Hedef Belirleme",
+          "2": "Sonuç Odaklılık",
+          "3": "Performans Takibi"
+        }
+      },
+      "1": {
+        "title": "Müşteri Memnuniyeti",
+        "description": "Müşteri memnuniyeti bizim önceliğimizdir. Her adımda müşteri deneyimini en üst seviyede tutuyoruz.",
+        "features": {
+          "0": "7/24 Destek",
+          "1": "Kişisel Yaklaşım",
+          "2": "Hızlı Çözüm",
+          "3": "Sürekli İletişim"
+        }
+      },
+      "2": {
+        "title": "İnovasyon",
+        "description": "Sürekli gelişen teknolojileri takip ediyor, yaratıcı çözümlerle müşterilerimize avantaj sağlıyoruz.",
+        "features": {
+          "0": "Yeni Teknolojiler",
+          "1": "Yaratıcı Çözümler",
+          "2": "Sürekli Gelişim",
+          "3": "Araştırma & Geliştirme"
+        }
+      },
+      "3": {
+        "title": "Şeffaflık",
+        "description": "Tüm süreçlerde şeffaf olmaya özen gösteriyor, müşterilerimizle açık iletişim kuruyoruz.",
+        "features": {
+          "0": "Açık İletişim",
+          "1": "Düzenli Raporlama",
+          "2": "Proje Takibi",
+          "3": "Güvenilir Bilgi"
+        }
+      }
+    }
+  },
+  "about_why_choose": {
+    "badge": "Neden Softiel?",
+    "title": "Neden",
+    "titleGradient": "Bizi Seçmelisiniz?",
+    "description": "Softiel olarak, müşterilerimize en iyi hizmeti sunmak için sürekli gelişiyoruz. İşte bizi tercih etmeniz için nedenlerimiz.",
+    "testimonialsBadge": "Müşteri Yorumları",
+    "testimonialsTitle": "Müşterilerimiz",
+    "testimonialsTitleGradient": "Ne Diyor?",
+    "testimonialsDescription": "Başarılı projelerimizde yer alan müşterilerimizin deneyimlerini ve görüşlerini keşfedin.",
+    "advantages": {
+      "0": {
+        "title": "Kaliteli Hizmet",
+        "description": "En yüksek kalite standartlarında çalışarak her hizmetimizde mükemmel sonuçlar elde ediyoruz."
+      },
+      "1": {
+        "title": "Hedef Odaklı",
+        "description": "Müşterilerin hedeflerine ulaşması için özel stratejiler geliştirip başarı sağlıyoruz."
+      },
+      "2": {
+        "title": "Müşteri Memnuniyeti",
+        "description": "Her projede ve adımda müşteri memnuniyetini öncelik olarak görüyoruz."
+      },
+      "3": {
+        "title": "Zamanında Teslimat",
+        "description": "Belirlenen süreler içinde projelerinizi teslim etmeyi garanti ediyoruz."
+      },
+      "4": {
+        "title": "Güvenilir Partner",
+        "description": "Şeffaf iletişim ve güvenilir çalışma prensipleriyle uzun vadeli işbirliği sunuyoruz."
+      },
+      "5": {
+        "title": "Modern Teknolojiler",
+        "description": "En güncel teknolojilerle geleceğe yönelik sürdürülebilir çözümler geliştiriyoruz."
+      }
+    },
+    "testimonials": {
+      "0": {
+        "name": "Rika Matbaa",
+        "company": "Rika Matbaa",
+        "role": "Proje Sahibi",
+        "content": "Matbaa sektörüne özel, kurumsal kimliği yansıtan modern bir web sitesi tasarımı. Ürün ve hizmetlerin dijital ortamda profesyonel şekilde sergilenmesini sağlayarak müşteri etkileşimini artıran bir yapı oluşturulmuş."
+      },
+      "1": {
+        "name": "Palyacco Dünyası",
+        "company": "Palyacco Dünyası",
+        "role": "Proje Sahibi",
+        "content": "Etkinlik ve organizasyon sektörüne yönelik enerjik, renkli bir web sitesi. Palyaço hizmetlerini ön plana çıkaran kullanıcı dostu yapısıyla markanın eğlenceli yönünü dijital dünyaya başarıyla yansıtmış."
+      },
+      "2": {
+        "name": "Candleiyj",
+        "company": "Candleiyj",
+        "role": "Proje Sahibi",
+        "content": "Instagram gönderileri ve Shopier mağaza yönetimiyle sosyal medya satışlarını destekleyen bir proje. Görsel uyum, marka dili ve ürün sunumu sayesinde dijital vitrin etkisi güçlü bir biçimde oluşturulmuş."
+      },
+      "3": {
+        "name": "Nevaa Yazılım",
+        "company": "Nevaa Yazılım",
+        "role": "Proje Sahibi",
+        "content": "Yazılım firması için kurumsal web sitesi ve CRM uygulamasının modern frontend tasarımı. Kullanıcı deneyimine odaklı, sade ama profesyonel bir arayüzle firmanın teknoloji vizyonunu yansıtan bir çalışma."
+      },
+      "4": {
+        "name": "Hesapify",
+        "company": "Hesapify",
+        "role": "Proje Sahibi",
+        "content": "Yazılım firması için geliştirilen kapsamlı dijital yapı: web sitesi, blog içerikleri, ERP uygulaması arayüzü, YouTube video düzenlemeleri ve Instagram yönetimi. Markanın dijital varlığını çok yönlü biçimde güçlendiren bir proje."
+      },
+      "5": {
+        "name": "Bot Group",
+        "company": "Bot Group",
+        "role": "Proje Sahibi",
+        "content": "Lojistik sektörüne yönelik güçlü ve kurumsal bir web sitesi tasarımı. Hizmet kapsamı, filo bilgileri ve operasyonel süreçler sade bir yapıda sunularak firmanın güvenilir ve profesyonel imajı dijitale taşınmış."
+      },
+      "6": {
+        "name": "Yusuf İnci",
+        "company": "Yusuf İnci",
+        "role": "Proje Sahibi",
+        "content": "Mimarlık ofisi için hazırlanan zarif ve minimalist bir web sitesi. Proje portföyünü öne çıkaran tasarımıyla estetik, işlevsellik ve profesyonelliği bir araya getirerek markanın tasarım anlayışını güçlü biçimde yansıtıyor."
+      },
+      "7": {
+        "name": "Ayşe Korkmaz",
+        "company": "EduTech",
+        "role": "Kurucu",
+        "content": "Eğitim platformumuzu Softiel'e yaptırdık. Kullanıcı arayüzü çok kullanışlı ve öğrencilerimiz çok memnun. Kesinlikle tavsiye ederim."
+      },
+      "8": {
+        "name": "Oğuz Demir",
+        "company": "HealthCare Plus",
+        "role": "Doktor & Kurucu",
+        "content": "Sağlık uygulamamızı Softiel geliştirdi. Hasta takibi artık çok kolay. Doktorlar ve hastalar çok memnun. Profesyonel yaklaşımları takdire şayan."
+      },
+      "9": {
+        "name": "Gamze Şahin",
+        "company": "FinanceCore",
+        "role": "Finans Müdürü",
+        "content": "Finansal yönetim uygulamamızı Softiel'e yaptırdık. Güvenlik ve kullanım kolaylığı mükemmel. Müşteri memnuniyetimiz %95'e çıktı."
+      },
+      "10": {
+        "name": "Emre Yılmaz",
+        "company": "LogiTrack",
+        "role": "Operasyon Direktörü",
+        "content": "Lojistik takip sistemimizi Softiel'e yeniledik. Gerçek zamanlı takip özelliği sayesinde müşteri şikayetlerimiz %80 azaldı."
+      },
+      "11": {
+        "name": "Deniz Öztürk",
+        "company": "PropertyPro",
+        "role": "Satış Müdürü",
+        "content": "Emlak portföy yönetim sistemimizi Softiel'e yaptırdık. Satış süreçlerimiz hızlandı ve müşteri deneyimi çok iyileşti."
+      },
+      "12": {
+        "name": "Ali Çelik",
+        "company": "RestoApp",
+        "role": "İşletme Sahibi",
+        "content": "Restoran yönetim uygulamamızı Softiel'e yaptırdık. Sipariş takibi ve müşteri memnuniyeti çok arttı. Harika bir çalışma!"
+      },
+      "13": {
+        "name": "Seda Kaya",
+        "company": "BeautyBox",
+        "role": "Kurucu",
+        "content": "Güzellik markamızın e-ticaret sitesini Softiel'e yaptırdık. Satışlarımız %200 arttı ve müşteri deneyimi mükemmel."
+      },
+      "14": {
+        "name": "Murat Özkan",
+        "company": "ConsultPro",
+        "role": "Kurucu Ortak",
+        "content": "Danışmanlık firmamızın web sitesini Softiel'e yeniledik. Profesyonel görünüm ve kullanıcı dostu arayüz sayesinde müşteri sayımız arttı."
+      },
+      "15": {
+        "name": "Ebru Şahin",
+        "company": "FitZone",
+        "role": "Spor Eğitmeni",
+        "content": "Spor salonumuzun mobil uygulamasını Softiel'e yaptırdık. Üye takibi ve program yönetimi artık çok kolay. Müşterilerimiz çok memnun!"
+      },
+      "16": {
+        "name": "Kemal Demir",
+        "company": "AutoShow",
+        "role": "Satış Müdürü",
+        "content": "Araç galerimizin web sitesini Softiel'e yeniledik. Araç kataloğu ve satış süreçleri çok iyileşti. Kesinlikle tavsiye ederim."
+      },
+      "17": {
+        "name": "Pınar Yıldız",
+        "company": "EventMaster",
+        "role": "Etkinlik Planlayıcısı",
+        "content": "Etkinlik planlama platformumuzu Softiel'e yaptırdık. Müşteri rezervasyonları ve etkinlik yönetimi artık çok kolay. Harika bir çalışma!"
+      },
+      "18": {
+        "name": "Berk Çelik",
+        "company": "LegalTech",
+        "role": "Avukat",
+        "content": "Hukuk büromuzun web sitesini Softiel'e yeniledik. Profesyonel görünüm ve müşteri portföyü çok iyileşti. Teşekkürler Softiel!"
+      },
+      "19": {
+        "name": "Zeynep Arslan",
+        "company": "PetCare",
+        "role": "Mağaza Sahibi",
+        "content": "Pet shop'umuzun e-ticaret sitesini Softiel'e yaptırdık. Ürün kataloğu ve satış süreçleri mükemmel. Müşterilerimiz çok memnun!"
+      }
     }
   }
 }
