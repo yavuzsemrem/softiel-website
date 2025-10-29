@@ -1,6 +1,26 @@
 import { NextRequest, NextResponse } from 'next/server'
 
+const DASHBOARD_HOST = process.env.NEXT_PUBLIC_DASHBOARD_HOST || 'dashboard.softiel.com'
+const DASHBOARD_BASE = process.env.NEXT_PUBLIC_DASHBOARD_BASE || '/content-management-system-2024'
+
 export function middleware(request: NextRequest) {
+  const host = request.headers.get('host') || ''
+  const pathname = request.nextUrl.pathname
+
+  // 1) Host bazlı yönlendirme: dashboard.softiel.com → kök istekleri CMS ana rotasına rewrite et
+  if (host === DASHBOARD_HOST) {
+    // Dashboard tüm yanıtları noindex yap
+    if (pathname === '/' || pathname === '') {
+      const target = new URL(DASHBOARD_BASE, request.url)
+      const res = NextResponse.rewrite(target)
+      res.headers.set('X-Robots-Tag', 'noindex, nofollow')
+      return res
+    }
+    const res = NextResponse.next()
+    res.headers.set('X-Robots-Tag', 'noindex, nofollow')
+    return res
+  }
+
   const response = NextResponse.next()
   
   // İletişim sayfası için bfcache optimizasyonu
@@ -26,13 +46,13 @@ export function middleware(request: NextRequest) {
   }
   
   // Statik dosyalar için cache başlıkları
-  if (request.nextUrl.pathname.match(/\.(js|css|png|jpg|jpeg|gif|svg|webp|ico)$/)) {
+  if (pathname.match(/\.(js|css|png|jpg|jpeg|gif|svg|webp|ico)$/)) {
     response.headers.set('Cache-Control', 'public, max-age=31536000, immutable')
   }
   
   // HTML sayfaları için bfcache optimizasyonu
-  if (request.nextUrl.pathname.endsWith('.html') || 
-      (!request.nextUrl.pathname.includes('.') && !request.nextUrl.pathname.startsWith('/api'))) {
+  if (pathname.endsWith('.html') || 
+      (!pathname.includes('.') && !pathname.startsWith('/api'))) {
     response.headers.set('Cache-Control', 'public, max-age=0, must-revalidate')
   }
   
