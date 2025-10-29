@@ -10,7 +10,7 @@ export default function SocialMediaYonetimiPage() {
   // Pricing packages'ı önce tanımlıyoruz
   const pricing = [
     {
-      name: "Starter (Temel Yönetim)",
+      name: "Starter",
       price: "₺7.500",
       period: "aylık",
       features: [
@@ -26,7 +26,7 @@ export default function SocialMediaYonetimiPage() {
       color: "from-green-500 to-emerald-500"
     },
     {
-      name: "Pro (İçerik + Etkileşim)",
+      name: "Pro",
       price: "₺15.000",
       period: "aylık",
       features: [
@@ -44,7 +44,7 @@ export default function SocialMediaYonetimiPage() {
       color: "from-yellow-500 to-orange-500"
     },
     {
-      name: "Enterprise (Tam Stratejik Yönetim)",
+      name: "Enterprise",
       price: "₺25.000",
       period: "aylık",
       features: [
@@ -72,6 +72,39 @@ export default function SocialMediaYonetimiPage() {
     icon: "📱",
     serviceType: "sosyal-medya",
     packagesTitle: "Paketlerde neler olmalı?",
+    labels: {
+      detailsBadge: "Hizmet Detayları",
+      whyPrefix: "Neden",
+      processBadge: "Süreç",
+      processHeadingBefore: "Nasıl",
+      processHeadingGradient: "Çalışıyoruz",
+      processSubtitle: "İhtiyaç analiziyle başlar, eskizler ve revizyonlarla netleşir, brandbook ile teslim ederiz.",
+      timelineAverage: "Ortalama Süre",
+      timelineSupport: "Destek",
+      timelineSatisfaction: "Memnuniyet",
+      pricingBadge: "Fiyatlandırma",
+      pricingHeadingBefore: "Uygun",
+      pricingHeadingGradient: "Fiyatlar",
+      pricingSubtitle: "İhtiyacınıza en uygun paketi seçin. Özel istekler için teklif sunuyoruz.",
+      popularBadge: "En Popüler",
+      ctaGetOffer: "Teklif Al",
+      ctaOfferMessageTemplate: "Merhaba! {serviceTitle} için {planName} paketi hakkında bilgi almak istiyorum.",
+      domainNotice: undefined,
+      addOnsBadge: "Ek Hizmetler",
+      addOnsHeadingBefore: "Ek",
+      addOnsHeadingGradient: "Hizmetler",
+      addOnsSubtitle: "Markanızı güçlendirecek ek hizmetleri seçin.",
+      ctaGetDetails: "Detayları Gör",
+      ctaAddOnMessageTemplate: "Merhaba! {serviceTitle} için {addOnName} ek hizmeti hakkında bilgi almak istiyorum.",
+      featuresSocialMedia: [
+        { title: "İçerik Üretimi", description: "Yaratıcı & etkileyici içerikler" },
+        { title: "Görsel Tasarım", description: "Profesyonel sosyal medya görselleri" },
+        { title: "Topluluk Yönetimi", description: "Takipçi etkileşimi & yönetimi" },
+        { title: "Analiz & Raporlama", description: "Detaylı performans analizi" },
+        { title: "Strateji Geliştirme", description: "Hedef kitle odaklı strateji" },
+        { title: "Hızlı Yayın", description: "Düzenli ve zamanında içerik" },
+      ],
+    },
     features: [
       {
         title: "İçerik Üretimi",
@@ -119,17 +152,12 @@ export default function SocialMediaYonetimiPage() {
     addOnServices: [
       {
         name: "Ek İçerik",
-        description: "Ek paylaşım (+4 paylaşım)",
+        description: "Ek paylaşım (örn. +4 paylaşım)",
         price: "₺1.000"
       },
       {
-        name: "Profesyonel Fotoğraf",
+        name: "Fotoğraf Çekimi",
         description: "Profesyonel fotoğraf çekimi",
-        price: "₺2.000"
-      },
-      {
-        name: "Profesyonel Video",
-        description: "Story/reels/tanıtım video çekimi",
         price: "₺2.000"
       },
       {
@@ -148,7 +176,7 @@ export default function SocialMediaYonetimiPage() {
         price: "₺3.000"
       },
       {
-        name: "Rakip Analizi",
+        name: "Rakip Analiz Raporu",
         description: "Aylık/çeyreklik rakip analiz raporu",
         price: "₺2.000"
       }

@@ -1390,3 +1390,12 @@ input[type="password"]::-webkit-strong-password-auto-fill-button {
 .animate-scale-in {
   animation: scaleIn 0.8s ease-out;
 }
+
+/* Hero gradient text için */
+.gradient-text {
+  background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 50%, oklch(54.6% .245 262.881) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 600;
+}

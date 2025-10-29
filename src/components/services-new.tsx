@@ -24,7 +24,7 @@ import {
 } from "lucide-react"
 
 export function ServicesNew() {
-  const { t } = useI18n()
+  const { t, getLocalizedUrl } = useI18n()
   
   const services = [
     {
@@ -32,7 +32,7 @@ export function ServicesNew() {
       title: t('services.items.webDesign.title', 'Web Sitesi Tasarımı'),
       description: t('services.items.webDesign.description', 'Modern, kullanıcı dostu ve responsive web tasarımları ile markanızı dijital dünyada öne çıkarın'),
       features: ["UI/UX Tasarım", "Responsive Design", "Brand Identity", "Prototipleme"],
-      href: "/tr/hizmetlerimiz/web-sitesi-tasarimi",
+      href: getLocalizedUrl('/hizmetlerimiz/web-sitesi-tasarimi'),
       color: "from-blue-500 to-blue-600",
       badge: null
     },

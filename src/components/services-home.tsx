@@ -3,69 +3,72 @@
 import React from "react"
 import Link from "next/link"
 import { motion } from "framer-motion"
-import { 
-  Palette, 
-  Code, 
-  Smartphone, 
-  Search, 
-  Target, 
+import {
+  Palette,
+  Code,
+  Smartphone,
+  Search,
+  Target,
   Bot,
   ArrowRight,
   Sparkles
 } from "lucide-react"
-
-const services = [
-  {
-    icon: Palette,
-    title: "Web Sitesi Tasarımı",
-    description: "Modern, kullanıcı dostu ve responsive web tasarımları",
-    features: ["UI/UX Tasarım", "Responsive Design", "Prototipleme"],
-    href: "/tr/hizmetlerimiz/web-sitesi-tasarimi",
-    color: "from-blue-500 to-blue-600"
-  },
-  {
-    icon: Code,
-    title: "Web Uygulaması Geliştirme",
-    description: "Hızlı, güvenli ve ölçeklenebilir web uygulamaları",
-    features: ["Frontend Geliştirme", "Backend Geliştirme", "API Entegrasyonu"],
-    href: "/tr/hizmetlerimiz/web-gelistirme",
-    color: "from-cyan-500 to-cyan-600"
-  },
-  {
-    icon: Smartphone,
-    title: "Mobil Uygulama Geliştirme",
-    description: "iOS ve Android için native ve cross-platform uygulamalar",
-    features: ["Native Uygulama", "React Native", "Flutter"],
-    href: "/tr/hizmetlerimiz/mobil-uygulama-gelistirme",
-    color: "from-sky-500 to-sky-600"
-  },
-  {
-    icon: Search,
-    title: "SEO Optimizasyonu",
-    description: "Arama motorlarında üst sıralarda yer alın",
-    features: ["Teknik SEO", "İçerik Optimizasyonu", "Link Building"],
-    href: "/tr/hizmetlerimiz/seo-optimizasyonu",
-    color: "from-emerald-500 to-emerald-600"
-  },
-  {
-    icon: Target,
-    title: "Google Ads Yönetimi",
-    description: "Hedefli reklam kampanyaları ile müşteri kazanın",
-    features: ["Kampanya Yönetimi", "A/B Testing", "ROI Optimizasyonu"],
-    href: "/tr/hizmetlerimiz/google-ads-yonetimi",
-    color: "from-orange-500 to-orange-600"
-  },
-  {
-    icon: Bot,
-    title: "Yapay Zeka Entegrasyonları",
-    description: "AI teknolojileri ile işinizi geleceğe taşıyın",
-    features: ["Chatbot Geliştirme", "Makine Öğrenmesi", "Otomasyon"],
-    href: "/tr/hizmetlerimiz/yapay-zeka-entegrasyonlari",
-    color: "from-violet-500 to-violet-600"
-  }
-]
+import { useI18n } from "@/contexts/i18n-context"
 
 export function ServicesHome() {
+  const { t, getLocalizedUrl } = useI18n()
+
+  const services = [
+    {
+      icon: Palette,
+      title: t('services.items.webDesign.title', 'Web Sitesi Tasarımı'),
+      description: t('services.items.webDesign.description', 'Modern, kullanıcı dostu ve responsive web tasarımları ile markanızı dijital dünyada öne çıkarın'),
+      features: ["UI/UX Tasarım", "Responsive Design", "Brand Identity", "Prototipleme"],
+      href: getLocalizedUrl('/hizmetlerimiz/web-sitesi-tasarimi'),
+      color: "from-blue-500 to-blue-600"
+    },
+    {
+      icon: Code,
+      title: t('services.items.webDevelopment.title', 'Web Uygulaması Geliştirme'),
+      description: t('services.items.webDevelopment.description', 'Hızlı, güvenli ve ölçeklenebilir web uygulamaları ile dijital hedeflerinize ulaşın'),
+      features: ["Frontend Geliştirme", "Backend Geliştirme", "API Entegrasyonu", "Cloud Deployment"],
+      href: "/tr/hizmetlerimiz/web-gelistirme",
+      color: "from-cyan-500 to-cyan-600"
+    },
+    {
+      icon: Smartphone,
+      title: t('services.items.mobileApp.title', 'Mobil Uygulama Geliştirme'),
+      description: t('services.items.mobileApp.description', 'iOS ve Android için native ve cross-platform uygulamalar ile mobil pazarda yerinizi alın'),
+      features: ["Native iOS/Android", "React Native", "Flutter", "App Store Optimizasyonu"],
+      href: "/tr/hizmetlerimiz/mobil-uygulama-gelistirme",
+      color: "from-sky-500 to-sky-600"
+    },
+    {
+      icon: Search,
+      title: t('services.items.seo.title', 'SEO Optimizasyonu'),
+      description: t('services.items.seo.description', 'Arama motorlarında üst sıralarda yer alarak organik trafik ve müşteri kazanın'),
+      features: ["Teknik SEO", "İçerik Optimizasyonu", "Link Building", "Local SEO"],
+      href: "/tr/hizmetlerimiz/seo-optimizasyonu",
+      color: "from-emerald-500 to-emerald-600"
+    },
+    {
+      icon: Target,
+      title: t('services.items.googleAds.title', 'Google Ads Yönetimi'),
+      description: t('services.items.googleAds.description', 'Hedefli reklam kampanyaları ile müşteri kazanın ve satışlarınızı artırın'),
+      features: ["Kampanya Yönetimi", "A/B Testing", "ROI Optimizasyonu", "Retargeting"],
+      href: "/tr/hizmetlerimiz/google-ads-yonetimi",
+      color: "from-orange-500 to-orange-600"
+    },
+    {
+      icon: Bot,
+      title: t('services.items.aiIntegration.title', 'Yapay Zeka Entegrasyonları'),
+      description: t('services.items.aiIntegration.description', 'AI teknolojileri ile işinizi geleceğe taşıyın ve rekabet avantajı elde edin'),
+      features: ["Chatbot Geliştirme", "Makine Öğrenmesi", "AI Otomasyon", "API Entegrasyonu"],
+      href: "/tr/hizmetlerimiz/yapay-zeka-entegrasyonlari",
+      color: "from-violet-500 to-violet-600"
+    }
+  ]
+
   return (
     <section id="services" className="relative py-16 lg:py-24">
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
@@ -87,20 +90,18 @@ export function ServicesHome() {
           >
             <Sparkles className="h-5 w-5 text-cyan-500 fill-current" />
             <span className="text-sm font-semibold text-neutral-700 dark:text-neutral-300">
-              Hizmetlerimiz
+              {t('servicesHome.badge', 'Hizmetlerimiz')}
             </span>
           </motion.div>
 
           <h2 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-display font-bold text-neutral-900 dark:text-white mb-8 leading-tight">
-            Dijital{" "}
+            {t('servicesHome.titlePart1', 'Dijital')}{" "}
             <span className="bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 bg-clip-text text-transparent">
-              Hizmetlerimiz
+              {t('servicesHome.titlePart2', 'Hizmetlerimiz')}
             </span>
           </h2>
           <p className="text-base sm:text-lg lg:text-xl text-neutral-600 dark:text-neutral-400 mb-20 max-w-4xl mx-auto leading-relaxed">
-            Markanızı dijital dünyada öne çıkaran kapsamlı çözümler. Web tasarımından yapay zeka entegrasyonuna, 
-            mobil uygulama geliştirmeden SEO optimizasyonuna kadar tüm dijital ihtiyaçlarınız için 
-            tek durak noktanızız.
+            {t('servicesHome.description', 'Markanızı dijital dünyada öne çıkaran kapsamlı çözümler. Web tasarımından yapay zeka entegrasyonuna, mobil uygulama geliştirmeden SEO optimizasyonuna kadar tüm dijital ihtiyaçlarınız için tek durak noktanızız.')}
           </p>
         </motion.div>
 
@@ -141,7 +142,7 @@ export function ServicesHome() {
                     {/* CTA - Always at bottom */}
                     <div className="mt-auto">
                       <div className="flex items-center justify-center space-x-2 text-cyan-600 dark:text-cyan-400 font-semibold py-3 px-6 rounded-xl group-hover:shadow-modern transition-all duration-300 hover:text-blue-600 dark:hover:text-blue-400">
-                        <span className="text-sm lg:text-base">Detayları İncele</span>
+                        <span className="text-sm lg:text-base">{t('servicesHome.viewDetails', 'Detayları İncele')}</span>
                         <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform duration-300" />
                       </div>
                     </div>

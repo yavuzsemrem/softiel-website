@@ -13,7 +13,26 @@
     "subtitle": "Dijital dünyada fark yaratın",
     "description": "Web tasarım, geliştirme, SEO ve dijital pazarlama hizmetleri ile işinizi büyütün.",
     "cta": "Hemen Başlayın",
-    "learnMore": "Daha Fazla Bilgi"
+    "learnMore": "Daha Fazla Bilgi",
+    "mainTitle1": "Dijital Dünyada",
+    "mainTitle2": "Fark Yaratın",
+    "mainDescription": "Web tasarımından <span class=\"gradient-text\">yapay zeka</span> entegrasyonuna, mobil uygulamalardan <span class=\"gradient-text\">SEO optimizasyonuna</span> kadar tüm dijital ihtiyaçlarınız için <span class=\"gradient-text\">profesyonel çözümler</span> sunuyoruz.",
+    "stats": {
+      "delivery": "Hızlı",
+      "deliveryLabel": "Teslimat",
+      "satisfaction": "5.0",
+      "satisfactionLabel": "Müşteri Memnuniyeti",
+      "support": "24/7",
+      "supportLabel": "Teknik Destek"
+    },
+    "button1": "Ücretsiz Teklif Al",
+    "button2": "Hizmetlerimizi İncele",
+    "features": {
+      "webDevelopment": "Web Uygulaması Geliştirme",
+      "uiUx": "UI/UX Tasarım",
+      "seo": "SEO Optimizasyonu",
+      "ai": "Yapay Zeka"
+    }
   },
   "services": {
     "title": "Hizmetlerimiz",
@@ -191,6 +210,10 @@
     "description": "Markanızı dijital dünyada öne çıkaran kapsamlı çözümler.",
     "description2": "Web tasarımından yapay zeka entegrasyonuna, mobil uygulama geliştirmeden SEO optimizasyonuna kadar tüm dijital ihtiyaçlarınız için tek durak noktanızız.",
     "viewDetails": "Detayları İncele"
+  },
+  "serviceHero": {
+    "startNow": "Hemen Başlayın",
+    "whatsappChat": "WhatsApp Sohbet"
   },
   "processNew": {
     "badge": "Çalışma Sürecimiz",
@@ -942,6 +965,77 @@
           "2": "Proje Takibi",
           "3": "Güvenilir Bilgi"
         }
+      }
+    }
+  },
+  "servicesHome": {
+    "badge": "Hizmetlerimiz",
+    "titlePart1": "Dijital",
+    "titlePart2": "Hizmetlerimiz",
+    "description": "Markanızı dijital dünyada öne çıkaran kapsamlı çözümler. Web tasarımından yapay zeka entegrasyonuna, mobil uygulama geliştirmeden SEO optimizasyonuna kadar tüm dijital ihtiyaçlarınız için tek durak noktanızız.",
+    "viewDetails": "Detayları İncele"
+  },
+  "aboutNew": {
+    "badge": "Teknoloji & İnovasyon",
+    "titlePart1": "Geleceği",
+    "titlePart2": "İnşa Ediyoruz",
+    "description": "Cutting-edge teknolojiler ve yaratıcı çözümlerle markanızı dijital dünyada öne çıkarıyoruz. Her proje bir hikaye, her kod satırı bir adım daha yakın geleceğe.",
+    "features": {
+      "0": {
+        "title": "Hızlı Teslimat",
+        "description": "Projelerinizi zamanında ve kaliteli şekilde teslim ediyoruz"
+      },
+      "1": {
+        "title": "Modern Teknoloji",
+        "description": "En güncel teknolojileri kullanarak geleceğe uygun çözümler sunuyoruz"
+      },
+      "2": {
+        "title": "Global Standart",
+        "description": "Uluslararası kalite standartlarında hizmet veriyoruz"
+      },
+      "3": {
+        "title": "Güvenli Çözümler",
+        "description": "Verilerinizi koruyan güvenli ve şifreli sistemler geliştiriyoruz"
+      },
+      "4": {
+        "title": "Uzman Ekip",
+        "description": "Deneyimli ve uzman kadromuzla en iyi çözümleri sunuyoruz"
+      },
+      "5": {
+        "title": "Kalite Garantisi",
+        "description": "Her projede en yüksek kalite standartlarını uyguluyoruz"
+      }
+    },
+    "processSteps": {
+      "0": {
+        "step": "01",
+        "title": "Analiz & Planlama",
+        "description": "Projenizi detaylı analiz eder, strateji geliştiririz"
+      },
+      "1": {
+        "step": "02",
+        "title": "Tasarım & Geliştirme",
+        "description": "Modern tasarım ve kodlama ile hayata geçiririz"
+      },
+      "2": {
+        "step": "03",
+        "title": "Test & Optimizasyon",
+        "description": "Kalite kontrolü ve performans optimizasyonu yaparız"
+      },
+      "3": {
+        "step": "04",
+        "title": "Teslimat & Destek",
+        "description": "Projeyi teslim eder, sürekli destek sağlarız"
+      },
+      "4": {
+        "step": "05",
+        "title": "İzleme & Raporlama",
+        "description": "Proje performansını takip eder, detaylı raporlar sunarız"
+      },
+      "5": {
+        "step": "06",
+        "title": "Sürekli İyileştirme",
+        "description": "Kullanıcı geri bildirimlerine göre sürekli güncelleme yaparız"
       }
     }
   },

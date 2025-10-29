@@ -22,6 +22,22 @@ interface ServicePricingProps {
       description: string
       price: string
     }>
+    labels?: {
+      pricingBadge?: string
+      pricingHeadingBefore?: string
+      pricingHeadingGradient?: string
+      pricingSubtitle?: string
+      popularBadge?: string
+      ctaGetOffer?: string
+      ctaOfferMessageTemplate?: string // {serviceTitle} {planName}
+      domainNotice?: string
+      addOnsBadge?: string
+      addOnsHeadingBefore?: string
+      addOnsHeadingGradient?: string
+      addOnsSubtitle?: string
+      ctaGetDetails?: string
+      ctaAddOnMessageTemplate?: string // {serviceTitle} {addOnName}
+    }
   }
   showDomainNotice?: boolean
   showAddOnServices?: boolean
@@ -29,6 +45,23 @@ interface ServicePricingProps {
 }
 
 export function ServicePricing({ data, showDomainNotice = false, showAddOnServices = false, serviceType = "web-tasarimi" }: ServicePricingProps) {
+  const labels = {
+    pricingBadge: "Fiyatlandırma",
+    pricingHeadingBefore: "Uygun",
+    pricingHeadingGradient: "Fiyatlar",
+    pricingSubtitle: "Her bütçeye uygun paketlerimizle projenizi hayata geçirin. Özel ihtiyaçlarınız için özel fiyatlandırma yapıyoruz.",
+    popularBadge: "En Popüler",
+    ctaGetOffer: "Teklif Al",
+    ctaOfferMessageTemplate: "Merhaba! {serviceTitle} hizmeti {planName} paketi hakkında bilgi almak istiyorum.",
+    domainNotice: "Domain + SSL + hosting ücretleri pakete dahil değildir",
+    addOnsBadge: "Ek Hizmetler",
+    addOnsHeadingBefore: "Ek",
+    addOnsHeadingGradient: "Hizmetler",
+    addOnsSubtitle: "Paketlerinize ekleyebileceğiniz ek hizmetler ile projenizi daha da geliştirin. Özel ihtiyaçlarınız için esnek çözümler sunuyoruz.",
+    ctaGetDetails: "Detay Al",
+    ctaAddOnMessageTemplate: "Merhaba! {serviceTitle} hizmeti {addOnName} ek hizmeti hakkında bilgi almak istiyorum.",
+    ...(data.labels || {})
+  }
   return (
     <section className="relative py-16 lg:py-24">
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -49,19 +82,18 @@ export function ServicePricing({ data, showDomainNotice = false, showAddOnServic
           >
             <Zap className="h-5 w-5 text-yellow-500 fill-current" />
             <span className="text-sm font-semibold text-neutral-700 dark:text-neutral-300">
-              Fiyatlandırma
+              {labels.pricingBadge}
             </span>
           </motion.div>
 
           <h2 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-display font-bold text-neutral-900 dark:text-white mb-6">
-            Uygun{" "}
+            {labels.pricingHeadingBefore}{" "}
             <span className="bg-gradient-to-r from-yellow-500 via-orange-500 to-red-500 bg-clip-text text-transparent">
-              Fiyatlar
+              {labels.pricingHeadingGradient}
             </span>
           </h2>
           <p className="text-lg sm:text-xl text-neutral-600 dark:text-neutral-400 max-w-3xl mx-auto leading-relaxed">
-            Her bütçeye uygun paketlerimizle projenizi hayata geçirin. 
-            Özel ihtiyaçlarınız için özel fiyatlandırma yapıyoruz.
+            {labels.pricingSubtitle}
           </p>
         </motion.div>
 
@@ -86,7 +118,7 @@ export function ServicePricing({ data, showDomainNotice = false, showAddOnServic
                 <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
                   <div className="bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 text-white px-4 py-2 rounded-full text-sm font-semibold flex items-center space-x-1 shadow-modern">
                     <Star className="h-4 w-4 fill-current" />
-                    <span>En Popüler</span>
+                    <span>{labels.popularBadge}</span>
                   </div>
                 </div>
               )}
@@ -138,14 +170,14 @@ export function ServicePricing({ data, showDomainNotice = false, showAddOnServic
               {showDomainNotice && (
                 <div className="mt-auto mb-4 pt-3 border-t border-neutral-200/20 dark:border-neutral-700/20">
                   <span className="text-xs text-neutral-500 dark:text-neutral-500 italic text-center block">
-                    Domain + SSL + hosting ücretleri pakete dahil değildir
+                    {labels.domainNotice}
                   </span>
                 </div>
               )}
 
               {/* CTA Button */}
               <motion.a
-                href={`https://wa.me/905411883045?text=${encodeURIComponent(`Merhaba! ${data.title} hizmeti ${plan.name} paketi hakkında bilgi almak istiyorum.`)}`}
+                href={`https://wa.me/905411883045?text=${encodeURIComponent((labels.ctaOfferMessageTemplate || "").replace('{serviceTitle}', data.title).replace('{planName}', plan.name))}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 whileHover={{ scale: 1.02 }}
@@ -160,7 +192,7 @@ export function ServicePricing({ data, showDomainNotice = false, showAddOnServic
                   : { background: 'rgba(255, 255, 255, 0.1)' }
                 }
               >
-                <span>Teklif Al</span>
+                <span>{labels.ctaGetOffer}</span>
                 <ArrowRight className="h-4 w-4" />
               </motion.a>
             </motion.div>
@@ -193,19 +225,18 @@ export function ServicePricing({ data, showDomainNotice = false, showAddOnServic
               >
                 <Zap className="h-5 w-5 text-green-500 fill-current" />
                 <span className="text-sm font-semibold text-neutral-700 dark:text-neutral-300">
-                  Ek Hizmetler
+                  {labels.addOnsBadge}
                 </span>
               </motion.div>
 
               <h2 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-display font-bold text-neutral-900 dark:text-white mb-6">
-                Ek{" "}
+                {labels.addOnsHeadingBefore}{" "}
                 <span className="bg-gradient-to-r from-green-500 via-emerald-500 to-teal-500 bg-clip-text text-transparent">
-                  Hizmetler
+                  {labels.addOnsHeadingGradient}
                 </span>
               </h2>
               <p className="text-lg sm:text-xl text-neutral-600 dark:text-neutral-400 max-w-3xl mx-auto leading-relaxed">
-                Paketlerinize ekleyebileceğiniz ek hizmetler ile projenizi daha da geliştirin. 
-                Özel ihtiyaçlarınız için esnek çözümler sunuyoruz.
+                {labels.addOnsSubtitle}
               </p>
             </motion.div>
 
@@ -241,7 +272,7 @@ export function ServicePricing({ data, showDomainNotice = false, showAddOnServic
                   
                   {/* CTA Button */}
                   <motion.a
-                    href={`https://wa.me/905411883045?text=${encodeURIComponent(`Merhaba! ${data.title} hizmeti ${service.name} ek hizmeti hakkında bilgi almak istiyorum.`)}`}
+                    href={`https://wa.me/905411883045?text=${encodeURIComponent((labels.ctaAddOnMessageTemplate || "").replace('{serviceTitle}', data.title).replace('{addOnName}', service.name))}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     whileHover={{ scale: 1.02 }}
@@ -249,7 +280,7 @@ export function ServicePricing({ data, showDomainNotice = false, showAddOnServic
                     className="w-full py-2 px-4 rounded-lg font-semibold text-sm transition-all duration-200 flex items-center justify-center space-x-2 glass text-neutral-700 dark:text-neutral-300 hover:bg-white/20 dark:hover:bg-gray-800 mt-auto"
                     style={{ background: 'rgba(255, 255, 255, 0.1)' }}
                   >
-                    <span>Detay Al</span>
+                    <span>{labels.ctaGetDetails}</span>
                     <ArrowRight className="h-3 w-3" />
                   </motion.a>
                 </motion.div>

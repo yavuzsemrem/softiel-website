@@ -146,7 +146,7 @@ export default function WebGelistirmePage() {
         price: "₺5.000"
       },
       {
-        name: "Yedekleme & Monitoring",
+        name: "Yedekleme / Monitoring",
         description: "Otomatik yedekleme ve izleme",
         price: "₺5.000"
       }

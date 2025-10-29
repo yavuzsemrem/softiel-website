@@ -13,7 +13,26 @@
     "subtitle": "Make a difference in the digital world",
     "description": "Grow your business with web design, development, SEO and digital marketing services.",
     "cta": "Get Started",
-    "learnMore": "Learn More"
+    "learnMore": "Learn More",
+    "mainTitle1": "In the Digital World",
+    "mainTitle2": "Make a Difference",
+    "mainDescription": "From web design to <span class=\"gradient-text\">AI integration</span>, from mobile apps to <span class=\"gradient-text\">SEO optimization</span>, we offer <span class=\"gradient-text\">professional solutions</span> for all your digital needs.",
+    "stats": {
+      "delivery": "Fast",
+      "deliveryLabel": "Delivery",
+      "satisfaction": "5.0",
+      "satisfactionLabel": "Customer Satisfaction",
+      "support": "24/7",
+      "supportLabel": "Technical Support"
+    },
+    "button1": "Get Free Quote",
+    "button2": "Explore Our Services",
+    "features": {
+      "webDevelopment": "Web Application Development",
+      "uiUx": "UI/UX Design",
+      "seo": "SEO Optimization",
+      "ai": "Artificial Intelligence"
+    }
   },
   "services": {
     "title": "Our Services",
@@ -191,6 +210,10 @@
     "description": "Comprehensive solutions that make your brand stand out in the digital world.",
     "description2": "From web design to AI integration, from mobile app development to SEO optimization, we are your one-stop solution for all your digital needs.",
     "viewDetails": "View Details"
+  },
+  "serviceHero": {
+    "startNow": "Start Now",
+    "whatsappChat": "WhatsApp Chat"
   },
   "processNew": {
     "badge": "Our Process",
@@ -862,7 +885,7 @@
   },
   "about_hero": {
     "page_indicator": "About Us",
-    "main_heading_1": "Your Trustworthy",
+    "main_heading_1": "Trustworthy",
     "main_heading_2": "Partner",
     "description": "Your reliable and experienced partner in your digital transformation journey. We carry your business to the future with modern technologies and our expert team.",
     "cta_button_1": "Discover Our Story",
@@ -936,6 +959,77 @@
           "2": "Project Tracking",
           "3": "Reliable Information"
         }
+      }
+    }
+  },
+  "servicesHome": {
+    "badge": "Our Services",
+    "titlePart1": "Digital",
+    "titlePart2": "Services",
+    "description": "Comprehensive solutions that make your brand stand out in the digital world. From web design to AI integration, from mobile app development to SEO optimization, we are your one-stop solution for all your digital needs.",
+    "viewDetails": "View Details"
+  },
+  "aboutNew": {
+    "badge": "Technology & Innovation",
+    "titlePart1": "Building",
+    "titlePart2": "The Future",
+    "description": "We make your brand stand out in the digital world with cutting-edge technologies and creative solutions. Every project is a story, every line of code is one step closer to the future.",
+    "features": {
+      "0": {
+        "title": "Fast Delivery",
+        "description": "We deliver your projects on time and with quality"
+      },
+      "1": {
+        "title": "Modern Technology",
+        "description": "We offer future-proof solutions using the latest technologies"
+      },
+      "2": {
+        "title": "Global Standards",
+        "description": "We provide services at international quality standards"
+      },
+      "3": {
+        "title": "Secure Solutions",
+        "description": "We develop secure and encrypted systems that protect your data"
+      },
+      "4": {
+        "title": "Expert Team",
+        "description": "We offer the best solutions with our experienced and expert staff"
+      },
+      "5": {
+        "title": "Quality Guarantee",
+        "description": "We apply the highest quality standards in every project"
+      }
+    },
+    "processSteps": {
+      "0": {
+        "step": "01",
+        "title": "Analysis & Planning",
+        "description": "We analyze your project in detail and develop strategies"
+      },
+      "1": {
+        "step": "02",
+        "title": "Design & Development",
+        "description": "We bring it to life with modern design and coding"
+      },
+      "2": {
+        "step": "03",
+        "title": "Testing & Optimization",
+        "description": "We perform quality control and performance optimization"
+      },
+      "3": {
+        "step": "04",
+        "title": "Delivery & Support",
+        "description": "We deliver the project and provide continuous support"
+      },
+      "4": {
+        "step": "05",
+        "title": "Monitoring & Reporting",
+        "description": "We track project performance and provide detailed reports"
+      },
+      "5": {
+        "step": "06",
+        "title": "Continuous Improvement",
+        "description": "We make continuous updates based on user feedback"
       }
     }
   },

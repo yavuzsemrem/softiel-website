@@ -23,6 +23,39 @@ export default function SEOAramaMotoruOptimizasyonuPage() {
     detailDescription: "SEO artık sadece anahtar kelime yoğunluğu değil, kullanıcı deneyimi odaklı bir stratejidir. Doğru yaklaşımla hem Google'ın algoritmalarını hem de müşteri ihtiyaçlarını karşılıyoruz.",
     icon: "🔍",
     serviceType: "seo",
+    labels: {
+      detailsBadge: "Hizmet Detayları",
+      whyPrefix: "Neden",
+      processBadge: "Süreç",
+      processHeadingBefore: "Nasıl",
+      processHeadingGradient: "Çalışıyoruz",
+      processSubtitle: "Projenizi adım adım hayata geçiriyoruz. Her aşamada en iyi sonucu sağlamak için iletişim halinde kalıyoruz.",
+      timelineAverage: "Ortalama Süre",
+      timelineSupport: "Destek",
+      timelineSatisfaction: "Memnuniyet",
+      pricingBadge: "Fiyatlandırma",
+      pricingHeadingBefore: "Uygun",
+      pricingHeadingGradient: "Fiyatlar",
+      pricingSubtitle: "Projeniz için doğru paketi seçin. Özel ihtiyaçlar için özel teklifler de hazırlıyoruz.",
+      popularBadge: "En Popüler",
+      ctaGetOffer: "Teklif Al",
+      ctaOfferMessageTemplate: "Merhaba! {serviceTitle} hizmeti için {planName} paketi hakkında bilgi almak istiyorum.",
+      domainNotice: "Domain + SSL + hosting ücretleri pakete dahil değildir",
+      addOnsBadge: "Ek Hizmetler",
+      addOnsHeadingBefore: "Ek",
+      addOnsHeadingGradient: "Hizmetler",
+      addOnsSubtitle: "Projenizi opsiyonel ek hizmetlerle geliştirin. Özel ihtiyaçlar için esnek çözümler sunuyoruz.",
+      ctaGetDetails: "Detayları Gör",
+      ctaAddOnMessageTemplate: "Merhaba! {serviceTitle} hizmeti için {addOnName} ek hizmeti hakkında bilgi almak istiyorum.",
+      featuresSEO: [
+        { title: "Anahtar Kelime Araştırması", description: "Hedef kitleye odaklı anahtar kelime analizi ve strateji" },
+        { title: "Teknik SEO", description: "Site hızı, mobil uyum ve indeksleme optimizasyonu" },
+        { title: "İçerik Optimizasyonu", description: "SEO dostu içerik üretimi ve meta optimizasyonu" },
+        { title: "Analytics & Takip", description: "Google Analytics ve Search Console entegrasyonu" },
+        { title: "Backlink Stratejisi", description: "Otorite sağlayan ve organik link profili geliştirme" },
+        { title: "Performans Raporu", description: "Aylık detaylı SEO performans raporları" },
+      ],
+    },
     features: [
       {
         title: "Google Rank Artışı",
@@ -73,11 +106,13 @@ export default function SEOAramaMotoruOptimizasyonuPage() {
         price: "₺7.500",
         period: "aylık",
         features: [
-          "5 Anahtar Kelime",
-          "Teknik SEO",
-          "Aylık Rapor",
-          "Google Analytics",
-          "3 Ay Minimum"
+          "Denetim",
+          "Analytics/Console kurulumu",
+          "Meta/URL optimizasyonu",
+          "Site haritası",
+          "Lighthouse raporları",
+          "Aylık rapor",
+          "1 revizyon",
         ],
         popular: false,
         icon: "Zap",
@@ -88,11 +123,13 @@ export default function SEOAramaMotoruOptimizasyonuPage() {
         price: "₺15.000",
         period: "aylık",
         features: [
-          "15 Anahtar Kelime",
-          "İçerik Üretimi",
-          "Haftalık Rapor",
-          "Rakip Analizi",
-          "6 Ay Minimum"
+          "Starter + anahtar kelime araştırması",
+          "İçerik optimizasyonu",
+          "Blog planı",
+          "Linkleme",
+          "Görsel SEO",
+          "Ayrıntılı rapor",
+          "2 revizyon",
         ],
         popular: true,
         icon: "Star",
@@ -103,11 +140,13 @@ export default function SEOAramaMotoruOptimizasyonuPage() {
         price: "₺25.000",
         period: "aylık",
         features: [
-          "Sınırsız Kelime",
-          "Ürün Optimizasyonu",
-          "Günlük Takip",
-          "Özel Strateji",
-          "12 Ay Minimum"
+          "Pro + daha fazla kelime/içerik",
+          "Backlink stratejisi",
+          "Rakip analizi",
+          "Yerel SEO",
+          "360° yönetim",
+          "Aylık toplantı",
+          "3 revizyon",
         ],
         popular: false,
         icon: "Shield",
@@ -117,32 +156,37 @@ export default function SEOAramaMotoruOptimizasyonuPage() {
     addOnServices: [
       {
         name: "Ekstra Anahtar Kelime",
-        description: "Ek anahtar kelime araştırma ve optimizasyon",
+        description: "Her 5 kelime başına",
         price: "₺500"
       },
       {
         name: "Ekstra İçerik Yazarlığı",
-        description: "SEO uyumlu içerik üretimi paketi",
+        description: "700–1000 kelime, makale başına",
         price: "₺1.500"
       },
       {
         name: "Backlink Paketleri",
-        description: "Kaliteli backlink kazanım paketi",
+        description: "5–10 kaliteli link",
         price: "₺3.500"
       },
       {
-        name: "SEO Uyumlu Görsel",
-        description: "Optimize edilmiş görsel tasarım paketi",
+        name: "SEO Görsel",
+        description: "Parça başına",
         price: "₺1.000"
       },
       {
         name: "Rakip Analizi Raporu",
-        description: "Detaylı rakip analiz paketi",
+        description: "Aylık",
         price: "₺2.000"
       },
       {
-        name: "Landing Page SEO",
-        description: "Landing page optimizasyon paketi",
+        name: "Rakip Analizi Raporu",
+        description: "Çeyreklik",
+        price: "₺5.000"
+      },
+      {
+        name: "Landing SEO",
+        description: "Sayfa başına",
         price: "₺2.000"
       }
     ]

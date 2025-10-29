@@ -1,9 +1,9 @@
 "use client"
 
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import { Send, CheckCircle, MessageSquare, User, Mail, Phone, Building, Calendar, ArrowDown, Loader2 } from "lucide-react"
-// EmailJS'i server-side API route üzerinden kullan
+import emailjs from '@emailjs/browser'
 import { GoogleReCaptchaProvider, useGoogleReCaptcha } from 'react-google-recaptcha-v3'
 import { RECAPTCHA_CONFIG, RECAPTCHA_ACTIONS, isReCAPTCHAEnabled } from '@/config'
 import { PrivacyModal } from './privacy-modal'
@@ -16,6 +16,12 @@ function ContactFormContent() {
   const [error, setError] = useState('')
   const [isPrivacyModalOpen, setIsPrivacyModalOpen] = useState(false)
   const { executeRecaptcha } = useGoogleReCaptcha()
+
+  // EmailJS initialization - sadece bir kere
+  useEffect(() => {
+    const EMAILJS_PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || '2sFjyMYKIlcAHZn4r'
+    emailjs.init(EMAILJS_PUBLIC_KEY)
+  }, [])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -36,6 +42,10 @@ function ContactFormContent() {
       const serviceSelect = form.querySelector('select[name="service"]') as HTMLSelectElement
       const selectedServiceText = serviceSelect.options[serviceSelect.selectedIndex]?.text || formData.get('service') as string
       
+      // EmailJS configuration
+      const EMAILJS_SERVICE_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || 'service_kz9k55y'
+      const EMAILJS_TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || 'template_zj8l9k7'
+
       const templateParams = {
         // Template'de kullanılan değişken isimleri
         name: formData.get('name') as string,
@@ -56,21 +66,15 @@ function ContactFormContent() {
         recaptcha_token: recaptchaToken
       }
 
-      // Form verileri hazırlandı
-
-      // Server-side API route üzerinden email gönder
-      const response = await fetch('/api/send-contact-email', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(templateParams),
-      })
+      // EmailJS ile direkt client-side'dan email gönder
+      const result = await emailjs.send(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        templateParams
+      )
       
-      const result = await response.json()
-      
-      if (!response.ok || !result.success) {
-        throw new Error(result.error || 'Email gönderimi başarısız oldu')
+      if (result.status !== 200) {
+        throw new Error('Email gönderimi başarısız oldu')
       }
       
       setIsSubmitted(true)

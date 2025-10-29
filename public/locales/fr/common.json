@@ -13,7 +13,26 @@
     "subtitle": "Faites la différence dans le monde numérique",
     "description": "Développez votre entreprise avec le design web, le développement, le SEO et les services de marketing numérique.",
     "cta": "Commencer",
-    "learnMore": "En savoir plus"
+    "learnMore": "En savoir plus",
+    "mainTitle1": "Dans le monde numérique",
+    "mainTitle2": "Faire la différence",
+    "mainDescription": "Du design web à l'<span class=\"gradient-text\">intégration IA</span>, des applications mobiles à l'<span class=\"gradient-text\">optimisation SEO</span>, nous offrons des <span class=\"gradient-text\">solutions professionnelles</span> pour tous vos besoins numériques.",
+    "stats": {
+      "delivery": "Rapide",
+      "deliveryLabel": "Livraison",
+      "satisfaction": "5.0",
+      "satisfactionLabel": "Satisfaction client",
+      "support": "24/7",
+      "supportLabel": "Support technique"
+    },
+    "button1": "Obtenir un devis gratuit",
+    "button2": "Explorer nos services",
+    "features": {
+      "webDevelopment": "Développement d'applications web",
+      "uiUx": "Design UI/UX",
+      "seo": "Optimisation SEO",
+      "ai": "Intelligence artificielle"
+    }
   },
   "services": {
     "title": "Nos Services",
@@ -315,6 +334,10 @@
     "description": "Solutions complètes qui font briller votre marque dans le monde numérique.",
     "description2": "Du design web à l'intégration IA, du développement d'applications mobiles à l'optimisation SEO, nous sommes votre solution unique pour tous vos besoins numériques.",
     "viewDetails": "Voir les Détails"
+  },
+  "serviceHero": {
+    "startNow": "Commencer Maintenant",
+    "whatsappChat": "Discussion WhatsApp"
   },
   "processNew": {
     "badge": "Notre Processus",
@@ -862,7 +885,7 @@
   },
   "about_hero": {
     "page_indicator": "À Propos",
-    "main_heading_1": "Votre Partenaire",
+    "main_heading_1": "Partenaire",
     "main_heading_2": "De Confiance",
     "description": "Votre partenaire fiable et expérimenté dans votre parcours de transformation numérique. Nous portons votre entreprise vers l'avenir avec des technologies modernes et notre équipe d'experts.",
     "cta_button_1": "Découvrir Notre Histoire",
@@ -936,6 +959,77 @@
           "2": "Suivi de Projet",
           "3": "Informations Fiables"
         }
+      }
+    }
+  },
+  "servicesHome": {
+    "badge": "Nos Services",
+    "titlePart1": "Services",
+    "titlePart2": "Numériques",
+    "description": "Solutions complètes qui font briller votre marque dans le monde numérique. Du design web à l'intégration IA, du développement d'applications mobiles à l'optimisation SEO, nous sommes votre solution unique pour tous vos besoins numériques.",
+    "viewDetails": "Voir les Détails"
+  },
+  "aboutNew": {
+    "badge": "Technologie & Innovation",
+    "titlePart1": "Construction",
+    "titlePart2": "De L'Avenir",
+    "description": "Nous faisons briller votre marque dans le monde numérique avec des technologies de pointe et des solutions créatives. Chaque projet est une histoire, chaque ligne de code est un pas de plus vers l'avenir.",
+    "features": {
+      "0": {
+        "title": "Livraison Rapide",
+        "description": "Nous livrons vos projets à temps et avec qualité"
+      },
+      "1": {
+        "title": "Technologie Moderne",
+        "description": "Nous offrons des solutions d'avenir utilisant les technologies les plus récentes"
+      },
+      "2": {
+        "title": "Normes Mondiales",
+        "description": "Nous fournissons des services aux normes de qualité internationales"
+      },
+      "3": {
+        "title": "Solutions Sécurisées",
+        "description": "Nous développons des systèmes sécurisés et cryptés qui protègent vos données"
+      },
+      "4": {
+        "title": "Équipe d'Experts",
+        "description": "Nous offrons les meilleures solutions avec notre personnel expérimenté et expert"
+      },
+      "5": {
+        "title": "Garantie Qualité",
+        "description": "Nous appliquons les plus hauts standards de qualité dans chaque projet"
+      }
+    },
+    "processSteps": {
+      "0": {
+        "step": "01",
+        "title": "Analyse & Planification",
+        "description": "Nous analysons votre projet en détail et développons des stratégies"
+      },
+      "1": {
+        "step": "02",
+        "title": "Design & Développement",
+        "description": "Nous le concrétisons avec un design moderne et du codage"
+      },
+      "2": {
+        "step": "03",
+        "title": "Test & Optimisation",
+        "description": "Nous effectuons le contrôle qualité et l'optimisation des performances"
+      },
+      "3": {
+        "step": "04",
+        "title": "Livraison & Support",
+        "description": "Nous livrons le projet et fournissons un support continu"
+      },
+      "4": {
+        "step": "05",
+        "title": "Suivi & Reporting",
+        "description": "Nous suivons la performance du projet et fournissons des rapports détaillés"
+      },
+      "5": {
+        "step": "06",
+        "title": "Amélioration Continue",
+        "description": "Nous effectuons des mises à jour continues basées sur les retours utilisateurs"
       }
     }
   },

@@ -56,7 +56,7 @@ export function Navigation({ isMobile = false, onClose }: NavigationProps) {
 
   const isActive = (href: string) => {
     // Ana sayfa kontrolü - getLocalizedUrl("/") "/tr" döndürüyor
-    if (href === "/" || href === "/tr" || href === "/en" || href === "/de" || href === "/fr" || href === "/ar") {
+    if (href === "/" || href === "/tr" || href === "/en" || href === "/de" || href === "/fr" || href === "/ru" || href === "/ar") {
       // Ana sayfa sadece tam olarak ana sayfa URL'sinde aktif olmalı
       return pathname === href
     }
@@ -68,6 +68,12 @@ export function Navigation({ isMobile = false, onClose }: NavigationProps) {
     
     // Başlangıç kontrolü
     if (pathname.startsWith(href)) {
+      return true
+    }
+
+    // RU diline özel: Hizmetler kökü /ru/uslugi, alt sayfalar /ru/services/... altında
+    // Parent "Hizmetler" menüsünün aktif kalması için bu eşleştirmeyi yap
+    if (href === "/ru/uslugi" && pathname.startsWith("/ru/services")) {
       return true
     }
     

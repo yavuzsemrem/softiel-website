@@ -14,6 +14,39 @@ export default function GoogleAdsMetaAdsYonetimiPage() {
     detailDescription: "Online reklamlar artık işletmeler için hayati önem taşıyor. Doğru platform stratejisi ve kampanya yönetimiyle müşterilerinize doğrudan ulaşıp satışlarınızı artırabilirsiniz.",
     icon: "📢",
     serviceType: "google-ads",
+    labels: {
+      detailsBadge: "Hizmet Detayları",
+      whyPrefix: "Neden",
+      processBadge: "Süreç",
+      processHeadingBefore: "Nasıl",
+      processHeadingGradient: "Çalışıyoruz",
+      processSubtitle: "Projenizi adım adım hayata geçiriyoruz. Her aşamada en iyi sonucu sağlamak için iletişim halinde kalıyoruz.",
+      timelineAverage: "Ortalama Süre",
+      timelineSupport: "Destek",
+      timelineSatisfaction: "Memnuniyet",
+      pricingBadge: "Fiyatlandırma",
+      pricingHeadingBefore: "Uygun",
+      pricingHeadingGradient: "Fiyatlar",
+      pricingSubtitle: "Projeniz için doğru paketi seçin. Özel ihtiyaçlar için özel teklifler de hazırlıyoruz.",
+      popularBadge: "En Popüler",
+      ctaGetOffer: "Teklif Al",
+      ctaOfferMessageTemplate: "Merhaba! {serviceTitle} hizmeti için {planName} paketi hakkında bilgi almak istiyorum.",
+      domainNotice: "Domain + SSL + hosting ücretleri pakete dahil değildir",
+      addOnsBadge: "Ek Hizmetler",
+      addOnsHeadingBefore: "Ek",
+      addOnsHeadingGradient: "Hizmetler",
+      addOnsSubtitle: "Projenizi opsiyonel ek hizmetlerle geliştirin. Özel ihtiyaçlar için esnek çözümler sunuyoruz.",
+      ctaGetDetails: "Detayları Gör",
+      ctaAddOnMessageTemplate: "Merhaba! {serviceTitle} hizmeti için {addOnName} ek hizmeti hakkında bilgi almak istiyorum.",
+      featuresGoogleAds: [
+        { title: "Hedefli Reklamcılık", description: "Doğru kitleye hassas hedefleme ile ulaşın" },
+        { title: "ROI Odaklı Stratejiler", description: "Her kurulan kampanyadan yüksek geri dönüş" },
+        { title: "Gerçek Zamanlı Optimizasyon", description: "7/24 kampanya performans takibi ve iyileştirme" },
+        { title: "Multi-Platform Yönetim", description: "Google Ads, Meta Ads ve LinkedIn tek elden" },
+        { title: "Hızlı Kampanya Kurulumu", description: "24 saat içinde aktif kampanyalar" },
+        { title: "Detaylı Performans Analizi", description: "Aylık raporlarla kampanya sonuçları" },
+      ],
+    },
     features: [
       {
         title: "Hedefli Kampanyalar",
@@ -113,33 +146,33 @@ export default function GoogleAdsMetaAdsYonetimiPage() {
     ],
     addOnServices: [
       {
-        name: "Ek Kanal Yönetimi",
-        description: "LinkedIn Ads araştırma ve optimizasyon", // 38 karakter
-        price: "₺3.500"
+        name: "Ek kanal yönetimi",
+        description: "LinkedIn/TikTok/Twitter – kanal",
+        price: "₺3.500 / ay"
       },
       {
-        name: "Görsel Tasarım",
-        description: "Ad uyumlu içerik üretimi paketi", // 32 karakter
+        name: "Profesyonel görsel tasarımı",
+        description: "Banner, sosyal medya postu – parça başına",
         price: "₺1.500"
       },
       {
-        name: "Video Reklam Üretimi",
-        description: "Kaliteli reklam kazanım paketi", // 32 karakter
+        name: "Video reklam üretimi",
+        description: "YouTube/Reels/TikTok – video",
         price: "₺2.500"
       },
       {
-        name: "Landing Page Tasarımı",
-        description: "Optimize edilmiş reklam tasarım paketi", // 35 karakter
+        name: "Landing page tasarımı",
+        description: "Dönüşüm odaklı – sayfa başına",
         price: "₺7.500"
       },
       {
-        name: "Dönüşüm Danışmanlığı",
-        description: "Detaylı reklam analiz paketi", // 27 karakter
+        name: "Hunisi Danışmanlığı",
+        description: "CRM entegrasyonu, lead takibi",
         price: "₺5.000"
       },
       {
-        name: "Rakip Reklam Analizi",
-        description: "Landing page optimizasyon paketi", // 30 karakter
+        name: "Rakip Analizi",
+        description: "Tek seferlik",
         price: "₺2.000"
       }
     ]

@@ -23,6 +23,39 @@ export default function MobilUygulamaGelistirmePage() {
     detailDescription: "Mobil uygulamalar artık işletmeler için kritik önem taşıyor. Kullanıcılar zamanlarının %90'ını mobil cihazlarda geçirirken, doğru mobil strateji müşterilerinize 7/24 erişim sağlar ve rekabette avantaj kazandırır.",
     icon: "📱",
     serviceType: "mobil-uygulama",
+    labels: {
+      detailsBadge: "Hizmet Detayları",
+      whyPrefix: "Neden",
+      processBadge: "Süreç",
+      processHeadingBefore: "Nasıl",
+      processHeadingGradient: "Çalışıyoruz",
+      processSubtitle: "Projenizi adım adım hayata geçiriyoruz. Her aşamada en iyi sonucu sağlamak için iletişim halinde kalıyoruz.",
+      timelineAverage: "Ortalama Süre",
+      timelineSupport: "Destek",
+      timelineSatisfaction: "Memnuniyet",
+      pricingBadge: "Fiyatlandırma",
+      pricingHeadingBefore: "Uygun",
+      pricingHeadingGradient: "Fiyatlar",
+      pricingSubtitle: "Projeniz için doğru paketi seçin. Özel ihtiyaçlar için özel teklifler de hazırlıyoruz.",
+      popularBadge: "En Popüler",
+      ctaGetOffer: "Teklif Al",
+      ctaOfferMessageTemplate: "Merhaba! {serviceTitle} hizmeti için {planName} paketi hakkında bilgi almak istiyorum.",
+      domainNotice: "Domain + SSL + hosting ücretleri pakete dahil değildir",
+      addOnsBadge: "Ek Hizmetler",
+      addOnsHeadingBefore: "Ek",
+      addOnsHeadingGradient: "Hizmetler",
+      addOnsSubtitle: "Projenizi opsiyonel ek hizmetlerle geliştirin. Özel ihtiyaçlar için esnek çözümler sunuyoruz.",
+      ctaGetDetails: "Detayları Gör",
+      ctaAddOnMessageTemplate: "Merhaba! {serviceTitle} hizmeti için {addOnName} ek hizmeti hakkında bilgi almak istiyorum.",
+      featuresMobileApp: [
+        { title: "Cross Platform", description: "Tek kod tabanıyla iOS ve Android uygulamaları" },
+        { title: "Hızlı Geliştirme", description: "Modern cross-platform teknolojiler ile hızlı uygulama geliştirme" },
+        { title: "Store Uyumluluğu", description: "App Store ve Google Play standartlarına uyumlu uygulamalar" },
+        { title: "Native Performans", description: "Yüksek performanslı mobil uygulama deneyimi" },
+        { title: "Backend Entegrasyon", description: "API tabanlı veritabanı ve pusher servisler" },
+        { title: "Push Notification", description: "Gerçek zamanlı bildirimler ve engagement özellikleri" },
+      ],
+    },
     features: [
       {
         title: "Hızlı MVP",
@@ -73,12 +106,12 @@ export default function MobilUygulamaGelistirmePage() {
         price: "₺50.000",
         period: "başlangıç",
         features: [
-          "iOS + Android (Flutter/React Native)",
-          "Kullanıcı girişi (e-posta/şifre)",
-          "Profil sayfası + temel CRUD",
-          "Basit push notification",
-          "Backend: Firebase/REST API",
-          "1 revizyon turu"
+          "iOS + Android cross-platform",
+          "Kullanıcı girişi",
+          "Profil + CRUD",
+          "Basit bildirim",
+          "Firebase/REST",
+          "1 revizyon"
         ],
         popular: false,
         icon: "Zap",
@@ -89,13 +122,12 @@ export default function MobilUygulamaGelistirmePage() {
         price: "₺80.000",
         period: "başlangıç",
         features: [
-          "Tüm Starter özellikleri",
-          "Gelişmiş kullanıcı yönetimi (roller, izinler)",
-          "Ödeme entegrasyonu (Iyzico, Stripe)",
-          "Harita/konum tabanlı özellikler",
+          "Starter + gelişmiş kullanıcı",
+          "Ödeme entegrasyonu",
+          "Harita",
           "Gerçek zamanlı bildirim",
-          "Basit admin paneli",
-          "2 revizyon turu"
+          "Admin panel",
+          "2 revizyon"
         ],
         popular: true,
         icon: "Star",
@@ -103,17 +135,16 @@ export default function MobilUygulamaGelistirmePage() {
       },
       {
         name: "Enterprise",
-        price: "₺150.000+",
+        price: "₺150.000",
         period: "başlangıç",
         features: [
-          "Tüm Pro özellikleri",
-          "Çoklu dil desteği",
-          "İleri seviye güvenlik (2FA, şifreleme)",
-          "Gerçek zamanlı chat/socket",
-          "Mikroservis tabanlı backend",
-          "CI/CD entegrasyonu",
+          "Pro + çoklu dil",
+          "İleri güvenlik",
+          "Chat/socket",
+          "Mikroservis backend",
+          "CI/CD",
           "SLA + 6 ay bakım",
-          "3 revizyon turu"
+          "3 revizyon"
         ],
         popular: false,
         icon: "Shield",
@@ -123,12 +154,12 @@ export default function MobilUygulamaGelistirmePage() {
     addOnServices: [
       {
         name: "Ek Ekran",
-        description: "Yeni ekran tasarımı ve geliştirme",
+        description: "1 ekran başına",
         price: "₺1.500"
       },
       {
         name: "Ödeme Entegrasyonu",
-        description: "Stripe, PayPal veya Iyzico entegrasyonu",
+        description: "Stripe, PayPal, Iyzico",
         price: "₺7.500"
       },
       {
@@ -138,17 +169,17 @@ export default function MobilUygulamaGelistirmePage() {
       },
       {
         name: "Bildirim Sistemi",
-        description: "Firebase Cloud Messaging, OneSignal",
+        description: "Firebase / OneSignal",
         price: "₺5.000"
       },
       {
-        name: "Admin Panel",
-        description: "Web tabanlı içerik yönetim paneli",
+        name: "Admin Panel Geliştirme",
+        description: "Web tabanlı",
         price: "₺10.000"
       },
       {
-        name: "Store Optimizasyon",
-        description: "App Store & Google Play ASO danışmanlığı",
+        name: "Store Danışmanlığı",
+        description: "Optimizasyon, ASO",
         price: "₺5.000"
       },
       {

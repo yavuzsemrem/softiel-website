@@ -10,7 +10,7 @@ export default function YapayZekaEntegrasyonlariPage() {
   // Pricing packages'ı önce tanımlıyoruz
   const pricing = [
     {
-      name: "Starter (Chatbot & Destek AI)",
+      name: "Starter",
       price: "₺20.000",
       period: "başlangıç",
       features: [
@@ -25,7 +25,7 @@ export default function YapayZekaEntegrasyonlariPage() {
       color: "from-green-500 to-emerald-500"
     },
     {
-      name: "Pro (İş Süreçleri & Raporlama AI)",
+      name: "Pro",
       price: "₺60.000",
       period: "başlangıç",
       features: [
@@ -41,7 +41,7 @@ export default function YapayZekaEntegrasyonlariPage() {
       color: "from-yellow-500 to-orange-500"
     },
     {
-      name: "Enterprise (Özel AI Çözümleri & Gelişmiş Entegrasyon)",
+      name: "Enterprise",
       price: "₺100.000",
       period: "başlangıç",
       features: [
@@ -67,6 +67,39 @@ export default function YapayZekaEntegrasyonlariPage() {
     icon: "🤖",
     serviceType: "yapay-zeka",
     packagesTitle: "Paketlerde neler olmalı?",
+    labels: {
+      detailsBadge: "Hizmet Detayları",
+      whyPrefix: "Neden",
+      processBadge: "Süreç",
+      processHeadingBefore: "Nasıl",
+      processHeadingGradient: "Çalışıyoruz",
+      processSubtitle: "İhtiyaç analiziyle başlar, eskizler ve revizyonlarla netleşir, brandbook ile teslim ederiz.",
+      timelineAverage: "Ortalama Süre",
+      timelineSupport: "Destek",
+      timelineSatisfaction: "Memnuniyet",
+      pricingBadge: "Fiyatlandırma",
+      pricingHeadingBefore: "Uygun",
+      pricingHeadingGradient: "Fiyatlar",
+      pricingSubtitle: "İhtiyacınıza en uygun paketi seçin. Özel istekler için teklif sunuyoruz.",
+      popularBadge: "En Popüler",
+      ctaGetOffer: "Teklif Al",
+      ctaOfferMessageTemplate: "Merhaba! {serviceTitle} için {planName} paketi hakkında bilgi almak istiyorum.",
+      domainNotice: undefined,
+      addOnsBadge: "Ek Hizmetler",
+      addOnsHeadingBefore: "Ek",
+      addOnsHeadingGradient: "Hizmetler",
+      addOnsSubtitle: "Markanızı güçlendirecek ek hizmetleri seçin.",
+      ctaGetDetails: "Detayları Gör",
+      ctaAddOnMessageTemplate: "Merhaba! {serviceTitle} için {addOnName} ek hizmeti hakkında bilgi almak istiyorum.",
+      featuresAI: [
+        { title: "Chatbot Geliştirme", description: "Akıllı müşteri hizmetleri" },
+        { title: "Makine Öğrenmesi", description: "Veri analizi & tahminleme" },
+        { title: "Doğal Dil İşleme", description: "Metin analizi & anlama" },
+        { title: "İş Süreci Otomasyonu", description: "Rutin işleri otomatikleştirme" },
+        { title: "Görüntü İşleme", description: "Görsel analiz & tanıma" },
+        { title: "Gerçek Zamanlı Analiz", description: "Anlık veri işleme" },
+      ],
+    },
     features: [
       {
         title: "Chatbot Geliştirme",
@@ -114,16 +147,16 @@ export default function YapayZekaEntegrasyonlariPage() {
     addOnServices: [
       {
         name: "Ek Dil Desteği",
-        description: "İngilizce + Almanca vb. dil desteği",
+        description: "İngilizce + Almanca vb.",
         price: "₺2.500"
       },
       {
-        name: "Özel Model Eğitimi",
+        name: "Özel Veriyle Model Eğitimi",
         description: "Müşteri e-postalarıyla fine-tuning",
         price: "₺7.500"
       },
       {
-        name: "AI İçerik Üretimi",
+        name: "AI Destekli İçerik Üretimi",
         description: "Blog, sosyal medya, ürün açıklaması",
         price: "₺8.000"
       },

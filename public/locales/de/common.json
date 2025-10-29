@@ -13,7 +13,26 @@
     "subtitle": "Machen Sie einen Unterschied in der digitalen Welt",
     "description": "Wachsen Sie Ihr Unternehmen mit Webdesign, Entwicklung, SEO und digitalen Marketingdienstleistungen.",
     "cta": "Jetzt starten",
-    "learnMore": "Mehr erfahren"
+    "learnMore": "Mehr erfahren",
+    "mainTitle1": "In der digitalen Welt",
+    "mainTitle2": "einen Unterschied machen",
+    "mainDescription": "Von Webdesign bis zur <span class=\"gradient-text\">KI-Integration</span>, von mobilen Apps bis zur <span class=\"gradient-text\">SEO-Optimierung</span>, bieten wir <span class=\"gradient-text\">professionelle Lösungen</span> für alle Ihre digitalen Bedürfnisse.",
+    "stats": {
+      "delivery": "Schnell",
+      "deliveryLabel": "Lieferung",
+      "satisfaction": "5.0",
+      "satisfactionLabel": "Kundenzufriedenheit",
+      "support": "24/7",
+      "supportLabel": "Technischer Support"
+    },
+    "button1": "Kostenloses Angebot",
+    "button2": "Unsere Dienstleistungen erkunden",
+    "features": {
+      "webDevelopment": "Webanwendungsentwicklung",
+      "uiUx": "UI/UX-Design",
+      "seo": "SEO-Optimierung",
+      "ai": "Künstliche Intelligenz"
+    }
   },
   "services": {
     "title": "Unsere Dienstleistungen",
@@ -34,7 +53,7 @@
     "education": "Schulung & Mentoring",
     "items": {
       "webDesign": {
-        "title": "Website-Design",
+        "title": "Website Design",
         "description": "Heben Sie Ihre Marke in der digitalen Welt mit modernen, benutzerfreundlichen und responsiven Web-Designs hervor"
       },
       "webDevelopment": {
@@ -191,6 +210,10 @@
     "description": "Lösungen, die Ihre Marke in der digitalen Welt hervorheben.",
     "description2": "Von Webdesign bis KI-Integration - Ihre Anlaufstelle für digitale Bedürfnisse.",
     "viewDetails": "Details Ansehen"
+  },
+  "serviceHero": {
+    "startNow": "Jetzt Starten",
+    "whatsappChat": "WhatsApp Chat"
   },
   "processNew": {
     "badge": "Unser Prozess",
@@ -936,6 +959,77 @@
           "2": "Projektverfolgung",
           "3": "Zuverlässige Informationen"
         }
+      }
+    }
+  },
+  "servicesHome": {
+    "badge": "Unsere Dienstleistungen",
+    "titlePart1": "Digitale",
+    "titlePart2": "Services",
+    "description": "Lösungen, die Ihre Marke in der digitalen Welt hervorheben. Von Webdesign bis KI-Integration - Ihre Anlaufstelle für digitale Bedürfnisse.",
+    "viewDetails": "Details Ansehen"
+  },
+  "aboutNew": {
+    "badge": "Technologie & Innovation",
+    "titlePart1": "Gestalten",
+    "titlePart2": "Die Zukunft",
+    "description": "Mit modernsten Technologien und kreativen Lösungen heben wir Ihre Marke in der digitalen Welt hervor. Jedes Projekt ist eine Geschichte, jede Codezeile ein Schritt näher zur Zukunft.",
+    "features": {
+      "0": {
+        "title": "Schnelle Lieferung",
+        "description": "Wir liefern Ihre Projekte pünktlich und qualitativ hochwertig"
+      },
+      "1": {
+        "title": "Moderne Technologie",
+        "description": "Wir bieten zukunftsweisende Lösungen mit neuesten Technologien"
+      },
+      "2": {
+        "title": "Globale Standards",
+        "description": "Wir bieten Dienstleistungen auf internationalem Qualitätsniveau"
+      },
+      "3": {
+        "title": "Sichere Lösungen",
+        "description": "Wir entwickeln sichere und verschlüsselte Systeme, die Ihre Daten schützen"
+      },
+      "4": {
+        "title": "Expertenteam",
+        "description": "Wir bieten die besten Lösungen mit unserem erfahrenen und fachkundigen Personal"
+      },
+      "5": {
+        "title": "Qualitätsgarantie",
+        "description": "Wir wenden die höchsten Qualitätsstandards in jedem Projekt an"
+      }
+    },
+    "processSteps": {
+      "0": {
+        "step": "01",
+        "title": "Analyse & Planung",
+        "description": "Wir analysieren Ihr Projekt detailliert und entwickeln Strategien"
+      },
+      "1": {
+        "step": "02",
+        "title": "Design & Entwicklung",
+        "description": "Wir verwirklichen es mit modernem Design und Programmierung"
+      },
+      "2": {
+        "step": "03",
+        "title": "Testen & Optimierung",
+        "description": "Wir führen Qualitätskontrolle und Leistungsoptimierung durch"
+      },
+      "3": {
+        "step": "04",
+        "title": "Lieferung & Support",
+        "description": "Wir liefern das Projekt und bieten kontinuierlichen Support"
+      },
+      "4": {
+        "step": "05",
+        "title": "Überwachung & Berichterstattung",
+        "description": "Wir verfolgen die Projektleistung und erstellen detaillierte Berichte"
+      },
+      "5": {
+        "step": "06",
+        "title": "Kontinuierliche Verbesserung",
+        "description": "Wir machen kontinuierliche Updates basierend auf Nutzerfeedback"
       }
     }
   },

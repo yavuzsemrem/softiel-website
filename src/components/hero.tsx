@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import dynamic from "next/dynamic"
+import { useI18n } from "@/contexts/i18n-context"
 
 // Framer Motion'ı lazy load et - main thread work azaltmak için
 const MotionDiv = dynamic(() => import("framer-motion").then(mod => ({ default: mod.motion.div })), { 
@@ -32,6 +33,7 @@ import {
 } from "lucide-react"
 
 export function Hero() {
+  const { t, locale, getLocalizedUrl } = useI18n()
   const [isLoaded, setIsLoaded] = useState(false)
   const [isPageReady, setIsPageReady] = useState(false)
   
@@ -250,7 +252,7 @@ export function Hero() {
                   willChange: 'transform'
                 }}
               >
-                Dijital Dünyada
+                {t('hero.mainTitle1', 'Dijital Dünyada')}
               </MotionDiv>
               <MotionDiv 
                 className="block bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 bg-clip-text text-transparent"
@@ -268,7 +270,7 @@ export function Hero() {
                   willChange: 'transform'
                 }}
               >
-                Fark Yaratın
+                {t('hero.mainTitle2', 'Fark Yaratın')}
               </MotionDiv>
             </MotionDiv>
             
@@ -307,17 +309,8 @@ export function Hero() {
                 textShadow: '0 0 30px rgba(0, 0, 0, 0.8), 0 0 60px rgba(6, 182, 212, 0.3)',
                 willChange: 'opacity'
               }}
-            >
-              <span className="text-white">Web tasarımından </span>
-              <span className="bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 bg-clip-text text-transparent font-medium" style={{ WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>yapay zeka</span>
-              <span className="text-white"> entegrasyonuna, mobil uygulamalardan </span>
-              <span className="bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 bg-clip-text text-transparent font-medium" style={{ WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>SEO optimizasyonuna</span>
-              <span className="text-white"> kadar tüm </span>
-              <span className="text-white">dijital</span>
-              <span className="text-white"> ihtiyaçlarınız için </span>
-              <span className="bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 bg-clip-text text-transparent font-medium" style={{ WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>profesyonel çözümler</span>
-              <span className="text-white"> sunuyoruz.</span>
-            </MotionDiv>
+              dangerouslySetInnerHTML={{ __html: t('hero.mainDescription', 'Web tasarımından <span>yapay zeka</span> entegrasyonuna, mobil uygulamalardan <span>SEO optimizasyonuna</span> kadar tüm <span>dijital</span> ihtiyaçlarınız için <span>profesyonel çözümler</span> sunuyoruz.') }}
+            />
           </MotionDiv>
 
           {/* Enhanced Quick Stats */}
@@ -329,9 +322,9 @@ export function Hero() {
             className="grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-6xl mx-auto"
           >
             {[
-              { icon: Rocket, number: "Hızlı", label: "Teslimat", color: "cyan" },
-              { icon: Star, number: "5.0", label: "Müşteri Memnuniyeti", color: "blue" },
-              { icon: Shield, number: "24/7", label: "Teknik Destek", color: "purple" }
+              { icon: Rocket, number: t('hero.stats.delivery', 'Hızlı'), label: t('hero.stats.deliveryLabel', 'Teslimat'), color: "cyan" },
+              { icon: Star, number: t('hero.stats.satisfaction', '5.0'), label: t('hero.stats.satisfactionLabel', 'Müşteri Memnuniyeti'), color: "blue" },
+              { icon: Shield, number: t('hero.stats.support', '24/7'), label: t('hero.stats.supportLabel', 'Teknik Destek'), color: "purple" }
             ].map((stat, index) => (
               <MotionDiv
                 key={stat.label}
@@ -388,7 +381,7 @@ export function Hero() {
             style={{ transform: 'translate3d(0, 0, 0)' }}
             className="flex flex-col sm:flex-row gap-8 justify-center items-center"
           >
-            <Link href="/tr/iletisim">
+            <Link href={getLocalizedUrl('/iletisim')}>
               <MotionDiv
                 initial={{ opacity: 0, scale: 0.8, y: 30 }}
                 animate={{ opacity: isLoaded ? 1 : 0, scale: 1, y: 0 }}
@@ -410,12 +403,12 @@ export function Hero() {
                   animate={{ x: [-200, 300] }}
                   transition={{ duration: 3, repeat: Infinity, delay: 4.5 }}
                 />
-                <span className="relative z-10">Ücretsiz Teklif Al</span>
+                <span className="relative z-10">{t('hero.button1', 'Ücretsiz Teklif Al')}</span>
                 <ArrowRight className="relative z-10 h-6 w-6 group-hover:translate-x-2 transition-transform duration-300" />
               </MotionDiv>
             </Link>
             
-            <Link href="/tr/hizmetlerimiz">
+            <Link href={getLocalizedUrl('/hizmetlerimiz')}>
               <MotionDiv
                 initial={{ opacity: 0, scale: 0.8, y: 30 }}
                 animate={{ opacity: isLoaded ? 1 : 0, scale: 1, y: 0 }}
@@ -434,7 +427,7 @@ export function Hero() {
                   borderColor: 'rgba(156, 163, 175, 0.4)'
                 }}
               >
-                <span>Hizmetlerimizi İncele</span>
+                <span>{t('hero.button2', 'Hizmetlerimizi İncele')}</span>
                 <ArrowRight className="h-6 w-6 group-hover:translate-x-2 transition-transform duration-300" />
               </MotionDiv>
             </Link>
@@ -449,10 +442,10 @@ export function Hero() {
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto"
           >
             {[
-              { icon: Code, text: "Web Uygulaması Geliştirme", color: "cyan" },
-              { icon: Palette, text: "UI/UX Tasarım", color: "blue" },
-              { icon: Search, text: "SEO Optimizasyonu", color: "purple" },
-              { icon: Zap, text: "Yapay Zeka", color: "pink" }
+              { icon: Code, text: t('hero.features.webDevelopment', 'Web Uygulaması Geliştirme'), color: "cyan" },
+              { icon: Palette, text: t('hero.features.uiUx', 'UI/UX Tasarım'), color: "blue" },
+              { icon: Search, text: t('hero.features.seo', 'SEO Optimizasyonu'), color: "purple" },
+              { icon: Zap, text: t('hero.features.ai', 'Yapay Zeka'), color: "pink" }
             ].map((feature, index) => (
               <MotionDiv
                 key={feature.text}

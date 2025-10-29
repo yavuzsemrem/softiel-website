@@ -11,6 +11,51 @@ interface ServiceDetailsProps {
     description: string
     detailDescription?: string
     serviceType?: string
+    labels?: {
+      detailsBadge?: string
+      whyPrefix?: string
+      // Optional localized overrides for features per service type
+      featuresWebDesign?: Array<{
+        title: string
+        description: string
+      }>
+      featuresWebDevelopment?: Array<{
+        title: string
+        description: string
+      }>
+      featuresMobileApp?: Array<{
+        title: string
+        description: string
+      }>
+      featuresSEO?: Array<{
+        title: string
+        description: string
+      }>
+      featuresGoogleAds?: Array<{
+        title: string
+        description: string
+      }>
+      featuresWordPress?: Array<{
+        title: string
+        description: string
+      }>
+      featuresLogoIdentity?: Array<{
+        title: string
+        description: string
+      }>
+      featuresSocialMedia?: Array<{
+        title: string
+        description: string
+      }>
+      featuresAI?: Array<{
+        title: string
+        description: string
+      }>
+      featuresConsulting?: Array<{
+        title: string
+        description: string
+      }>
+    }
     features: Array<{
       title: string
       description: string
@@ -29,6 +74,11 @@ interface ServiceDetailsProps {
 }
 
 export function ServiceDetails({ data }: ServiceDetailsProps) {
+  const labels = {
+    detailsBadge: "Hizmet Detayları",
+    whyPrefix: "Neden",
+    ...(data.labels || {})
+  }
   // Web geliştirme için kartlar
   const webGelistirmeFeatures = [
     {
@@ -433,7 +483,7 @@ export function ServiceDetails({ data }: ServiceDetailsProps) {
 
 
   // Hizmet türüne göre kartları seç
-  const detailedFeatures = data.serviceType === 'web-tasarimi' 
+  let baseFeatures = data.serviceType === 'web-tasarimi' 
     ? webTasarimiFeatures 
     : data.serviceType === 'mobil-uygulama'
     ? mobilUygulamaFeatures
@@ -452,6 +502,102 @@ export function ServiceDetails({ data }: ServiceDetailsProps) {
     : data.serviceType === 'danismanlik'
     ? danismanlikFeatures
     : webGelistirmeFeatures
+
+  // İlgili hizmet için çeviri override'ı uygula (tasarım değişmeden, sadece metin)
+  const detailedFeatures = (data.serviceType === 'web-tasarimi' && data.labels?.featuresWebDesign)
+    ? baseFeatures.map((feature, index) => {
+        const override = data.labels!.featuresWebDesign![index]
+        return override
+          ? { ...feature, title: override.title, description: override.description }
+          : feature
+      })
+    : (data.serviceType === 'web-gelistirme' && data.labels?.featuresWebDevelopment)
+    ? data.labels.featuresWebDevelopment.map((override, index) => {
+        // Override varsa base feature'dan ikon ve color'ı al, title ve description'ı override'dan
+        const baseFeature = baseFeatures[index] || baseFeatures[0]
+        return {
+          ...baseFeature,
+          title: override.title,
+          description: override.description
+        }
+      })
+    : (data.serviceType === 'mobil-uygulama' && data.labels?.featuresMobileApp)
+    ? data.labels.featuresMobileApp.map((override, index) => {
+        // Override varsa base feature'dan ikon ve color'ı al, title ve description'ı override'dan
+        const baseFeature = baseFeatures[index] || baseFeatures[0]
+        return {
+          ...baseFeature,
+          title: override.title,
+          description: override.description
+        }
+      })
+    : (data.serviceType === 'seo' && data.labels?.featuresSEO)
+    ? data.labels.featuresSEO.map((override, index) => {
+        // Override varsa base feature'dan ikon ve color'ı al, title ve description'ı override'dan
+        const baseFeature = baseFeatures[index] || baseFeatures[0]
+        return {
+          ...baseFeature,
+          title: override.title,
+          description: override.description
+        }
+      })
+    : (data.serviceType === 'google-ads' && data.labels?.featuresGoogleAds)
+    ? data.labels.featuresGoogleAds.map((override, index) => {
+        // Override varsa base feature'dan ikon ve color'ı al, title ve description'ı override'dan
+        const baseFeature = baseFeatures[index] || baseFeatures[0]
+        return {
+          ...baseFeature,
+          title: override.title,
+          description: override.description
+        }
+      })
+    : (data.serviceType === 'wordpress' && data.labels?.featuresWordPress)
+    ? data.labels.featuresWordPress.map((override, index) => {
+        // Override varsa base feature'dan ikon ve color'ı al, title ve description'ı override'dan
+        const baseFeature = baseFeatures[index] || baseFeatures[0]
+        return {
+          ...baseFeature,
+          title: override.title,
+          description: override.description
+        }
+      })
+    : (data.serviceType === 'logo-kimlik' && data.labels?.featuresLogoIdentity)
+    ? data.labels.featuresLogoIdentity.map((override, index) => {
+        const baseFeature = baseFeatures[index] || baseFeatures[0]
+        return {
+          ...baseFeature,
+          title: override.title,
+          description: override.description
+        }
+      })
+    : (data.serviceType === 'sosyal-medya' && data.labels?.featuresSocialMedia)
+    ? data.labels.featuresSocialMedia.map((override, index) => {
+        const baseFeature = baseFeatures[index] || baseFeatures[0]
+        return {
+          ...baseFeature,
+          title: override.title,
+          description: override.description
+        }
+      })
+    : (data.serviceType === 'yapay-zeka' && data.labels?.featuresAI)
+    ? data.labels.featuresAI.map((override, index) => {
+        const baseFeature = baseFeatures[index] || baseFeatures[0]
+        return {
+          ...baseFeature,
+          title: override.title,
+          description: override.description
+        }
+      })
+    : (data.serviceType === 'danismanlik' && data.labels?.featuresConsulting)
+    ? data.labels.featuresConsulting.map((override, index) => {
+        const baseFeature = baseFeatures[index] || baseFeatures[0]
+        return {
+          ...baseFeature,
+          title: override.title,
+          description: override.description
+        }
+      })
+    : baseFeatures
 
   return (
     <section id="service-details" className="relative py-16 lg:py-24">
@@ -473,12 +619,12 @@ export function ServiceDetails({ data }: ServiceDetailsProps) {
           >
             <CheckCircle className="h-5 w-5 text-cyan-500 fill-current" />
             <span className="text-sm font-semibold text-neutral-700 dark:text-neutral-300">
-              Hizmet Detayları
+              {labels.detailsBadge}
             </span>
           </motion.div>
 
           <h2 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-display font-bold text-neutral-900 dark:text-white mb-6">
-            Neden{" "}
+            {labels.whyPrefix}{" "}
             <span className="bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 bg-clip-text text-transparent">
               {data.title}
             </span>

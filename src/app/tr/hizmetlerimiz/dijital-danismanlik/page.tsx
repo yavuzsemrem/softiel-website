@@ -10,7 +10,7 @@ export default function DijitalDanismanlikPage() {
   // Pricing packages'ı önce tanımlıyoruz
   const pricing = [
     {
-      name: "Starter (Hızlı Yol Haritası)",
+      name: "Starter",
       price: "₺7.500",
       period: "başlangıç",
       features: [
@@ -25,7 +25,7 @@ export default function DijitalDanismanlikPage() {
       color: "from-green-500 to-emerald-500"
     },
     {
-      name: "Pro (Düzenli Danışmanlık)",
+      name: "Pro",
       price: "₺15.000",
       period: "aylık",
       features: [
@@ -41,7 +41,7 @@ export default function DijitalDanismanlikPage() {
       color: "from-yellow-500 to-orange-500"
     },
     {
-      name: "Enterprise (Tam Stratejik Partnerlik)",
+      name: "Enterprise",
       price: "₺25.000",
       period: "aylık",
       features: [
@@ -68,6 +68,39 @@ export default function DijitalDanismanlikPage() {
     icon: "💡",
     serviceType: "danismanlik",
     packagesTitle: "Paketlerde neler olmalı?",
+    labels: {
+      detailsBadge: "Hizmet Detayları",
+      whyPrefix: "Neden",
+      processBadge: "Süreç",
+      processHeadingBefore: "Nasıl",
+      processHeadingGradient: "Çalışıyoruz",
+      processSubtitle: "İhtiyaç analiziyle başlar, strateji oluşturur, planı uygularız.",
+      timelineAverage: "Ortalama Süre",
+      timelineSupport: "Destek",
+      timelineSatisfaction: "Memnuniyet",
+      pricingBadge: "Fiyatlandırma",
+      pricingHeadingBefore: "Uygun",
+      pricingHeadingGradient: "Fiyatlar",
+      pricingSubtitle: "İhtiyacınıza en uygun paketi seçin. Özel istekler için teklif sunuyoruz.",
+      popularBadge: "En Popüler",
+      ctaGetOffer: "Teklif Al",
+      ctaOfferMessageTemplate: "Merhaba! {serviceTitle} için {planName} paketi hakkında bilgi almak istiyorum.",
+      domainNotice: undefined,
+      addOnsBadge: "Ek Hizmetler",
+      addOnsHeadingBefore: "Ek",
+      addOnsHeadingGradient: "Hizmetler",
+      addOnsSubtitle: "Markanızı güçlendirecek ek hizmetleri seçin.",
+      ctaGetDetails: "Detayları Gör",
+      ctaAddOnMessageTemplate: "Merhaba! {serviceTitle} için {addOnName} ek hizmeti hakkında bilgi almak istiyorum.",
+      featuresConsulting: [
+        { title: "Strateji Geliştirme", description: "Dijital roadmap" },
+        { title: "Teknoloji Seçimi", description: "Doğru araçlar" },
+        { title: "Süreç İyileştirme", description: "Verimlilik" },
+        { title: "Eğitim & Mentorluk", description: "Takım geliştirme" },
+        { title: "Analiz & Raporlama", description: "KPI & insights" },
+        { title: "Rakip Analizi", description: "Pazar konumu" },
+      ],
+    },
     features: [
       {
         title: "Strateji Geliştirme",
@@ -115,22 +148,22 @@ export default function DijitalDanismanlikPage() {
     addOnServices: [
       {
         name: "Ekstra Toplantı",
-        description: "Aylık paket dışında ekstra toplantı",
+        description: "Aylık paket dışında",
         price: "₺1.000"
       },
       {
         name: "Eğitim Modülü",
-        description: "SEO, sosyal medya, dijital pazarlama eğitimi",
+        description: "SEO/sosyal medya/dijital pazarlama",
         price: "₺3.000"
       },
       {
-        name: "Teknoloji Seçimi",
-        description: "ERP/CRM/e-ticaret platformu seçimi",
+        name: "Teknoloji Seçimi Danışmanlığı",
+        description: "ERP/CRM/e-ticaret seçimi",
         price: "₺5.000"
       },
       {
-        name: "Rakip Analizi",
-        description: "Derinlemesine rakip analiz raporu",
+        name: "Rakip Derinlemesine Analiz Raporu",
+        description: "Kapsamlı rakip analizi",
         price: "₺5.000"
       }
     ],

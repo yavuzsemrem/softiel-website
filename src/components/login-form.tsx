@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Eye, EyeOff, Lock, LogIn, Shield, AlertTriangle, User, Mail, Clock, RefreshCw, X, ArrowLeft, AlertCircle, CheckCircle } from "lucide-react"
 import { useRouter } from "next/navigation"
@@ -25,6 +25,7 @@ export function LoginForm() {
   const [otpTimer, setOtpTimer] = useState(0)
   const [userData, setUserData] = useState<any>(null)
   const router = useRouter()
+  const formRef = useRef<HTMLFormElement>(null)
   
   // ReCAPTCHA hook
   const { isAvailable, executeRecaptchaAction } = useRecaptcha()
@@ -62,8 +63,10 @@ export function LoginForm() {
     setError("")
   }
 
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault()
+  const handleLogin = async (e?: React.FormEvent) => {
+    if (e) {
+      e.preventDefault()
+    }
     setIsLoading(true)
     setError("")
 
@@ -230,7 +233,18 @@ export function LoginForm() {
         )}
 
         {/* Login Form */}
-        <form onSubmit={handleLogin} className="space-y-6" autoComplete="off" data-lpignore="true" data-1p-ignore="true">
+        <form 
+          ref={formRef} 
+          onSubmit={(e) => {
+            console.log('Form onSubmit triggered')
+            handleLogin(e)
+          }} 
+          className="space-y-6" 
+          autoComplete="off" 
+          data-lpignore="true" 
+          data-1p-ignore="true"
+          noValidate
+        >
           <div>
             <label className="block text-sm font-medium text-neutral-300 mb-2">
               Username or Email
@@ -282,8 +296,26 @@ export function LoginForm() {
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full px-6 py-4 text-white rounded-xl font-semibold shadow-modern hover:shadow-modern-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-3"
-            style={{ background: 'linear-gradient(to right, #06b6d4, #3b82f6)' }}
+            onClick={(e) => {
+              console.log('Button onClick triggered', { isLoading })
+              
+              // Eğer form geçersizse, preventDefault yapıp validation göster
+              if (formRef.current && !formRef.current.checkValidity()) {
+                console.log('Form invalid, showing validation')
+                e.preventDefault()
+                e.stopPropagation()
+                formRef.current.reportValidity()
+                return false
+              }
+              
+              // Form geçerliyse, form submit edilecek ve onSubmit tetiklenecek
+              console.log('Form valid, will submit')
+            }}
+            onMouseDown={(e) => {
+              console.log('Button mouse down')
+            }}
+            className="w-full px-6 py-4 text-white rounded-xl font-semibold shadow-modern hover:shadow-modern-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-3 cursor-pointer active:scale-[0.98] relative z-10"
+            style={{ background: 'linear-gradient(to right, #06b6d4, #3b82f6)', pointerEvents: 'auto', WebkitTapHighlightColor: 'transparent' }}
           >
             {isLoading ? (
               <div className="h-5 w-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />

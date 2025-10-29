@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
-import emailjs from '@emailjs/browser';
 
 // EmailJS configuration (server-side)
 const EMAILJS_SERVICE_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || 'service_kz9k55y';
 const EMAILJS_TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || 'template_zj8l9k7';
 const EMAILJS_PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || '2sFjyMYKIlcAHZn4r';
+const EMAILJS_API_URL = 'https://api.emailjs.com/api/v1.0/email/send';
 
 // Rate limiting store (in-memory, production'da Redis kullanın)
 const rateLimitStore = new Map<string, { count: number; resetTime: number }>();
@@ -31,6 +31,11 @@ export async function POST(request: NextRequest) {
   try {
     // Check EmailJS configuration
     if (!EMAILJS_SERVICE_ID || !EMAILJS_TEMPLATE_ID || !EMAILJS_PUBLIC_KEY) {
+      console.error('EmailJS config missing:', {
+        serviceId: !!EMAILJS_SERVICE_ID,
+        templateId: !!EMAILJS_TEMPLATE_ID,
+        publicKey: !!EMAILJS_PUBLIC_KEY
+      });
       return NextResponse.json(
         { success: false, error: 'EmailJS configuration missing' },
         { status: 500 }
@@ -65,36 +70,92 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Initialize EmailJS (server-side)
-    emailjs.init(EMAILJS_PUBLIC_KEY);
+    // Send email via EmailJS REST API
+    const emailjsPayload = {
+      service_id: EMAILJS_SERVICE_ID,
+      template_id: EMAILJS_TEMPLATE_ID,
+      user_id: EMAILJS_PUBLIC_KEY,
+      template_params: templateParams
+    };
 
-    // Send email via EmailJS
-    const result = await emailjs.send(
-      EMAILJS_SERVICE_ID,
-      EMAILJS_TEMPLATE_ID,
-      templateParams
-    );
+    console.log('Sending email via EmailJS:', {
+      serviceId: EMAILJS_SERVICE_ID,
+      templateId: EMAILJS_TEMPLATE_ID,
+      hasPublicKey: !!EMAILJS_PUBLIC_KEY
+    });
 
-    if (result.status === 200) {
-      // Log successful send (production'da proper logging service kullanın)
-      console.log(`Contact form email sent successfully from ${templateParams.email}`);
-      
-      return NextResponse.json({
-        success: true,
-        message: 'Email sent successfully'
+    let emailjsResponse;
+    let responseText;
+    
+    try {
+      emailjsResponse = await fetch(EMAILJS_API_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(emailjsPayload),
       });
-    } else {
+
+      responseText = await emailjsResponse.text();
+    } catch (fetchError: any) {
+      console.error('EmailJS fetch error:', fetchError);
       return NextResponse.json(
-        { success: false, error: 'Failed to send email' },
+        { success: false, error: `Network error: ${fetchError.message}` },
         { status: 500 }
       );
     }
 
+    console.log('EmailJS response:', {
+      status: emailjsResponse.status,
+      statusText: emailjsResponse.statusText,
+      responseText: responseText ? (responseText.length > 200 ? responseText.substring(0, 200) : responseText) : '(empty)'
+    });
+
+    if (!emailjsResponse.ok) {
+      console.error('EmailJS API error:', {
+        status: emailjsResponse.status,
+        statusText: emailjsResponse.statusText,
+        response: responseText
+      });
+      
+      // Try to parse error message from response
+      let errorMessage = 'Failed to send email';
+      try {
+        const errorData = JSON.parse(responseText);
+        errorMessage = errorData.text || errorData.error || errorMessage;
+      } catch (e) {
+        // If response is not JSON, use status text
+        errorMessage = responseText || emailjsResponse.statusText || errorMessage;
+      }
+      
+      return NextResponse.json(
+        { success: false, error: errorMessage },
+        { status: 500 }
+      );
+    }
+
+    // EmailJS API başarılı olduğunda 200 status code döner
+    // Response can be empty or "OK" string
+    console.log(`Contact form email sent successfully from ${templateParams.email}`);
+    
+    return NextResponse.json({
+      success: true,
+      message: 'Email sent successfully'
+    });
+
   } catch (error: any) {
-    console.error('Contact form email send error:', error);
+    console.error('Contact form email send error:', {
+      message: error?.message,
+      stack: error?.stack,
+      name: error?.name
+    });
     
     return NextResponse.json(
-      { success: false, error: 'Internal server error' },
+      { 
+        success: false, 
+        error: error?.message || 'Internal server error',
+        details: process.env.NODE_ENV === 'development' ? error?.stack : undefined
+      },
       { status: 500 }
     );
   }

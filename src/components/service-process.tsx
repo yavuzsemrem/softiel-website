@@ -13,11 +13,30 @@ interface ServiceProcessProps {
       title: string
       description: string
     }>
+    labels?: {
+      processBadge?: string
+      processHeadingBefore?: string
+      processHeadingGradient?: string
+      processSubtitle?: string
+      timelineAverage?: string
+      timelineSupport?: string
+      timelineSatisfaction?: string
+    }
   }
   duration?: string
 }
 
 export function ServiceProcess({ data, duration = "2 - 4 Hafta" }: ServiceProcessProps) {
+  const labels = {
+    processBadge: "Çalışma Süreci",
+    processHeadingBefore: "Nasıl",
+    processHeadingGradient: "Çalışıyoruz",
+    processSubtitle: "Projenizi adım adım hayata geçiriyoruz. Her aşamada sizinle iletişim halinde kalarak en iyi sonucu elde etmenizi sağlıyoruz.",
+    timelineAverage: "Ortalama Süre",
+    timelineSupport: "Destek",
+    timelineSatisfaction: "Memnuniyet",
+    ...(data.labels || {})
+  }
   const processIcons = [Users, Code, CheckCircle, Rocket]
   const processColors = [
     "from-blue-500 to-cyan-500",
@@ -46,19 +65,18 @@ export function ServiceProcess({ data, duration = "2 - 4 Hafta" }: ServiceProces
           >
             <Workflow className="h-5 w-5 text-cyan-500" />
             <span className="text-sm font-semibold text-neutral-700 dark:text-neutral-300">
-              Çalışma Süreci
+              {labels.processBadge}
             </span>
           </motion.div>
 
           <h2 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-display font-bold text-neutral-900 dark:text-white mb-6">
-            Nasıl{" "}
+            {labels.processHeadingBefore}{" "}
             <span className="bg-gradient-to-r from-cyan-500 via-blue-500 to-blue-600 bg-clip-text text-transparent">
-              Çalışıyoruz
+              {labels.processHeadingGradient}
             </span>
           </h2>
           <p className="text-lg sm:text-xl text-neutral-600 dark:text-neutral-400 max-w-3xl mx-auto leading-relaxed">
-            Projenizi adım adım hayata geçiriyoruz. Her aşamada sizinle iletişim halinde kalarak 
-            en iyi sonucu elde etmenizi sağlıyoruz.
+            {labels.processSubtitle}
           </p>
         </motion.div>
 
@@ -120,15 +138,15 @@ export function ServiceProcess({ data, duration = "2 - 4 Hafta" }: ServiceProces
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="text-center">
                 <div className="text-2xl lg:text-3xl font-bold text-cyan-500 mb-2">{duration}</div>
-                <div className="text-sm text-neutral-600 dark:text-neutral-400">Ortalama Süre</div>
+                <div className="text-sm text-neutral-600 dark:text-neutral-400">{labels.timelineAverage}</div>
               </div>
               <div className="text-center">
                 <div className="text-2xl lg:text-3xl font-bold text-blue-500 mb-2">7/24</div>
-                <div className="text-sm text-neutral-600 dark:text-neutral-400">Destek</div>
+                <div className="text-sm text-neutral-600 dark:text-neutral-400">{labels.timelineSupport}</div>
               </div>
               <div className="text-center">
                 <div className="text-2xl lg:text-3xl font-bold text-purple-500 mb-2">%100</div>
-                <div className="text-sm text-neutral-600 dark:text-neutral-400">Memnuniyet</div>
+                <div className="text-sm text-neutral-600 dark:text-neutral-400">{labels.timelineSatisfaction}</div>
               </div>
             </div>
           </div>
