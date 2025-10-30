@@ -1,7 +1,7 @@
 // Firebase configuration
 import { initializeApp, getApps } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
-import { getFirestore, connectFirestoreEmulator } from 'firebase/firestore';
+import { initializeFirestore, memoryLocalCache, setLogLevel } from 'firebase/firestore';
 import { getDatabase } from 'firebase/database';
 import { initializeAppCheck, ReCaptchaV3Provider } from 'firebase/app-check';
 
@@ -25,7 +25,13 @@ let rtdb: any = null;
 // Firebase'i her zaman başlat
 app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
 auth = getAuth(app);
-db = getFirestore(app);
+// Prod'da Firestore log seviyesini düşür
+if (typeof window !== 'undefined' ? process.env.NODE_ENV === 'production' : true) {
+  try { setLogLevel('error') } catch {}
+}
+
+// BloomFilter uyarılarını azaltmak için memory cache kullan
+db = initializeFirestore(app, { localCache: memoryLocalCache() });
 rtdb = getDatabase(app);
 
 export { auth, db, rtdb };
