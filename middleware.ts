@@ -4,13 +4,17 @@ const DASHBOARD_HOST = process.env.NEXT_PUBLIC_DASHBOARD_HOST || 'dashboard.soft
 const DASHBOARD_BASE = process.env.NEXT_PUBLIC_DASHBOARD_BASE || '/content-management-system-2024'
 
 export function middleware(request: NextRequest) {
-  const host = request.headers.get('host') || ''
+  const rawHost = request.headers.get('host') || ''
+  const host = rawHost.split(':')[0].toLowerCase()
+  const dashboardHost = (DASHBOARD_HOST || '').toLowerCase()
   const pathname = request.nextUrl.pathname
 
   // 1) Host bazlı yönlendirme: dashboard.softiel.com → kök istekleri CMS ana rotasına rewrite et
-  if (host === DASHBOARD_HOST) {
+  if (host === dashboardHost) {
     // Dashboard tüm yanıtları noindex yap
-    if (pathname === '/' || pathname === '') {
+    const isRoot = pathname === '/' || pathname === ''
+    const isLocaleRoot = /^\/(tr|en|de|fr|ru|ar)\/?$/.test(pathname)
+    if (isRoot || isLocaleRoot) {
       const target = new URL(DASHBOARD_BASE, request.url)
       const res = NextResponse.rewrite(target)
       res.headers.set('X-Robots-Tag', 'noindex, nofollow')
@@ -19,6 +23,12 @@ export function middleware(request: NextRequest) {
     const res = NextResponse.next()
     res.headers.set('X-Robots-Tag', 'noindex, nofollow')
     return res
+  }
+
+  // 2) Ana site: kök istekleri /en'e yönlendir (default açılış sayfası)
+  if (pathname === '/' || pathname === '') {
+    const url = new URL('/en', request.url)
+    return NextResponse.redirect(url)
   }
 
   const response = NextResponse.next()
@@ -38,8 +48,8 @@ export function middleware(request: NextRequest) {
       "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.google.com https://www.gstatic.com; " +
       "style-src 'self' 'unsafe-inline'; " +
       "img-src 'self' data: https:; " +
-      "connect-src 'self' https://api.emailjs.com; " +
-      "frame-src 'none'; " +
+      "connect-src 'self' https://api.emailjs.com https://www.google.com https://www.gstatic.com; " +
+      "frame-src https://www.google.com https://www.gstatic.com; " +
       "object-src 'none'; " +
       "base-uri 'self';"
     )

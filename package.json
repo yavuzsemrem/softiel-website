@@ -5,9 +5,9 @@
   "scripts": {
     "dev": "cross-env NODE_OPTIONS=--no-deprecation next dev -p 3001",
     "dev:3000": "cross-env NODE_OPTIONS=--no-deprecation next dev -p 3000",
-    "build": "cross-env NODE_OPTIONS=--no-deprecation NODE_ENV=production next build",
+    "build": "next build",
     "build:analyze": "cross-env NODE_OPTIONS=--no-deprecation ANALYZE=true next build",
-    "start": "cross-env NODE_OPTIONS=--no-deprecation next start",
+    "start": "next start -p $PORT",
     "lint": "eslint",
     "export": "next build && next export",
     "analyze": "cross-env ANALYZE=true next build",

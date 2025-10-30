@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState, useRef } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import dynamic from "next/dynamic"
@@ -36,25 +36,75 @@ export function Hero() {
   const { t, locale, getLocalizedUrl } = useI18n()
   const [isLoaded, setIsLoaded] = useState(false)
   const [isPageReady, setIsPageReady] = useState(false)
+  const [reducedMotion, setReducedMotion] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
   
-  // Minimal parallax - sadece arka plan için (optimized)
-  const [scrollY, setScrollY] = useState(0)
+  // Minimal parallax - rAF ile doğrudan DOM güncelleme (re-render yok)
+  const bgRef = useRef<HTMLDivElement | null>(null)
+  const beam1Ref = useRef<HTMLDivElement | null>(null)
+  const beam2Ref = useRef<HTMLDivElement | null>(null)
+  const rAFId = useRef<number | null>(null)
+  const ticking = useRef(false)
   
   useEffect(() => {
-    const handleScroll = () => {
-      setScrollY(window.scrollY)
+    if (reducedMotion) return
+
+    const update = () => {
+      ticking.current = false
+      const y = window.scrollY || 0
+      const bgY = Math.min(y * 0.1, 10)
+      const beamY = Math.min(y * 0.05, 5)
+
+      if (bgRef.current) {
+        bgRef.current.style.transform = `translate3d(0, ${bgY}px, 0)`
+      }
+      if (beam1Ref.current) {
+        beam1Ref.current.style.transform = `translate3d(0, ${beamY}px, 0) skewX(-12deg)`
+      }
+      if (beam2Ref.current) {
+        beam2Ref.current.style.transform = `translate3d(0, ${beamY}px, 0) skewX(6deg)`
+      }
     }
-    
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
+
+    const onScroll = () => {
+      if (!ticking.current) {
+        ticking.current = true
+        rAFId.current = window.requestAnimationFrame(update)
+      }
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true })
+    update()
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      if (rAFId.current) cancelAnimationFrame(rAFId.current)
+    }
+  }, [reducedMotion])
   
-  // Basit transform hesaplamaları
-  const backgroundY = Math.min(scrollY * 0.1, 10)
-  const lightBeam1Y = Math.min(scrollY * 0.05, 5)
-  const lightBeam2Y = Math.min(scrollY * 0.05, 5)
+  // Scroll türetilmiş değerler DOM üzerinden uygulanıyor (state kullanılmıyor)
 
   // Sayfa yükleme durumunu kontrol et - optimize edildi
+  useEffect(() => {
+    // Reduce motion tercihleri ve ekran boyutu
+    try {
+      const mq = window.matchMedia('(prefers-reduced-motion: reduce)')
+      setReducedMotion(mq.matches)
+      const onChange = (e: MediaQueryListEvent) => setReducedMotion(e.matches)
+      if (mq.addEventListener) mq.addEventListener('change', onChange)
+      else mq.addListener?.(onChange as any)
+
+      const resize = () => setIsMobile(window.innerWidth < 768)
+      resize()
+      window.addEventListener('resize', resize, { passive: true })
+
+      return () => {
+        if (mq.removeEventListener) mq.removeEventListener('change', onChange)
+        else mq.removeListener?.(onChange as any)
+        window.removeEventListener('resize', resize)
+      }
+    } catch {}
+  }, [])
+
   useEffect(() => {
     const handleLoad = () => {
       setIsPageReady(true)
@@ -94,8 +144,8 @@ export function Hero() {
       <div className="absolute inset-0">
         {/* Hero Image Background with Cinematic Effect */}
         <MotionDiv 
+          ref={bgRef}
           className="absolute inset-0"
-          style={{ y: backgroundY }}
         >
           <Image
             src="/images/hero1.webp"
@@ -103,10 +153,10 @@ export function Hero() {
             fill
             className="object-cover object-center"
             priority
-            quality={100}
+            quality={80}
             style={{
-              filter: 'blur(5px)',
-              transform: 'scale(1.1)'
+              filter: reducedMotion ? 'none' : 'blur(2px)',
+              transform: 'scale(1.03)'
             }}
           />
           
@@ -114,42 +164,33 @@ export function Hero() {
           <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/60 to-black/90"></div>
           
           {/* Film Grain Effect */}
-          <div className="absolute inset-0 opacity-20 mix-blend-overlay animate-pulse bg-noise"></div>
+          {!reducedMotion && !isMobile && (
+            <div className="absolute inset-0 opacity-10 mix-blend-overlay bg-noise"></div>
+          )}
         </MotionDiv>
 
         {/* Cinematic Light Beams - optimize edildi */}
-        <MotionDiv
-          animate={{ 
-            opacity: [0.1, 0.3, 0.1],
-            scale: [0.9, 1.1, 0.9]
-          }}
-          transition={{ 
-            duration: 6,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-          style={{ y: lightBeam1Y }}
-          className="absolute top-0 left-1/4 w-96 h-full bg-gradient-to-b from-cyan-500/30 via-transparent to-transparent transform -skew-x-12 blur-sm"
-        />
+        {!reducedMotion && !isMobile && (
+          <MotionDiv
+            ref={beam1Ref}
+            animate={{ opacity: [0.08, 0.2, 0.08] }}
+            transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute top-0 left-1/4 w-72 h-full bg-gradient-to-b from-cyan-500/20 via-transparent to-transparent transform -skew-x-12 blur-[2px]"
+          />
+        )}
         
-        <MotionDiv
-          animate={{ 
-            opacity: [0.1, 0.2, 0.1],
-            scale: [1, 1.05, 1]
-          }}
-          transition={{ 
-            duration: 8,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: 1
-          }}
-          style={{ y: lightBeam2Y }}
-          className="absolute top-0 right-1/3 w-80 h-full bg-gradient-to-b from-blue-500/20 via-transparent to-transparent transform skew-x-6 blur-sm"
-        />
+        {!reducedMotion && !isMobile && (
+          <MotionDiv
+            ref={beam2Ref}
+            animate={{ opacity: [0.08, 0.18, 0.08] }}
+            transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+            className="absolute top-0 right-1/3 w-64 h-full bg-gradient-to-b from-blue-500/15 via-transparent to-transparent transform skew-x-6 blur-[2px]"
+          />
+        )}
 
         {/* Floating Cinematic Particles - optimize edildi */}
-        {[...Array(8)].map((_, i) => (
-        <MotionDiv
+        {[...Array(reducedMotion || isMobile ? 0 : 3)].map((_, i) => (
+          <MotionDiv
             key={i}
             initial={{ 
               x: Math.random() * (typeof window !== 'undefined' ? window.innerWidth : 1920),
@@ -163,16 +204,16 @@ export function Hero() {
               scale: [0, 1, 0]
           }}
           transition={{ 
-              duration: Math.random() * 5 + 4,
-            repeat: Infinity,
+              duration: Math.random() * 6 + 8,
+              repeat: Infinity,
               delay: Math.random() * 4,
               ease: "easeOut"
             }}
-            className="absolute w-1 h-8 bg-gradient-to-t from-cyan-400/60 to-transparent rounded-full shadow-lg"
+            className="absolute w-px h-6 bg-gradient-to-t from-cyan-400/40 to-transparent rounded-full"
             style={{
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,
-              boxShadow: '0 0 20px rgba(34, 211, 238, 0.4)'
+              boxShadow: 'none'
             }}
           />
         ))}
@@ -181,18 +222,13 @@ export function Hero() {
         <div className="absolute inset-0 bg-gradient-radial from-transparent via-transparent to-black/60"></div>
         
         {/* Animated Spotlight Effect - optimize edildi */}
-        <MotionDiv
-          animate={{ 
-            opacity: [0.1, 0.3, 0.1],
-            scale: [1, 1.1, 1]
-          }}
-          transition={{ 
-            duration: 8,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-          className="absolute inset-0 bg-gradient-radial from-white/5 via-transparent to-transparent"
-        />
+        {!reducedMotion && !isMobile && (
+          <MotionDiv
+            animate={{ opacity: [0.08, 0.18, 0.08] }}
+            transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute inset-0 bg-gradient-radial from-white/[0.03] via-transparent to-transparent"
+          />
+        )}
       </div>
 
       {/* Main Content */}
