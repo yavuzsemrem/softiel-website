@@ -46,6 +46,8 @@ export interface OTPSendResult {
   success: boolean
   error?: string
   otpId?: string
+  otpCode?: string // Client-side EmailJS gönderimi için
+  userName?: string // Client-side EmailJS template'inde kullanım için
   expiresIn?: number
 }
 
@@ -200,17 +202,14 @@ export async function generateOTP(email: string): Promise<OTPSendResult> {
     // Get user name for email (reuse existing userCheck)
     const userName = userCheck.user?.name || 'Admin Kullanıcı'
 
-    // Send OTP via email
-    const emailResult = await sendOTPEmail(email, otpCode, userName)
-    if (!emailResult.success) {
-      // If email fails, delete the OTP record
-      await deleteDoc(doc(otpCollection, otpId))
-      return { success: false, error: emailResult.error }
-    }
-
+    // OTP oluşturuldu ve kaydedildi
+    // E-posta gönderimi client-side'da yapılacak (EmailJS browser SDK)
+    // otpCode'u response'da döndür ki client-side'da kullanılsın
     return { 
       success: true, 
       otpId,
+      otpCode, // Client-side'da EmailJS ile gönderilmek için
+      userName, // Client-side'da EmailJS template'inde kullanılmak için
       expiresIn: EMAILJS_CONFIG.otpSettings.expiryMinutes * 60
     }
   } catch (error: any) {

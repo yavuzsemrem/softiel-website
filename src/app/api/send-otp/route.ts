@@ -34,7 +34,9 @@ export async function POST(request: NextRequest) {
     if (result.success) {
       return NextResponse.json({
         success: true,
-        message: 'OTP kodu gönderildi',
+        message: 'OTP kodu oluşturuldu',
+        otpCode: result.otpCode, // Client-side EmailJS ile gönderilmek için
+        userName: result.userName, // EmailJS template parametreleri için
         expiresIn: result.expiresIn
       })
     } else {

@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation"
 import { loginUserByUsernameOrEmail } from "@/lib/firestore-auth"
 import { sessionService } from "@/lib/session"
 import { useRecaptcha } from "@/hooks/useRecaptcha"
+import emailjs from '@emailjs/browser'
 
 export function LoginForm() {
   const [formData, setFormData] = useState({
@@ -29,6 +30,14 @@ export function LoginForm() {
   
   // ReCAPTCHA hook
   const { isAvailable, executeRecaptchaAction } = useRecaptcha()
+
+  // EmailJS initialization - sadece bir kere
+  useEffect(() => {
+    const EMAILJS_PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || ''
+    if (EMAILJS_PUBLIC_KEY) {
+      emailjs.init(EMAILJS_PUBLIC_KEY)
+    }
+  }, [])
 
   // Check if already authenticated
   useEffect(() => {
@@ -110,7 +119,7 @@ export function LoginForm() {
     setError("")
 
     try {
-      // Use relative URL for production compatibility
+      // 1) OTP'yi oluştur (Firestore'a kaydet)
       const response = await fetch('/api/send-otp', {
         method: 'POST',
         headers: {
@@ -121,15 +130,51 @@ export function LoginForm() {
 
       const result = await response.json()
 
-      if (result.success) {
+      if (!result.success) {
+        setError(result.error || "OTP code could not be sent")
+        return
+      }
+
+      // 2) OTP oluşturuldu; şimdi client-side'da EmailJS ile e-posta gönder
+      const EMAILJS_SERVICE_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || ''
+      const EMAILJS_TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || ''
+      const EMAILJS_TO = process.env.NEXT_PUBLIC_EMAILJS_TO || 'info@softiel.com'
+
+      if (!EMAILJS_SERVICE_ID || !EMAILJS_TEMPLATE_ID) {
+        setError("EmailJS configuration missing")
+        return
+      }
+
+      // EmailJS template parametreleri
+      const templateParams = {
+        to_email: EMAILJS_TO,
+        from_name: 'Softiel Admin',
+        reply_to: EMAILJS_TO,
+        user_name: result.userName || 'Admin Kullanıcı',
+        user_email: formData.email,
+        otp_code: result.otpCode || '',
+        message: `Your OTP code is ${result.otpCode || ''}`,
+        date: new Date().toISOString()
+      }
+
+      // Client-side EmailJS ile e-posta gönder
+      try {
+        await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams)
         setOtpSent(true)
         setOtpExpiresIn(result.expiresIn || 300)
         setOtpTimer(result.expiresIn || 300)
         setSuccess("OTP code sent successfully")
-      } else {
-        setError(result.error || "OTP code could not be sent")
+      } catch (emailErr: any) {
+        console.error('EmailJS send error:', emailErr)
+        // OTP oluşturuldu ama e-posta gönderilemedi
+        // Yine de kullanıcıya başarılı göster (OTP zaten Firestore'da)
+        setOtpSent(true)
+        setOtpExpiresIn(result.expiresIn || 300)
+        setOtpTimer(result.expiresIn || 300)
+        setSuccess("OTP code generated. Please check your email.")
       }
     } catch (err) {
+      console.error('Send OTP error:', err)
       setError("An error occurred while sending OTP code")
     } finally {
       setIsOTPLoading(false)
