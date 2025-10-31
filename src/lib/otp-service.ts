@@ -89,11 +89,13 @@ export async function sendOTPEmail(email: string, otpCode: string, userName: str
   try {
     // Check if we're in development mode
     const isDevelopment = process.env.NODE_ENV === 'development'
+    const allowDevBypass = process.env.OTP_ALLOW_DEV === 'true'
     
     // For testing, always try SMTP if configured
     const hasSMTPConfig = process.env.SMTP_USER && process.env.SMTP_PASS
     
-    if (isDevelopment && !hasSMTPConfig) {
+    // Development veya explicit bypass modunda SMTP olmadan başarı döndür
+    if ((isDevelopment || allowDevBypass) && !hasSMTPConfig) {
       // In development without SMTP config, log the OTP and return success
       console.log(`[DEV MODE] OTP Code for ${email}: ${otpCode}`)
       console.log(`[DEV MODE] Email would be sent to: info@softiel.com`)
@@ -101,47 +103,68 @@ export async function sendOTPEmail(email: string, otpCode: string, userName: str
     }
 
     // In production, use direct SMTP
-    
+
     // Import nodemailer dynamically
     const nodemailer = await import('nodemailer')
     
-    // SMTP Configuration from environment - Hostinger optimized
-    const smtpConfig = {
-      host: process.env.SMTP_HOST || 'smtp.hostinger.com',
-      port: parseInt(process.env.SMTP_PORT || '465'), // Hostinger port 465 SSL
-      secure: process.env.SMTP_SECURE === 'true' || true, // Hostinger için SSL kullan
-      auth: {
-        user: process.env.SMTP_USER || 'info@softiel.com',
-        pass: process.env.SMTP_PASS || 'your-email-password'
-      },
-      // Hostinger için özel ayarlar
-      tls: {
-        rejectUnauthorized: false
-      },
-      connectionTimeout: isDevelopment ? 5000 : 15000, // Development'da 5 saniye, production'da 15 saniye
-      greetingTimeout: isDevelopment ? 3000 : 10000, // Development'da 3 saniye, production'da 10 saniye
-      socketTimeout: isDevelopment ? 5000 : 15000, // Development'da 5 saniye, production'da 15 saniye
-      // Hostinger için ek ayarlar
+    // Ortak SMTP bilgileriniz
+    const smtpHost = process.env.SMTP_HOST || 'smtp.hostinger.com'
+    const smtpUser = process.env.SMTP_USER || 'info@softiel.com'
+    const smtpPass = process.env.SMTP_PASS || 'your-email-password'
+    const smtpFrom = process.env.SMTP_FROM || smtpUser
+
+    // 1) SSL 465 denemesi (secure: true)
+    const ssl465 = {
+      host: smtpHost,
+      port: parseInt(process.env.SMTP_PORT || '465'),
+      secure: (process.env.SMTP_SECURE || 'true') === 'true',
+      auth: { user: smtpUser, pass: smtpPass },
+      tls: { rejectUnauthorized: false },
+      connectionTimeout: isDevelopment ? 5000 : 15000,
+      greetingTimeout: isDevelopment ? 3000 : 10000,
+      socketTimeout: isDevelopment ? 5000 : 15000,
+      pool: false,
+      maxConnections: 1,
+      maxMessages: 1
+    }
+
+    // 2) STARTTLS 587 fallback (secure: false + requireTLS)
+    const starttls587 = {
+      host: smtpHost,
+      port: 587,
+      secure: false,
+      requireTLS: true as any,
+      auth: { user: smtpUser, pass: smtpPass },
+      tls: { ciphers: 'TLSv1.2', rejectUnauthorized: false },
+      connectionTimeout: isDevelopment ? 5000 : 15000,
+      greetingTimeout: isDevelopment ? 3000 : 10000,
+      socketTimeout: isDevelopment ? 5000 : 15000,
       pool: false,
       maxConnections: 1,
       maxMessages: 1
     }
     
     // Validate SMTP configuration
-    if (!smtpConfig.auth.user || !smtpConfig.auth.pass) {
+    if (!smtpUser || !smtpPass) {
       console.error('SMTP configuration missing')
       return { success: false, error: 'SMTP configuration missing' }
     }
     
-    // Create transporter
-    const transporter = nodemailer.createTransport(smtpConfig)
-    
-    // Test SMTP connection (skip in development for speed)
+    // Birinci deneme: 465 SSL
+    let transporter = nodemailer.createTransport(ssl465 as any)
     if (!isDevelopment) {
       try {
         await transporter.verify()
       } catch (verifyError: any) {
-        return { success: false, error: `SMTP connection failed: ${verifyError.message}` }
+        console.error('SMTP verify (465 SSL) failed:', verifyError?.code || verifyError?.message || verifyError)
+        // İkinci deneme: 587 STARTTLS
+        try {
+          transporter = nodemailer.createTransport(starttls587 as any)
+          await transporter.verify()
+        } catch (verifyError2: any) {
+          console.error('SMTP verify (587 STARTTLS) failed:', verifyError2?.code || verifyError2?.message || verifyError2)
+          return { success: false, error: `SMTP failed (465/587). ${verifyError2?.message || verifyError2}` }
+        }
       }
     }
     
@@ -155,7 +178,7 @@ export async function sendOTPEmail(email: string, otpCode: string, userName: str
     })
     
     const mailOptions = {
-      from: `"Softiel Admin" <${smtpConfig.auth.user}>`,
+      from: `"Softiel Admin" <${smtpFrom}>`,
       to: 'info@softiel.com', // Always send to info@softiel.com
       subject: '🔐 Softiel Admin - Doğrulama Kodu',
       html: `
