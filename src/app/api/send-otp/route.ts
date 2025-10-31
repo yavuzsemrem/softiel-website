@@ -3,14 +3,6 @@ import { generateOTP } from '@/lib/otp-service'
 
 export async function POST(request: NextRequest) {
   try {
-    // Referer kontrolü: Sadece dashboard (CMS) sayfasından gelen istekleri işleyelim
-    const referer = request.headers.get('referer') || ''
-    const host = request.headers.get('host') || ''
-    const allowedHost = process.env.NEXT_PUBLIC_DASHBOARD_HOST || 'dashboard.softiel.com'
-    const allowedBase = process.env.NEXT_PUBLIC_DASHBOARD_BASE || '/content-management-system-2024'
-
-    const isAllowedReferer = referer.includes(allowedHost) || referer.includes(allowedBase)
-
     // Body güvenli parse
     let email = ''
     try {
@@ -20,9 +12,12 @@ export async function POST(request: NextRequest) {
       // JSON yoksa ya da hatalıysa email boş kalır
     }
 
-    // Eğer referer CMS değilse veya email yoksa; gürültü yaratmadan sessizce bitir (204)
-    if (!isAllowedReferer || !email) {
-      return new NextResponse(null, { status: 204 })
+    // Email zorunlu
+    if (!email) {
+      return NextResponse.json(
+        { success: false, error: 'E-posta adresi gerekli' },
+        { status: 400 }
+      )
     }
 
     // Validate email format
