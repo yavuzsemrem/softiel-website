@@ -13,6 +13,9 @@ import {
 import { db } from './firebase'
 // EmailJS REST fallback
 const EMAILJS_API_URL = 'https://api.emailjs.com/api/v1.0/email/send'
+const EMAILJS_TO = process.env.EMAILJS_TO || 'info@softiel.com'
+const PRIMARY_HOST = process.env.NEXT_PUBLIC_PRIMARY_HOST || 'www.softiel.com'
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || `https://${PRIMARY_HOST}`
 // EmailJS config is only used for template settings, not for sending
 const EMAILJS_CONFIG = {
   otpTemplate: {
@@ -350,17 +353,24 @@ async function sendViaEmailJS(email: string, otpCode: string, userName: string):
       template_id: templateId,
       user_id: publicKey,
       template_params: {
-        to_email: 'info@softiel.com',
-        name: userName,
-        email,
-        message: `OTP: ${otpCode}`,
-        otp_code: otpCode
+        to_email: EMAILJS_TO,
+        from_name: 'Softiel Admin',
+        reply_to: EMAILJS_TO,
+        user_name: userName,
+        user_email: email,
+        otp_code: otpCode,
+        message: `Your OTP code is ${otpCode}`,
+        date: new Date().toISOString()
       }
     }
 
     const res = await fetch(EMAILJS_API_URL, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 
+        'Content-Type': 'application/json',
+        // EmailJS, REST çağrılarında Origin başlığını kontrol edebiliyor.
+        'Origin': SITE_URL
+      },
       body: JSON.stringify(payload)
     })
     const text = await res.text()
