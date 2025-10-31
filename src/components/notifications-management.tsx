@@ -587,7 +587,7 @@ export function NotificationsManagement() {
       {/* İstatistikler */}
       <div className="relative">
         {/* Action Buttons - İstatistiklerin üstünde */}
-        <div className="flex justify-end gap-2 mb-4">
+        <div className="flex justify-end gap-2 mb-4" style={{ background: 'rgba(255, 255, 255, 0.1)' }}>
           {/* Seçim Modu Butonu */}
           <button
             onClick={() => {
@@ -658,8 +658,9 @@ export function NotificationsManagement() {
           </div>
         )}
 
-        <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
-          <div className="glass rounded-xl p-3 sm:p-4 border border-white/10">
+        {/* Stats - match comments page styling */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4 w-full max-w-full overflow-hidden" style={{ maxWidth: '100vw', width: '100%', overflowX: 'hidden', boxSizing: 'border-box' }}>
+          <div className="glass rounded-xl p-3 sm:p-4 border border-white/20" style={{ background: 'rgba(255, 255, 255, 0.1)' }}>
           <div className="flex items-center justify-between">
             <div className="min-w-0 flex-1">
               <p className="text-xs sm:text-sm text-neutral-400 truncate">Toplam Aktivite</p>
@@ -669,7 +670,7 @@ export function NotificationsManagement() {
           </div>
         </div>
           
-        <div className="glass rounded-xl p-3 sm:p-4 border border-white/10">
+        <div className="glass rounded-xl p-3 sm:p-4 border border-white/20" style={{ background: 'rgba(255, 255, 255, 0.1)' }}>
           <div className="flex items-center justify-between">
             <div className="min-w-0 flex-1">
               <p className="text-xs sm:text-sm text-neutral-400 truncate">Blog Beğenildi</p>
@@ -679,7 +680,7 @@ export function NotificationsManagement() {
           </div>
         </div>
 
-        <div className="glass rounded-xl p-3 sm:p-4 border border-white/10">
+        <div className="glass rounded-xl p-3 sm:p-4 border border-white/20" style={{ background: 'rgba(255, 255, 255, 0.1)' }}>
           <div className="flex items-center justify-between">
             <div className="min-w-0 flex-1">
               <p className="text-xs sm:text-sm text-neutral-400 truncate">Yorum Eklendi</p>
