@@ -1,56 +1,56 @@
 # Softiel Website & CMS Platform
 
-Modern, çok dilli (6 dil), performans odaklı Next.js 14 tabanlı kurumsal website ve içerik yönetim sistemi.
+Modern, multilingual (6 languages), performance-focused Next.js 14-based corporate website and content management system.
 
 ![Next.js](https://img.shields.io/badge/Next.js-14-black)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5-blue)
 ![Firebase](https://img.shields.io/badge/Firebase-12-orange)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind-4-38bdf8)
 
-## 📋 İçindekiler
+## 📋 Table of Contents
 
-- [Özellikler](#-özellikler)
-- [Teknoloji Stack'i](#-teknoloji-stacki)
-- [Kurulum](#-kurulum)
-- [Yapılandırma](#-yapılandırma)
-- [Proje Yapısı](#-proje-yapısı)
-- [Kullanım](#-kullanım)
+- [Features](#-features)
+- [Tech Stack](#-tech-stack)
+- [Installation](#-installation)
+- [Configuration](#-configuration)
+- [Project Structure](#-project-structure)
+- [Usage](#-usage)
 - [Dashboard & CMS](#-dashboard--cms)
-- [Çok Dilli Destek](#-çok-dilli-destek)
+- [Multilingual Support](#-multilingual-support)
 - [API Routes](#-api-routes)
-- [Güvenlik](#-güvenlik)
-- [Performans Optimizasyonları](#-performans-optimizasyonları)
+- [Security](#-security)
+- [Performance Optimizations](#-performance-optimizations)
 - [Deployment](#-deployment)
-- [Kontribüsyon](#-kontribüsyon)
+- [Contributing](#-contributing)
 
-## ✨ Özellikler
+## ✨ Features
 
-### 🌐 Website Özellikleri
-- **6 Dilde Tam Destek**: Türkçe, İngilizce, Almanca, Fransızca, Rusça, Arapça
-- **9 Hizmet Sayfası**: Web Tasarım, Web Geliştirme, Mobil Uygulama, SEO, Google Ads, WordPress, Logo & Kurumsal Kimlik, Sosyal Medya Yönetimi, Yapay Zeka Entegrasyonları, Dijital Danışmanlık
-- **Blog Sistemi**: Kategoriler, etiketler, yorumlar, çok dilli blog yazıları
-- **Proje Portföy**: Detaylı proje gösterimleri, filtreleme ve arama
-- **İletişim Formu**: EmailJS entegrasyonu, reCAPTCHA v3 koruması
-- **Teklif Formu**: Modal tabanlı, detaylı proje teklif formu
-- **Dark Mode**: Tam dark mode desteği
-- **Responsive Design**: Mobil, tablet, desktop için optimize edilmiş
-- **Animasyonlar**: Framer Motion ile akıcı geçişler
-- **SEO Optimizasyonu**: Meta tags, Open Graph, Structured Data
-- **Performans**: Lazy loading, code splitting, image optimization
+### 🌐 Website Features
+- **Full Support in 6 Languages**: Turkish, English, German, French, Russian, Arabic
+- **10 Service Pages**: Website Design, Web Development, Mobile App, SEO, Google Ads, WordPress, Logo & Corporate Identity, Social Media Management, AI Integrations, Digital Consulting
+- **Blog System**: Categories, tags, comments, multilingual blog posts
+- **Project Portfolio**: Detailed project displays, filtering and search
+- **Contact Form**: EmailJS integration, reCAPTCHA v3 protection
+- **Quote Form**: Modal-based, detailed project quote form
+- **Dark Mode**: Full dark mode support
+- **Responsive Design**: Optimized for mobile, tablet, desktop
+- **Animations**: Smooth transitions with Framer Motion
+- **SEO Optimization**: Meta tags, Open Graph, Structured Data
+- **Performance**: Lazy loading, code splitting, image optimization
 
-### 🎛️ CMS & Dashboard Özellikleri
-- **Blog Yönetimi**: Blog yazıları oluşturma, düzenleme, silme
-- **Proje Yönetimi**: Portföy projelerinin yönetimi
-- **Kategori & Etiket Yönetimi**: İçerik organizasyonu
-- **Yorum Yönetimi**: Blog yorumlarının moderasyonu
-- **Medya Yönetimi**: Görsel yükleme ve yönetimi
-- **Kullanıcı Yönetimi**: Rol tabanlı erişim kontrolü
-- **SEO Yönetimi**: Meta tag'ler, keywords, descriptions
-- **İstatistikler**: Dashboard analytics ve raporlar
-- **Bildirimler**: Sistem bildirimleri
-- **Güvenlik**: OTP tabanlı iki faktörlü kimlik doğrulama
+### 🎛️ CMS & Dashboard Features
+- **Blog Management**: Create, edit, delete blog posts
+- **Project Management**: Manage portfolio projects
+- **Category & Tag Management**: Content organization
+- **Comment Management**: Blog comment moderation
+- **Media Management**: Image upload and management
+- **User Management**: Role-based access control
+- **SEO Management**: Meta tags, keywords, descriptions
+- **Statistics**: Dashboard analytics and reports
+- **Notifications**: System notifications
+- **Security**: OTP-based two-factor authentication
 
-## 🛠️ Teknoloji Stack'i
+## 🛠️ Tech Stack
 
 ### Frontend
 - **Framework**: Next.js 14 (App Router)
@@ -67,55 +67,55 @@ Modern, çok dilli (6 dil), performans odaklı Next.js 14 tabanlı kurumsal webs
 - **Storage**: Firebase Storage
 - **Server Functions**: Next.js API Routes
 
-### Güvenlik & Spam Koruması
-- **reCAPTCHA v3**: Google reCAPTCHA entegrasyonu
-- **OTP Sistemi**: EmailJS ile OTP gönderimi
-- **Rate Limiting**: API route koruması
+### Security & Spam Protection
+- **reCAPTCHA v3**: Google reCAPTCHA integration
+- **OTP System**: OTP sending via EmailJS
+- **Rate Limiting**: API route protection
 - **Input Validation**: Zod schema validation
 
-### Email Servisi
-- **EmailJS**: İletişim formları için
-- **SMTP**: Hostinger SMTP (OTP gönderimi)
+### Email Service
+- **EmailJS**: For contact forms
+- **SMTP**: Hostinger SMTP (OTP sending)
 
-### AI Entegrasyonları
-- **Google Gemini**: İçerik oluşturma ve çeviri
-- **Google Translate API**: Otomatik çeviri
+### AI Integrations
+- **Google Gemini**: Content creation and translation
+- **Google Translate API**: Automatic translation
 
-## 🚀 Kurulum
+## 🚀 Installation
 
-### Gereksinimler
-- Node.js 18+ veya 20+
-- npm, yarn, pnpm veya bun
-- Firebase hesabı
-- EmailJS hesabı (isteğe bağlı)
-- Google reCAPTCHA v3 keys (production için)
+### Requirements
+- Node.js 18+ or 20+
+- npm, yarn, pnpm or bun
+- Firebase account
+- EmailJS account (optional)
+- Google reCAPTCHA v3 keys (for production)
 
-### 1. Repository'yi Klonlayın
+### 1. Clone the Repository
 
 ```bash
 git clone https://github.com/your-username/your-repo-name.git
 cd your-repo-name
 ```
 
-### 2. Bağımlılıkları Yükleyin
+### 2. Install Dependencies
 
 ```bash
 npm install
-# veya
+# or
 yarn install
-# veya
+# or
 pnpm install
 ```
 
-### 3. Environment Variables Ayarlayın
+### 3. Configure Environment Variables
 
-`.env.local` dosyası oluşturun:
+Create `.env.local` file:
 
 ```bash
 cp env.local.template .env.local
 ```
 
-`.env.local` dosyasını düzenleyin:
+Edit `.env.local` file:
 
 ```env
 # Site URL
@@ -129,12 +129,12 @@ NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=your_firebase_storage_bucket
 NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=your_firebase_messaging_sender_id
 NEXT_PUBLIC_FIREBASE_APP_ID=your_firebase_app_id
 
-# EmailJS Configuration (İletişim Formları için)
+# EmailJS Configuration (For Contact Forms)
 NEXT_PUBLIC_EMAILJS_SERVICE_ID=your_service_id
 NEXT_PUBLIC_EMAILJS_TEMPLATE_ID=your_template_id
 NEXT_PUBLIC_EMAILJS_PUBLIC_KEY=your_emailjs_public_key
 
-# SMTP Configuration (OTP Email için)
+# SMTP Configuration (For OTP Email)
 SMTP_HOST=smtp.your-provider.com
 SMTP_PORT=465
 SMTP_SECURE=true
@@ -145,346 +145,346 @@ SMTP_PASS=your-email-password
 NEXT_PUBLIC_RECAPTCHA_SITE_KEY=your_recaptcha_site_key
 RECAPTCHA_SECRET_KEY=your_recaptcha_secret_key
 
-# Google Translate API (İsteğe bağlı)
+# Google Translate API (Optional)
 NEXT_PUBLIC_GOOGLE_TRANSLATE_API_KEY=your_google_translate_api_key
 
-# Gemini AI API (İsteğe bağlı)
+# Gemini AI API (Optional)
 NEXT_PUBLIC_GEMINI_API_KEY=your_gemini_api_key
 ```
 
-### 4. Development Server'ı Başlatın
+### 4. Start Development Server
 
 ```bash
-# Port 3001'de (default)
+# On port 3001 (default)
 npm run dev
 
-# Port 3000'de
+# On port 3000
 npm run dev:3000
 
-# veya
+# or
 yarn dev
 pnpm dev
 ```
 
-Tarayıcınızda [http://localhost:3001](http://localhost:3001) adresini açın.
+Open [http://localhost:3001](http://localhost:3001) in your browser.
 
-## ⚙️ Yapılandırma
+## ⚙️ Configuration
 
-### Firebase Kurulumu
+### Firebase Setup
 
-1. [Firebase Console](https://console.firebase.google.com/)'a gidin
-2. Yeni bir proje oluşturun
-3. Web uygulaması ekleyin
-4. Firebase Config bilgilerini `.env.local` dosyasına ekleyin
-5. Firestore Database'i oluşturun (Production mode veya Test mode)
-6. Authentication'ı etkinleştirin (Email/Password)
-7. Storage'ı etkinleştirin
+1. Go to [Firebase Console](https://console.firebase.google.com/)
+2. Create a new project
+3. Add a web app
+4. Add Firebase Config information to `.env.local` file
+5. Create Firestore Database (Production mode or Test mode)
+6. Enable Authentication (Email/Password)
+7. Enable Storage
 
-### EmailJS Kurulumu
+### EmailJS Setup
 
-1. [EmailJS](https://www.emailjs.com/)'e kaydolun
-2. Email servisi oluşturun (Gmail, Outlook, vb.)
-3. Email template oluşturun
-4. Public Key, Service ID ve Template ID'yi `.env.local` dosyasına ekleyin
+1. Sign up at [EmailJS](https://www.emailjs.com/)
+2. Create an email service (Gmail, Outlook, etc.)
+3. Create an email template
+4. Add Public Key, Service ID and Template ID to `.env.local` file
 
-Detaylı kurulum için: `RECAPTCHA_SETUP.md` dosyasına bakın.
+For detailed setup, see: `RECAPTCHA_SETUP.md` file.
 
-### reCAPTCHA v3 Kurulumu
+### reCAPTCHA v3 Setup
 
-1. [Google reCAPTCHA Console](https://www.google.com/recaptcha/admin)'a gidin
-2. Yeni site oluşturun (reCAPTCHA v3)
-3. Domain'leri ekleyin: `localhost`, `yourdomain.com` (production için)
-4. Site Key ve Secret Key'i `.env.local` dosyasına ekleyin
+1. Go to [Google reCAPTCHA Console](https://www.google.com/recaptcha/admin)
+2. Create a new site (reCAPTCHA v3)
+3. Add domains: `localhost`, `yourdomain.com` (for production)
+4. Add Site Key and Secret Key to `.env.local` file
 
-Detaylı kurulum için: `RECAPTCHA_SETUP.md` dosyasına bakın.
+For detailed setup, see: `RECAPTCHA_SETUP.md` file.
 
-## 📁 Proje Yapısı
+## 📁 Project Structure
 
 ```
 softiel-website/
-├── public/                      # Static dosyalar
-│   ├── images/                  # Görseller
-│   ├── locales/                 # Çeviri dosyaları (JSON)
-│   │   ├── tr/                  # Türkçe
-│   │   ├── en/                  # İngilizce
-│   │   ├── de/                  # Almanca
-│   │   ├── fr/                  # Fransızca
-│   │   ├── ru/                  # Rusça
-│   │   └── ar/                  # Arapça
-│   └── flags/                   # Ülke bayrakları
+├── public/                      # Static files
+│   ├── images/                  # Images
+│   ├── locales/                 # Translation files (JSON)
+│   │   ├── tr/                  # Turkish
+│   │   ├── en/                  # English
+│   │   ├── de/                  # German
+│   │   ├── fr/                  # French
+│   │   ├── ru/                  # Russian
+│   │   └── ar/                  # Arabic
+│   └── flags/                   # Country flags
 │
 ├── src/
 │   ├── app/                     # Next.js App Router
-│   │   ├── [lang]/              # Dil bazlı routing
-│   │   │   ├── tr/              # Türkçe sayfalar
-│   │   │   ├── en/              # İngilizce sayfalar
-│   │   │   ├── de/              # Almanca sayfalar
-│   │   │   ├── fr/              # Fransızca sayfalar
-│   │   │   ├── ru/              # Rusça sayfalar
-│   │   │   └── ar/              # Arapça sayfalar
+│   │   ├── [lang]/              # Language-based routing
+│   │   │   ├── tr/              # Turkish pages
+│   │   │   ├── en/              # English pages
+│   │   │   ├── de/              # German pages
+│   │   │   ├── fr/              # French pages
+│   │   │   ├── ru/              # Russian pages
+│   │   │   └── ar/              # Arabic pages
 │   │   │
-│   │   ├── admin-panel-secure-access-2024/  # Admin giriş sayfası
+│   │   ├── admin-panel-secure-access-2024/  # Admin login page
 │   │   ├── content-management-system-2024/  # CMS Dashboard
-│   │   │   ├── blogs/           # Blog yönetimi
-│   │   │   ├── projects/        # Proje yönetimi
-│   │   │   ├── categories/      # Kategori yönetimi
-│   │   │   ├── tags/            # Etiket yönetimi
-│   │   │   ├── comments/        # Yorum yönetimi
-│   │   │   ├── users/           # Kullanıcı yönetimi
-│   │   │   ├── media/           # Medya yönetimi
-│   │   │   ├── seo/             # SEO yönetimi
-│   │   │   ├── settings/        # Ayarlar
-│   │   │   └── stats/           # İstatistikler
+│   │   │   ├── blogs/           # Blog management
+│   │   │   ├── projects/        # Project management
+│   │   │   ├── categories/      # Category management
+│   │   │   ├── tags/            # Tag management
+│   │   │   ├── comments/        # Comment management
+│   │   │   ├── users/           # User management
+│   │   │   ├── media/           # Media management
+│   │   │   ├── seo/             # SEO management
+│   │   │   ├── settings/        # Settings
+│   │   │   └── stats/           # Statistics
 │   │   │
 │   │   ├── api/                 # API Routes
 │   │   │   ├── blog/            # Blog API
-│   │   │   ├── send-contact-email/  # İletişim formu
-│   │   │   ├── send-quote-email/    # Teklif formu
-│   │   │   ├── send-otp/        # OTP gönderme
-│   │   │   ├── verify-otp/      # OTP doğrulama
-│   │   │   └── generate-otp/    # OTP oluşturma
+│   │   │   ├── send-contact-email/  # Contact form
+│   │   │   ├── send-quote-email/    # Quote form
+│   │   │   ├── send-otp/        # OTP sending
+│   │   │   ├── verify-otp/      # OTP verification
+│   │   │   └── generate-otp/    # OTP generation
 │   │   │
 │   │   ├── layout.tsx           # Root layout
-│   │   ├── page.tsx             # Ana sayfa
-│   │   └── globals.css          # Global stiller
+│   │   ├── page.tsx             # Home page
+│   │   └── globals.css          # Global styles
 │   │
-│   ├── components/              # React bileşenleri
+│   ├── components/              # React components
 │   │   ├── header.tsx           # Header/Navigation
 │   │   ├── footer.tsx           # Footer
-│   │   ├── contact-form.tsx     # İletişim formu
-│   │   ├── quote-modal.tsx      # Teklif modal
-│   │   ├── blog-*.tsx           # Blog bileşenleri
-│   │   ├── service-*.tsx        # Servis sayfası bileşenleri
-│   │   ├── dashboard-*.tsx     # Dashboard bileşenleri
-│   │   └── ...                  # Diğer bileşenler
+│   │   ├── contact-form.tsx     # Contact form
+│   │   ├── quote-modal.tsx      # Quote modal
+│   │   ├── blog-*.tsx           # Blog components
+│   │   ├── service-*.tsx        # Service page components
+│   │   ├── dashboard-*.tsx     # Dashboard components
+│   │   └── ...                  # Other components
 │   │
-│   ├── lib/                     # Utility fonksiyonlar
+│   ├── lib/                     # Utility functions
 │   │   ├── firebase.ts          # Firebase config
 │   │   ├── firestore-auth.ts   # Firebase Auth
 │   │   ├── firestore.ts         # Firestore operations
-│   │   ├── session.ts           # Session yönetimi
-│   │   └── ...                  # Diğer utilities
+│   │   ├── session.ts           # Session management
+│   │   └── ...                  # Other utilities
 │   │
-│   ├── contexts/                # React Context'ler
+│   ├── contexts/                # React Contexts
 │   │   ├── i18n-context.tsx     # i18n context
-│   │   └── notification-context.tsx  # Bildirim context
+│   │   └── notification-context.tsx  # Notification context
 │   │
 │   ├── hooks/                   # Custom React hooks
 │   │   ├── useRecaptcha.ts      # reCAPTCHA hook
 │   │   ├── useFingerprinting.ts # Fingerprinting hook
-│   │   └── ...                  # Diğer hooks
+│   │   └── ...                  # Other hooks
 │   │
-│   └── config/                  # Konfigürasyon dosyaları
+│   └── config/                  # Configuration files
 │       ├── recaptcha.ts         # reCAPTCHA config
 │       ├── emailjs.ts           # EmailJS config
-│       └── index.ts              # Ana config
+│       └── index.ts              # Main config
 │
-├── next.config.js               # Next.js konfigürasyonu
-├── tailwind.config.ts           # Tailwind CSS konfigürasyonu
-├── tsconfig.json                # TypeScript konfigürasyonu
+├── next.config.js               # Next.js configuration
+├── tailwind.config.ts           # Tailwind CSS configuration
+├── tsconfig.json                # TypeScript configuration
 ├── package.json                 # NPM dependencies
-└── README.md                    # Bu dosya
+└── README.md                    # This file
 ```
 
-## 📖 Kullanım
+## 📖 Usage
 
-### Dil Değiştirme
+### Changing Language
 
-Website'de dil değiştirmek için header'daki dil seçiciyi kullanın veya URL'deki dil kodunu değiştirin:
+To change the language on the website, use the language selector in the header or change the language code in the URL:
 
-- Türkçe: `/tr/`
-- İngilizce: `/en/`
-- Almanca: `/de/`
-- Fransızca: `/fr/`
-- Rusça: `/ru/`
-- Arapça: `/ar/`
+- Turkish: `/tr/`
+- English: `/en/`
+- German: `/de/`
+- French: `/fr/`
+- Russian: `/ru/`
+- Arabic: `/ar/`
 
-### Sayfa Yapısı
+### Page Structure
 
-Her dil için aynı sayfa yapısı mevcuttur:
+The same page structure is available for each language:
 
-- **Ana Sayfa**: `/[lang]/`
-- **Hakkımızda**: `/[lang]/about` (veya `/[lang]/hakkimizda` gibi)
-- **Hizmetler**: `/[lang]/services` (veya `/[lang]/hizmetlerimiz` gibi)
-  - Web Sitesi Tasarımı: `/[lang]/services/website-design`
-  - Web Geliştirme: `/[lang]/services/web-development`
-  - Mobil Uygulama: `/[lang]/services/mobile-app-development`
-  - SEO Optimizasyonu: `/[lang]/services/seo-optimization`
-  - Google Ads Yönetimi: `/[lang]/services/google-ads-management`
-  - WordPress Çözümleri: `/[lang]/services/wordpress-solutions`
-  - Logo & Kurumsal Kimlik: `/[lang]/services/logo-corporate-identity-design`
-  - Sosyal Medya Yönetimi: `/[lang]/services/social-media-management`
-  - Yapay Zeka Entegrasyonları: `/[lang]/services/ai-integrations`
-  - Dijital Danışmanlık: `/[lang]/services/digital-consulting`
-- **Projeler**: `/[lang]/projects` (veya `/[lang]/projelerimiz` gibi)
+- **Home Page**: `/[lang]/`
+- **About**: `/[lang]/about` (or `/[lang]/hakkimizda` etc.)
+- **Services**: `/[lang]/services` (or `/[lang]/hizmetlerimiz` etc.)
+  - Website Design: `/[lang]/services/website-design`
+  - Web Development: `/[lang]/services/web-development`
+  - Mobile App: `/[lang]/services/mobile-app-development`
+  - SEO Optimization: `/[lang]/services/seo-optimization`
+  - Google Ads Management: `/[lang]/services/google-ads-management`
+  - WordPress Solutions: `/[lang]/services/wordpress-solutions`
+  - Logo & Corporate Identity: `/[lang]/services/logo-corporate-identity-design`
+  - Social Media Management: `/[lang]/services/social-media-management`
+  - AI Integrations: `/[lang]/services/ai-integrations`
+  - Digital Consulting: `/[lang]/services/digital-consulting`
+- **Projects**: `/[lang]/projects` (or `/[lang]/projelerimiz` etc.)
 - **Blog**: `/[lang]/blog`
-- **İletişim**: `/[lang]/contact` (veya `/[lang]/iletisim` gibi)
-- **Fiyatlandırma**: `/[lang]/pricing` (veya `/[lang]/fiyatlandirma` gibi)
+- **Contact**: `/[lang]/contact` (or `/[lang]/iletisim` etc.)
+- **Pricing**: `/[lang]/pricing` (or `/[lang]/fiyatlandirma` etc.)
 
-### İletişim Formu Kullanımı
+### Contact Form Usage
 
-1. İletişim sayfasına gidin
-2. Formu doldurun (Ad, E-posta, Telefon, Mesaj)
-3. Hizmet seçin (opsiyonel)
-4. Gizlilik politikasını onaylayın
-5. Gönder butonuna tıklayın
-6. EmailJS üzerinden email gönderilir
+1. Go to the contact page
+2. Fill out the form (Name, Email, Phone, Message)
+3. Select a service (optional)
+4. Accept the privacy policy
+5. Click the Send button
+6. Email is sent via EmailJS
 
-### Teklif Formu Kullanımı
+### Quote Form Usage
 
-1. Herhangi bir sayfada "Teklif Al" butonuna tıklayın
-2. Modal açılır
-3. Formu doldurun (Ad, E-posta, Telefon, Şirket, Hizmet, Proje Detayları)
-4. Gizlilik politikasını onaylayın
-5. "Teklif Talep Et" butonuna tıklayın
-6. Email gönderilir
+1. Click the "Get Quote" button on any page
+2. Modal opens
+3. Fill out the form (Name, Email, Phone, Company, Service, Project Details)
+4. Accept the privacy policy
+5. Click the "Request Quote" button
+6. Email is sent
 
 ## 🎛️ Dashboard & CMS
 
-### Giriş Yapma
+### Logging In
 
-1. Admin paneline gidin: `/admin-panel-secure-access-2024`
-2. Kullanıcı adı veya e-posta girin
-3. Şifre girin
-4. Login butonuna tıklayın
-5. E-posta adresinize gönderilen OTP kodunu girin
-6. Dashboard'a yönlendirilirsiniz: `/content-management-system-2024`
+1. Go to admin panel: `/admin-panel-secure-access-2024`
+2. Enter username or email
+3. Enter password
+4. Click Login button
+5. Enter the OTP code sent to your email address
+6. You will be redirected to the dashboard: `/content-management-system-2024`
 
-### Dashboard Özellikleri
+### Dashboard Features
 
-#### Blog Yönetimi
-- **Yeni Blog Yazısı**: `/content-management-system-2024/blogs/new`
-- **Blog Listesi**: `/content-management-system-2024/blogs`
-- **Blog Düzenleme**: `/content-management-system-2024/blogs/[id]`
-- **Blog Görüntüleme**: `/content-management-system-2024/blogs/[id-view]`
+#### Blog Management
+- **New Blog Post**: `/content-management-system-2024/blogs/new`
+- **Blog List**: `/content-management-system-2024/blogs`
+- **Edit Blog**: `/content-management-system-2024/blogs/[id]`
+- **View Blog**: `/content-management-system-2024/blogs/[id-view]`
 
-Özellikler:
-- Markdown desteği
+Features:
+- Markdown support
 - HTML editor
-- Görsel yükleme
-- Kategori ve etiket atama
-- Çok dilli içerik desteği
-- SEO ayarları (meta tags, keywords)
-- Yayınlama tarihi ayarlama
+- Image upload
+- Category and tag assignment
+- Multilingual content support
+- SEO settings (meta tags, keywords)
+- Publication date setting
 - Featured image
 
-#### Proje Yönetimi
-- **Yeni Proje**: `/content-management-system-2024/projects/new`
-- **Proje Listesi**: `/content-management-system-2024/projects`
-- **Proje Düzenleme**: `/content-management-system-2024/projects/[id]`
+#### Project Management
+- **New Project**: `/content-management-system-2024/projects/new`
+- **Project List**: `/content-management-system-2024/projects`
+- **Edit Project**: `/content-management-system-2024/projects/[id]`
 
-Özellikler:
-- Proje görselleri
-- Proje açıklaması
-- Proje linkleri
-- Teknoloji stack'i
-- Kategori atama
+Features:
+- Project images
+- Project description
+- Project links
+- Technology stack
+- Category assignment
 
-#### Kategori Yönetimi
-- **Kategori Listesi**: `/content-management-system-2024/categories`
-- **Kategori Düzenleme**: `/content-management-system-2024/categories/[id]`
+#### Category Management
+- **Category List**: `/content-management-system-2024/categories`
+- **Edit Category**: `/content-management-system-2024/categories/[id]`
 
-#### Etiket Yönetimi
-- **Etiket Listesi**: `/content-management-system-2024/tags`
-- **Etiket Düzenleme**: `/content-management-system-2024/tags/[id]`
+#### Tag Management
+- **Tag List**: `/content-management-system-2024/tags`
+- **Edit Tag**: `/content-management-system-2024/tags/[id]`
 
-#### Yorum Yönetimi
-- **Yorum Listesi**: `/content-management-system-2024/comments`
-- **Yorum Onaylama/Silme**: `/content-management-system-2024/comments/[id]`
+#### Comment Management
+- **Comment List**: `/content-management-system-2024/comments`
+- **Approve/Delete Comment**: `/content-management-system-2024/comments/[id]`
 
-Özellikler:
-- Yorum moderasyonu
-- Yanıt verme
-- Yorum silme
-- Spam kontrolü
+Features:
+- Comment moderation
+- Reply functionality
+- Comment deletion
+- Spam control
 
-#### Kullanıcı Yönetimi
-- **Kullanıcı Listesi**: `/content-management-system-2024/users`
-- **Kullanıcı Detayı**: `/content-management-system-2024/users/[id]`
+#### User Management
+- **User List**: `/content-management-system-2024/users`
+- **User Detail**: `/content-management-system-2024/users/[id]`
 
-Özellikler:
-- Rol yönetimi (Admin, Editor, Author)
-- Kullanıcı bilgileri düzenleme
-- Kullanıcı silme
+Features:
+- Role management (Admin, Editor, Author)
+- Edit user information
+- Delete users
 
-#### Medya Yönetimi
-- **Medya Kütüphanesi**: `/content-management-system-2024/media`
+#### Media Management
+- **Media Library**: `/content-management-system-2024/media`
 
-Özellikler:
-- Görsel yükleme
-- Görsel düzenleme
-- Görsel silme
-- Firebase Storage entegrasyonu
+Features:
+- Image upload
+- Image editing
+- Image deletion
+- Firebase Storage integration
 
-#### SEO Yönetimi
-- **SEO Ayarları**: `/content-management-system-2024/seo`
+#### SEO Management
+- **SEO Settings**: `/content-management-system-2024/seo`
 
-Özellikler:
-- Global SEO ayarları
-- Meta tags yönetimi
-- Keywords yönetimi
-- Open Graph ayarları
+Features:
+- Global SEO settings
+- Meta tags management
+- Keywords management
+- Open Graph settings
 
-#### İstatistikler
+#### Statistics
 - **Dashboard Stats**: `/content-management-system-2024/stats`
 
-Özellikler:
-- Blog yazısı sayısı
-- Proje sayısı
-- Yorum sayısı
-- Kullanıcı sayısı
-- Grafik ve tablolar
+Features:
+- Blog post count
+- Project count
+- Comment count
+- User count
+- Charts and tables
 
-#### Ayarlar
-- **Genel Ayarlar**: `/content-management-system-2024/settings`
+#### Settings
+- **General Settings**: `/content-management-system-2024/settings`
 
-Özellikler:
-- Site ayarları
-- Email ayarları
-- Güvenlik ayarları
+Features:
+- Site settings
+- Email settings
+- Security settings
 
-## 🌍 Çok Dilli Destek
+## 🌍 Multilingual Support
 
-### Çeviri Dosyaları
+### Translation Files
 
-Çeviriler `public/locales/[lang]/common.json` dosyalarında tutulur.
+Translations are stored in `public/locales/[lang]/common.json` files.
 
-Her dil için aynı JSON yapısı kullanılır:
+The same JSON structure is used for each language:
 
 ```json
 {
   "nav": {
-    "home": "Ana Sayfa",
-    "about": "Hakkımızda",
-    "services": "Hizmetlerimiz",
+    "home": "Home",
+    "about": "About",
+    "services": "Services",
     ...
   },
   "contact": {
-    "title": "İletişim",
-    "name": "Ad Soyad",
+    "title": "Contact",
+    "name": "Full Name",
     ...
   }
 }
 ```
 
-### Yeni Çeviri Ekleme
+### Adding New Translations
 
-1. `public/locales/[lang]/common.json` dosyasını açın
-2. Çeviri key'ini ekleyin
-3. Value'yu ilgili dildeki karşılığıyla değiştirin
-4. Component'te `t('key.path')` ile kullanın
+1. Open `public/locales/[lang]/common.json` file
+2. Add the translation key
+3. Replace the value with the corresponding translation in that language
+4. Use it in components with `t('key.path')`
 
-Örnek:
+Example:
 ```tsx
 import { useI18n } from '@/contexts/i18n-context'
 
 const { t } = useI18n()
-return <h1>{t('nav.home', 'Ana Sayfa')}</h1>
+return <h1>{t('nav.home', 'Home')}</h1>
 ```
 
 ### URL Mapping
 
-URL mapping `src/contexts/i18n-context.tsx` dosyasında yönetilir:
+URL mapping is managed in `src/contexts/i18n-context.tsx` file:
 
 ```typescript
 const urlMappings = {
@@ -496,11 +496,11 @@ const urlMappings = {
 }
 ```
 
-Yeni sayfa eklerken URL mapping'e eklemeyi unutmayın.
+Remember to add new pages to the URL mapping.
 
 ## 🔌 API Routes
 
-### İletişim Formu
+### Contact Form
 
 **Endpoint**: `POST /api/send-contact-email`
 
@@ -525,13 +525,13 @@ Yeni sayfa eklerken URL mapping'e eklemeyi unutmayın.
 }
 ```
 
-### Teklif Formu
+### Quote Form
 
 **Endpoint**: `POST /api/send-quote-email`
 
-**Request Body**: Aynı yapıda
+**Request Body**: Same structure
 
-### OTP Gönderme
+### Send OTP
 
 **Endpoint**: `POST /api/send-otp`
 
@@ -550,7 +550,7 @@ Yeni sayfa eklerken URL mapping'e eklemeyi unutmayın.
 }
 ```
 
-### OTP Doğrulama
+### Verify OTP
 
 **Endpoint**: `POST /api/verify-otp`
 
@@ -570,40 +570,40 @@ Yeni sayfa eklerken URL mapping'e eklemeyi unutmayın.
 }
 ```
 
-## 🔒 Güvenlik
+## 🔒 Security
 
 ### reCAPTCHA v3
 
-Tüm formlar reCAPTCHA v3 ile korunur:
-- İletişim formu
-- Teklif formu
-- Login formu
-- Blog yorumları
+All forms are protected with reCAPTCHA v3:
+- Contact form
+- Quote form
+- Login form
+- Blog comments
 
 ### OTP Authentication
 
-Admin panel girişi OTP tabanlı iki faktörlü kimlik doğrulama kullanır:
-1. Kullanıcı adı/şifre
-2. E-posta ile gönderilen OTP kodu
+Admin panel login uses OTP-based two-factor authentication:
+1. Username/password
+2. OTP code sent via email
 
 ### Rate Limiting
 
-API route'lar rate limiting ile korunur:
-- Maksimum 3 istek / 15 dakika (IP bazlı)
-- İletişim formu
-- OTP API'leri
+API routes are protected with rate limiting:
+- Maximum 3 requests / 15 minutes (IP-based)
+- Contact form
+- OTP APIs
 
 ### Input Validation
 
 - Zod schema validation
-- XSS koruması (DOMPurify)
-- SQL injection koruması (Firestore kullanımı)
+- XSS protection (DOMPurify)
+- SQL injection protection (using Firestore)
 
 ### Firebase Security Rules
 
-Firestore Security Rules örnekleri `firestore.rules` dosyasında mevcuttur.
+Firestore Security Rules examples are available in the `firestore.rules` file.
 
-## ⚡ Performans Optimizasyonları
+## ⚡ Performance Optimizations
 
 ### Code Splitting
 - Dynamic imports
@@ -612,7 +612,7 @@ Firestore Security Rules örnekleri `firestore.rules` dosyasında mevcuttur.
 
 ### Image Optimization
 - Next.js Image component
-- WebP/AVIF formatları
+- WebP/AVIF formats
 - Lazy loading
 - Responsive images
 
@@ -634,34 +634,38 @@ Firestore Security Rules örnekleri `firestore.rules` dosyasında mevcuttur.
 
 ## 🚀 Deployment
 
-### Vercel Deployment (Önerilen)
+### Render.com Deployment (Recommended)
 
-1. GitHub'a push edin
-2. [Vercel](https://vercel.com/)'e gidin
+1. Push to GitHub
+2. Go to [Render](https://render.com/)
 3. Import project
-4. Environment variables'ları ekleyin
-5. Deploy edin
+4. Add environment variables
+5. Deploy
 
 ### Environment Variables (Production)
 
-Vercel dashboard'da şu environment variables'ları ekleyin:
-- Tüm `NEXT_PUBLIC_*` değişkenleri
+Add these environment variables in Render dashboard:
+- All `NEXT_PUBLIC_*` variables
 - `RECAPTCHA_SECRET_KEY`
-- `SMTP_*` değişkenleri
-- `NEXT_PUBLIC_SITE_URL` (production URL, örn: `https://yourdomain.com`)
+- `SMTP_*` variables
+- `NEXT_PUBLIC_SITE_URL` (production URL, e.g.: `https://yourdomain.com`)
+- `NEXT_PUBLIC_DASHBOARD_HOST` (e.g.: `dashboard.softiel.com`)
+- `NEXT_PUBLIC_DASHBOARD_LOGIN` (e.g.: `/admin-panel-secure-access-2024`)
+- `NEXT_PUBLIC_DASHBOARD_BASE` (e.g.: `/content-management-system-2024`)
 
 ### Firebase Production Setup
 
-1. Firebase Console'da production projesi oluşturun
-2. Firestore security rules'ları ayarlayın
-3. Production domain'i authorized domains'e ekleyin
-4. Storage rules'ları ayarlayın
+1. Create a production project in Firebase Console
+2. Configure Firestore security rules
+3. Add production domain to authorized domains
+4. Configure Storage rules
 
 ### Domain Setup
 
-1. Domain'i Vercel'e bağlayın
-2. SSL sertifikası otomatik oluşturulur
-3. DNS ayarlarını yapın
+1. Connect domain to Render
+2. SSL certificate is automatically created
+3. Configure DNS settings
+4. For multiple hostnames (www and dashboard), use Cloudflare Redirect Rules
 
 ## 🧪 Development Commands
 
@@ -707,25 +711,25 @@ npm run analyze
 - `eslint`: Linting
 - `@next/bundle-analyzer`: Bundle analysis
 
-Tam liste için `package.json` dosyasına bakın.
+See `package.json` file for the complete list.
 
-## 🤝 Kontribüsyon
+## 🤝 Contributing
 
-1. Fork edin
-2. Feature branch oluşturun (`git checkout -b feature/amazing-feature`)
-3. Commit edin (`git commit -m 'Add some amazing feature'`)
-4. Push edin (`git push origin feature/amazing-feature`)
-5. Pull Request açın
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
-## 📝 Lisans
+## 📝 License
 
-Bu proje özel bir projedir. Tüm hakları saklıdır.
+This is a private project. All rights reserved.
 
-## 👥 İletişim
+## 👥 Contact
 
-Proje sahibi ile iletişime geçmek için GitHub Issues veya repository'nin iletişim bilgilerini kullanın.
+To contact the project owner, use GitHub Issues or the repository's contact information.
 
-## 🙏 Teşekkürler
+## 🙏 Acknowledgments
 
 - [Next.js](https://nextjs.org/)
 - [Firebase](https://firebase.google.com/)
@@ -735,4 +739,4 @@ Proje sahibi ile iletişime geçmek için GitHub Issues veya repository'nin ilet
 
 ---
 
-**Not**: Bu README dosyası projenin mevcut durumunu yansıtmaktadır. Proje sürekli geliştirilmektedir ve bu dokümantasyon güncel tutulmaya çalışılmaktadır.
+**Note**: This README file reflects the current state of the project. The project is continuously being developed and this documentation is kept up to date.
