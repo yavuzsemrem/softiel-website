@@ -11,6 +11,8 @@ import {
   Timestamp 
 } from 'firebase/firestore'
 import { db } from './firebase'
+// EmailJS REST fallback
+const EMAILJS_API_URL = 'https://api.emailjs.com/api/v1.0/email/send'
 // EmailJS config is only used for template settings, not for sending
 const EMAILJS_CONFIG = {
   otpTemplate: {
@@ -163,7 +165,10 @@ export async function sendOTPEmail(email: string, otpCode: string, userName: str
           await transporter.verify()
         } catch (verifyError2: any) {
           console.error('SMTP verify (587 STARTTLS) failed:', verifyError2?.code || verifyError2?.message || verifyError2)
-          return { success: false, error: `SMTP failed (465/587). ${verifyError2?.message || verifyError2}` }
+          // SMTP erişimi başarısız; EmailJS REST API fallback dene
+          const ej = await sendViaEmailJS(email, otpCode, userName)
+          if (ej.success) return { success: true }
+          return { success: false, error: `SMTP failed (465/587). ${verifyError2?.message || verifyError2}. EmailJS fallback: ${ej.error || 'failed'}` }
         }
       }
     }
@@ -312,16 +317,59 @@ export async function sendOTPEmail(email: string, otpCode: string, userName: str
       text: `Merhaba ${userName},\n\nGiriş yapmaya çalışan kullanıcı: ${email}\nDoğrulama kodunuz: ${otpCode}\n\nBu kod 5 dakika geçerlidir.\n\nSoftiel Admin Ekibi`
     }
     
-    // Send email
-    await transporter.sendMail(mailOptions)
-    
-    return { success: true }
+    // Send email (SMTP)
+    try {
+      await transporter.sendMail(mailOptions)
+      return { success: true }
+    } catch (sendErr: any) {
+      console.error('SMTP send failed:', sendErr?.code || sendErr?.message || sendErr)
+      const ej = await sendViaEmailJS(email, otpCode, userName)
+      if (ej.success) return { success: true }
+      return { success: false, error: `SMTP send failed. EmailJS fallback: ${ej.error || 'failed'}` }
+    }
     
   } catch (error: any) {
     return { 
       success: false, 
       error: error.message || 'E-posta gönderilirken hata oluştu' 
     }
+  }
+}
+
+async function sendViaEmailJS(email: string, otpCode: string, userName: string): Promise<{ success: boolean; error?: string }> {
+  try {
+    const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID
+    const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID
+    const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY
+    if (!serviceId || !templateId || !publicKey) {
+      return { success: false, error: 'EmailJS config missing' }
+    }
+
+    const payload = {
+      service_id: serviceId,
+      template_id: templateId,
+      user_id: publicKey,
+      template_params: {
+        to_email: 'info@softiel.com',
+        name: userName,
+        email,
+        message: `OTP: ${otpCode}`,
+        otp_code: otpCode
+      }
+    }
+
+    const res = await fetch(EMAILJS_API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    })
+    const text = await res.text()
+    if (!res.ok) {
+      return { success: false, error: `EmailJS error: ${text || res.statusText}` }
+    }
+    return { success: true }
+  } catch (e: any) {
+    return { success: false, error: e?.message || 'EmailJS request failed' }
   }
 }
 
