@@ -1,0 +1,32 @@
+name: Keep Service Alive
+
+on:
+  schedule:
+    # Her 10 dakikada bir çalışır (Render ücretsiz plan 15 dakikada uyuyor)
+    - cron: '*/10 * * * *'
+  workflow_dispatch: # Manuel tetikleme için
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Softiel Website
+        run: |
+          echo "Pinging https://www.softiel.com..."
+          response=$(curl -s -o /dev/null -w "%{http_code}" https://www.softiel.com)
+          echo "Response code: $response"
+          
+          if [ $response -eq 200 ] || [ $response -eq 304 ]; then
+            echo "✅ Website is alive!"
+          else
+            echo "⚠️ Website returned: $response"
+          fi
+      
+      - name: Ping Health Endpoint
+        run: |
+          echo "Pinging health endpoint..."
+          curl -s https://www.softiel.com/api/health || echo "Health endpoint check completed"
+      
+      - name: Log timestamp
+        run: echo "Last ping at $(date)"
+

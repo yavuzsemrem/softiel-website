@@ -243,7 +243,7 @@ export function BlogDetailHero({ slug, blogData }: BlogDetailHeroProps) {
     const shareData = {
       title: post?.title || 'Blog Yazısı',
       text: 'Bu blog yazısını okumanızı tavsiye ederim!',
-      url: `${window.location.origin}/blog/${slug}`
+      url: `${window.location.origin}/${locale}/blog/${slug}`
     }
 
     try {

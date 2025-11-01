@@ -314,7 +314,7 @@ const blogData = {
 }
 
 export function BlogDetailContent({ slug, blogData }: BlogDetailContentProps) {
-  const { t } = useI18n()
+  const { t, locale } = useI18n()
   const [post, setPost] = useState<BlogPost | null>(blogData || null)
   const [loading, setLoading] = useState(!blogData)
   const [error, setError] = useState("")
@@ -379,7 +379,7 @@ export function BlogDetailContent({ slug, blogData }: BlogDetailContentProps) {
     const shareData = {
       title: post?.title || 'Blog Yazısı',
       text: 'Bu blog yazısını okumanızı tavsiye ederim!',
-      url: `${window.location.origin}/blog/${slug}`
+      url: `${window.location.origin}/${locale}/blog/${slug}`
     }
 
     const shareUrls = {

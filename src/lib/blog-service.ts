@@ -26,6 +26,44 @@ function getBlogSlug(data: any, docId: string): string {
   return data.slug || createSlug(data.title) || docId
 }
 
+// Retry utility fonksiyonu - bağlantı hatalarında yeniden dene
+async function retryWithBackoff<T>(
+  fn: () => Promise<T>,
+  maxRetries: number = 3,
+  baseDelay: number = 1000,
+  timeout: number = 10000
+): Promise<T> {
+  for (let attempt = 0; attempt < maxRetries; attempt++) {
+    try {
+      // Timeout ile Promise.race kullan
+      const timeoutPromise = new Promise<never>((_, reject) => {
+        setTimeout(() => reject(new Error('Request timeout')), timeout);
+      });
+      
+      const result = await Promise.race([fn(), timeoutPromise]);
+      return result;
+    } catch (error: any) {
+      const isLastAttempt = attempt === maxRetries - 1;
+      const isConnectionError = error?.message?.includes('Connection closed') || 
+                                 error?.message?.includes('timeout') ||
+                                 error?.message?.includes('network') ||
+                                 error?.code === 'unavailable';
+      
+      if (isLastAttempt || !isConnectionError) {
+        throw error;
+      }
+      
+      // Exponential backoff
+      const delay = baseDelay * Math.pow(2, attempt);
+      await new Promise(resolve => setTimeout(resolve, delay));
+      
+      console.warn(`Retry attempt ${attempt + 1}/${maxRetries} after ${delay}ms...`);
+    }
+  }
+  
+  throw new Error('Max retries exceeded');
+}
+
 export interface BlogPost {
   id?: string
   title: string
@@ -332,81 +370,88 @@ export async function deleteBlog(identifier: string): Promise<void> {
 
 // Tek blog getir (id veya slug ile) - view count artırma olmadan
 export async function getBlog(identifier: string, incrementViews: boolean = false): Promise<BlogPost | null> {
-  try {
-    // Identifier kontrolü
-    if (!identifier || typeof identifier !== 'string') {
-      return null
-    }
-    
-    // Firestore bağlantısını kontrol et
-    if (!blogsCollection) {
-      throw new Error('Firestore blogs collection bulunamadı')
-    }
-    
-    // Önce id ile dene
-    const blogRef = doc(blogsCollection, identifier)
-    const snapshot = await getDoc(blogRef)
-    
-    if (snapshot.exists()) {
-      const blogData = snapshot.data()
-      
-      // Veri doğrulama
-      if (!blogData) {
+  return retryWithBackoff(async () => {
+    try {
+      // Identifier kontrolü
+      if (!identifier || typeof identifier !== 'string') {
         return null
       }
       
-      // Sadece incrementViews true ise görüntülenme sayısını artır
-      if (incrementViews) {
-        try {
-          const updatedViews = (blogData.views || 0) + 1
-          await updateDoc(blogRef, { views: updatedViews })
-        } catch (updateError) {
-          // Hata olursa devam et
-        }
+      // Firestore bağlantısını kontrol et
+      if (!blogsCollection) {
+        throw new Error('Firestore blogs collection bulunamadı')
       }
       
-      return {
-        id: snapshot.id,
-        ...blogData,
-        views: blogData.views || 0
-      } as BlogPost
-    }
-    
-    // Eğer id ile bulunamadıysa, slug ile ara
-    const snapshot2 = await getDocs(blogsCollection)
-    
-    for (const docSnapshot of snapshot2.docs) {
-      const data = docSnapshot.data()
-      const slug = getBlogSlug(data, docSnapshot.id)
+      // Önce id ile dene
+      const blogRef = doc(blogsCollection, identifier)
+      const snapshot = await getDoc(blogRef)
       
-      if (slug === identifier) {
+      if (snapshot.exists()) {
+        const blogData = snapshot.data()
+        
+        // Veri doğrulama
+        if (!blogData) {
+          return null
+        }
+        
         // Sadece incrementViews true ise görüntülenme sayısını artır
         if (incrementViews) {
           try {
-            const updatedViews = (data.views || 0) + 1
-            await updateDoc(docSnapshot.ref, { views: updatedViews })
-            return {
-              id: docSnapshot.id,
-              ...data,
-              views: updatedViews
-            } as BlogPost
+            const updatedViews = (blogData.views || 0) + 1
+            await updateDoc(blogRef, { views: updatedViews })
           } catch (updateError) {
-            // Hata olursa view count'u artırmadan devam et
+            // Hata olursa devam et
           }
         }
         
         return {
-          id: docSnapshot.id,
-          ...data,
-          views: data.views || 0
+          id: snapshot.id,
+          ...blogData,
+          views: blogData.views || 0
         } as BlogPost
       }
+      
+      // Eğer id ile bulunamadıysa, slug ile ara
+      const snapshot2 = await getDocs(blogsCollection)
+      
+      for (const docSnapshot of snapshot2.docs) {
+        const data = docSnapshot.data()
+        const slug = getBlogSlug(data, docSnapshot.id)
+        
+        if (slug === identifier) {
+          // Sadece incrementViews true ise görüntülenme sayısını artır
+          if (incrementViews) {
+            try {
+              const updatedViews = (data.views || 0) + 1
+              await updateDoc(docSnapshot.ref, { views: updatedViews })
+              return {
+                id: docSnapshot.id,
+                ...data,
+                views: updatedViews
+              } as BlogPost
+            } catch (updateError) {
+              // Hata olursa view count'u artırmadan devam et
+            }
+          }
+          
+          return {
+            id: docSnapshot.id,
+            ...data,
+            views: data.views || 0
+          } as BlogPost
+        }
+      }
+      
+      return null
+    } catch (error) {
+      // Connection closed hatalarını yakala
+      if ((error as any)?.message?.includes('Connection closed')) {
+        console.error('Firebase connection closed, retrying...');
+        throw error; // Retry mekanizması devreye girsin
+      }
+      throw new Error(`Blog getirilemedi: ${(error as any)?.message || 'Bilinmeyen hata'}`)
     }
-    
-    return null
-  } catch (error) {
-    throw new Error(`Blog getirilemedi: ${(error as any)?.message || 'Bilinmeyen hata'}`)
-  }
+  }, 3, 1000, 15000); // 3 retry, 1 saniye base delay, 15 saniye timeout
 }
 
 // Blog getir (sadece slug ile)
