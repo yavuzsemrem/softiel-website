@@ -1,17 +1,10 @@
 "use client"
 
 import React, { useState, useEffect } from "react"
-import dynamic from "next/dynamic"
+import { motion, AnimatePresence } from "framer-motion"
 
-// Framer Motion'ı lazy load et - main thread work azaltmak için
-const MotionDiv = dynamic(() => import("framer-motion").then(mod => ({ default: mod.motion.div })), { 
-  ssr: false,
-  loading: () => <div />
-})
-const AnimatePresence = dynamic(() => import("framer-motion").then(mod => ({ default: mod.AnimatePresence })), { 
-  ssr: false,
-  loading: () => <></>
-})
+// MotionDiv direkt import edilerek ref sorunları önleniyor
+const MotionDiv = motion.div
 
 import { 
   MessageSquare, 

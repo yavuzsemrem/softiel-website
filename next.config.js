@@ -1,8 +1,13 @@
 /** @type {import('next').NextConfig} */
 const baseConfig = {
+  reactStrictMode: true,
   experimental: { optimizeCss: false },
   swcMinify: false,
   trailingSlash: false,
+  onDemandEntries: {
+    maxInactiveAge: 60 * 1000,
+    pagesBufferLength: 5,
+  },
   images: {
     unoptimized: true,
     remotePatterns: [

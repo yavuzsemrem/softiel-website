@@ -3,14 +3,11 @@
 import React, { useEffect, useState, useRef } from "react"
 import Link from "next/link"
 import Image from "next/image"
-import dynamic from "next/dynamic"
 import { useI18n } from "@/contexts/i18n-context"
+import { motion } from "framer-motion"
 
-// Framer Motion'ı lazy load et - main thread work azaltmak için
-const MotionDiv = dynamic(() => import("framer-motion").then(mod => ({ default: mod.motion.div })), { 
-  ssr: false,
-  loading: () => <div />
-})
+// MotionDiv direkt import edilerek ref sorunları önleniyor
+const MotionDiv = motion.div
 
 import { 
   ArrowRight, 
@@ -132,6 +129,7 @@ export function Hero() {
 
   return (
         <section
+          suppressHydrationWarning
           className="relative flex items-center justify-center overflow-hidden" 
           style={{ 
             minHeight: '100vh',
@@ -145,6 +143,7 @@ export function Hero() {
         {/* Hero Image Background with Cinematic Effect */}
         <MotionDiv 
           ref={bgRef}
+          suppressHydrationWarning
           className="absolute inset-0"
         >
           <Image
@@ -163,14 +162,14 @@ export function Hero() {
           {/* Cinematic Dark Overlay */}
           <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/60 to-black/90"></div>
           
-          {/* Film Grain Effect */}
-          {!reducedMotion && !isMobile && (
+          {/* Film Grain Effect - client-side only */}
+          {isPageReady && !reducedMotion && !isMobile && (
             <div className="absolute inset-0 opacity-10 mix-blend-overlay bg-noise"></div>
           )}
         </MotionDiv>
 
-        {/* Cinematic Light Beams - optimize edildi */}
-        {!reducedMotion && !isMobile && (
+        {/* Cinematic Light Beams - client-side only */}
+        {isPageReady && !reducedMotion && !isMobile && (
           <MotionDiv
             ref={beam1Ref}
             animate={{ opacity: [0.08, 0.2, 0.08] }}
@@ -179,7 +178,7 @@ export function Hero() {
           />
         )}
         
-        {!reducedMotion && !isMobile && (
+        {isPageReady && !reducedMotion && !isMobile && (
           <MotionDiv
             ref={beam2Ref}
             animate={{ opacity: [0.08, 0.18, 0.08] }}
@@ -188,13 +187,13 @@ export function Hero() {
           />
         )}
 
-        {/* Floating Cinematic Particles - optimize edildi */}
-        {[...Array(reducedMotion || isMobile ? 0 : 3)].map((_, i) => (
+        {/* Floating Cinematic Particles - client-side only to prevent hydration mismatch */}
+        {isPageReady && !reducedMotion && !isMobile && [...Array(3)].map((_, i) => (
           <MotionDiv
             key={i}
             initial={{ 
-              x: Math.random() * (typeof window !== 'undefined' ? window.innerWidth : 1920),
-              y: Math.random() * (typeof window !== 'undefined' ? window.innerHeight : 1080),
+              x: Math.random() * window.innerWidth,
+              y: Math.random() * window.innerHeight,
               opacity: 0
             }}
           animate={{ 
@@ -221,8 +220,8 @@ export function Hero() {
         {/* Cinematic Vignette */}
         <div className="absolute inset-0 bg-gradient-radial from-transparent via-transparent to-black/60"></div>
         
-        {/* Animated Spotlight Effect - optimize edildi */}
-        {!reducedMotion && !isMobile && (
+        {/* Animated Spotlight Effect - client-side only */}
+        {isPageReady && !reducedMotion && !isMobile && (
           <MotionDiv
             animate={{ opacity: [0.08, 0.18, 0.08] }}
             transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}

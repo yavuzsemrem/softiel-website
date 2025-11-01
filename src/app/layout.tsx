@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Poppins } from "next/font/google";
 import "./globals.css";
 import dynamic from "next/dynamic";
+import { Suspense } from "react";
 import { ErrorBoundary } from "@/components/error-boundary";
 
 // Non-critical CSS'i lazy load et
@@ -100,6 +101,22 @@ export default function RootLayout({
                          document.documentElement.classList.add('fonts-loaded');
                        });
                      }
+                     
+                     // Global error handler for production
+                     window.addEventListener('error', function(event) {
+                       console.error('Global error caught:', event.error);
+                       // Prevent Next.js default error overlay in production
+                       if (window.location.hostname !== 'localhost') {
+                         event.preventDefault();
+                       }
+                     });
+                     
+                     window.addEventListener('unhandledrejection', function(event) {
+                       console.error('Unhandled promise rejection:', event.reason);
+                       if (window.location.hostname !== 'localhost') {
+                         event.preventDefault();
+                       }
+                     });
                    `,
                  }}
                />
@@ -125,20 +142,26 @@ export default function RootLayout({
               className={`${inter.variable} ${poppins.variable} font-sans antialiased`}
             >
               <ErrorBoundary>
-                <LazyThemeProvider
-                  attribute="class"
-                  defaultTheme="light"
-                  enableSystem
-                  disableTransitionOnChange
-                >
-                  <LazyNotificationProvider>
-                    <LazyI18nProvider>
-                      <AppContent>
-                        {children}
-                      </AppContent>
-                    </LazyI18nProvider>
-                  </LazyNotificationProvider>
-                </LazyThemeProvider>
+                <Suspense fallback={
+                  <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center">
+                    <div className="animate-pulse text-white">Yükleniyor...</div>
+                  </div>
+                }>
+                  <LazyThemeProvider
+                    attribute="class"
+                    defaultTheme="light"
+                    enableSystem
+                    disableTransitionOnChange
+                  >
+                    <LazyNotificationProvider>
+                      <LazyI18nProvider>
+                        <AppContent>
+                          {children}
+                        </AppContent>
+                      </LazyI18nProvider>
+                    </LazyNotificationProvider>
+                  </LazyThemeProvider>
+                </Suspense>
               </ErrorBoundary>
               <NonCriticalCSS />
                

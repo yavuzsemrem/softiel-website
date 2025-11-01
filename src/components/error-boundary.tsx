@@ -25,6 +25,13 @@ export class ErrorBoundary extends Component<Props, State> {
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     console.error('ErrorBoundary caught an error:', error, errorInfo)
+    
+    // Production'da daha detaylı log
+    if (typeof window !== 'undefined' && process.env.NODE_ENV === 'production') {
+      console.error('Component Stack:', errorInfo.componentStack)
+      console.error('Error Message:', error.message)
+      console.error('Error Stack:', error.stack)
+    }
   }
 
   render() {
