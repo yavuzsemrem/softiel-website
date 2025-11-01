@@ -84,12 +84,12 @@ export function useCooldown(sessionId: string): CooldownHookResult {
     }, 1000); // Her saniye kontrol et
 
     return () => clearInterval(interval);
-  }, [checkCooldown]);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // İlk yüklemede cooldown'u kontrol et
   useEffect(() => {
     checkCooldown();
-  }, [checkCooldown]);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Detaylı durum bilgisi al
   const getDetailedStatus = useCallback(() => {

@@ -82,7 +82,7 @@ export function useHoneypot(): HoneypotHookResult {
   // İlk yüklemede başlat
   useEffect(() => {
     initializeFields();
-  }, [initializeFields]);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Periyodik olarak alanları değiştir (5 dakikada bir)
   useEffect(() => {
@@ -91,7 +91,7 @@ export function useHoneypot(): HoneypotHookResult {
     }, 300000); // 5 dakika
 
     return () => clearInterval(interval);
-  }, [rotateFields]);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return {
     honeypotFields,

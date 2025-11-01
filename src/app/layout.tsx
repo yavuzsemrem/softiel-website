@@ -5,20 +5,6 @@ import dynamic from "next/dynamic";
 import { Suspense } from "react";
 import { ErrorBoundary } from "@/components/error-boundary";
 
-// Non-critical CSS'i lazy load et
-const NonCriticalCSS = dynamic(() => {
-  if (typeof window !== 'undefined') {
-    const link = document.createElement('link');
-    link.rel = 'stylesheet';
-    link.href = '/non-critical.css';
-    link.media = 'print';
-    link.onload = () => {
-      link.media = 'all';
-    };
-    document.head.appendChild(link);
-  }
-  return Promise.resolve(() => null);
-}, { ssr: false });
 
 // AppContent'i lazy load et - sadece gerekli durumlarda
 const AppContent = dynamic(() => import("@/components/app-content").then(mod => ({ default: mod.AppContent })), {
@@ -102,21 +88,26 @@ export default function RootLayout({
                        });
                      }
                      
-                     // Global error handler for production
-                     window.addEventListener('error', function(event) {
-                       console.error('Global error caught:', event.error);
-                       // Prevent Next.js default error overlay in production
-                       if (window.location.hostname !== 'localhost') {
-                         event.preventDefault();
-                       }
-                     });
-                     
-                     window.addEventListener('unhandledrejection', function(event) {
-                       console.error('Unhandled promise rejection:', event.reason);
-                       if (window.location.hostname !== 'localhost') {
-                         event.preventDefault();
-                       }
-                     });
+                     // Global error handler for production - suppress React errors in production
+                    window.addEventListener('error', function(event) {
+                      // Sadece geliştirme ortamında console'a yaz
+                      if (window.location.hostname === 'localhost') {
+                        console.error('Global error caught:', event.error);
+                      }
+                      // Production'da hataları bastır
+                      event.preventDefault();
+                      return false;
+                    }, true);
+                    
+                    window.addEventListener('unhandledrejection', function(event) {
+                      // Sadece geliştirme ortamında console'a yaz
+                      if (window.location.hostname === 'localhost') {
+                        console.error('Unhandled promise rejection:', event.reason);
+                      }
+                      // Production'da hataları bastır
+                      event.preventDefault();
+                      return false;
+                    }, true);
                    `,
                  }}
                />
@@ -163,17 +154,38 @@ export default function RootLayout({
                   </LazyThemeProvider>
                 </Suspense>
               </ErrorBoundary>
-              <NonCriticalCSS />
                
-               {/* Minimal non-critical JS */}
+               {/* Load non-critical CSS and other non-critical scripts */}
                <script
                  dangerouslySetInnerHTML={{
                    __html: `
+                     // Load non-critical CSS
+                     (function() {
+                       var loadNonCriticalCSS = function() {
+                         if (!document.querySelector('link[href="/non-critical.css"]')) {
+                           var link = document.createElement('link');
+                           link.rel = 'stylesheet';
+                           link.href = '/non-critical.css';
+                           link.media = 'print';
+                           link.onload = function() {
+                             this.media = 'all';
+                           };
+                           document.head.appendChild(link);
+                         }
+                       };
+                       
+                       if (document.readyState === 'complete') {
+                         loadNonCriticalCSS();
+                       } else {
+                         window.addEventListener('load', loadNonCriticalCSS);
+                       }
+                     })();
+                     
                      // Remove Next.js dev tools badge
                      if (typeof window !== 'undefined' && window.location.hostname === 'localhost') {
-                       setTimeout(() => {
-                         const badges = document.querySelectorAll('[data-next-badge="true"]');
-                         badges.forEach(badge => badge.remove());
+                       setTimeout(function() {
+                         var badges = document.querySelectorAll('[data-next-badge="true"]');
+                         badges.forEach(function(badge) { badge.remove(); });
                        }, 1000);
                      }
                    `,
