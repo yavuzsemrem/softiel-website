@@ -625,7 +625,7 @@ function ChatbotContent() {
             animate={{ opacity: 1, x: 0, scale: 1 }}
             exit={{ opacity: 0, x: 20, scale: 0.8 }}
             transition={{ duration: 0.3, delay: 1.2 }}
-            className="absolute bottom-20 sm:bottom-22 right-0 mb-3 sm:mb-4"
+            className="absolute bottom-23 sm:bottom-22 right-0"
           >
             <div className="bg-gradient-to-br from-slate-800/95 to-slate-900/95 backdrop-blur-md rounded-2xl p-3 sm:p-4 shadow-2xl chatbot-welcome-message w-80 sm:w-96 relative">
               {/* Kapatma butonu */}
