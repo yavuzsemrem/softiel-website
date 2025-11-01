@@ -658,8 +658,8 @@ export function NotificationsManagement() {
           </div>
         )}
 
-        {/* Stats - match comments page styling */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4 w-full max-w-full overflow-hidden" style={{ maxWidth: '100vw', width: '100%', overflowX: 'hidden', boxSizing: 'border-box' }}>
+        {/* Stats - 4 items grid */}
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 w-full max-w-full overflow-hidden" style={{ maxWidth: '100vw', width: '100%', overflowX: 'hidden', boxSizing: 'border-box' }}>
           <div className="glass rounded-xl p-3 sm:p-4 border border-white/20" style={{ background: 'rgba(255, 255, 255, 0.1)' }}>
           <div className="flex items-center justify-between">
             <div className="min-w-0 flex-1">
