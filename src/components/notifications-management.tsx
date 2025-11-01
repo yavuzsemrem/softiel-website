@@ -587,7 +587,7 @@ export function NotificationsManagement() {
       {/* İstatistikler */}
       <div className="relative">
         {/* Action Buttons - İstatistiklerin üstünde */}
-        <div className="flex justify-end gap-2 mb-4" style={{ background: 'rgba(255, 255, 255, 0.1)' }}>
+        <div className="flex justify-end gap-2 mb-4">
           {/* Seçim Modu Butonu */}
           <button
             onClick={() => {
@@ -690,7 +690,7 @@ export function NotificationsManagement() {
           </div>
         </div>
         
-        <div className="glass rounded-xl p-3 sm:p-4 border border-white/10" style={{ background: 'rgba(255, 255, 255, 0.1)' }}>
+        <div className="glass rounded-xl p-3 sm:p-4 border border-white/20" style={{ background: 'rgba(255, 255, 255, 0.1)' }}>
           <div className="flex items-center justify-between">
             <div className="min-w-0 flex-1">
               <p className="text-xs sm:text-sm text-neutral-400 truncate">Yorum Beğenildi</p>
