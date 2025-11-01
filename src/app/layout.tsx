@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Poppins } from "next/font/google";
 import "./globals.css";
 import dynamic from "next/dynamic";
+import { ErrorBoundary } from "@/components/error-boundary";
 
 // Non-critical CSS'i lazy load et
 const NonCriticalCSS = dynamic(() => {
@@ -21,7 +22,11 @@ const NonCriticalCSS = dynamic(() => {
 // AppContent'i lazy load et - sadece gerekli durumlarda
 const AppContent = dynamic(() => import("@/components/app-content").then(mod => ({ default: mod.AppContent })), {
   ssr: true,
-  loading: () => <div className="min-h-screen bg-background" />
+  loading: () => (
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center">
+      <div className="animate-pulse text-white">Yükleniyor...</div>
+    </div>
+  )
 });
 
 // reCAPTCHA'yı globalden kaldır - sadece gereken sayfalarda yükle
@@ -29,19 +34,19 @@ const AppContent = dynamic(() => import("@/components/app-content").then(mod => 
 // ThemeProvider'ı lazy load et
 const LazyThemeProvider = dynamic(() => import("@/components/theme-provider").then(mod => ({ default: mod.ThemeProvider })), {
   ssr: true,
-  loading: () => <div className="min-h-screen bg-background" />
+  loading: () => <div className="min-h-screen bg-slate-900" />
 });
 
 // NotificationProvider'ı lazy load et
 const LazyNotificationProvider = dynamic(() => import("@/contexts/notification-context").then(mod => ({ default: mod.NotificationProvider })), {
   ssr: true,
-  loading: () => <div className="min-h-screen bg-background" />
+  loading: () => <></>
 });
 
 // I18nProvider'ı lazy load et
 const LazyI18nProvider = dynamic(() => import("@/contexts/i18n-context").then(mod => ({ default: mod.I18nProvider })), {
   ssr: true,
-  loading: () => <div className="min-h-screen bg-background" />
+  loading: () => <></>
 });
 
 const inter = Inter({
@@ -116,24 +121,26 @@ export default function RootLayout({
                  }}
                />
       </head>
-             <body
-               className={`${inter.variable} ${poppins.variable} font-sans antialiased`}
-             >
-               <LazyThemeProvider
-                 attribute="class"
-                 defaultTheme="light"
-                 enableSystem
-                 disableTransitionOnChange
-               >
-                 <LazyNotificationProvider>
-                   <LazyI18nProvider>
-                     <AppContent>
-                       {children}
-                     </AppContent>
-                   </LazyI18nProvider>
-                 </LazyNotificationProvider>
-               </LazyThemeProvider>
-               <NonCriticalCSS />
+            <body
+              className={`${inter.variable} ${poppins.variable} font-sans antialiased`}
+            >
+              <ErrorBoundary>
+                <LazyThemeProvider
+                  attribute="class"
+                  defaultTheme="light"
+                  enableSystem
+                  disableTransitionOnChange
+                >
+                  <LazyNotificationProvider>
+                    <LazyI18nProvider>
+                      <AppContent>
+                        {children}
+                      </AppContent>
+                    </LazyI18nProvider>
+                  </LazyNotificationProvider>
+                </LazyThemeProvider>
+              </ErrorBoundary>
+              <NonCriticalCSS />
                
                {/* Minimal non-critical JS */}
                <script
