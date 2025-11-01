@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 
 interface I18nContextType {
@@ -332,7 +332,7 @@ export function I18nProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
-  const t = (key: string, fallback?: string): string => {
+  const t = useCallback((key: string, fallback?: string): string => {
     // Client-side değilse veya çeviriler yüklenmediyse fallback değeri döndür
     if (!isClient || !isLoaded) {
       return fallback || key;
@@ -350,12 +350,12 @@ export function I18nProvider({ children }: { children: React.ReactNode }) {
     }
     
     return typeof value === 'string' ? value : fallback || key;
-  };
+  }, [translations, isClient, isLoaded]);
 
-  const getLocalizedUrl = (turkishUrl: string): string => {
+  const getLocalizedUrl = useCallback((turkishUrl: string): string => {
     const currentMappings = urlMappings[locale as keyof typeof urlMappings];
     return (currentMappings as any)?.[turkishUrl] || turkishUrl;
-  };
+  }, [locale]);
 
   return (
     <I18nContext.Provider value={{ locale, setLocale, t, translations, getLocalizedUrl, isChangingLocale }}>

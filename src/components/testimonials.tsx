@@ -6,7 +6,7 @@ import { Star } from "lucide-react"
 import { useI18n } from "@/contexts/i18n-context"
 
 export function Testimonials() {
-  const { t } = useI18n()
+  const { t, locale } = useI18n()
 
   // Get all testimonials from translation files (0-19)
   const translatedTestimonials = useMemo(() => {
@@ -22,7 +22,7 @@ export function Testimonials() {
       }
     }
     return testimonials
-  }, [t])
+  }, [locale, t])
 
   const testimonials = translatedTestimonials
 
