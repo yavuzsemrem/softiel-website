@@ -9,7 +9,7 @@ export const getFirebase = async () => {
   // Firebase'i sadece gerektiğinde import et
   const { initializeApp, getApps } = await import('firebase/app');
   const { getAuth } = await import('firebase/auth');
-  const { getFirestore, setLogLevel } = await import('firebase/firestore');
+  const { getFirestore, initializeFirestore, memoryLocalCache, setLogLevel } = await import('firebase/firestore');
   const { getDatabase } = await import('firebase/database');
 
   const firebaseConfig = {
@@ -25,8 +25,24 @@ export const getFirebase = async () => {
 
   const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
   const auth = getAuth(app);
-  try { if (typeof window === 'undefined' || process.env.NODE_ENV === 'production') setLogLevel('error') } catch {}
-  const db = getFirestore(app);
+  
+  // Log level'ı ayarla
+  try { 
+    if (typeof window === 'undefined' || process.env.NODE_ENV === 'production') {
+      setLogLevel('error');
+    }
+  } catch {}
+  
+  // Firestore'u kontrol et ve gerekirse initialize et
+  let db;
+  try {
+    // Önce mevcut instance'ı almayı dene
+    db = getFirestore(app);
+  } catch (error) {
+    // Eğer henüz initialize edilmemişse, memory cache ile initialize et
+    db = initializeFirestore(app, { localCache: memoryLocalCache() });
+  }
+  
   const rtdb = getDatabase(app);
 
   firebaseInstance = { auth, db, rtdb };
