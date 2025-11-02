@@ -30,12 +30,32 @@ export async function GET(
       )
     }
 
+    // Güvenli Timestamp serializasyon helper
+    const serializeTimestamp = (timestamp: any): string | undefined => {
+      if (!timestamp) return undefined
+      try {
+        if (typeof timestamp.toDate === 'function') {
+          return timestamp.toDate().toISOString()
+        }
+        if (timestamp instanceof Date) {
+          return timestamp.toISOString()
+        }
+        if (typeof timestamp === 'string') {
+          return timestamp
+        }
+        return undefined
+      } catch (err) {
+        console.warn('Timestamp serialization error:', err)
+        return undefined
+      }
+    }
+
     // Blog verisini serialize et (Timestamp -> string)
     const serializedBlog = {
       ...blog,
-      createdAt: blog.createdAt?.toDate().toISOString(),
-      updatedAt: blog.updatedAt?.toDate().toISOString(),
-      publishedAt: blog.publishedAt?.toDate().toISOString(),
+      createdAt: serializeTimestamp(blog.createdAt),
+      updatedAt: serializeTimestamp(blog.updatedAt),
+      publishedAt: serializeTimestamp(blog.publishedAt),
     }
 
     return NextResponse.json(serializedBlog, {
@@ -45,11 +65,13 @@ export async function GET(
     })
   } catch (error: any) {
     console.error('Blog API error:', error)
+    console.error('Error stack:', error?.stack)
     
     return NextResponse.json(
       { 
         error: 'Blog getirilemedi',
-        message: error?.message || 'Bilinmeyen hata'
+        message: error?.message || 'Bilinmeyen hata',
+        details: process.env.NODE_ENV === 'development' ? error?.stack : undefined
       },
       { status: 500 }
     )
