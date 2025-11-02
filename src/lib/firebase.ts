@@ -38,20 +38,37 @@ if (typeof window !== 'undefined' ? process.env.NODE_ENV === 'production' : true
   try { setLogLevel('error') } catch {}
 }
 
-// Persistent cache kullan - connection issues için daha iyi
-try {
-  db = initializeFirestore(app, {
-    localCache: persistentLocalCache({
-      tabManager: persistentSingleTabManager({
-        forceOwnership: true
-      })
-    })
-  });
-} catch (error) {
-  // Eğer persistent cache başarısız olursa, fallback olarak memory cache kullan
-  console.warn('Persistent cache başlatılamadı, memory cache kullanılıyor');
+// Server-side ve client-side için farklı cache stratejileri
+if (typeof window === 'undefined') {
+  // SERVER-SIDE: Memory cache kullan (persistent cache server'da çalışmaz)
   const { memoryLocalCache } = require('firebase/firestore');
-  db = initializeFirestore(app, { localCache: memoryLocalCache() });
+  try {
+    db = initializeFirestore(app, { 
+      localCache: memoryLocalCache(),
+      experimentalForceLongPolling: true, // Connection closed sorununu çözer
+    });
+  } catch (error) {
+    console.warn('Server-side Firestore başlatılamadı:', error);
+    // Already initialized ise getFirestore kullan
+    const { getFirestore } = require('firebase/firestore');
+    db = getFirestore(app);
+  }
+} else {
+  // CLIENT-SIDE: Persistent cache kullan
+  try {
+    db = initializeFirestore(app, {
+      localCache: persistentLocalCache({
+        tabManager: persistentSingleTabManager({
+          forceOwnership: true
+        })
+      })
+    });
+  } catch (error) {
+    // Eğer persistent cache başarısız olursa, fallback olarak memory cache kullan
+    console.warn('Persistent cache başlatılamadı, memory cache kullanılıyor');
+    const { memoryLocalCache } = require('firebase/firestore');
+    db = initializeFirestore(app, { localCache: memoryLocalCache() });
+  }
 }
 
 rtdb = getDatabase(app);

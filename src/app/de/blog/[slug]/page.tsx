@@ -41,8 +41,9 @@ interface BlogDetailPageProps {
   }
 }
 
-// Cache revalidation stratejisi - 60 saniyede bir güncelle
+// ISR: Runtime'da ilk ziyarette generate et, 60 saniyede bir revalidate et
 export const revalidate = 60
+export const dynamicParams = true
 
 // Metadata oluştur (SEO ve paylaşım için)
 export async function generateMetadata({ params }: BlogDetailPageProps): Promise<Metadata> {

@@ -26,12 +26,12 @@ function getBlogSlug(data: any, docId: string): string {
   return data.slug || createSlug(data.title) || docId
 }
 
-// Retry utility fonksiyonu - bağlantı hatalarında yeniden dene
+// Retry utility fonksiyonu - bağlantı hatalarında yeniden dene (GÜÇLENDİRİLMİŞ)
 async function retryWithBackoff<T>(
   fn: () => Promise<T>,
-  maxRetries: number = 3,
-  baseDelay: number = 1000,
-  timeout: number = 10000
+  maxRetries: number = 5, // 3'ten 5'e çıkarıldı
+  baseDelay: number = 2000, // 1000'den 2000'e çıkarıldı
+  timeout: number = 30000 // 10000'den 30000'e çıkarıldı (30 saniye)
 ): Promise<T> {
   for (let attempt = 0; attempt < maxRetries; attempt++) {
     try {
@@ -47,17 +47,26 @@ async function retryWithBackoff<T>(
       const isConnectionError = error?.message?.includes('Connection closed') || 
                                  error?.message?.includes('timeout') ||
                                  error?.message?.includes('network') ||
-                                 error?.code === 'unavailable';
+                                 error?.message?.includes('ECONNRESET') ||
+                                 error?.message?.includes('fetch failed') ||
+                                 error?.code === 'unavailable' ||
+                                 error?.code === 'ECONNREFUSED';
       
-      if (isLastAttempt || !isConnectionError) {
+      if (isLastAttempt) {
+        console.error(`Final attempt failed after ${attempt + 1} retries:`, error);
         throw error;
       }
       
-      // Exponential backoff
-      const delay = baseDelay * Math.pow(2, attempt);
+      if (!isConnectionError) {
+        // Connection error değilse retry yapma
+        throw error;
+      }
+      
+      // Exponential backoff with jitter
+      const delay = baseDelay * Math.pow(2, attempt) + Math.random() * 1000;
       await new Promise(resolve => setTimeout(resolve, delay));
       
-      console.warn(`Retry attempt ${attempt + 1}/${maxRetries} after ${delay}ms...`);
+      console.warn(`🔄 Retry attempt ${attempt + 1}/${maxRetries} after ${Math.round(delay)}ms... (${error?.message})`);
     }
   }
   
