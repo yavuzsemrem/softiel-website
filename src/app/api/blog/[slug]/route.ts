@@ -10,9 +10,12 @@ export async function GET(
   { params }: { params: { slug: string } }
 ) {
   try {
+    console.log('🔵 Blog API route called')
     const { slug } = await params
+    console.log('🔵 Slug:', slug)
     
     if (!slug) {
+      console.error('❌ No slug provided')
       return NextResponse.json(
         { error: 'Slug gerekli' },
         { status: 400 }
@@ -21,7 +24,10 @@ export async function GET(
 
     // Blog'u getir (view count artırma)
     const incrementViews = request.nextUrl.searchParams.get('incrementViews') === 'true'
+    console.log('🔵 Increment views:', incrementViews)
+    console.log('🔵 Calling getBlog...')
     const blog = await getBlog(slug, incrementViews)
+    console.log('🔵 getBlog returned:', blog ? 'Blog found' : 'Blog is null')
     
     if (!blog) {
       return NextResponse.json(
@@ -64,14 +70,18 @@ export async function GET(
       },
     })
   } catch (error: any) {
-    console.error('Blog API error:', error)
-    console.error('Error stack:', error?.stack)
+    console.error('❌ Blog API error:', error)
+    console.error('❌ Error message:', error?.message)
+    console.error('❌ Error code:', error?.code)
+    console.error('❌ Error stack:', error?.stack)
+    console.error('❌ Full error object:', JSON.stringify(error, null, 2))
     
     return NextResponse.json(
       { 
         error: 'Blog getirilemedi',
         message: error?.message || 'Bilinmeyen hata',
-        details: process.env.NODE_ENV === 'development' ? error?.stack : undefined
+        code: error?.code,
+        details: error?.stack
       },
       { status: 500 }
     )
