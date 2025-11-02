@@ -94,17 +94,58 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
   
   // Blog verisini bir kez yükle ve view count'u artır
   let blogData: BlogPost | null = null
+  let error: Error | null = null
   
   try {
     blogData = await getBlog(slug, true)
-  } catch (error) {
-    console.error('Blog fetch error:', error)
-    notFound()
+  } catch (err) {
+    console.error('Blog fetch error:', err)
+    error = err as Error
+    
+    // Sadece gerçekten bulunamadıysa 404 döndür
+    // Connection error'larda retry yap
+    if (err && typeof err === 'object' && 'message' in err) {
+      const errorMessage = (err as any).message?.toLowerCase() || ''
+      
+      // Connection error değilse (yani gerçekten blog yoksa) 404 döndür
+      if (!errorMessage.includes('connection') && 
+          !errorMessage.includes('timeout') &&
+          !errorMessage.includes('network')) {
+        notFound()
+      }
+    }
   }
   
-  // Blog bulunamadıysa 404 döndür
+  // Blog bulunamadıysa ama connection error varsa, fallback göster
   if (!blogData) {
-    notFound()
+    // Error page yerine basit bir loading/error state
+    return (
+      <html>
+        <head>
+          <meta httpEquiv="refresh" content="3" />
+        </head>
+        <body>
+          <div className="min-h-screen bg-gradient-to-b from-slate-700 via-slate-800 to-black flex items-center justify-center">
+            <div className="max-w-md w-full bg-slate-800/50 backdrop-blur-lg rounded-2xl p-8 text-center border border-white/10">
+              <div className="w-16 h-16 bg-blue-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                <svg className="w-8 h-8 text-blue-400 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+              </div>
+              
+              <h2 className="text-2xl font-bold text-white mb-4">
+                Blog Yükleniyor
+              </h2>
+              
+              <p className="text-neutral-400 mb-6">
+                Blog yazısı yükleniyor... 3 saniye içinde yeniden denenecek.
+              </p>
+            </div>
+          </div>
+        </body>
+      </html>
+    )
   }
   
   return (
