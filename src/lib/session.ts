@@ -3,7 +3,7 @@ import { onAuthStateChanged, User } from 'firebase/auth';
 import { doc, getDoc, updateDoc, setDoc } from 'firebase/firestore';
 import { safeUpdateDoc, documentExists } from './firestore-utils';
 import { ref, set, get } from 'firebase/database';
-import { getAuth, getFirestore, getDatabase } from './firebase-lazy';
+import { auth, db, rtdb } from './firebase';
 import { UserData, UserRole } from './auth';
 import { monitoring } from './monitoring';
 
@@ -50,7 +50,6 @@ class SessionService {
   }
 
   private async initializeAuthListener() {
-    const auth = await getAuth();
     onAuthStateChanged(auth, async (user) => {
       if (user) {
         await this.createSession(user);
@@ -63,8 +62,7 @@ class SessionService {
   // Create new session
   private async createSession(user: User): Promise<void> {
     try {
-      // Get user data from Firestore - lazy loaded
-      const db = await getFirestore();
+      // Get user data from Firestore
       const userDoc = await getDoc(doc(db, 'users', user.uid));
       let userData: UserData;
 
@@ -82,11 +80,10 @@ class SessionService {
           loginAttempts: 0
         };
 
-        // Save to Firestore - lazy loaded
+        // Save to Firestore
         await setDoc(doc(db, 'users', user.uid), userData);
         
-        // Save to Realtime Database - lazy loaded
-        const rtdb = await getDatabase();
+        // Save to Realtime Database
         await set(ref(rtdb, `users/${user.uid}`), userData);
       } else {
         const data = userDoc.data();
@@ -130,11 +127,10 @@ class SessionService {
 
       this.currentSession = sessionData;
 
-      // Store session in Firestore - lazy loaded
+      // Store session in Firestore
       await setDoc(doc(db, 'sessions', sessionId), sessionData);
 
-      // Store session in Realtime Database - lazy loaded
-      const rtdb = await getDatabase();
+      // Store session in Realtime Database
       await set(ref(rtdb, `sessions/${sessionId}`), sessionData);
 
       // User online status update removed - no longer needed
@@ -183,16 +179,14 @@ class SessionService {
       // Update this.currentSession reference
       this.currentSession = currentSession;
 
-      // Update Firestore - lazy loaded
-      const db = await getFirestore();
+      // Update Firestore
       const sessionRef = doc(db, 'sessions', currentSession.sessionId);
       await safeUpdateDoc(sessionRef, {
         lastActivity: now,
         isActive
       });
 
-      // Update Realtime Database - lazy loaded
-      const rtdb = await getDatabase();
+      // Update Realtime Database
       await set(ref(rtdb, `sessions/${currentSession.sessionId}`), currentSession);
 
       // User online status update removed - no longer needed
@@ -340,7 +334,6 @@ class SessionService {
   // Get all active sessions for user
   async getUserSessions(userId: string): Promise<SessionData[]> {
     try {
-      const rtdb = await getDatabase();
       const sessionsRef = ref(rtdb, 'sessions');
       const snapshot = await get(sessionsRef);
       
@@ -369,8 +362,7 @@ class SessionService {
   // Terminate session
   async terminateSession(sessionId: string): Promise<{ success: boolean; error?: string }> {
     try {
-      // Update session as inactive - lazy loaded
-      const rtdb = await getDatabase();
+      // Update session as inactive
       await set(ref(rtdb, `sessions/${sessionId}`), {
         isActive: false,
         terminatedAt: new Date().toISOString()
@@ -392,7 +384,6 @@ class SessionService {
   // Cleanup old sessions
   async cleanupOldSessions(): Promise<{ cleaned: number }> {
     try {
-      const rtdb = await getDatabase();
       const sessionsRef = ref(rtdb, 'sessions');
       const snapshot = await get(sessionsRef);
       
