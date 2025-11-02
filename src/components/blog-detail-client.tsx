@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import dynamic from "next/dynamic"
-import { BlogPost } from "@/lib/blog-service"
+import { BlogPost, getBlog } from "@/lib/blog-service"
 import { useRouter } from "next/navigation"
 
 const Header = dynamic(() => import("@/components/header").then(mod => ({ default: mod.Header })), {
@@ -54,31 +54,26 @@ export function BlogDetailClient({ slug }: BlogDetailClientProps) {
         setIsLoading(true)
         setError(null)
         
-        // API'den veri çek
-        const response = await fetch(`/api/blog/${slug}?incrementViews=true`, {
-          cache: 'no-store',
-          headers: {
-            'Content-Type': 'application/json',
-          }
-        })
+        console.log('🔵 Fetching blog with slug:', slug)
         
-        if (!response.ok) {
-          if (response.status === 404) {
-            // Gerçek 404 - not found sayfasına yönlendir
-            router.push('/404')
-            return
-          }
-          throw new Error(`HTTP ${response.status}`)
+        // Direkt client-side Firebase SDK kullan (incrementViews: true)
+        const data = await getBlog(slug, true)
+        
+        if (!data) {
+          console.warn('❌ Blog not found:', slug)
+          // 404 - not found sayfasına yönlendir
+          router.push('/404')
+          return
         }
         
-        const data = await response.json()
+        console.log('✅ Blog loaded successfully:', data.title)
         
         if (isMounted) {
           setBlogData(data)
           setIsLoading(false)
         }
       } catch (err) {
-        console.error('Blog fetch error:', err)
+        console.error('❌ Blog fetch error:', err)
         
         if (isMounted) {
           setError(err instanceof Error ? err.message : 'Blog yüklenemedi')
