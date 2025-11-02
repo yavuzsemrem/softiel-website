@@ -6,9 +6,9 @@ import { Suspense } from "react";
 import { ErrorBoundary } from "@/components/error-boundary";
 
 
-// AppContent'i lazy load et - sadece gerekli durumlarda
+// AppContent'i lazy load et - CLIENT ONLY (useI18n ve hooks kullanır)
 const AppContent = dynamic(() => import("@/components/app-content").then(mod => ({ default: mod.AppContent })), {
-  ssr: true,
+  ssr: false,
   loading: () => (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center">
       <div className="animate-pulse text-white">Yükleniyor...</div>
@@ -18,21 +18,21 @@ const AppContent = dynamic(() => import("@/components/app-content").then(mod => 
 
 // reCAPTCHA'yı globalden kaldır - sadece gereken sayfalarda yükle
 
-// ThemeProvider'ı lazy load et
+// ThemeProvider'ı lazy load et - CLIENT ONLY (theme switching hooks kullanır)
 const LazyThemeProvider = dynamic(() => import("@/components/theme-provider").then(mod => ({ default: mod.ThemeProvider })), {
-  ssr: true,
+  ssr: false,
   loading: () => <div className="min-h-screen bg-slate-900" />
 });
 
-// NotificationProvider'ı lazy load et
+// NotificationProvider'ı lazy load et - CLIENT ONLY (hooks içerir)
 const LazyNotificationProvider = dynamic(() => import("@/contexts/notification-context").then(mod => ({ default: mod.NotificationProvider })), {
-  ssr: true,
+  ssr: false,
   loading: () => <></>
 });
 
-// I18nProvider'ı lazy load et
+// I18nProvider'ı lazy load et - CLIENT ONLY (useEffect ve localStorage kullanır)
 const LazyI18nProvider = dynamic(() => import("@/contexts/i18n-context").then(mod => ({ default: mod.I18nProvider })), {
-  ssr: true,
+  ssr: false,
   loading: () => <></>
 });
 
