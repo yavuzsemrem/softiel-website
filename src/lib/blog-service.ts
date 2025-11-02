@@ -434,60 +434,10 @@ export async function getBlog(identifier: string, incrementViews: boolean = fals
       // Eğer id ile bulunamadıysa, slug ile ara
       console.log(`🔍 Searching by slug: ${identifier}`)
       
-      // Önce slug ile direkt query deneyelim
-      try {
-        const slugQuery = query(
-          blogsCollection,
-          where('slug', '==', identifier),
-          limit(1)
-        )
-        
-        const slugSnapshot = await getDocs(slugQuery)
-        
-        if (!slugSnapshot.empty) {
-          console.log(`✅ Blog found by slug query: ${identifier}`)
-          const docSnapshot = slugSnapshot.docs[0]
-          const data = docSnapshot.data()
-          
-          // Sadece incrementViews true ise görüntülenme sayısını artır
-          if (incrementViews) {
-            try {
-              const updatedViews = (data.views || 0) + 1
-              await updateDoc(docSnapshot.ref, { views: updatedViews })
-              return {
-                id: docSnapshot.id,
-                ...data,
-                views: updatedViews
-              } as BlogPost
-            } catch (updateError) {
-              console.warn('Failed to increment views:', updateError)
-              return {
-                id: docSnapshot.id,
-                ...data,
-                views: data.views || 0
-              } as BlogPost
-            }
-          }
-          
-          return {
-            id: docSnapshot.id,
-            ...data,
-            views: data.views || 0
-          } as BlogPost
-        }
-      } catch (slugQueryError) {
-        console.warn('Slug query failed, falling back to scan:', (slugQueryError as any)?.message)
-      }
-      
-      // Fallback: Published blogları tara (performans için limit koy)
-      const q = query(
-        blogsCollection,
-        where('status', '==', 'published'),
-        limit(100) // Maksimum 100 blog kontrol et
-      )
-      
-      const snapshot2 = await getDocs(q)
-      console.log(`📄 Found ${snapshot2.docs.length} published blogs to search`)
+      // Server-side'da query sorunlu, direkt tüm blogları çek ve filtrele
+      console.log('📥 Fetching all blogs to find by slug...')
+      const snapshot2 = await getDocs(blogsCollection)
+      console.log(`📄 Total blogs found: ${snapshot2.docs.length}`)
       
       for (const docSnapshot of snapshot2.docs) {
         const data = docSnapshot.data()
