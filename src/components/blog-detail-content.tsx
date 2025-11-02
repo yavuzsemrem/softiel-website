@@ -323,29 +323,29 @@ export function BlogDetailContent({ slug, blogData }: BlogDetailContentProps) {
 
   // Blog verisini yükle (sadece blogData yoksa)
   useEffect(() => {
-    if (!blogData) {
-      loadBlog()
-    }
-  }, [slug, blogData])
-
-  const loadBlog = async () => {
-    try {
-      setLoading(true)
-      setError("")
-      
-      const data = await getBlog(slug, false) // View count'u artırma
-      if (data) {
-        setPost(data)
-        setLikeCount(data.likes || 0)
-      } else {
-        setError(t('blogDetail.notFound', 'Blog yazısı bulunamadı'))
+    if (blogData) return // Zaten data varsa yükleme
+    
+    const loadBlog = async () => {
+      try {
+        setLoading(true)
+        setError("")
+        
+        const data = await getBlog(slug, false) // View count'u artırma
+        if (data) {
+          setPost(data)
+          setLikeCount(data.likes || 0)
+        } else {
+          setError(t('blogDetail.notFound', 'Blog yazısı bulunamadı'))
+        }
+      } catch (err) {
+        setError(t('blogDetail.loadError', 'Blog yüklenirken bir hata oluştu'))
+      } finally {
+        setLoading(false)
       }
-    } catch (err) {
-      setError(t('blogDetail.loadError', 'Blog yüklenirken bir hata oluştu'))
-    } finally {
-      setLoading(false)
     }
-  }
+    
+    loadBlog()
+  }, [slug, blogData, t])
 
   // Beğen fonksiyonu
   const handleLike = async () => {

@@ -48,7 +48,6 @@ if (typeof window === 'undefined') {
       experimentalForceLongPolling: true, // Connection closed sorununu çözer
     });
   } catch (error) {
-    console.warn('Server-side Firestore başlatılamadı:', error);
     // Already initialized ise getFirestore kullan
     const { getFirestore } = require('firebase/firestore');
     db = getFirestore(app);
@@ -65,7 +64,6 @@ if (typeof window === 'undefined') {
     });
   } catch (error) {
     // Eğer persistent cache başarısız olursa, fallback olarak memory cache kullan
-    console.warn('Persistent cache başlatılamadı, memory cache kullanılıyor');
     const { memoryLocalCache } = require('firebase/firestore');
     db = initializeFirestore(app, { localCache: memoryLocalCache() });
   }
@@ -79,21 +77,19 @@ if (typeof window !== 'undefined') {
   const maxReconnectAttempts = 3;
 
   window.addEventListener('online', async () => {
-    console.log('İnternet bağlantısı geri geldi, Firebase yeniden bağlanıyor...');
     try {
       await enableNetwork(db);
       reconnectAttempts = 0;
     } catch (error) {
-      console.error('Firebase network yeniden etkinleştirilemedi:', error);
+      // Network yeniden etkinleştirilemedi
     }
   });
 
   window.addEventListener('offline', async () => {
-    console.log('İnternet bağlantısı kesildi, Firebase offline moda geçiyor...');
     try {
       await disableNetwork(db);
     } catch (error) {
-      console.error('Firebase network devre dışı bırakılamadı:', error);
+      // Network devre dışı bırakılamadı
     }
   });
 

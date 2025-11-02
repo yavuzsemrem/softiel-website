@@ -33,10 +33,8 @@ export function getAdminApp(): App {
       });
     }
 
-    console.log('✅ Firebase Admin initialized successfully');
     return adminApp;
   } catch (error) {
-    console.error('❌ Firebase Admin initialization error:', error);
     throw error;
   }
 }
@@ -50,10 +48,8 @@ export function getAdminFirestore(): Firestore {
   try {
     const app = getAdminApp();
     adminDb = getFirestore(app);
-    console.log('✅ Admin Firestore initialized');
     return adminDb;
   } catch (error) {
-    console.error('❌ Admin Firestore initialization error:', error);
     throw error;
   }
 }

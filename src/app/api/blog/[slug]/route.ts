@@ -20,12 +20,9 @@ export async function GET(
   { params }: { params: { slug: string } }
 ) {
   try {
-    console.log('🔵 Blog API route called (Admin SDK)')
     const { slug } = await params
-    console.log('🔵 Slug:', slug)
     
     if (!slug) {
-      console.error('❌ No slug provided')
       return NextResponse.json(
         { error: 'Slug gerekli' },
         { status: 400 }
@@ -33,20 +30,16 @@ export async function GET(
     }
 
     const incrementViews = request.nextUrl.searchParams.get('incrementViews') === 'true'
-    console.log('🔵 Increment views:', incrementViews)
     
     // Admin Firestore kullan
     const db = getAdminFirestore()
     const blogsCollection = db.collection('blogs')
-    
-    console.log('🔵 Fetching blog from Firestore...')
     
     // Önce ID ile dene
     try {
       const blogDoc = await blogsCollection.doc(slug).get()
       
       if (blogDoc.exists) {
-        console.log('✅ Blog found by ID')
         const blogData = blogDoc.data()!
         
         // View count artır
@@ -65,21 +58,17 @@ export async function GET(
         })
       }
     } catch (idError) {
-      console.warn('⚠️ ID lookup failed, trying slug search')
+      // ID ile bulunamadı, slug ile dene
     }
     
     // Slug ile ara
-    console.log('🔍 Searching by slug...')
     const snapshot = await blogsCollection.get()
-    console.log(`📄 Total blogs: ${snapshot.size}`)
     
     for (const doc of snapshot.docs) {
       const data = doc.data()
       const blogSlug = data.slug || createSlug(data.title) || doc.id
       
       if (blogSlug === slug) {
-        console.log('✅ Blog found by slug')
-        
         // View count artır
         if (incrementViews) {
           const updatedViews = (data.views || 0) + 1
@@ -97,16 +86,11 @@ export async function GET(
       }
     }
     
-    console.log('❌ Blog not found')
     return NextResponse.json(
       { error: 'Blog bulunamadı' },
       { status: 404 }
     )
   } catch (error: any) {
-    console.error('❌ Blog API error:', error)
-    console.error('❌ Error message:', error?.message)
-    console.error('❌ Error code:', error?.code)
-    
     return NextResponse.json(
       { 
         error: 'Blog getirilemedi',

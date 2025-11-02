@@ -54,27 +54,20 @@ export function BlogDetailClient({ slug }: BlogDetailClientProps) {
         setIsLoading(true)
         setError(null)
         
-        console.log('🔵 Fetching blog with slug:', slug)
-        
         // Direkt client-side Firebase SDK kullan (incrementViews: true)
         const data = await getBlog(slug, true)
         
         if (!data) {
-          console.warn('❌ Blog not found:', slug)
           // 404 - not found sayfasına yönlendir
           router.push('/404')
           return
         }
-        
-        console.log('✅ Blog loaded successfully:', data.title)
         
         if (isMounted) {
           setBlogData(data)
           setIsLoading(false)
         }
       } catch (err) {
-        console.error('❌ Blog fetch error:', err)
-        
         if (isMounted) {
           setError(err instanceof Error ? err.message : 'Blog yüklenemedi')
           setIsLoading(false)

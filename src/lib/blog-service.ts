@@ -53,7 +53,6 @@ async function retryWithBackoff<T>(
                                  error?.code === 'ECONNREFUSED';
       
       if (isLastAttempt) {
-        console.error(`Final attempt failed after ${attempt + 1} retries:`, error);
         throw error;
       }
       
@@ -65,8 +64,6 @@ async function retryWithBackoff<T>(
       // Exponential backoff with jitter
       const delay = baseDelay * Math.pow(2, attempt) + Math.random() * 1000;
       await new Promise(resolve => setTimeout(resolve, delay));
-      
-      console.warn(`🔄 Retry attempt ${attempt + 1}/${maxRetries} after ${Math.round(delay)}ms... (${error?.message})`);
     }
   }
   
@@ -383,7 +380,6 @@ export async function getBlog(identifier: string, incrementViews: boolean = fals
     try {
       // Identifier kontrolü
       if (!identifier || typeof identifier !== 'string') {
-        console.warn('Invalid identifier:', identifier)
         return null
       }
       
@@ -392,20 +388,16 @@ export async function getBlog(identifier: string, incrementViews: boolean = fals
         throw new Error('Firestore blogs collection bulunamadı')
       }
       
-      console.log(`🔍 Getting blog with identifier: ${identifier}`)
-      
       // Önce id ile dene
       try {
         const blogRef = doc(blogsCollection, identifier)
         const snapshot = await getDoc(blogRef)
         
         if (snapshot.exists()) {
-          console.log(`✅ Blog found by ID: ${identifier}`)
           const blogData = snapshot.data()
           
           // Veri doğrulama
           if (!blogData) {
-            console.warn('Blog data is empty')
             return null
           }
           
@@ -416,7 +408,6 @@ export async function getBlog(identifier: string, incrementViews: boolean = fals
               await updateDoc(blogRef, { views: updatedViews })
               blogData.views = updatedViews
             } catch (updateError) {
-              console.warn('Failed to increment views:', updateError)
               // Hata olursa devam et
             }
           }
@@ -428,24 +419,17 @@ export async function getBlog(identifier: string, incrementViews: boolean = fals
           } as BlogPost
         }
       } catch (idError) {
-        console.warn(`Could not fetch by ID (${identifier}), trying slug search:`, (idError as any)?.message)
+        // ID ile bulunamadı, slug ile dene
       }
       
       // Eğer id ile bulunamadıysa, slug ile ara
-      console.log(`🔍 Searching by slug: ${identifier}`)
-      
-      // Server-side'da query sorunlu, direkt tüm blogları çek ve filtrele
-      console.log('📥 Fetching all blogs to find by slug...')
       const snapshot2 = await getDocs(blogsCollection)
-      console.log(`📄 Total blogs found: ${snapshot2.docs.length}`)
       
       for (const docSnapshot of snapshot2.docs) {
         const data = docSnapshot.data()
         const slug = getBlogSlug(data, docSnapshot.id)
         
         if (slug === identifier) {
-          console.log(`✅ Blog found by slug: ${identifier}`)
-          
           // Sadece incrementViews true ise görüntülenme sayısını artır
           if (incrementViews) {
             try {
@@ -457,7 +441,6 @@ export async function getBlog(identifier: string, incrementViews: boolean = fals
                 views: updatedViews
               } as BlogPost
             } catch (updateError) {
-              console.warn('Failed to increment views:', updateError)
               // Hata olursa view count'u artırmadan devam et
               return {
                 id: docSnapshot.id,
@@ -475,25 +458,14 @@ export async function getBlog(identifier: string, incrementViews: boolean = fals
         }
       }
       
-      console.warn(`❌ Blog not found: ${identifier}`)
       return null
     } catch (error) {
-      console.error('getBlog error:', error)
-      
       // Connection closed hatalarını yakala
       if ((error as any)?.message?.includes('Connection closed') ||
           (error as any)?.message?.includes('timeout') ||
           (error as any)?.code === 'unavailable') {
-        console.error('Firebase connection error, retrying...');
         throw error; // Retry mekanizması devreye girsin
       }
-      
-      // Diğer hataları yakala ve detayları logla
-      console.error('getBlog final error:', {
-        message: (error as any)?.message,
-        code: (error as any)?.code,
-        stack: (error as any)?.stack
-      })
       
       throw new Error(`Blog getirilemedi: ${(error as any)?.message || 'Bilinmeyen hata'}`)
     }
