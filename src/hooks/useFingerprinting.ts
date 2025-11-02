@@ -104,7 +104,7 @@ export function useFingerprinting(sessionId: string) {
 
   useEffect(() => {
     generateFingerprint();
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [generateFingerprint]);
 
   return {
     ...result,

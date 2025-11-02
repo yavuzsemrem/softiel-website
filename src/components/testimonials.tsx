@@ -22,7 +22,7 @@ export function Testimonials() {
       }
     }
     return testimonials
-  }, [locale]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [t, locale])
 
   const testimonials = translatedTestimonials
 

@@ -58,7 +58,7 @@ export function useBehavioralAnalysis(): UseBehavioralAnalysisResult {
     }, 2000) // 2 saniye sonra ilk analiz
 
     return () => clearTimeout(timer)
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [performAnalysis])
 
   // Periyodik analiz (30 saniyede bir)
   useEffect(() => {
@@ -67,7 +67,7 @@ export function useBehavioralAnalysis(): UseBehavioralAnalysisResult {
     }, 30000)
 
     return () => clearInterval(interval)
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [performAnalysis])
 
   return {
     behaviorData,
