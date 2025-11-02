@@ -174,12 +174,11 @@ export function AppContent({ children }: AppContentProps) {
     );
   }
 
-  const isBlogPage = pathname.startsWith('/tr/blog') || pathname.startsWith('/en/blog');
-
+  // Blog sayfalarında da chatbot gösterilecek, sadece dashboard'da gizli
   return (
     <>
       {children}
-      {!isDashboardPage && !isBlogPage && !isPageLoading && !isChangingLocale && <Chatbot />}
+      {!isDashboardPage && !isPageLoading && !isChangingLocale && <Chatbot />}
     </>
   );
 }
