@@ -1,6 +1,8 @@
 import dynamic from "next/dynamic"
 import { getBlog } from "@/lib/blog-service"
 import { BlogPost } from "@/lib/blog-service"
+import { notFound } from "next/navigation"
+import type { Metadata } from "next"
 
 // TÜM componentleri lazy load et - Main-thread work azaltmak için
 const Header = dynamic(() => import("@/components/header").then(mod => ({ default: mod.Header })), {
@@ -39,13 +41,70 @@ interface BlogDetailPageProps {
   }
 }
 
-// generateStaticParams kaldırıldı - normal Next.js server ile çalışacak
+// Cache revalidation stratejisi - 60 saniyede bir güncelle
+export const revalidate = 60
+
+// Metadata oluştur (SEO ve paylaşım için)
+export async function generateMetadata({ params }: BlogDetailPageProps): Promise<Metadata> {
+  try {
+    const { slug } = await params
+    const blogData = await getBlog(slug, false) // View count artırma
+    
+    if (!blogData) {
+      return {
+        title: 'Blog Bulunamadı | Softiel',
+        description: 'Aradığınız blog yazısı bulunamadı.'
+      }
+    }
+
+    return {
+      title: `${blogData.title} | Softiel Blog`,
+      description: blogData.excerpt || blogData.title,
+      keywords: blogData.tags?.join(', '),
+      authors: [{ name: blogData.author || 'Admin' }],
+      openGraph: {
+        title: blogData.title,
+        description: blogData.excerpt || blogData.title,
+        type: 'article',
+        publishedTime: blogData.publishedAt?.toDate().toISOString(),
+        modifiedTime: blogData.updatedAt?.toDate().toISOString(),
+        authors: [blogData.author || 'Admin'],
+        tags: blogData.tags,
+        images: blogData.image ? [{ url: blogData.image }] : [],
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title: blogData.title,
+        description: blogData.excerpt || blogData.title,
+        images: blogData.image ? [blogData.image] : [],
+      }
+    }
+  } catch (error) {
+    console.error('Metadata generation error:', error)
+    return {
+      title: 'Blog | Softiel',
+      description: 'Softiel Blog'
+    }
+  }
+}
 
 export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
   const { slug } = await params
   
   // Blog verisini bir kez yükle ve view count'u artır
-  const blogData = await getBlog(slug, true)
+  let blogData: BlogPost | null = null
+  
+  try {
+    blogData = await getBlog(slug, true)
+  } catch (error) {
+    console.error('Blog fetch error:', error)
+    notFound()
+  }
+  
+  // Blog bulunamadıysa 404 döndür
+  if (!blogData) {
+    notFound()
+  }
   
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-700 via-slate-800 via-slate-900 via-slate-950 to-black dark:from-slate-800 dark:via-slate-900 dark:via-slate-950 dark:via-black dark:to-black">
