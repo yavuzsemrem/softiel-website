@@ -73,13 +73,16 @@ export async function checkUserExists(email: string): Promise<{ exists: boolean;
     let foundUser: any = null
     let foundDocId: string = ''
     
-    snapshot.forEach(doc => {
+    // Use snapshot.docs array to avoid forEach serialization issues in production
+    const docs = snapshot.docs || []
+    for (const doc of docs) {
       const data = doc.data()
       if (data.email && data.email.toLowerCase() === emailLower) {
         foundUser = data
         foundDocId = doc.id
+        break
       }
-    })
+    }
     
     if (!foundUser) {
       return { exists: false }

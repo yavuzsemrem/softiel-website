@@ -83,12 +83,14 @@ export async function getCategories(): Promise<Category[]> {
     const snapshot = await getDocs(q)
     const categories: Category[] = []
     
-    snapshot.forEach(doc => {
+    // Use snapshot.docs array to avoid forEach serialization issues in production
+    const docs = snapshot.docs || []
+    for (const doc of docs) {
       categories.push({
         id: doc.id,
         ...doc.data()
       } as Category)
-    })
+    }
     
     return categories
   } catch (error) {
@@ -104,7 +106,9 @@ export async function getActiveCategories(): Promise<Category[]> {
     const snapshot = await getDocs(categoriesCollection)
     const categories: Category[] = []
     
-    snapshot.forEach(doc => {
+    // Use snapshot.docs array to avoid forEach serialization issues in production
+    const docs = snapshot.docs || []
+    for (const doc of docs) {
       const data = doc.data()
       if (data.status === 'active') {
         categories.push({
@@ -112,7 +116,7 @@ export async function getActiveCategories(): Promise<Category[]> {
           ...data
         } as Category)
       }
-    })
+    }
     
     // Client-side sıralama
     categories.sort((a, b) => a.name.localeCompare(b.name, 'tr'))

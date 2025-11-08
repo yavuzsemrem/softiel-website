@@ -537,7 +537,9 @@ export async function getBlogs(
       }
     }
     
-    snapshot.forEach(doc => {
+    // Use snapshot.docs array to avoid forEach serialization issues in production
+    const docs = snapshot.docs || []
+    for (const doc of docs) {
       const data = doc.data()
       // Slug yoksa otomatik oluştur
       const slug = getBlogSlug(data, doc.id)
@@ -548,7 +550,7 @@ export async function getBlogs(
         ...data,
         slug: slug
       } as BlogPost)
-    })
+    }
     
     
     // Client-side filtreler
@@ -779,12 +781,14 @@ export async function getCategories(): Promise<string[]> {
     const snapshot = await getDocs(blogsCollection)
     const categories = new Set<string>()
     
-    snapshot.forEach(doc => {
+    // Use snapshot.docs array to avoid forEach serialization issues in production
+    const docs = snapshot.docs || []
+    for (const doc of docs) {
       const data = doc.data()
       if (data.category) {
         categories.add(data.category)
       }
-    })
+    }
     
     const result = Array.from(categories).sort()
     return result
@@ -800,12 +804,14 @@ export async function getTags(): Promise<string[]> {
     const snapshot = await getDocs(blogsCollection)
     const tags = new Set<string>()
     
-    snapshot.forEach(doc => {
+    // Use snapshot.docs array to avoid forEach serialization issues in production
+    const docs = snapshot.docs || []
+    for (const doc of docs) {
       const data = doc.data()
       if (data.tags && Array.isArray(data.tags)) {
         data.tags.forEach((tag: string) => tags.add(tag))
       }
-    })
+    }
     
     const result = Array.from(tags).sort()
     return result
@@ -835,7 +841,9 @@ export async function getBlogStats(): Promise<{
     let totalLikes = 0
     let totalComments = 0
     
-    snapshot.forEach(doc => {
+    // Use snapshot.docs array to avoid forEach serialization issues in production
+    const docs = snapshot.docs || []
+    for (const doc of docs) {
       const data = doc.data()
       total++
       
@@ -846,7 +854,7 @@ export async function getBlogStats(): Promise<{
       totalViews += data.views || 0
       totalLikes += data.likes || 0
       totalComments += data.comments || 0
-    })
+    }
     
     const stats = {
       total,
@@ -890,7 +898,9 @@ export async function getAllBlogs(filters?: BlogFilters): Promise<BlogPost[]> {
     const snapshot = await getDocs(q)
     let blogs: BlogPost[] = []
     
-    snapshot.forEach(doc => {
+    // Use snapshot.docs array to avoid forEach serialization issues in production
+    const docs = snapshot.docs || []
+    for (const doc of docs) {
       const data = doc.data()
       
       // Slug yoksa otomatik oluştur
@@ -901,7 +911,7 @@ export async function getAllBlogs(filters?: BlogFilters): Promise<BlogPost[]> {
         ...data,
         slug: slug
       } as BlogPost)
-    })
+    }
     
     // Arama filtresi uygula (client-side)
     if (filters?.search) {
@@ -934,7 +944,9 @@ export async function getFeaturedBlogs(limit: number = 5): Promise<BlogPost[]> {
     const snapshot = await getDocs(blogsCollection)
     let blogs: BlogPost[] = []
     
-    snapshot.forEach(doc => {
+    // Use snapshot.docs array to avoid forEach serialization issues in production
+    const docs = snapshot.docs || []
+    for (const doc of docs) {
       const data = doc.data()
       if (data.featured === true && data.status === 'published') {
         // Slug yoksa otomatik oluştur
@@ -946,7 +958,7 @@ export async function getFeaturedBlogs(limit: number = 5): Promise<BlogPost[]> {
           slug: slug
         } as BlogPost)
       }
-    })
+    }
     
     // Tarihe göre sırala (en yeni önce)
     blogs.sort((a, b) => {

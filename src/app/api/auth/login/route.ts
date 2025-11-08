@@ -32,26 +32,30 @@ export async function POST(request: NextRequest) {
     let foundUser: any = null
     let foundUserId: string = ''
 
-    // Firestore snapshot.docs is always iterable
+    // Use snapshot.docs array to avoid forEach serialization issues in production
+    const docs = snapshot.docs || []
+    
     if (identifier.includes('@')) {
       // Email search
       const identifierLower = identifier.toLowerCase()
-      snapshot.forEach((doc: any) => {
+      for (const doc of docs) {
         const data = doc.data() as User
         if (data.email && data.email.toLowerCase() === identifierLower) {
           foundUser = data
           foundUserId = doc.id
+          break
         }
-      })
+      }
     } else {
       // Username search
-      snapshot.forEach((doc: any) => {
+      for (const doc of docs) {
         const data = doc.data() as User
         if (data.name === identifier) {
           foundUser = data
           foundUserId = doc.id
+          break
         }
-      })
+      }
     }
 
     if (!foundUser) {

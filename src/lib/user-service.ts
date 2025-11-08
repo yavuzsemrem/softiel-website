@@ -85,7 +85,9 @@ export async function getUsers(): Promise<User[]> {
     const snapshot = await getDocs(q)
     const users: User[] = []
     
-    snapshot.forEach(doc => {
+    // Use snapshot.docs array to avoid forEach serialization issues in production
+    const docs = snapshot.docs || []
+    for (const doc of docs) {
       const data = doc.data()
       users.push({
         id: doc.id,
@@ -99,7 +101,7 @@ export async function getUsers(): Promise<User[]> {
         createdAt: data.createdAt,
         updatedAt: data.updatedAt
       } as User)
-    })
+    }
     
     return users
   } catch (error) {
@@ -115,7 +117,9 @@ export async function getActiveUsers(): Promise<User[]> {
     const snapshot = await getDocs(q)
     const users: User[] = []
     
-    snapshot.forEach(doc => {
+    // Use snapshot.docs array to avoid forEach serialization issues in production
+    const docs = snapshot.docs || []
+    for (const doc of docs) {
       const data = doc.data()
       users.push({
         id: doc.id,
@@ -129,7 +133,7 @@ export async function getActiveUsers(): Promise<User[]> {
         createdAt: data.createdAt,
         updatedAt: data.updatedAt
       } as User)
-    })
+    }
     
     return users
   } catch (error) {
@@ -145,7 +149,9 @@ export async function getWritableUsers(): Promise<User[]> {
     const snapshot = await getDocs(q)
     const users: User[] = []
     
-    snapshot.forEach(doc => {
+    // Use snapshot.docs array to avoid forEach serialization issues in production
+    const docs = snapshot.docs || []
+    for (const doc of docs) {
       const data = doc.data()
       const role = data.role || 'viewer'
       
@@ -281,7 +287,9 @@ export async function getUserStats(): Promise<{
       byRole: {} as Record<string, number>
     }
     
-    snapshot.forEach(doc => {
+    // Use snapshot.docs array to avoid forEach serialization issues in production
+    const docs = snapshot.docs || []
+    for (const doc of docs) {
       const data = doc.data()
       stats.total++
       
@@ -293,7 +301,7 @@ export async function getUserStats(): Promise<{
       
       const role = data.role || 'unknown'
       stats.byRole[role] = (stats.byRole[role] || 0) + 1
-    })
+    }
     
     return stats
   } catch (error) {

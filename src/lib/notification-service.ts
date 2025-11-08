@@ -59,12 +59,14 @@ export async function getNotifications(limitCount: number = 50): Promise<Notific
     const snapshot = await getDocs(q)
     const notifications: Notification[] = []
     
-    snapshot.forEach(doc => {
+    // Use snapshot.docs array to avoid forEach serialization issues in production
+    const docs = snapshot.docs || []
+    for (const doc of docs) {
       notifications.push({
         id: doc.id,
         ...doc.data()
       } as Notification)
-    })
+    }
     
     return notifications
   } catch (error) {
@@ -151,12 +153,14 @@ export async function getNotificationsByType(type: Notification['type']): Promis
     const snapshot = await getDocs(q)
     const notifications: Notification[] = []
     
-    snapshot.forEach(doc => {
+    // Use snapshot.docs array to avoid forEach serialization issues in production
+    const docs = snapshot.docs || []
+    for (const doc of docs) {
       notifications.push({
         id: doc.id,
         ...doc.data()
       } as Notification)
-    })
+    }
     
     return notifications
   } catch (error) {
@@ -177,12 +181,14 @@ export async function getNotificationsByCategory(category: Notification['categor
     const snapshot = await getDocs(q)
     const notifications: Notification[] = []
     
-    snapshot.forEach(doc => {
+    // Use snapshot.docs array to avoid forEach serialization issues in production
+    const docs = snapshot.docs || []
+    for (const doc of docs) {
       notifications.push({
         id: doc.id,
         ...doc.data()
       } as Notification)
-    })
+    }
     
     return notifications
   } catch (error) {

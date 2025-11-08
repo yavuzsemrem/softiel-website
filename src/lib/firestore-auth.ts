@@ -62,13 +62,16 @@ export async function loginUser(
     let foundUserDoc: any = null
     let foundUserData: User | null = null
     
-    snapshot.forEach(d => {
+    // Use snapshot.docs array to avoid forEach serialization issues in production
+    const docs = snapshot.docs || []
+    for (const d of docs) {
       const data = d.data() as User
       if (data.email && data.email.toLowerCase() === emailLower) {
         foundUserDoc = d
         foundUserData = data
+        break
       }
-    })
+    }
     
     if (!foundUserDoc || !foundUserData) {
       return { success: false, error: 'Invalid email or password' }
@@ -142,25 +145,30 @@ export async function loginUserByUsernameOrEmail(
     let foundUserDoc: any = null
     let foundUserData: User | null = null
     
+    // Use snapshot.docs array to avoid forEach serialization issues in production
+    const docs = snapshot.docs || []
+    
     if (identifier.includes('@')) {
       // Email ile arama
       const identifierLower = identifier.toLowerCase()
-      snapshot.forEach(d => {
+      for (const d of docs) {
         const data = d.data() as User
         if (data.email && data.email.toLowerCase() === identifierLower) {
           foundUserDoc = d
           foundUserData = data
+          break
         }
-      })
+      }
     } else {
       // Username ile arama
-      snapshot.forEach(d => {
+      for (const d of docs) {
         const data = d.data() as User
         if (data.name === identifier) {
           foundUserDoc = d
           foundUserData = data
+          break
         }
-      })
+      }
     }
     
     if (!foundUserDoc || !foundUserData) {
