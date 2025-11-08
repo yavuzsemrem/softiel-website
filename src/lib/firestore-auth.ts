@@ -1,8 +1,6 @@
 // Firestore-based authentication service
 import { 
   collection, 
-  query, 
-  where, 
   getDocs,
   doc,
   getDoc,
@@ -55,17 +53,26 @@ export async function loginUser(
       return { success: false, error: 'Çok fazla giriş denemesi. Lütfen 15 dakika bekleyin.' }
     }
 
-    // Find user by email
+    // Find user by email - Query kullanmadan (server-side bug workaround)
     const usersCollection = collection(db, 'users')
-    const q = query(usersCollection, where('email', '==', email.toLowerCase()))
-    const snapshot = await getDocs(q)
+    const snapshot = await getDocs(usersCollection)
+    const emailLower = email.toLowerCase()
     
-    if (snapshot.empty) {
+    // Manuel olarak email ile eşleşen kullanıcıyı bul
+    let userDoc: any = null
+    let userData: User | null = null
+    
+    snapshot.forEach(doc => {
+      const data = doc.data() as User
+      if (data.email && data.email.toLowerCase() === emailLower) {
+        userDoc = doc
+        userData = data
+      }
+    })
+    
+    if (!userDoc || !userData) {
       return { success: false, error: 'Invalid email or password' }
     }
-
-    const userDoc = snapshot.docs[0]
-    const userData = userDoc.data() as User
 
     // Check if user is active
     if (!userData.isActive) {
@@ -123,26 +130,38 @@ export async function loginUserByUsernameOrEmail(
       return { success: false, error: 'Çok fazla giriş denemesi. Lütfen 15 dakika bekleyin.' }
     }
 
+    // Query kullanmadan tüm collection'ı çek (server-side bug workaround)
     const usersCollection = collection(db, 'users')
-    let q
-    let snapshot
-
-    // First try to find by email
+    const snapshot = await getDocs(usersCollection)
+    
+    // Manuel olarak username veya email ile eşleşen kullanıcıyı bul
+    let userDoc: any = null
+    let userData: User | null = null
+    
     if (identifier.includes('@')) {
-      q = query(usersCollection, where('email', '==', identifier.toLowerCase()))
-      snapshot = await getDocs(q)
+      // Email ile arama
+      const identifierLower = identifier.toLowerCase()
+      snapshot.forEach(doc => {
+        const data = doc.data() as User
+        if (data.email && data.email.toLowerCase() === identifierLower) {
+          userDoc = doc
+          userData = data
+        }
+      })
     } else {
-      // Try to find by name
-      q = query(usersCollection, where('name', '==', identifier))
-      snapshot = await getDocs(q)
+      // Username ile arama
+      snapshot.forEach(doc => {
+        const data = doc.data() as User
+        if (data.name === identifier) {
+          userDoc = doc
+          userData = data
+        }
+      })
     }
     
-    if (snapshot.empty) {
+    if (!userDoc || !userData) {
       return { success: false, error: 'Invalid username, email or password' }
     }
-
-    const userDoc = snapshot.docs[0]
-    const userData = userDoc.data() as User
 
     // Check if user is active
     if (!userData.isActive) {

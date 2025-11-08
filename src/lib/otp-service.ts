@@ -5,8 +5,6 @@ import {
   setDoc, 
   getDoc, 
   deleteDoc, 
-  query, 
-  where, 
   getDocs,
   Timestamp 
 } from 'firebase/firestore'
@@ -67,21 +65,31 @@ export async function checkUserExists(email: string): Promise<{ exists: boolean;
   try {
     const usersCollection = collection(db, 'users')
     const emailLower = email.toLowerCase()
-    const q = query(usersCollection, where('email', '==', emailLower))
-    const snapshot = await getDocs(q)
     
-    if (snapshot.empty) {
+    // Query kullanmadan tüm collection'ı çek ve manuel filtrele (server-side bug workaround)
+    const snapshot = await getDocs(usersCollection)
+    
+    // Manuel olarak email ile eşleşen kullanıcıyı bul
+    let foundUser: any = null
+    let foundDocId: string = ''
+    
+    snapshot.forEach(doc => {
+      const data = doc.data()
+      if (data.email && data.email.toLowerCase() === emailLower) {
+        foundUser = data
+        foundDocId = doc.id
+      }
+    })
+    
+    if (!foundUser) {
       return { exists: false }
     }
-
-    const userDoc = snapshot.docs[0]
-    const userData = userDoc.data()
     
     return { 
       exists: true, 
       user: {
-        id: userDoc.id,
-        ...userData
+        id: foundDocId,
+        ...foundUser
       }
     }
   } catch (error) {
@@ -168,13 +176,14 @@ export async function generateOTP(email: string): Promise<OTPSendResult> {
     // Check for existing unused OTP
     const otpCollection = collection(db, 'otp_codes')
     const emailLower = email.toLowerCase()
-    const q = query(otpCollection, where('email', '==', emailLower))
-    const existingSnapshot = await getDocs(q)
+    
+    // Query kullanmadan tüm collection'ı çek (server-side bug workaround)
+    const existingSnapshot = await getDocs(otpCollection)
 
-    // Delete existing unused OTPs (filter client-side)
+    // Delete existing unused OTPs için email ve isUsed kontrolü
     for (const docSnapshot of existingSnapshot.docs) {
       const data = docSnapshot.data() as OTPRecord
-      if (!data.isUsed) {
+      if (data.email === emailLower && !data.isUsed) {
         await deleteDoc(docSnapshot.ref)
       }
     }
@@ -229,15 +238,16 @@ export async function verifyOTP(email: string, code: string): Promise<OTPVerifyR
     
     const otpCollection = collection(db, 'otp_codes')
     const emailLower = email.toLowerCase()
-    const q = query(otpCollection, where('email', '==', emailLower))
-    const snapshot = await getDocs(q)
+    
+    // Query kullanmadan tüm collection'ı çek (server-side bug workaround)
+    const snapshot = await getDocs(otpCollection)
     
     console.log('Found OTP records:', snapshot.docs.length)
 
-    // Filter unused OTPs client-side
+    // Email ve isUsed ile manuel filtreleme
     const unusedDocs = snapshot.docs.filter(doc => {
       const data = doc.data() as OTPRecord
-      return !data.isUsed
+      return data.email === emailLower && !data.isUsed
     })
 
     if (unusedDocs.length === 0) {
@@ -329,13 +339,14 @@ export async function getOTPStatus(email: string): Promise<{
   try {
     const otpCollection = collection(db, 'otp_codes')
     const emailLower = email.toLowerCase()
-    const q = query(otpCollection, where('email', '==', emailLower))
-    const snapshot = await getDocs(q)
+    
+    // Query kullanmadan tüm collection'ı çek (server-side bug workaround)
+    const snapshot = await getDocs(otpCollection)
 
-    // Filter unused OTPs client-side
+    // Email ve isUsed ile manuel filtreleme
     const unusedDocs = snapshot.docs.filter(doc => {
       const data = doc.data() as OTPRecord
-      return !data.isUsed
+      return data.email === emailLower && !data.isUsed
     })
 
     if (unusedDocs.length === 0) {
