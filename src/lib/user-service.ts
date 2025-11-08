@@ -169,7 +169,7 @@ export async function getWritableUsers(): Promise<User[]> {
           updatedAt: data.updatedAt
         } as User)
       }
-    })
+    }
     
     return users
   } catch (error) {
