@@ -4,7 +4,6 @@ import React, { useState, useEffect, useRef } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Eye, EyeOff, Lock, LogIn, Shield, AlertTriangle, User, Mail, Clock, RefreshCw, X, ArrowLeft, AlertCircle, CheckCircle } from "lucide-react"
 import { useRouter } from "next/navigation"
-import { loginUserByUsernameOrEmail } from "@/lib/firestore-auth"
 import { sessionService } from "@/lib/session"
 import emailjs from '@emailjs/browser'
 
@@ -76,7 +75,19 @@ export function LoginForm() {
     setError("")
 
     try {
-      const result = await loginUserByUsernameOrEmail(formData.email, formData.password, null)
+      // API route kullanarak login
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          identifier: formData.email,
+          password: formData.password
+        }),
+      })
+
+      const result = await response.json()
       
       if (result.success && result.user) {
         // Kullanıcı bilgilerini kaydet
@@ -92,6 +103,7 @@ export function LoginForm() {
         setError(result.error || "An error occurred during login")
       }
     } catch (err) {
+      console.error('Login error:', err)
       setError("An error occurred during login")
     } finally {
       setIsLoading(false)
