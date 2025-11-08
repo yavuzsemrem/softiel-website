@@ -3,10 +3,6 @@ import {
   collection, 
   addDoc, 
   getDocs, 
-  query, 
-  orderBy, 
-  limit,
-  where,
   Timestamp,
   doc,
   deleteDoc,
@@ -53,13 +49,8 @@ export async function createActivity(activityData: Omit<Activity, 'id' | 'create
 export async function getRecentActivities(limitCount: number = 10): Promise<Activity[]> {
   try {
     const activitiesCollection = getActivitiesCollection();
-    const q = query(
-      activitiesCollection,
-      orderBy('createdAt', 'desc'),
-      limit(limitCount)
-    )
-    
-    const snapshot = await getDocs(q)
+    // Query kullanmadan tüm collection'ı çek (Firestore bug workaround)
+    const snapshot = await getDocs(activitiesCollection)
     const activities: Activity[] = []
     
     snapshot.forEach(doc => {
@@ -69,7 +60,10 @@ export async function getRecentActivities(limitCount: number = 10): Promise<Acti
       } as Activity)
     })
     
+    // Manuel olarak sırala ve limit uygula
     return activities
+      .sort((a, b) => b.createdAt.toMillis() - a.createdAt.toMillis())
+      .slice(0, limitCount)
   } catch (error) {
     console.error('Aktiviteler getirilemedi:', error)
     return []
@@ -80,13 +74,19 @@ export async function getRecentActivities(limitCount: number = 10): Promise<Acti
 export async function getUnreadActivitiesCount(): Promise<number> {
   try {
     const activitiesCollection = getActivitiesCollection();
-    const q = query(
-      activitiesCollection,
-      where('isRead', '==', false)
-    )
+    // Query kullanmadan tüm collection'ı çek (Firestore bug workaround)
+    const snapshot = await getDocs(activitiesCollection)
     
-    const snapshot = await getDocs(q)
-    return snapshot.size
+    // Manuel olarak okunmamışları say
+    let unreadCount = 0
+    snapshot.forEach(doc => {
+      const data = doc.data()
+      if (data.isRead === false) {
+        unreadCount++
+      }
+    })
+    
+    return unreadCount
   } catch (error) {
     console.error('Okunmamış aktivite sayısı getirilemedi:', error)
     return 0
@@ -135,17 +135,19 @@ export async function toggleActivityReadStatus(activityId: string, currentStatus
 export async function markAllActivitiesAsRead(): Promise<void> {
   try {
     const activitiesCollection = getActivitiesCollection();
-    const q = query(
-      activitiesCollection,
-      where('isRead', '==', false)
-    )
-    
-    const snapshot = await getDocs(q)
+    // Query kullanmadan tüm collection'ı çek (Firestore bug workaround)
+    const snapshot = await getDocs(activitiesCollection)
     const { updateDoc } = await import('firebase/firestore')
     
-    const updatePromises = snapshot.docs.map(docSnapshot => 
-      updateDoc(doc(db, 'activities', docSnapshot.id), { isRead: true })
-    )
+    // Manuel olarak okunmamışları filtrele ve güncelle
+    const updatePromises = snapshot.docs
+      .filter(docSnapshot => {
+        const data = docSnapshot.data()
+        return data.isRead === false
+      })
+      .map(docSnapshot => 
+        updateDoc(doc(db, 'activities', docSnapshot.id), { isRead: true })
+      )
     
     await Promise.all(updatePromises)
   } catch (error) {
