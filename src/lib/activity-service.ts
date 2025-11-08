@@ -2,7 +2,6 @@
 import { 
   collection, 
   addDoc, 
-  getDocs, 
   Timestamp,
   doc,
   deleteDoc,
@@ -45,48 +44,40 @@ export async function createActivity(activityData: Omit<Activity, 'id' | 'create
   }
 }
 
-// Get recent activities
+// Get recent activities - API ROUTE KULLAN (Client-side Firestore bug'ı)
 export async function getRecentActivities(limitCount: number = 10): Promise<Activity[]> {
   try {
-    const activitiesCollection = getActivitiesCollection();
-    // Query kullanmadan tüm collection'ı çek (Firestore bug workaround)
-    const snapshot = await getDocs(activitiesCollection)
-    const activities: Activity[] = []
+    // Client-side'da API route kullan
+    const response = await fetch(`/api/activities/recent?limit=${limitCount}`)
+    const data = await response.json()
     
-    snapshot.forEach(doc => {
-      activities.push({
-        id: doc.id,
-        ...doc.data()
-      } as Activity)
-    })
+    if (data.success && data.activities) {
+      // Timestamp'leri geri dönüştür
+      return data.activities.map((activity: any) => ({
+        ...activity,
+        createdAt: activity.createdAt ? { toMillis: () => activity.createdAt } : Timestamp.now()
+      })) as Activity[]
+    }
     
-    // Manuel olarak sırala ve limit uygula
-    return activities
-      .sort((a, b) => b.createdAt.toMillis() - a.createdAt.toMillis())
-      .slice(0, limitCount)
+    return []
   } catch (error) {
     console.error('Aktiviteler getirilemedi:', error)
     return []
   }
 }
 
-// Get unread activities count
+// Get unread activities count - API ROUTE KULLAN (Client-side Firestore bug'ı)
 export async function getUnreadActivitiesCount(): Promise<number> {
   try {
-    const activitiesCollection = getActivitiesCollection();
-    // Query kullanmadan tüm collection'ı çek (Firestore bug workaround)
-    const snapshot = await getDocs(activitiesCollection)
+    // Client-side'da API route kullan
+    const response = await fetch('/api/activities/count')
+    const data = await response.json()
     
-    // Manuel olarak okunmamışları say
-    let unreadCount = 0
-    snapshot.forEach(doc => {
-      const data = doc.data()
-      if (data.isRead === false) {
-        unreadCount++
-      }
-    })
+    if (data.success) {
+      return data.count || 0
+    }
     
-    return unreadCount
+    return 0
   } catch (error) {
     console.error('Okunmamış aktivite sayısı getirilemedi:', error)
     return 0
@@ -131,25 +122,18 @@ export async function toggleActivityReadStatus(activityId: string, currentStatus
   }
 }
 
-// Mark all activities as read
+// Mark all activities as read - API ROUTE KULLAN (Client-side Firestore bug'ı)
 export async function markAllActivitiesAsRead(): Promise<void> {
   try {
-    const activitiesCollection = getActivitiesCollection();
-    // Query kullanmadan tüm collection'ı çek (Firestore bug workaround)
-    const snapshot = await getDocs(activitiesCollection)
-    const { updateDoc } = await import('firebase/firestore')
+    // Client-side'da API route kullan
+    const response = await fetch('/api/activities/mark-all-read', {
+      method: 'POST'
+    })
+    const data = await response.json()
     
-    // Manuel olarak okunmamışları filtrele ve güncelle
-    const updatePromises = snapshot.docs
-      .filter(docSnapshot => {
-        const data = docSnapshot.data()
-        return data.isRead === false
-      })
-      .map(docSnapshot => 
-        updateDoc(doc(db, 'activities', docSnapshot.id), { isRead: true })
-      )
-    
-    await Promise.all(updatePromises)
+    if (!data.success) {
+      console.error('Failed to mark all as read:', data.error)
+    }
   } catch (error) {
     console.error('Tüm aktiviteler okundu olarak işaretlenemedi:', error)
   }
@@ -185,18 +169,18 @@ export async function deleteActivities(activityIds: string[]): Promise<void> {
   }
 }
 
-// Delete all activities
+// Delete all activities - API ROUTE KULLAN (Client-side Firestore bug'ı)
 export async function deleteAllActivities(): Promise<void> {
   try {
-    const activitiesCollection = getActivitiesCollection();
-    const snapshot = await getDocs(activitiesCollection)
-    const batch = writeBatch(db)
-    
-    snapshot.docs.forEach(docSnapshot => {
-      batch.delete(docSnapshot.ref)
+    // Client-side'da API route kullan
+    const response = await fetch('/api/activities/delete-all', {
+      method: 'DELETE'
     })
+    const data = await response.json()
     
-    await batch.commit()
+    if (!data.success) {
+      throw new Error(data.error || 'Failed to delete all activities')
+    }
   } catch (error) {
     console.error('Tüm aktiviteler silinemedi:', error)
     throw new Error(`Tüm aktiviteler silinemedi: ${(error as any)?.message || 'Bilinmeyen hata'}`)

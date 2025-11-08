@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server'
 import { collection, getDocs } from 'firebase/firestore'
 import { db } from '@/lib/firebase'
 
+export const dynamic = 'force-dynamic'
+
 interface User {
   name: string
   email: string
