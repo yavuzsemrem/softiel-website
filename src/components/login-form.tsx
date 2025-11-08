@@ -6,7 +6,6 @@ import { Eye, EyeOff, Lock, LogIn, Shield, AlertTriangle, User, Mail, Clock, Ref
 import { useRouter } from "next/navigation"
 import { loginUserByUsernameOrEmail } from "@/lib/firestore-auth"
 import { sessionService } from "@/lib/session"
-import { useRecaptcha } from "@/hooks/useRecaptcha"
 import emailjs from '@emailjs/browser'
 
 export function LoginForm() {
@@ -27,9 +26,6 @@ export function LoginForm() {
   const [userData, setUserData] = useState<any>(null)
   const router = useRouter()
   const formRef = useRef<HTMLFormElement>(null)
-  
-  // ReCAPTCHA hook
-  const { isAvailable, executeRecaptchaAction } = useRecaptcha()
 
   // EmailJS initialization - sadece bir kere
   useEffect(() => {
@@ -80,14 +76,7 @@ export function LoginForm() {
     setError("")
 
     try {
-      // ReCAPTCHA token al (production'da)
-      let recaptchaToken = null
-      if (isAvailable) {
-        const result = await executeRecaptchaAction('LOGIN')
-        recaptchaToken = result.token || null
-      }
-
-      const result = await loginUserByUsernameOrEmail(formData.email, formData.password, recaptchaToken)
+      const result = await loginUserByUsernameOrEmail(formData.email, formData.password, null)
       
       if (result.success && result.user) {
         // Kullanıcı bilgilerini kaydet
