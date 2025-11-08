@@ -12,15 +12,15 @@ export async function POST(request: NextRequest) {
     // Manuel olarak okunmamışları filtrele ve güncelle
     const updatePromises: Promise<void>[] = []
     
-    if (Array.isArray(snapshot.docs)) {
-      snapshot.docs.forEach((docSnapshot: any) => {
-        const data = docSnapshot.data()
-        if (data && data.isRead === false) {
-          updatePromises.push(
-            updateDoc(doc(db, 'activities', docSnapshot.id), { isRead: true })
-          )
-        }
-      })
+    // Use snapshot.docs array to avoid forEach serialization issues in production
+    const docs = snapshot.docs || []
+    for (const docSnapshot of docs) {
+      const data = docSnapshot.data()
+      if (data && data.isRead === false) {
+        updatePromises.push(
+          updateDoc(doc(db, 'activities', docSnapshot.id), { isRead: true })
+        )
+      }
     }
     
     await Promise.all(updatePromises)

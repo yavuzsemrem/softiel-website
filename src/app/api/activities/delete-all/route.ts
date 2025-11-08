@@ -10,10 +10,10 @@ export async function DELETE(request: NextRequest) {
     const snapshot = await getDocs(activitiesCollection)
     const batch = writeBatch(db)
     
-    if (Array.isArray(snapshot.docs)) {
-      snapshot.docs.forEach((docSnapshot: any) => {
-        batch.delete(docSnapshot.ref)
-      })
+    // Use snapshot.docs array to avoid forEach serialization issues in production
+    const docs = snapshot.docs || []
+    for (const docSnapshot of docs) {
+      batch.delete(docSnapshot.ref)
     }
     
     await batch.commit()
@@ -21,7 +21,7 @@ export async function DELETE(request: NextRequest) {
     return NextResponse.json({
       success: true,
       message: 'All activities deleted',
-      count: snapshot.docs.length
+      count: docs.length
     })
   } catch (error: any) {
     console.error('Error deleting all activities:', error)

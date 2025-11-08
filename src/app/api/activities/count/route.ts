@@ -11,13 +11,13 @@ export async function GET(request: NextRequest) {
     
     // Manuel olarak okunmamışları say
     let unreadCount = 0
-    if (Array.isArray(snapshot.docs)) {
-      snapshot.docs.forEach((doc: any) => {
-        const data = doc.data()
-        if (data && data.isRead === false) {
-          unreadCount++
-        }
-      })
+    // Use snapshot.docs array to avoid forEach serialization issues in production
+    const docs = snapshot.docs || []
+    for (const doc of docs) {
+      const data = doc.data()
+      if (data && data.isRead === false) {
+        unreadCount++
+      }
     }
     
     return NextResponse.json({

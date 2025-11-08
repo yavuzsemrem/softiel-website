@@ -15,14 +15,14 @@ export async function GET(request: NextRequest) {
     
     const activities: any[] = []
     
-    if (Array.isArray(snapshot.docs)) {
-      snapshot.docs.forEach((doc: any) => {
-        const data = doc.data()
-        activities.push({
-          id: doc.id,
-          ...data,
-          createdAt: data.createdAt?.toMillis ? data.createdAt.toMillis() : Date.now()
-        })
+    // Use snapshot.docs array to avoid forEach serialization issues in production
+    const docs = snapshot.docs || []
+    for (const doc of docs) {
+      const data = doc.data()
+      activities.push({
+        id: doc.id,
+        ...data,
+        createdAt: data.createdAt?.toMillis ? data.createdAt.toMillis() : Date.now()
       })
     }
     
