@@ -59,20 +59,24 @@ export async function loginUser(
     const emailLower = email.toLowerCase()
     
     // Manuel olarak email ile eşleşen kullanıcıyı bul
-    let userDoc: any = null
-    let userData: User | null = null
+    let foundUserDoc: any = null
+    let foundUserData: User | null = null
     
-    snapshot.forEach(doc => {
-      const data = doc.data() as User
+    snapshot.forEach(d => {
+      const data = d.data() as User
       if (data.email && data.email.toLowerCase() === emailLower) {
-        userDoc = doc
-        userData = data
+        foundUserDoc = d
+        foundUserData = data
       }
     })
     
-    if (!userDoc || !userData) {
+    if (!foundUserDoc || !foundUserData) {
       return { success: false, error: 'Invalid email or password' }
     }
+
+    // TypeScript type guard
+    const userData: User = foundUserData
+    const userDocSnapshot = foundUserDoc
 
     // Check if user is active
     if (!userData.isActive) {
@@ -86,7 +90,7 @@ export async function loginUser(
     }
 
     // Update last login time
-    const userRef = doc(db, 'users', userDoc.id)
+    const userRef = doc(db, 'users', userDocSnapshot.id)
     await updateDoc(userRef, {
       lastLoginAt: Timestamp.now()
     })
@@ -95,7 +99,7 @@ export async function loginUser(
     loginAttempts.delete(email)
 
     const authUser: AuthUser = {
-      id: userDoc.id,
+      id: userDocSnapshot.id,
       name: userData.name,
       email: userData.email,
       role: userData.role,
@@ -135,33 +139,37 @@ export async function loginUserByUsernameOrEmail(
     const snapshot = await getDocs(usersCollection)
     
     // Manuel olarak username veya email ile eşleşen kullanıcıyı bul
-    let userDoc: any = null
-    let userData: User | null = null
+    let foundUserDoc: any = null
+    let foundUserData: User | null = null
     
     if (identifier.includes('@')) {
       // Email ile arama
       const identifierLower = identifier.toLowerCase()
-      snapshot.forEach(doc => {
-        const data = doc.data() as User
+      snapshot.forEach(d => {
+        const data = d.data() as User
         if (data.email && data.email.toLowerCase() === identifierLower) {
-          userDoc = doc
-          userData = data
+          foundUserDoc = d
+          foundUserData = data
         }
       })
     } else {
       // Username ile arama
-      snapshot.forEach(doc => {
-        const data = doc.data() as User
+      snapshot.forEach(d => {
+        const data = d.data() as User
         if (data.name === identifier) {
-          userDoc = doc
-          userData = data
+          foundUserDoc = d
+          foundUserData = data
         }
       })
     }
     
-    if (!userDoc || !userData) {
+    if (!foundUserDoc || !foundUserData) {
       return { success: false, error: 'Invalid username, email or password' }
     }
+
+    // TypeScript type guard
+    const userData: User = foundUserData
+    const userDocSnapshot = foundUserDoc
 
     // Check if user is active
     if (!userData.isActive) {
@@ -175,7 +183,7 @@ export async function loginUserByUsernameOrEmail(
     }
 
     // Update last login time
-    const userRef = doc(db, 'users', userDoc.id)
+    const userRef = doc(db, 'users', userDocSnapshot.id)
     await updateDoc(userRef, {
       lastLoginAt: Timestamp.now()
     })
@@ -184,7 +192,7 @@ export async function loginUserByUsernameOrEmail(
     loginAttempts.delete(identifier)
 
     const authUser: AuthUser = {
-      id: userDoc.id,
+      id: userDocSnapshot.id,
       name: userData.name,
       email: userData.email,
       role: userData.role,
