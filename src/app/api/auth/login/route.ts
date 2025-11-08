@@ -32,27 +32,26 @@ export async function POST(request: NextRequest) {
     let foundUser: any = null
     let foundUserId: string = ''
 
-    if (Array.isArray(snapshot.docs)) {
-      if (identifier.includes('@')) {
-        // Email search
-        const identifierLower = identifier.toLowerCase()
-        snapshot.docs.forEach((doc: any) => {
-          const data = doc.data() as User
-          if (data.email && data.email.toLowerCase() === identifierLower) {
-            foundUser = data
-            foundUserId = doc.id
-          }
-        })
-      } else {
-        // Username search
-        snapshot.docs.forEach((doc: any) => {
-          const data = doc.data() as User
-          if (data.name === identifier) {
-            foundUser = data
-            foundUserId = doc.id
-          }
-        })
-      }
+    // Firestore snapshot.docs is always iterable
+    if (identifier.includes('@')) {
+      // Email search
+      const identifierLower = identifier.toLowerCase()
+      snapshot.forEach((doc: any) => {
+        const data = doc.data() as User
+        if (data.email && data.email.toLowerCase() === identifierLower) {
+          foundUser = data
+          foundUserId = doc.id
+        }
+      })
+    } else {
+      // Username search
+      snapshot.forEach((doc: any) => {
+        const data = doc.data() as User
+        if (data.name === identifier) {
+          foundUser = data
+          foundUserId = doc.id
+        }
+      })
     }
 
     if (!foundUser) {
