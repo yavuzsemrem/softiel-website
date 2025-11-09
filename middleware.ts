@@ -56,11 +56,11 @@ export function middleware(request: NextRequest) {
       return NextResponse.redirect(new URL('/admin-panel-secure-access-2024', request.url))
     }
     
-    // /dashboard/* path'lerini gerçek path'lere rewrite et
-    if (pathname.startsWith('/dashboard')) {
-      const newPath = pathname.replace('/dashboard', '/content-management-system-2024')
-      console.log('🔄 Rewriting /dashboard to:', newPath)
-      return NextResponse.rewrite(new URL(newPath, request.url))
+    // Eski /content-management-system-2024 path'lerini yeni /dashboard path'ine redirect et (geriye dönük uyumluluk)
+    if (pathname.startsWith('/content-management-system-2024')) {
+      const newPath = pathname.replace('/content-management-system-2024', '/dashboard')
+      console.log('🔄 Redirecting old path to:', newPath)
+      return NextResponse.redirect(new URL(newPath, request.url))
     }
     
     // Dashboard tüm yanıtları noindex yap
