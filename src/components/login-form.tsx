@@ -75,36 +75,70 @@ export function LoginForm() {
     setError("")
 
     try {
-      // API route kullanarak login
-      const response = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          identifier: formData.email,
-          password: formData.password
-        }),
-      })
-
-      const result = await response.json()
+      // Client-side Firestore kullanarak login
+      const { collection, getDocs, query, where } = await import('firebase/firestore')
+      const { db } = await import('@/lib/firebase')
       
-      if (result.success && result.user) {
-        // Kullanıcı bilgilerini kaydet
-        setUserData(result.user)
-        
-        // OTP gönder
-        await handleSendOTP()
-        
-        // OTP modalını aç
-        setShowOTPModal(true)
-        setSuccess("OTP code sent successfully")
+      const usersCollection = collection(db, 'users')
+      const identifier = formData.email.trim()
+      const password = formData.password
+      
+      // Email veya kullanıcı adı ile ara
+      let userQuery
+      if (identifier.includes('@')) {
+        // Email ile ara
+        userQuery = query(usersCollection, where('email', '==', identifier.toLowerCase()))
       } else {
-        setError(result.error || "An error occurred during login")
+        // Kullanıcı adı ile ara
+        userQuery = query(usersCollection, where('name', '==', identifier))
       }
+      
+      const snapshot = await getDocs(userQuery)
+      
+      if (snapshot.empty) {
+        setError("Invalid username, email or password")
+        setIsLoading(false)
+        return
+      }
+      
+      const userDoc = snapshot.docs[0]
+      const userData = userDoc.data()
+      
+      // Şifre kontrolü
+      if (userData.password !== password) {
+        setError("Invalid username, email or password")
+        setIsLoading(false)
+        return
+      }
+      
+      // Aktif mi kontrolü
+      if (!userData.isActive) {
+        setError("Your account has been deactivated")
+        setIsLoading(false)
+        return
+      }
+      
+      // Kullanıcı bilgilerini kaydet
+      const user = {
+        id: userDoc.id,
+        name: userData.name,
+        email: userData.email,
+        role: userData.role,
+        isActive: userData.isActive
+      }
+      
+      setUserData(user)
+      
+      // OTP gönder
+      await handleSendOTP()
+      
+      // OTP modalını aç
+      setShowOTPModal(true)
+      setSuccess("OTP code sent successfully")
+      
     } catch (err) {
       console.error('Login error:', err)
-      setError("An error occurred during login")
+      setError("An error occurred during login: " + (err instanceof Error ? err.message : 'Unknown error'))
     } finally {
       setIsLoading(false)
     }
