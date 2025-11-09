@@ -7,18 +7,37 @@ export function middleware(request: NextRequest) {
   const host = rawHost.split(':')[0].toLowerCase()
   const dashboardHost = (DASHBOARD_HOST || '').toLowerCase()
   const pathname = request.nextUrl.pathname
+  
+  // Tüm request header'larını da kontrol et
+  const allHeaders = {
+    host: request.headers.get('host'),
+    'x-forwarded-host': request.headers.get('x-forwarded-host'),
+    'x-forwarded-proto': request.headers.get('x-forwarded-proto'),
+    origin: request.headers.get('origin'),
+    referer: request.headers.get('referer')
+  }
 
   // Debug logging (production'da kaldırılabilir)
+  // Cloudflare proxy nedeniyle x-forwarded-host header'ını da kontrol et
+  const forwardedHost = request.headers.get('x-forwarded-host')?.split(':')[0].toLowerCase() || ''
+  const effectiveHost = forwardedHost || host
+  
   console.log('🔍 Middleware Debug:', {
     host,
+    rawHost,
+    forwardedHost,
+    effectiveHost,
     dashboardHost,
     pathname,
-    isDashboard: host === dashboardHost || host.includes('dashboard')
+    allHeaders,
+    isDashboard: effectiveHost === dashboardHost || effectiveHost.includes('dashboard') || host === dashboardHost || host.includes('dashboard')
   })
 
   // 1) Host bazlı yönlendirme: dashboard.softiel.com için temiz URL'ler
+  // effectiveHost (x-forwarded-host veya host) kullan
+  
   // Daha sıkı kontrol: tam eşleşme VEYA "dashboard" içeriyor mu?
-  const isDashboardHost = host === dashboardHost || host.includes('dashboard')
+  const isDashboardHost = effectiveHost === dashboardHost || effectiveHost.includes('dashboard') || host === dashboardHost || host.includes('dashboard')
   
   if (isDashboardHost) {
     console.log('✅ Dashboard host algılandı')
