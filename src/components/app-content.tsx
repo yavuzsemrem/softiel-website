@@ -22,8 +22,9 @@ export function AppContent({ children }: AppContentProps) {
   const pathname = usePathname();
   const [isPageLoading, setIsPageLoading] = useState(false);
 
-  // Dashboard sayfalarında chatbot'u gösterme
+  // Dashboard ve login sayfalarında chatbot'u gösterme
   const isDashboardPage = pathname.startsWith('/dashboard') || 
+                         pathname.startsWith('/login') ||
                          pathname.startsWith('/admin-panel-secure-access-2024');
 
   // Sayfa yükleme durumunu takip et

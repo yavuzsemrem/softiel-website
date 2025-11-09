@@ -29,7 +29,7 @@ export function LoginForm() {
   useEffect(() => {
     const isAuth = sessionService.isAuthenticated()
     if (isAuth) {
-      router.push('/content-management-system-2024')
+      router.push('/dashboard')
     }
   }, [router])
 
@@ -152,7 +152,7 @@ export function LoginForm() {
           setSuccess("TOTP doğrulandı ve giriş başarılı!")
           setShowTOTPModal(false)
           setShowQRModal(false)
-          router.push('/content-management-system-2024')
+          router.push('/dashboard')
         } else {
           setError("Kullanıcı bilgileri bulunamadı")
         }

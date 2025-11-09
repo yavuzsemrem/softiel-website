@@ -42,12 +42,12 @@ export function middleware(request: NextRequest) {
   if (isDashboardHost) {
     console.log('✅ Dashboard host algılandı')
     
-    // Ana sayfa → Login sayfasına direkt redirect
+    // Ana sayfa → Dashboard'a direkt redirect
     const isRoot = pathname === '/' || pathname === ''
     const isLocaleRoot = /^\/(tr|en|de|fr|ru|ar)\/?$/.test(pathname)
     if (isRoot || isLocaleRoot) {
-      console.log('🔄 Root detected, redirecting to login')
-      return NextResponse.redirect(new URL('/login', request.url))
+      console.log('🔄 Root detected, redirecting to dashboard')
+      return NextResponse.redirect(new URL('/dashboard', request.url))
     }
     
     // Eski URL'ler için geriye dönük uyumluluk
