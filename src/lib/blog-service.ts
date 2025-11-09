@@ -199,7 +199,7 @@ const blogsCollection = collection(db, 'blogs')
           blogId,
           userRole: 'admin',
           actionType: 'blog_create',
-          targetUrl: `/blog/${slug}`
+          targetUrl: `/tr/blog/${slug}`
         }
       )
     } catch (activityError) {

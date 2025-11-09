@@ -70,6 +70,8 @@ export default function RootLayout({
     <html lang="tr" suppressHydrationWarning>
       <head>
         {/* Preconnect to critical origins - Network latency reduction */}
+        <link rel="preconnect" href="https://res.cloudinary.com" />
+        <link rel="dns-prefetch" href="https://res.cloudinary.com" />
         <link rel="preconnect" href="https://firestore.googleapis.com" />
         <link rel="dns-prefetch" href="https://firestore.googleapis.com" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />

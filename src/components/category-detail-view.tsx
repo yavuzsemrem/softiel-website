@@ -30,7 +30,7 @@ interface CategoryDetailViewProps {
 
 export function CategoryDetailView({ categoryId }: CategoryDetailViewProps) {
   const searchParams = useSearchParams()
-  const backUrl = searchParams.get('from') || '/content-management-system-2024/categories'
+  const backUrl = searchParams.get('from') || '/dashboard/categories'
   
   const [category, setCategory] = useState<Category | null>(null)
   const [blogs, setBlogs] = useState<BlogPost[]>([])

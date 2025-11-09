@@ -26,18 +26,16 @@ export function ReferencesFilter({ onFilterChange, projectCounts = {}, totalProj
 
   // Dashboard ile aynı kategori listesi
   const allCategories = [
-    { value: "webDesign", label: "Web Tasarım" },
-    { value: "webDevelopment", label: "Web Geliştirme" },
-    { value: "mobileApp", label: "Mobil Uygulama" },
-    { value: "ecommerce", label: "E-ticaret" },
-    { value: "seo", label: "SEO" },
-    { value: "branding", label: "Branding" },
-    { value: "socialMedia", label: "Sosyal Medya" },
-    { value: "aiIntegration", label: "AI Entegrasyonu" },
-    { value: "automation", label: "Otomasyon" },
-    { value: "digitalConsulting", label: "Dijital Danışmanlık" },
-    { value: "noCode", label: "No-Code" },
-    { value: "education", label: "Eğitim" }
+    { value: "websiteDesign", label: "Website Design" },
+    { value: "webApplicationDevelopment", label: "Web Application Development" },
+    { value: "mobileApplication", label: "Mobile Application" },
+    { value: "seoOptimization", label: "SEO Optimization" },
+    { value: "googleAdsManagement", label: "Google Ads Management" },
+    { value: "wordPressSolutions", label: "WordPress Solutions" },
+    { value: "logoCorporateIdentity", label: "Logo & Corporate Identity" },
+    { value: "socialMediaManagement", label: "Social Media Management" },
+    { value: "aiIntegration", label: "AI Integration" },
+    { value: "digitalConsulting", label: "Digital Consulting" }
   ]
 
   const categories = [
@@ -101,9 +99,9 @@ export function ReferencesFilter({ onFilterChange, projectCounts = {}, totalProj
             
             {/* Header Section */}
             <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-8">
-              <div className="flex items-center space-x-4 mb-6 lg:mb-0">
-                <div className="w-12 h-12 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-2xl flex items-center justify-center shadow-lg">
-                  <Filter className="h-6 w-6 text-white" />
+              <div className="flex items-center space-x-5 mb-6 lg:mb-0">
+                <div className="w-14 h-14 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-2xl flex items-center justify-center shadow-lg flex-shrink-0">
+                  <Filter className="h-7 w-7 text-white" />
                 </div>
                 <div>
                   <h2 className="text-2xl font-bold text-white mb-1">
@@ -146,15 +144,15 @@ export function ReferencesFilter({ onFilterChange, projectCounts = {}, totalProj
 
             {/* Search Bar */}
             <div className="relative mb-8">
-              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                <Search className="h-6 w-6 text-cyan-400" />
+              <div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
+                <Search className="h-5 w-5 text-cyan-400" />
               </div>
               <input
                 type="text"
                 placeholder={t('references.filter.searchPlaceholder')}
                 value={filters.search}
                 onChange={(e) => handleFilterChange("search", e.target.value)}
-                className="w-full pl-12 pr-6 py-4 rounded-2xl text-white placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:shadow-[0_0_40px_rgba(6,182,212,0.4)] transition-all duration-300 backdrop-blur-lg text-lg"
+                className="w-full pl-14 pr-6 py-4 rounded-2xl text-white placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:shadow-[0_0_40px_rgba(6,182,212,0.4)] transition-all duration-300 backdrop-blur-lg text-lg"
                 style={{ 
                   background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)',
                   boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)'

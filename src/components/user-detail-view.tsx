@@ -30,7 +30,7 @@ interface UserDetailViewProps {
 
 export function UserDetailView({ userId }: UserDetailViewProps) {
   const searchParams = useSearchParams()
-  const backUrl = searchParams.get('from') || '/content-management-system-2024/users'
+  const backUrl = searchParams.get('from') || '/dashboard/users'
   
   const [user, setUser] = useState<UserType | null>(null)
   const [blogs, setBlogs] = useState<BlogPost[]>([])
@@ -176,7 +176,7 @@ export function UserDetailView({ userId }: UserDetailViewProps) {
       
       await deleteUser(userId)
       // Kullanıcı listesine yönlendir
-      window.location.href = '/content-management-system-2024/users'
+      window.location.href = '/dashboard/users'
     } catch (err) {
       setError("Kullanıcı silinirken bir hata oluştu")
     } finally {

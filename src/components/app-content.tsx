@@ -23,7 +23,7 @@ export function AppContent({ children }: AppContentProps) {
   const [isPageLoading, setIsPageLoading] = useState(false);
 
   // Dashboard sayfalarında chatbot'u gösterme
-  const isDashboardPage = pathname.startsWith('/content-management-system-2024') || 
+  const isDashboardPage = pathname.startsWith('/dashboard') || 
                          pathname.startsWith('/admin-panel-secure-access-2024');
 
   // Sayfa yükleme durumunu takip et

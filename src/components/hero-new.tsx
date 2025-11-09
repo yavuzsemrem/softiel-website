@@ -29,103 +29,7 @@ export function HeroNew() {
     <>
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       <div className="absolute inset-0 overflow-hidden">
-        <motion.div
-          animate={{ 
-            x: [0, 200, -100, 0],
-            y: [0, -100, 50, 0],
-            scale: [1, 1.5, 0.8, 1],
-            rotate: [0, 180, 360]
-          }}
-          transition={{ 
-            duration: 25,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-          className="absolute -top-60 -right-60 w-[600px] h-[600px] bg-gradient-to-r from-cyan-400/40 via-blue-500/30 to-purple-500/40 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl"
-        />
-        <motion.div
-          animate={{ 
-            x: [0, -150, 100, 0],
-            y: [0, 100, -80, 0],
-            scale: [1, 0.6, 1.3, 1],
-            rotate: [0, -180, -360]
-          }}
-          transition={{ 
-            duration: 30,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: 5
-          }}
-          className="absolute -bottom-60 -left-60 w-[500px] h-[500px] bg-gradient-to-r from-purple-400/40 via-pink-500/30 to-rose-500/40 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl"
-        />
-        <motion.div
-          animate={{ 
-            x: [0, 120, -80, 0],
-            y: [0, -60, 40, 0],
-            scale: [1, 1.2, 0.9, 1],
-            rotate: [0, 90, 180, 270, 360]
-          }}
-          transition={{ 
-            duration: 35,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: 10
-          }}
-          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-gradient-to-r from-sky-400/30 via-cyan-500/20 to-teal-500/30 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-2xl"
-        />
-        <motion.div
-          animate={{ 
-            opacity: [0.3, 0.6, 0.3],
-            scale: [1, 1.1, 1]
-          }}
-          transition={{ 
-            duration: 8,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-          className="absolute top-1/4 left-1/4 w-32 h-32 bg-gradient-to-r from-yellow-400/20 to-orange-500/20 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-2xl"
-        />
-        <motion.div
-          animate={{ 
-            opacity: [0.2, 0.5, 0.2],
-            scale: [1, 0.9, 1]
-          }}
-          transition={{ 
-            duration: 12,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: 3
-          }}
-          className="absolute bottom-1/4 right-1/4 w-24 h-24 bg-gradient-to-r from-emerald-400/20 to-green-500/20 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-2xl"
-        />
         <div className="absolute inset-0 opacity-60" style={{ backgroundImage: `url('${patternBg}')` }}></div>
-        <div className="absolute inset-0">
-          <motion.div
-            animate={{ 
-              opacity: [0, 0.3, 0],
-              scale: [1, 1.2, 1]
-            }}
-            transition={{ 
-              duration: 6,
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
-            className="absolute top-0 left-1/2 w-px h-full bg-gradient-to-b from-transparent via-cyan-400/30 to-transparent transform -translate-x-1/2"
-          />
-          <motion.div
-            animate={{ 
-              opacity: [0, 0.2, 0],
-              scale: [1, 1.1, 1]
-            }}
-            transition={{ 
-              duration: 8,
-              repeat: Infinity,
-              ease: "easeInOut",
-              delay: 2
-            }}
-            className="absolute top-0 right-1/3 w-px h-full bg-gradient-to-b from-transparent via-blue-400/20 to-transparent"
-          />
-        </div>
       </div>
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 w-full">
@@ -138,31 +42,6 @@ export function HeroNew() {
           >
             <div className="relative inline-block">
               <div className="w-40 h-40 mx-auto mb-8 relative">
-                <motion.div
-                  animate={{ 
-                    scale: [1, 1.1, 1],
-                    opacity: [0.3, 0.6, 0.3]
-                  }}
-                  transition={{ 
-                    duration: 4,
-                    repeat: Infinity,
-                    ease: "easeInOut"
-                  }}
-                  className="absolute inset-0 bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 rounded-full blur-2xl opacity-40"
-                />
-                <motion.div
-                  animate={{ 
-                    scale: [1, 1.05, 1],
-                    opacity: [0.5, 0.8, 0.5]
-                  }}
-                  transition={{ 
-                    duration: 3,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                    delay: 1
-                  }}
-                  className="absolute inset-2 bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 rounded-full blur-xl opacity-60"
-                />
                 <div className="relative w-full h-full glass rounded-full flex items-center justify-center backdrop-blur-lg border border-white/30 shadow-2xl"
                      style={{ background: 'rgba(255, 255, 255, 0.15)' }}>
                   <Image

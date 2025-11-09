@@ -792,7 +792,7 @@ export function UserManagement() {
               {/* Actions */}
               <div className="flex flex-col space-y-2">
                 <Link
-                  href={`/content-management-system-2024/users/${user.id}?from=${encodeURIComponent(window.location.pathname)}`}
+                  href={`/dashboard/users/${user.id}?from=${encodeURIComponent(window.location.pathname)}`}
                   className="flex items-center justify-center space-x-2 px-3 py-2 text-cyan-400 hover:bg-cyan-500/20 rounded-lg transition-all duration-200 text-sm"
                 >
                   <Eye className="h-4 w-4" />

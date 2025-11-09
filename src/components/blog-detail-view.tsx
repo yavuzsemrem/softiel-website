@@ -32,7 +32,7 @@ export function BlogDetailView({ blogId }: BlogDetailViewProps) {
   const searchParams = useSearchParams()
   
   // Geri dönülecek sayfa - URL parametresinden al veya varsayılan olarak blog listesi
-  const backUrl = searchParams.get('from') || '/content-management-system-2024/blogs'
+  const backUrl = searchParams.get('from') || '/dashboard/blogs'
   const [blog, setBlog] = useState<BlogPost | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState("")
@@ -112,7 +112,7 @@ export function BlogDetailView({ blogId }: BlogDetailViewProps) {
     try {
       setIsDeleting(true)
       await deleteBlog(blogId)
-      router.push("/content-management-system-2024/blogs")
+      router.push("/dashboard/blogs")
     } catch (err) {
       setError("Blog silinirken bir hata oluştu")
     } finally {
@@ -137,7 +137,7 @@ export function BlogDetailView({ blogId }: BlogDetailViewProps) {
       <div className="text-center py-16">
         <h1 className="text-2xl font-bold text-white mb-4">Hata</h1>
         <p className="text-neutral-400 mb-8">{error || "Blog yazısı bulunamadı"}</p>
-        <Link href="/content-management-system-2024/blogs" className="inline-flex items-center space-x-2 text-cyan-400 hover:text-cyan-300">
+        <Link href="/dashboard/blogs" className="inline-flex items-center space-x-2 text-cyan-400 hover:text-cyan-300">
           <ArrowLeft className="h-4 w-4" />
           <span>Blog Listesine Dön</span>
         </Link>
@@ -186,7 +186,7 @@ export function BlogDetailView({ blogId }: BlogDetailViewProps) {
 
           <div className="flex items-center space-x-3">
             <Link
-              href={`/content-management-system-2024/blogs/${blogId}/edit`}
+              href={`/dashboard/blogs/${blogId}/edit`}
               className="flex items-center space-x-2 px-4 py-2 glass rounded-xl text-white hover:bg-white/10 transition-all duration-200 border border-white/20 group"
               style={{ background: 'rgba(255, 255, 255, 0.1)' }}
             >
@@ -451,7 +451,7 @@ export function BlogDetailView({ blogId }: BlogDetailViewProps) {
             <h3 className="text-lg font-bold text-white mb-4">Hızlı İşlemler</h3>
             <div className="space-y-3">
               <Link
-                href={`/content-management-system-2024/blogs/${blogId}/edit`}
+                href={`/dashboard/blogs/${blogId}/edit`}
                 className="w-full flex items-center justify-center space-x-2 px-4 py-3 bg-cyan-500/20 text-cyan-400 rounded-xl hover:bg-cyan-500/30 transition-all duration-200 border border-cyan-500/30"
               >
                 <Edit className="h-4 w-4" />

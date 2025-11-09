@@ -321,12 +321,43 @@ export function ReferencesGrid({ filters = { category: "all", search: "", sortBy
                   className="block"
                 >
                 {/* Project Image */}
-                <div className="relative overflow-hidden">
-                  <img
-                    src={project.image}
-                    alt={project.title}
-                    className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
+                <div className="relative overflow-hidden h-48 bg-gradient-to-br from-cyan-500/20 via-blue-500/20 to-purple-500/20">
+                  {project.image ? (
+                    <img
+                      src={(() => {
+                        // Cloudinary resimlerini optimize et
+                        if (project.image.includes('res.cloudinary.com')) {
+                          const url = new URL(project.image);
+                          const pathParts = url.pathname.split('/upload/');
+                          if (pathParts.length === 2) {
+                            return `${url.origin}${pathParts[0]}/upload/w_600,q_auto,f_auto/${pathParts[1]}`;
+                          }
+                        }
+                        return project.image;
+                      })()}
+                      alt={project.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      loading={index < 6 ? "eager" : "lazy"}
+                      decoding="async"
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        target.style.display = 'none';
+                        const parent = target.parentElement;
+                        if (parent) {
+                          const placeholder = document.createElement('div');
+                          placeholder.className = 'w-full h-full flex items-center justify-center';
+                          placeholder.innerHTML = `<div class="text-6xl font-bold text-cyan-500/30">${project.title.charAt(0)}</div>`;
+                          parent.appendChild(placeholder);
+                        }
+                      }}
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center">
+                      <div className="text-6xl font-bold text-cyan-500/30">
+                        {project.title.charAt(0)}
+                      </div>
+                    </div>
+                  )}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   
                   {/* Status Badge */}

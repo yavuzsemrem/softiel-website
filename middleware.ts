@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 
 const DASHBOARD_HOST = process.env.NEXT_PUBLIC_DASHBOARD_HOST || 'dashboard.softiel.com'
-const DASHBOARD_BASE = process.env.NEXT_PUBLIC_DASHBOARD_BASE || '/content-management-system-2024'
-const DASHBOARD_LOGIN = process.env.NEXT_PUBLIC_DASHBOARD_LOGIN || '/admin-panel-secure-access-2024'
 
 export function middleware(request: NextRequest) {
   const rawHost = request.headers.get('host') || ''
@@ -10,24 +8,26 @@ export function middleware(request: NextRequest) {
   const dashboardHost = (DASHBOARD_HOST || '').toLowerCase()
   const pathname = request.nextUrl.pathname
 
-  // 1) Host bazlı yönlendirme: dashboard.softiel.com → kök istekleri LOGIN sayfasına rewrite et
+  // 1) Host bazlı yönlendirme: dashboard.softiel.com için temiz URL'ler
   if (host === dashboardHost) {
-    // Dashboard tüm yanıtları noindex yap
+    // Ana sayfa → Login'e redirect
     const isRoot = pathname === '/' || pathname === ''
     const isLocaleRoot = /^\/(tr|en|de|fr|ru|ar)\/?$/.test(pathname)
     if (isRoot || isLocaleRoot) {
-      const target = new URL(DASHBOARD_LOGIN, request.url)
-      const res = NextResponse.rewrite(target)
-      res.headers.set('X-Robots-Tag', 'noindex, nofollow')
-      return res
+      return NextResponse.redirect(new URL('/login', request.url))
     }
-    // Eğer yanlışlıkla locale köke yönlendirilmişse (örn /tr), yine login'e gönder
-    if (/^\/(tr|en|de|fr|ru|ar)\/.+/.test(pathname) === false && pathname === '/tr') {
-      const target = new URL(DASHBOARD_LOGIN, request.url)
-      const res = NextResponse.rewrite(target)
-      res.headers.set('X-Robots-Tag', 'noindex, nofollow')
-      return res
+    
+    // Temiz URL'leri gerçek path'lere rewrite et
+    if (pathname === '/login') {
+      return NextResponse.rewrite(new URL('/admin-panel-secure-access-2024', request.url))
     }
+    
+    if (pathname.startsWith('/dashboard')) {
+      const newPath = pathname.replace('/dashboard', '/content-management-system-2024')
+      return NextResponse.rewrite(new URL(newPath, request.url))
+    }
+    
+    // Dashboard tüm yanıtları noindex yap
     const res = NextResponse.next()
     res.headers.set('X-Robots-Tag', 'noindex, nofollow')
     return res

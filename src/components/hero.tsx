@@ -38,8 +38,6 @@ export function Hero() {
   
   // Minimal parallax - rAF ile doğrudan DOM güncelleme (re-render yok)
   const bgRef = useRef<HTMLDivElement | null>(null)
-  const beam1Ref = useRef<HTMLDivElement | null>(null)
-  const beam2Ref = useRef<HTMLDivElement | null>(null)
   const rAFId = useRef<number | null>(null)
   const ticking = useRef(false)
   
@@ -50,16 +48,9 @@ export function Hero() {
       ticking.current = false
       const y = window.scrollY || 0
       const bgY = Math.min(y * 0.1, 10)
-      const beamY = Math.min(y * 0.05, 5)
 
       if (bgRef.current) {
         bgRef.current.style.transform = `translate3d(0, ${bgY}px, 0)`
-      }
-      if (beam1Ref.current) {
-        beam1Ref.current.style.transform = `translate3d(0, ${beamY}px, 0) skewX(-12deg)`
-      }
-      if (beam2Ref.current) {
-        beam2Ref.current.style.transform = `translate3d(0, ${beamY}px, 0) skewX(6deg)`
       }
     }
 
@@ -168,24 +159,6 @@ export function Hero() {
           )}
         </MotionDiv>
 
-        {/* Cinematic Light Beams - client-side only */}
-        {isPageReady && !reducedMotion && !isMobile && (
-          <MotionDiv
-            ref={beam1Ref}
-            animate={{ opacity: [0.08, 0.2, 0.08] }}
-            transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute top-0 left-1/4 w-72 h-full bg-gradient-to-b from-cyan-500/20 via-transparent to-transparent transform -skew-x-12 blur-[2px]"
-          />
-        )}
-        
-        {isPageReady && !reducedMotion && !isMobile && (
-          <MotionDiv
-            ref={beam2Ref}
-            animate={{ opacity: [0.08, 0.18, 0.08] }}
-            transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-            className="absolute top-0 right-1/3 w-64 h-full bg-gradient-to-b from-blue-500/15 via-transparent to-transparent transform skew-x-6 blur-[2px]"
-          />
-        )}
 
         {/* Floating Cinematic Particles - client-side only to prevent hydration mismatch */}
         {isPageReady && !reducedMotion && !isMobile && [...Array(3)].map((_, i) => (

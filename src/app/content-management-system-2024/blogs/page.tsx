@@ -340,7 +340,7 @@ export default function BlogsPage() {
                 </button>
                 
                 <button
-                  onClick={() => router.push('/content-management-system-2024/blogs/new')}
+                  onClick={() => router.push('/dashboard/blogs/new')}
                   disabled={loading}
                   className="flex items-center justify-center space-x-2 px-4 py-2 text-white rounded-lg font-semibold shadow-modern hover:shadow-modern-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
                   style={{ background: 'linear-gradient(to right, #06b6d4, #3b82f6)' }}
@@ -624,14 +624,14 @@ export default function BlogsPage() {
                   {/* Actions */}
                   <div className="flex items-center space-x-2 mt-6 pt-4 border-t border-white/10">
                     <button
-                      onClick={() => router.push(`/content-management-system-2024/blogs/${blog.slug || blog.id}/view`)}
+                      onClick={() => router.push(`/dashboard/blogs/${blog.slug || blog.id}/view`)}
                       className="flex-1 flex items-center justify-center space-x-1 px-3 py-2.5 text-cyan-400 hover:bg-cyan-500/20 rounded-lg transition-all duration-200 text-sm font-medium"
                     >
                       <Eye className="h-4 w-4" />
                       <span>Görüntüle</span>
                     </button>
                     <button 
-                      onClick={() => router.push(`/content-management-system-2024/blogs/${blog.slug || blog.id}/edit`)}
+                      onClick={() => router.push(`/dashboard/blogs/${blog.slug || blog.id}/edit`)}
                       className="flex-1 flex items-center justify-center space-x-1 px-3 py-2.5 text-green-400 hover:bg-green-500/20 rounded-lg transition-all duration-200 text-sm font-medium"
                     >
                       <Edit className="h-4 w-4" />
@@ -665,7 +665,7 @@ export default function BlogsPage() {
                 </p>
                 {!searchTerm && statusFilter === "all" && categoryFilter === "all" && (
                   <button
-                    onClick={() => router.push('/content-management-system-2024/blogs/new')}
+                    onClick={() => router.push('/dashboard/blogs/new')}
                     className="inline-flex items-center space-x-2 text-white px-6 py-3 rounded-xl font-semibold shadow-modern hover:shadow-modern-lg transition-all duration-200"
                     style={{ background: 'linear-gradient(to right, #06b6d4, #3b82f6)' }}
                   >

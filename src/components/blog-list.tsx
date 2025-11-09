@@ -424,13 +424,13 @@ export function BlogList() {
         <div className="flex flex-col sm:flex-row gap-4">
           {/* Search */}
           <div className="relative w-full sm:w-80 lg:w-96">
-            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-6 w-6 text-cyan-400 z-10" />
+            <Search className="absolute left-5 top-1/2 transform -translate-y-1/2 h-5 w-5 text-cyan-400 z-10" />
             <input
               type="text"
               placeholder="Blog ara..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-12 pr-6 py-4 rounded-2xl text-white placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:shadow-[0_0_40px_rgba(6,182,212,0.4)] transition-all duration-300 backdrop-blur-lg text-lg"
+              className="w-full pl-14 pr-6 py-4 rounded-2xl text-white placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:shadow-[0_0_40px_rgba(6,182,212,0.4)] transition-all duration-300 backdrop-blur-lg text-lg"
               style={{ 
                 background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)',
                 boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)'
@@ -564,7 +564,7 @@ export function BlogList() {
 
           {/* New Blog Button */}
           <Link
-            href="/content-management-system-2024/blogs/new"
+            href="/dashboard/blogs/new"
             className="flex items-center justify-center space-x-2 px-4 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-xl hover:from-cyan-600 hover:to-blue-600 transition-all duration-200 shadow-lg hover:shadow-xl w-full lg:w-auto"
           >
             <Plus className="h-5 w-5" />
@@ -769,7 +769,7 @@ export function BlogList() {
 
               {/* Blog Content Link */}
               <Link
-                href={`/content-management-system-2024/blogs/${blog.slug || blog.id}?from=${encodeURIComponent(window.location.pathname)}`}
+                href={`/dashboard/blogs/${blog.slug || blog.id}?from=${encodeURIComponent(window.location.pathname)}`}
                 className="block flex-1"
               >
 
@@ -903,7 +903,7 @@ export function BlogList() {
                     onClick={(e) => {
                       e.preventDefault()
                       e.stopPropagation()
-                      window.location.href = `/content-management-system-2024/blogs/${blog.id}?from=${encodeURIComponent(window.location.pathname)}`
+                      window.location.href = `/dashboard/blogs/${blog.id}?from=${encodeURIComponent(window.location.pathname)}`
                     }}
                     className="flex-1 flex items-center justify-center space-x-2 px-4 py-2 bg-cyan-500/20 text-cyan-400 rounded-lg hover:bg-cyan-500/30 transition-all duration-200 text-sm font-medium"
                   >
@@ -914,7 +914,7 @@ export function BlogList() {
                     onClick={(e) => {
                       e.preventDefault()
                       e.stopPropagation()
-                      window.location.href = `/content-management-system-2024/blogs/${blog.id}/edit?from=${encodeURIComponent(window.location.pathname)}`
+                      window.location.href = `/dashboard/blogs/${blog.id}/edit?from=${encodeURIComponent(window.location.pathname)}`
                     }}
                     className="flex-1 flex items-center justify-center space-x-2 px-4 py-2 bg-emerald-500/20 text-emerald-400 rounded-lg hover:bg-emerald-500/30 transition-all duration-200 text-sm font-medium"
                   >
@@ -966,7 +966,7 @@ export function BlogList() {
                 Filtreleri Temizle
               </button>
               <Link
-                href="/content-management-system-2024/blogs/new"
+                href="/dashboard/blogs/new"
                 className="inline-flex items-center space-x-2 text-white px-6 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-200 bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600"
               >
               <Plus className="h-5 w-5" />

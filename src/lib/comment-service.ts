@@ -110,15 +110,15 @@ export async function createComment(commentData: Omit<Comment, 'id' | 'createdAt
         const blog = await getBlog(commentData.blogId)
         if (blog && blog.slug) {
           // Hem ana yorumlar hem de cevaplar için blog detay sayfasına yönlendir
-          targetUrl = `/blog/${blog.slug}#comment-${commentId}`
+          targetUrl = `/tr/blog/${blog.slug}#comment-${commentId}`
         } else {
           // Fallback olarak blog ID kullan
-          targetUrl = `/blog/${commentData.blogId}#comment-${commentId}`
+          targetUrl = `/tr/blog/${commentData.blogId}#comment-${commentId}`
         }
       } catch (error) {
         console.error('Blog slug alınamadı:', error)
         // Fallback URL - hem ana yorumlar hem de cevaplar için blog detay sayfasına yönlendir
-        targetUrl = `/blog/${commentData.blogId}#comment-${commentId}`
+        targetUrl = `/tr/blog/${commentData.blogId}#comment-${commentId}`
       }
 
       // Blog bilgilerini al
@@ -229,13 +229,13 @@ export async function createAdminReply(replyData: Omit<AdminReply, 'id' | 'creat
       try {
         const blog = await getBlog(adminReplyData.blogId)
         if (blog && blog.slug) {
-          targetUrl = `/blog/${blog.slug}#comment-${replyId}`
+          targetUrl = `/tr/blog/${blog.slug}#comment-${replyId}`
         } else {
-          targetUrl = `/blog/${adminReplyData.blogId}#comment-${replyId}`
+          targetUrl = `/tr/blog/${adminReplyData.blogId}#comment-${replyId}`
         }
       } catch (error) {
         console.error('Blog slug alınamadı:', error)
-        targetUrl = `/blog/${adminReplyData.blogId}#comment-${replyId}`
+        targetUrl = `/tr/blog/${adminReplyData.blogId}#comment-${replyId}`
       }
 
       // Blog bilgilerini al

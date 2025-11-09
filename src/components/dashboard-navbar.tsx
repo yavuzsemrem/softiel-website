@@ -60,12 +60,12 @@ export function DashboardNavbar({ onMenuClick, onSidebarToggle, sidebarCollapsed
 
   const handleProfileSettings = () => {
     // Kullanıcılar sayfasına yönlendir
-    window.location.href = '/content-management-system-2024/users'
+    window.location.href = '/dashboard/users'
   }
 
   const handleViewAllNotifications = () => {
     // Tüm bildirimleri gör sayfasına yönlendir
-    window.location.href = '/content-management-system-2024/notifications'
+    window.location.href = '/dashboard/notifications'
   }
 
   // Bildirim dropdown açıldığında sayıyı güncelle
@@ -289,7 +289,7 @@ export function DashboardNavbar({ onMenuClick, onSidebarToggle, sidebarCollapsed
                             {searchResults.blogs.map((blog) => (
                               <Link
                                 key={blog.id}
-                                href={`/content-management-system-2024/blogs/${blog.id}/view`}
+                                href={`/dashboard/blogs/${blog.id}/view`}
                                 className="block p-3 bg-white/5 rounded-lg hover:bg-white/10 transition-colors"
                                 onClick={() => setSearchOpen(false)}
                               >
@@ -615,7 +615,7 @@ export function DashboardNavbar({ onMenuClick, onSidebarToggle, sidebarCollapsed
                         {searchResults.blogs.map((blog) => (
                           <Link
                             key={blog.id}
-                            href={`/content-management-system-2024/blogs/${blog.id}/view`}
+                            href={`/dashboard/blogs/${blog.id}/view`}
                             className="block p-3 bg-white/5 rounded-lg hover:bg-white/10 transition-colors border border-white/5"
                             onClick={() => setSearchOpen(false)}
                           >

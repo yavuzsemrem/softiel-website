@@ -525,7 +525,7 @@ export default function CommentDetailPage() {
       // Önce UI'dan hemen kaldır (optimistic update)
       if (comment && comment.id === commentToDelete) {
         // Ana yorumu siliniyorsa ana sayfaya yönlendir
-        router.push('/content-management-system-2024/comments')
+        router.push('/dashboard/comments')
         return
       }
       
@@ -754,7 +754,7 @@ export default function CommentDetailPage() {
             <div className="text-center">
             <p className="text-red-400 text-xl mb-4">Yorum bulunamadı</p>
               <button
-              onClick={() => router.push('/content-management-system-2024/comments')}
+              onClick={() => router.push('/dashboard/comments')}
                 className="px-4 py-2 bg-cyan-500 text-white rounded-lg hover:bg-cyan-600 transition-colors"
               >
                 Geri Dön
@@ -792,11 +792,11 @@ export default function CommentDetailPage() {
                         router.back()
                       } else {
                         // Eğer geçmiş yoksa yorumlar sayfasına git
-                        router.push('/content-management-system-2024/comments')
+                        router.push('/dashboard/comments')
                       }
                     } catch (error) {
                       // Hata durumunda yorumlar sayfasına git
-                      router.push('/content-management-system-2024/comments')
+                      router.push('/dashboard/comments')
                     }
                   }}
                   className="group flex items-center space-x-2 px-4 py-2 text-neutral-300 hover:text-white hover:bg-gradient-to-r hover:from-cyan-500/20 hover:to-blue-500/20 rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/10 relative z-10"

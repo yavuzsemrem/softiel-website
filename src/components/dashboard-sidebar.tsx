@@ -42,10 +42,10 @@ export function DashboardSidebar({ isOpen, onClose, collapsed, onToggle, user: p
     const shouldOpenDropdowns: string[] = []
     
     // Sadece alt sayfalar için dropdown aç
-    if (pathname === '/content-management-system-2024/blogs/new') {
+    if (pathname === '/dashboard/blogs/new') {
       shouldOpenDropdowns.push('Blog Yazıları')
     }
-    if (pathname === '/content-management-system-2024/projects/new') {
+    if (pathname === '/dashboard/projects/new') {
       shouldOpenDropdowns.push('Projelerimiz')
     }
     
@@ -63,63 +63,63 @@ export function DashboardSidebar({ isOpen, onClose, collapsed, onToggle, user: p
   const navigation = [
     {
       name: 'Dashboard',
-      href: '/content-management-system-2024',
+      href: '/dashboard',
       icon: LayoutDashboard,
-      current: pathname === '/content-management-system-2024' || pathname === '/content-management-system-2024/'
+      current: pathname === '/dashboard' || pathname === '/dashboard/'
     },
     {
       name: 'Blog Yazıları',
-      href: '/content-management-system-2024/blogs',
+      href: '/dashboard/blogs',
       icon: FileText,
-      current: pathname === '/content-management-system-2024/blogs',
+      current: pathname === '/dashboard/blogs',
       hasDropdown: true,
       dropdownItems: [
         {
           name: 'Yeni Blog',
-          href: '/content-management-system-2024/blogs/new',
+          href: '/dashboard/blogs/new',
           icon: Plus,
-          current: pathname === '/content-management-system-2024/blogs/new'
+          current: pathname === '/dashboard/blogs/new'
         }
       ]
     },
     {
       name: 'Projelerimiz',
-      href: '/content-management-system-2024/projects',
+      href: '/dashboard/projects',
       icon: Briefcase,
-      current: pathname === '/content-management-system-2024/projects',
+      current: pathname === '/dashboard/projects',
       hasDropdown: true,
       dropdownItems: [
         {
           name: 'Yeni Proje',
-          href: '/content-management-system-2024/projects/new',
+          href: '/dashboard/projects/new',
           icon: Plus,
-          current: pathname === '/content-management-system-2024/projects/new'
+          current: pathname === '/dashboard/projects/new'
         }
       ]
     },
     {
       name: 'Kategoriler',
-      href: '/content-management-system-2024/categories',
+      href: '/dashboard/categories',
       icon: Database,
-      current: pathname.startsWith('/content-management-system-2024/categories')
+      current: pathname.startsWith('/dashboard/categories')
     },
     {
       name: 'Etiketler',
-      href: '/content-management-system-2024/tags',
+      href: '/dashboard/tags',
       icon: Tag,
-      current: pathname.startsWith('/content-management-system-2024/tags')
+      current: pathname.startsWith('/dashboard/tags')
     },
     {
       name: 'Kullanıcılar',
-      href: '/content-management-system-2024/users',
+      href: '/dashboard/users',
       icon: Users,
-      current: pathname.startsWith('/content-management-system-2024/users')
+      current: pathname.startsWith('/dashboard/users')
     },
     {
       name: 'Yorumlar',
-      href: '/content-management-system-2024/comments',
+      href: '/dashboard/comments',
       icon: MessageSquare,
-      current: pathname.startsWith('/content-management-system-2024/comments')
+      current: pathname.startsWith('/dashboard/comments')
     }
   ]
 

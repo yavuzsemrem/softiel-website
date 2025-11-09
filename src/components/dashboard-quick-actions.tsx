@@ -212,10 +212,10 @@ export function DashboardQuickActions() {
       title: "Yeni Blog Yazısı",
       description: "Yeni bir blog yazısı oluştur",
       icon: Plus,
-      href: "/content-management-system-2024/blogs/new",
+      href: "/dashboard/blogs/new",
       color: "from-blue-500 to-blue-600",
       bgColor: "rgba(59, 130, 246, 0.1)",
-      action: () => window.location.href = "/content-management-system-2024/blogs/new"
+      action: () => window.location.href = "/dashboard/blogs/new"
     },
     {
       title: "Son Blog Yazıları",
@@ -248,10 +248,10 @@ export function DashboardQuickActions() {
       title: "Kategoriler",
       description: "Blog kategorilerini yönet",
       icon: FolderOpen,
-      href: "/content-management-system-2024/categories",
+      href: "/dashboard/categories",
       color: "from-orange-500 to-orange-600",
       bgColor: "rgba(249, 115, 22, 0.1)",
-      action: () => window.location.href = "/content-management-system-2024/categories"
+      action: () => window.location.href = "/dashboard/categories"
     },
     {
       title: "Arama",
@@ -423,12 +423,12 @@ export function DashboardQuickActions() {
                              blog.status === 'draft' ? 'Taslak' : 'Arşiv'}
                           </span>
                           <div className="flex space-x-2">
-                          <Link href={`/content-management-system-2024/blogs/${blog.id}/edit`}>
+                          <Link href={`/dashboard/blogs/${blog.id}/edit`}>
                             <button className="p-2 hover:bg-blue-500/20 rounded-lg transition-colors">
                               <Edit className="h-4 w-4 text-blue-400" />
                             </button>
                           </Link>
-                          <Link href={`/content-management-system-2024/blogs/${blog.id}/view`}>
+                          <Link href={`/dashboard/blogs/${blog.id}/view`}>
                             <button className="p-2 hover:bg-green-500/20 rounded-lg transition-colors">
                               <Eye className="h-4 w-4 text-green-400" />
                             </button>

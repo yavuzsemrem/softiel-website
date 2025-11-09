@@ -31,7 +31,7 @@ interface TagDetailViewProps {
 
 export function TagDetailView({ tagId }: TagDetailViewProps) {
   const searchParams = useSearchParams()
-  const backUrl = searchParams.get('from') || '/content-management-system-2024/tags'
+  const backUrl = searchParams.get('from') || '/dashboard/tags'
   
   const [tag, setTag] = useState<TagType | null>(null)
   const [blogs, setBlogs] = useState<BlogPost[]>([])

@@ -92,17 +92,17 @@ export function Navigation({ isMobile = false, onClose }: NavigationProps) {
           <div key={item.name}>
             {item.dropdown ? (
               <div>
-                <div className="flex items-center justify-between w-full">
+                <div className="relative w-full">
                   <Link
                     href={item.href}
                     onClick={handleLinkClick}
-                    className={`relative flex items-center justify-center flex-1 px-4 py-3 text-left rounded-xl transition-all duration-300 overflow-hidden ${
+                    className={`relative flex items-center justify-center w-full px-4 py-3 rounded-xl transition-all duration-300 overflow-hidden ${
                       isActive(item.href)
                         ? 'text-white bg-gradient-to-r from-blue-500/20 to-cyan-500/20 backdrop-blur-sm shadow-lg shadow-blue-500/10'
                         : 'text-slate-300 hover:text-white hover:bg-gradient-to-r hover:from-blue-500/10 hover:to-cyan-500/10 hover:shadow-md hover:shadow-blue-500/10'
                     }`}
                   >
-                    <div className="flex items-center justify-center flex-1 relative z-10">
+                    <div className="flex items-center justify-center relative z-10">
                       <span className="font-medium">{item.name}</span>
                     </div>
                     {isActive(item.href) && (
@@ -117,7 +117,7 @@ export function Navigation({ isMobile = false, onClose }: NavigationProps) {
                     onClick={() => handleDropdownToggle(item.name)}
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
-                    className="p-2 text-slate-300 hover:text-white transition-colors"
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 p-2 text-slate-300 hover:text-white transition-colors z-20"
                   >
                     <ChevronDown 
                       className={`h-4 w-4 transition-transform ${

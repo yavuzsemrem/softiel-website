@@ -43,7 +43,7 @@ export function BlogEditForm({ blogId }: BlogEditFormProps) {
   const { user: currentUser, loading: userLoading } = useCurrentUser()
   
   // Geri dönülecek sayfa - URL parametresinden al veya varsayılan olarak blog listesi
-  const backUrl = searchParams.get('from') || '/content-management-system-2024/blogs'
+  const backUrl = searchParams.get('from') || '/dashboard/blogs'
   const [formData, setFormData] = useState({
     title: "",
     excerpt: "",
@@ -371,7 +371,7 @@ export function BlogEditForm({ blogId }: BlogEditFormProps) {
       <div className="text-center py-16">
         <h1 className="text-2xl font-bold text-white mb-4">Hata</h1>
         <p className="text-neutral-400 mb-8">{error}</p>
-        <Link href="/content-management-system-2024/blogs" className="inline-flex items-center space-x-2 text-cyan-400 hover:text-cyan-300">
+        <Link href="/dashboard/blogs" className="inline-flex items-center space-x-2 text-cyan-400 hover:text-cyan-300">
           <ArrowLeft className="h-4 w-4" />
           <span>Blog Listesine Dön</span>
         </Link>
@@ -799,7 +799,7 @@ export function BlogEditForm({ blogId }: BlogEditFormProps) {
                     required
                   />
                   <p className="text-xs text-neutral-400">
-                    URL: /content-management-system-2024/blogs/{formData.slug || 'url-slug-formatinda'}
+                    URL: /dashboard/blogs/{formData.slug || 'url-slug-formatinda'}
                   </p>
                 </div>
 

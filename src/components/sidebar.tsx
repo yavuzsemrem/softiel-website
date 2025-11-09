@@ -49,78 +49,78 @@ export function Sidebar({ isOpen, onClose, collapsed, onToggle }: SidebarProps) 
   const navigation = [
     {
       name: 'Dashboard',
-      href: '/content-management-system-2024',
+      href: '/dashboard',
       icon: LayoutDashboard,
-      current: pathname === '/content-management-system-2024'
+      current: pathname === '/dashboard'
     },
     {
       name: 'Blog Yazıları',
-      href: '/content-management-system-2024/blogs',
+      href: '/dashboard/blogs',
       icon: FileText,
-      current: pathname.startsWith('/content-management-system-2024/blogs')
+      current: pathname.startsWith('/dashboard/blogs')
     },
     {
       name: 'Yeni Blog',
-      href: '/content-management-system-2024/blogs/new',
+      href: '/dashboard/blogs/new',
       icon: Plus,
-      current: pathname === '/content-management-system-2024/blogs/new'
+      current: pathname === '/dashboard/blogs/new'
     },
     {
       name: 'Medya Kütüphanesi',
-      href: '/content-management-system-2024/media',
+      href: '/dashboard/media',
       icon: Image,
-      current: pathname.startsWith('/content-management-system-2024/media')
+      current: pathname.startsWith('/dashboard/media')
     },
     {
       name: 'İstatistikler',
-      href: '/content-management-system-2024/stats',
+      href: '/dashboard/stats',
       icon: BarChart3,
-      current: pathname.startsWith('/content-management-system-2024/stats')
+      current: pathname.startsWith('/dashboard/stats')
     },
     {
       name: 'Kullanıcılar',
-      href: '/content-management-system-2024/users',
+      href: '/dashboard/users',
       icon: Users,
-      current: pathname.startsWith('/content-management-system-2024/users')
+      current: pathname.startsWith('/dashboard/users')
     },
     {
       name: 'Yorumlar',
-      href: '/content-management-system-2024/comments',
+      href: '/dashboard/comments',
       icon: MessageSquare,
-      current: pathname.startsWith('/content-management-system-2024/comments')
+      current: pathname.startsWith('/dashboard/comments')
     },
     {
       name: 'Takvim',
-      href: '/content-management-system-2024/calendar',
+      href: '/dashboard/calendar',
       icon: Calendar,
-      current: pathname.startsWith('/content-management-system-2024/calendar')
+      current: pathname.startsWith('/dashboard/calendar')
     }
   ]
 
   const tools = [
     {
       name: 'Arama Optimizasyonu',
-      href: '/content-management-system-2024/seo',
+      href: '/dashboard/seo',
       icon: Search,
-      current: pathname.startsWith('/content-management-system-2024/seo')
+      current: pathname.startsWith('/dashboard/seo')
     },
     {
       name: 'Güvenlik',
-      href: '/content-management-system-2024/security',
+      href: '/dashboard/security',
       icon: Shield,
-      current: pathname.startsWith('/content-management-system-2024/security')
+      current: pathname.startsWith('/dashboard/security')
     },
     {
       name: 'Veritabanı',
-      href: '/content-management-system-2024/database',
+      href: '/dashboard/database',
       icon: Database,
-      current: pathname.startsWith('/content-management-system-2024/database')
+      current: pathname.startsWith('/dashboard/database')
     },
     {
       name: 'Site Ayarları',
-      href: '/content-management-system-2024/settings',
+      href: '/dashboard/settings',
       icon: Settings,
-      current: pathname.startsWith('/content-management-system-2024/settings')
+      current: pathname.startsWith('/dashboard/settings')
     }
   ]
 

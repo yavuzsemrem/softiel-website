@@ -91,7 +91,7 @@ export async function logBlogLikeActivity(blogTitle: string, blogId: string): Pr
         blogSlug: blogSlug,
         userRole,
         actionType: 'blog_like',
-        targetUrl: `/blog/${blogSlug}`
+        targetUrl: `/tr/blog/${blogSlug}`
       }
     })
   } catch (error) {
@@ -126,15 +126,15 @@ export async function logCommentLikeActivity(commentAuthor: string, commentId: s
         const { getBlog } = await import('./blog-service')
         const blog = await getBlog(blogId)
         if (blog && blog.slug) {
-          targetUrl = `/blog/${blog.slug}#comment-${commentId}`
+          targetUrl = `/tr/blog/${blog.slug}#comment-${commentId}`
         } else {
           // Fallback olarak blog ID kullan
-          targetUrl = `/blog/${blogId}#comment-${commentId}`
+          targetUrl = `/tr/blog/${blogId}#comment-${commentId}`
         }
       } catch (error) {
         console.error('Blog slug alınamadı:', error)
         // Fallback URL
-        targetUrl = `/blog/${blogId}#comment-${commentId}`
+        targetUrl = `/tr/blog/${blogId}#comment-${commentId}`
       }
     }
     

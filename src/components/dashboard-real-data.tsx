@@ -317,7 +317,7 @@ export function DashboardRealData() {
               recentContent.blogs.map((blog, index) => (
                 <Link 
                   key={blog.id} 
-                  href={`/content-management-system-2024/blogs/${blog.id}/view`}
+                  href={`/dashboard/blogs/${blog.id}/view`}
                   className="block"
                 >
                   <div className="flex items-center space-x-3 p-3 bg-white/5 rounded-lg hover:bg-white/10 transition-all duration-200 group cursor-pointer">
@@ -350,7 +350,7 @@ export function DashboardRealData() {
                       </div>
                       <div className="flex space-x-1">
                         <Link 
-                          href={`/content-management-system-2024/blogs/${blog.id}/edit`}
+                          href={`/dashboard/blogs/${blog.id}/edit`}
                           onClick={(e) => e.stopPropagation()}
                           className="p-1 hover:bg-blue-500/20 rounded transition-colors"
                           title="Düzenle"
@@ -358,7 +358,7 @@ export function DashboardRealData() {
                           <Edit className="h-3 w-3 text-blue-400" />
                         </Link>
                         <Link 
-                          href={`/content-management-system-2024/blogs/${blog.id}/view`}
+                          href={`/dashboard/blogs/${blog.id}/view`}
                           onClick={(e) => e.stopPropagation()}
                           className="p-1 hover:bg-green-500/20 rounded transition-colors"
                           title="Görüntüle"
@@ -375,7 +375,7 @@ export function DashboardRealData() {
                 <FileText className="h-12 w-12 text-neutral-600 mx-auto mb-3" />
                 <p className="text-neutral-400 mb-4">Henüz blog yazısı yok</p>
                 <Link 
-                  href="/content-management-system-2024/blogs/new"
+                  href="/dashboard/blogs/new"
                   className="inline-flex items-center px-4 py-2 bg-blue-500/20 hover:bg-blue-500/30 text-blue-400 rounded-lg transition-colors text-sm"
                 >
                   <Plus className="h-4 w-4 mr-2" />
@@ -388,7 +388,7 @@ export function DashboardRealData() {
           {recentContent.blogs.length > 0 && (
             <div className="mt-4 pt-4 border-t border-white/10">
               <Link 
-                href="/content-management-system-2024/blogs"
+                href="/dashboard/blogs"
                 className="flex items-center justify-center text-sm text-blue-400 hover:text-blue-300 transition-colors"
               >
                 Tüm Blog Yazılarını Görüntüle
@@ -479,7 +479,7 @@ export function DashboardRealData() {
           {recentContent.comments.length > 0 && (
             <div className="mt-4 pt-4 border-t border-white/10">
               <Link 
-                href="/content-management-system-2024/comments"
+                href="/dashboard/comments"
                 className="flex items-center justify-center text-sm text-green-400 hover:text-green-300 transition-colors"
               >
                 Tüm Yorumları Görüntüle

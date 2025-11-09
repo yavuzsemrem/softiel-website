@@ -13,33 +13,51 @@ interface ProjectDetailProps {
 }
 
 const categoryIcons = {
-  webDesign: Paintbrush,     // Web tasarımı için paintbrush ikonu (tasarım ve yaratıcılık)
-  webDevelopment: Code,      // Web geliştirme için code ikonu
-  mobileApp: Smartphone,     // Mobil uygulama için smartphone ikonu
-  ecommerce: ShoppingCart,   // E-ticaret için shopping cart ikonu
-  seo: Search,               // SEO için search ikonu
-  branding: Palette,         // Marka kimliği için palette ikonu
-  socialMedia: Megaphone,    // Sosyal medya için megaphone ikonu
-  aiIntegration: Brain,      // AI entegrasyonu için brain ikonu
-  automation: Settings,      // Otomasyon için settings ikonu
-  digitalConsulting: Users,  // Dijital danışmanlık için users ikonu
-  noCode: Layers,           // No-code için layers ikonu
-  education: GraduationCap   // Eğitim için graduation cap ikonu
+  websiteDesign: Paintbrush,
+  webApplicationDevelopment: Code,
+  mobileApplication: Smartphone,
+  seoOptimization: Search,
+  googleAdsManagement: Target,
+  wordPressSolutions: Wrench,
+  logoCorporateIdentity: Palette,
+  socialMediaManagement: Share2,
+  aiIntegration: Bot,
+  digitalConsulting: Users,
+  // Eski kategoriler için fallback (mevcut projelerde hala kullanılıyorsa)
+  webDesign: Paintbrush,
+  webDevelopment: Code,
+  mobileApp: Smartphone,
+  ecommerce: ShoppingCart,
+  seo: Search,
+  branding: Palette,
+  socialMedia: Megaphone,
+  automation: Settings,
+  noCode: Layers,
+  education: GraduationCap
 }
 
 const categoryLabels = {
-  webDesign: "Web Tasarım",
-  webDevelopment: "Web Geliştirme",
-  mobileApp: "Mobil Uygulama",
-  ecommerce: "E-ticaret",
+  websiteDesign: "Website Design",
+  webApplicationDevelopment: "Web Application Development",
+  mobileApplication: "Mobile Application",
+  seoOptimization: "SEO Optimization",
+  googleAdsManagement: "Google Ads Management",
+  wordPressSolutions: "WordPress Solutions",
+  logoCorporateIdentity: "Logo & Corporate Identity",
+  socialMediaManagement: "Social Media Management",
+  aiIntegration: "AI Integration",
+  digitalConsulting: "Digital Consulting",
+  // Eski kategoriler için fallback (mevcut projelerde hala kullanılıyorsa)
+  webDesign: "Web Design",
+  webDevelopment: "Web Development",
+  mobileApp: "Mobile App",
+  ecommerce: "E-commerce",
   seo: "SEO",
   branding: "Branding",
-  socialMedia: "Sosyal Medya",
-  aiIntegration: "AI Entegrasyonu",
-  automation: "Otomasyon",
-  digitalConsulting: "Dijital Danışmanlık",
+  socialMedia: "Social Media",
+  automation: "Automation",
   noCode: "No-Code",
-  education: "Eğitim"
+  education: "Education"
 }
 
 export function ProjectDetail({ slug }: ProjectDetailProps) {

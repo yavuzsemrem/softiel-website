@@ -1,7 +1,6 @@
 "use client"
 
 import React, { useState, useEffect, useCallback } from "react"
-import Image from "next/image"
 import Link from "next/link"
 // Framer Motion optimizasyonu - sadece gerekli features
 import { m, LazyMotion } from "framer-motion"
@@ -591,22 +590,41 @@ export function BlogPosts() {
               style={{ background: 'rgba(255, 255, 255, 0.1)' }}
             >
               {/* Image */}
-              <div className="aspect-video relative overflow-hidden">
+              <div className="aspect-video relative overflow-hidden bg-gradient-to-br from-cyan-500/20 via-blue-500/20 to-purple-500/20">
                 {post.image ? (
                   <>
-                    <Image
-                      src={post.image}
+                    <img
+                      src={(() => {
+                        // Cloudinary resimlerini optimize et
+                        if (post.image.includes('res.cloudinary.com')) {
+                          const url = new URL(post.image);
+                          const pathParts = url.pathname.split('/upload/');
+                          if (pathParts.length === 2) {
+                            return `${url.origin}${pathParts[0]}/upload/w_600,q_auto,f_auto/${pathParts[1]}`;
+                          }
+                        }
+                        return post.image;
+                      })()}
                       alt={post.title}
-                      fill
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                      className="object-cover"
-                      quality={70}
-                      loading="lazy"
+                      className="w-full h-full object-cover"
+                      loading={index < 6 ? "eager" : "lazy"}
+                      decoding="async"
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        target.style.display = 'none';
+                        const parent = target.parentElement;
+                        if (parent) {
+                          const placeholder = document.createElement('div');
+                          placeholder.className = 'w-full h-full flex items-center justify-center';
+                          placeholder.innerHTML = `<div class="text-6xl font-bold text-cyan-500/30">${post.title.charAt(0)}</div>`;
+                          parent.appendChild(placeholder);
+                        }
+                      }}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
                   </>
                 ) : (
-                  <div className="w-full h-full bg-gradient-to-br from-cyan-500/20 via-blue-500/20 to-purple-500/20 flex items-center justify-center">
+                  <div className="w-full h-full flex items-center justify-center">
                     <div className="text-6xl font-bold text-cyan-500/30 dark:text-cyan-400/30">
                       {post.title.charAt(0)}
                     </div>

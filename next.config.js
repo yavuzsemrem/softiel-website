@@ -9,7 +9,7 @@ const baseConfig = {
     pagesBufferLength: 5,
   },
   images: {
-    unoptimized: true,
+    unoptimized: false,
     remotePatterns: [
       { protocol: 'http', hostname: 'localhost' },
       { protocol: 'https', hostname: 'localhost' },
@@ -17,13 +17,16 @@ const baseConfig = {
       { protocol: 'http', hostname: 'getwallpapers.com' },
       { protocol: 'https', hostname: 'getwallpapers.com' },
       { protocol: 'https', hostname: 'res.cloudinary.com' },
+      { protocol: 'https', hostname: 'www.upwork.com' },
+      { protocol: 'https', hostname: 'images.unsplash.com' },
+      { protocol: 'https', hostname: 'source.unsplash.com' },
     ],
     formats: ['image/webp', 'image/avif'],
     dangerouslyAllowSVG: true,
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
-    deviceSizes: [640, 750, 828, 1080, 1200],
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
-    minimumCacheTTL: 60,
+    minimumCacheTTL: 3600,
     loader: 'default',
   },
   env: { NEXT_PUBLIC_RECAPTCHA_SITE_KEY: process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY },
@@ -33,6 +36,10 @@ const baseConfig = {
         { key: 'X-Frame-Options', value: 'SAMEORIGIN' },
         { key: 'X-Content-Type-Options', value: 'nosniff' },
       ]},
+      // Static images cache
+      { source: '/images/:path*', headers: [{ key: 'Cache-Control', value: 'public, max-age=31536000, immutable' }] },
+      { source: '/_next/image', headers: [{ key: 'Cache-Control', value: 'public, max-age=31536000, immutable' }] },
+      // Contact pages - no cache
       { source: '/tr/iletisim', headers: [{ key: 'Cache-Control', value: 'public, max-age=0, must-revalidate' }] },
       { source: '/en/contact',  headers: [{ key: 'Cache-Control', value: 'public, max-age=0, must-revalidate' }] },
     ]

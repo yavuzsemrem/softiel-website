@@ -78,18 +78,16 @@ export function ProjectCreateForm() {
   const [newTechnology, setNewTechnology] = useState("")
 
   const categories = [
-    { value: "webDesign", label: "Web Tasarım", icon: Globe },
-    { value: "webDevelopment", label: "Web Geliştirme", icon: Monitor },
-    { value: "mobileApp", label: "Mobil Uygulama", icon: Smartphone },
-    { value: "ecommerce", label: "E-ticaret", icon: Target },
-    { value: "seo", label: "SEO", icon: Search },
-    { value: "branding", label: "Branding", icon: Palette },
-    { value: "socialMedia", label: "Sosyal Medya", icon: Share2 },
-    { value: "aiIntegration", label: "AI Entegrasyonu", icon: Bot },
-    { value: "automation", label: "Otomasyon", icon: Zap },
-    { value: "digitalConsulting", label: "Dijital Danışmanlık", icon: Users },
-    { value: "noCode", label: "No-Code", icon: Wrench },
-    { value: "education", label: "Eğitim", icon: BookOpen }
+    { value: "websiteDesign", label: "Website Design", icon: Globe },
+    { value: "webApplicationDevelopment", label: "Web Application Development", icon: Monitor },
+    { value: "mobileApplication", label: "Mobile Application", icon: Smartphone },
+    { value: "seoOptimization", label: "SEO Optimization", icon: Search },
+    { value: "googleAdsManagement", label: "Google Ads Management", icon: Target },
+    { value: "wordPressSolutions", label: "WordPress Solutions", icon: Wrench },
+    { value: "logoCorporateIdentity", label: "Logo & Corporate Identity", icon: Palette },
+    { value: "socialMediaManagement", label: "Social Media Management", icon: Share2 },
+    { value: "aiIntegration", label: "AI Integration", icon: Bot },
+    { value: "digitalConsulting", label: "Digital Consulting", icon: Users }
   ]
 
   const technologies = []
@@ -386,7 +384,7 @@ export function ProjectCreateForm() {
       
       setSuccess('Proje başarıyla oluşturuldu!')
       setTimeout(() => {
-        router.push('/content-management-system-2024/projects')
+        router.push('/dashboard/projects')
       }, 2000)
 
     } catch (error) {
@@ -473,7 +471,7 @@ export function ProjectCreateForm() {
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
             <div className="flex flex-col sm:flex-row sm:items-center gap-4">
               <Link
-                href="/content-management-system-2024/projects"
+                href="/dashboard/projects"
                 className="flex items-center justify-center sm:justify-start space-x-2 px-4 py-2 glass rounded-xl text-white hover:bg-white/10 transition-all duration-200 group"
                 style={{ background: 'rgba(255, 255, 255, 0.1)' }}
               >

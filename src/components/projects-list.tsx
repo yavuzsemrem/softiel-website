@@ -70,18 +70,16 @@ export function ProjectsList() {
   const { showToast } = useToast()
 
   const categories = [
-    { value: "webDesign", label: "Web Tasarım" },
-    { value: "webDevelopment", label: "Web Geliştirme" },
-    { value: "mobileApp", label: "Mobil Uygulama" },
-    { value: "ecommerce", label: "E-ticaret" },
-    { value: "seo", label: "SEO" },
-    { value: "branding", label: "Branding" },
-    { value: "socialMedia", label: "Sosyal Medya" },
-    { value: "aiIntegration", label: "AI Entegrasyonu" },
-    { value: "automation", label: "Otomasyon" },
-    { value: "digitalConsulting", label: "Dijital Danışmanlık" },
-    { value: "noCode", label: "No-Code" },
-    { value: "education", label: "Eğitim" }
+    { value: "websiteDesign", label: "Website Design" },
+    { value: "webApplicationDevelopment", label: "Web Application Development" },
+    { value: "mobileApplication", label: "Mobile Application" },
+    { value: "seoOptimization", label: "SEO Optimization" },
+    { value: "googleAdsManagement", label: "Google Ads Management" },
+    { value: "wordPressSolutions", label: "WordPress Solutions" },
+    { value: "logoCorporateIdentity", label: "Logo & Corporate Identity" },
+    { value: "socialMediaManagement", label: "Social Media Management" },
+    { value: "aiIntegration", label: "AI Integration" },
+    { value: "digitalConsulting", label: "Digital Consulting" }
   ]
   const statuses = ["Tümü", "Tamamlandı", "Devam Ediyor", "Planlanmış"]
   const sortOptions = [
@@ -461,7 +459,7 @@ export function ProjectsList() {
             </button>
             
             <Link
-              href="/content-management-system-2024/projects/new"
+              href="/dashboard/projects/new"
               className="flex items-center justify-center space-x-2 px-4 py-2 text-white rounded-lg font-semibold shadow-modern hover:shadow-modern-lg transition-all duration-200 whitespace-nowrap"
               style={{ background: 'linear-gradient(to right, #06b6d4, #3b82f6)' }}
             >
@@ -595,11 +593,27 @@ export function ProjectsList() {
             >
               {/* Project Image - En üstte */}
               {project.image && (
-                <div className="mb-4 -mx-6 -mt-6">
+                <div className="mb-4 -mx-6 -mt-6 bg-gradient-to-br from-cyan-500/20 via-blue-500/20 to-purple-500/20">
                   <img
-                    src={project.image}
+                    src={(() => {
+                      // Cloudinary resimlerini optimize et
+                      if (project.image.includes('res.cloudinary.com')) {
+                        try {
+                          const url = new URL(project.image);
+                          const pathParts = url.pathname.split('/upload/');
+                          if (pathParts.length === 2) {
+                            return `${url.origin}${pathParts[0]}/upload/w_600,q_auto,f_auto/${pathParts[1]}`;
+                          }
+                        } catch (e) {
+                          return project.image;
+                        }
+                      }
+                      return project.image;
+                    })()}
                     alt={project.title}
                     className="w-full h-40 object-cover rounded-t-xl"
+                    loading={index < 6 ? "eager" : "lazy"}
+                    decoding="async"
                   />
                 </div>
               )}
@@ -698,14 +712,14 @@ export function ProjectsList() {
               {/* Actions */}
               <div className="flex items-center space-x-2 mt-6 pt-4 border-t border-white/10">
                 <button
-                  onClick={() => window.location.href = `/content-management-system-2024/projects/${project.slug || project.id}/view?from=${encodeURIComponent(window.location.pathname)}`}
+                  onClick={() => window.location.href = `/dashboard/projects/${project.slug || project.id}/view?from=${encodeURIComponent(window.location.pathname)}`}
                   className="flex-1 flex items-center justify-center space-x-1 px-3 py-2.5 text-cyan-400 hover:bg-cyan-500/20 rounded-lg transition-all duration-200 text-sm font-medium"
                 >
                   <Eye className="h-4 w-4" />
                   <span>Görüntüle</span>
                 </button>
                 <button 
-                  onClick={() => window.location.href = `/content-management-system-2024/projects/${project.slug || project.id}/edit?from=${encodeURIComponent(window.location.pathname)}`}
+                  onClick={() => window.location.href = `/dashboard/projects/${project.slug || project.id}/edit?from=${encodeURIComponent(window.location.pathname)}`}
                   className="flex-1 flex items-center justify-center space-x-1 px-3 py-2.5 text-green-400 hover:bg-green-500/20 rounded-lg transition-all duration-200 text-sm font-medium"
                 >
                   <Edit className="h-4 w-4" />
@@ -743,7 +757,7 @@ export function ProjectsList() {
                 Filtreleri Temizle
               </button>
               <Link
-                href="/content-management-system-2024/projects/new"
+                href="/dashboard/projects/new"
                 className="inline-flex items-center space-x-2 text-white px-6 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-200 bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600"
               >
                 <Plus className="h-5 w-5" />

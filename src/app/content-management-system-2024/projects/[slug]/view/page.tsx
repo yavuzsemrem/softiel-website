@@ -243,7 +243,7 @@ export default function ProjectViewPage() {
 
               <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
                 <button
-                  onClick={() => router.push(`/content-management-system-2024/projects/${project?.slug || projectSlug}/edit`)}
+                  onClick={() => router.push(`/dashboard/projects/${project?.slug || projectSlug}/edit`)}
                   className="flex items-center justify-center space-x-2 px-6 py-2 text-white rounded-xl hover:opacity-90 transition-all duration-200 group"
                   style={{ background: 'linear-gradient(to right, #06b6d4, #3b82f6)' }}
                 >

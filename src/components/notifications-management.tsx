@@ -88,10 +88,10 @@ export function NotificationsManagement() {
     // Sadece yönlendirme yap - onaylama işlemi yorumlar sayfasında yapılacak
     if (isReply && parentCommentId) {
       // Cevap yorumu - yorum detay sayfasına git
-      window.location.href = `/content-management-system-2024/comments/${parentCommentId}#comment-${commentId}`
+      window.location.href = `/dashboard/comments/${parentCommentId}#comment-${commentId}`
     } else {
       // Ana yorum - yorumlar sayfasına git
-      window.location.href = `/content-management-system-2024/comments#comment-${commentId}`
+      window.location.href = `/dashboard/comments#comment-${commentId}`
     }
   }
 

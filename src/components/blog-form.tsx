@@ -35,14 +35,16 @@ export function BlogForm() {
   })
 
   const categories = [
-    "Web Tasarım",
-    "Web Geliştirme", 
-    "SEO",
-    "Teknoloji",
-    "E-ticaret",
-    "Mobil",
-    "Pazarlama",
-    "Güvenlik"
+    "Website Design",
+    "Web Application Development",
+    "Mobile Application",
+    "SEO Optimization",
+    "Google Ads Management",
+    "WordPress Solutions",
+    "Logo & Corporate Identity",
+    "Social Media Management",
+    "AI Integration",
+    "Digital Consulting"
   ]
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {

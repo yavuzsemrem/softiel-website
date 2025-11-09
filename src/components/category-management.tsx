@@ -656,7 +656,7 @@ export function CategoryManagement() {
             {/* Actions */}
             <div className="flex items-center space-x-2">
               <Link
-                href={`/content-management-system-2024/categories/${category.id}?from=${encodeURIComponent(window.location.pathname)}`}
+                href={`/dashboard/categories/${category.id}?from=${encodeURIComponent(window.location.pathname)}`}
                 className="flex-1 flex items-center justify-center space-x-1 px-3 py-2 text-cyan-400 hover:bg-cyan-500/20 rounded-lg transition-all duration-200 text-sm"
               >
                 <Eye className="h-4 w-4" />

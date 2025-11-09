@@ -2,67 +2,36 @@
 
 import React, { useState, useEffect, useRef } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { Eye, EyeOff, Lock, LogIn, Shield, AlertTriangle, User, Mail, Clock, RefreshCw, X, ArrowLeft, AlertCircle, CheckCircle } from "lucide-react"
+import { Eye, EyeOff, Lock, LogIn, Shield, AlertTriangle, User, Mail, Clock, RefreshCw, X, ArrowLeft, AlertCircle, CheckCircle, QrCode } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { loginUserByUsernameOrEmail } from "@/lib/firestore-auth"
 import { sessionService } from "@/lib/session"
-import { useRecaptcha } from "@/hooks/useRecaptcha"
-import emailjs from '@emailjs/browser'
 
 export function LoginForm() {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
-    otpCode: ""
+    totpCode: ""
   })
   const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
-  const [isOTPLoading, setIsOTPLoading] = useState(false)
   const [error, setError] = useState("")
   const [success, setSuccess] = useState("")
-  const [showOTPModal, setShowOTPModal] = useState(false)
-  const [otpSent, setOtpSent] = useState(false)
-  const [otpExpiresIn, setOtpExpiresIn] = useState(0)
-  const [otpTimer, setOtpTimer] = useState(0)
+  const [showTOTPModal, setShowTOTPModal] = useState(false)
+  const [showQRModal, setShowQRModal] = useState(false)
+  const [qrCodeUrl, setQrCodeUrl] = useState("")
+  const [totpSecret, setTotpSecret] = useState("")
   const [userData, setUserData] = useState<any>(null)
   const router = useRouter()
   const formRef = useRef<HTMLFormElement>(null)
-  
-  // ReCAPTCHA hook
-  const { isAvailable, executeRecaptchaAction } = useRecaptcha()
-
-  // EmailJS initialization - sadece bir kere
-  useEffect(() => {
-    const EMAILJS_PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || ''
-    if (EMAILJS_PUBLIC_KEY) {
-      emailjs.init(EMAILJS_PUBLIC_KEY)
-    }
-  }, [])
 
   // Check if already authenticated
   useEffect(() => {
     const isAuth = sessionService.isAuthenticated()
     if (isAuth) {
-      router.push('/content-management-system-2024')
+      router.push('/dashboard')
     }
   }, [router])
-
-  // OTP Timer effect
-  useEffect(() => {
-    let interval: NodeJS.Timeout
-    if (otpTimer > 0) {
-      interval = setInterval(() => {
-        setOtpTimer(prev => {
-          if (prev <= 1) {
-            setOtpSent(false)
-            return 0
-          }
-          return prev - 1
-        })
-      }, 1000)
-    }
-    return () => clearInterval(interval)
-  }, [otpTimer])
 
   const handleInputChange = (field: string, value: string) => {
     setFormData(prev => ({
@@ -80,25 +49,14 @@ export function LoginForm() {
     setError("")
 
     try {
-      // ReCAPTCHA token al (production'da)
-      let recaptchaToken = null
-      if (isAvailable) {
-        const result = await executeRecaptchaAction('LOGIN')
-        recaptchaToken = result.token || null
-      }
-
-      const result = await loginUserByUsernameOrEmail(formData.email, formData.password, recaptchaToken)
+      const result = await loginUserByUsernameOrEmail(formData.email, formData.password, null)
       
       if (result.success && result.user) {
         // Kullanıcı bilgilerini kaydet
         setUserData(result.user)
         
-        // OTP gönder
-        await handleSendOTP()
-        
-        // OTP modalını aç
-        setShowOTPModal(true)
-        setSuccess("OTP code sent successfully")
+        // TOTP setup olmuş mu kontrol et
+        await handleCheckTOTPSetup()
       } else {
         setError(result.error || "An error occurred during login")
       }
@@ -109,100 +67,80 @@ export function LoginForm() {
     }
   }
 
-  const handleSendOTP = async () => {
-    if (!formData.email) {
-      setError("Önce e-posta adresinizi girin")
-      return
-    }
-
-    setIsOTPLoading(true)
-    setError("")
-
+  const handleCheckTOTPSetup = async () => {
     try {
-      // 1) OTP'yi oluştur (Firestore'a kaydet)
-      const response = await fetch('/api/send-otp', {
+      // Önce TOTP kurulumu var mı kontrol et
+      const checkResponse = await fetch('/api/totp/check', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email: formData.email }),
+        body: JSON.stringify({ 
+          email: formData.email
+        }),
       })
 
-      const result = await response.json()
+      const checkResult = await checkResponse.json()
 
-      if (!result.success) {
-        setError(result.error || "OTP code could not be sent")
-        return
-      }
+      if (checkResult.success) {
+        if (checkResult.hasSetup) {
+          // TOTP kurulumu var - direkt doğrulama ekranını aç
+          setShowTOTPModal(true)
+          setSuccess("Google Authenticator'dan kodu girin")
+        } else {
+          // TOTP kurulumu yok - QR kod oluştur ve göster
+          const setupResponse = await fetch('/api/totp/setup', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ 
+              email: formData.email,
+              userName: userData?.name || 'Admin'
+            }),
+          })
 
-      // 2) OTP oluşturuldu; şimdi client-side'da EmailJS ile e-posta gönder
-      const EMAILJS_SERVICE_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || ''
-      const EMAILJS_TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || ''
-      const EMAILJS_TO = process.env.NEXT_PUBLIC_EMAILJS_TO || 'info@softiel.com'
+          const setupResult = await setupResponse.json()
 
-      if (!EMAILJS_SERVICE_ID || !EMAILJS_TEMPLATE_ID) {
-        setError("EmailJS configuration missing")
-        return
-      }
-
-      // EmailJS template parametreleri
-      const templateParams = {
-        to_email: EMAILJS_TO,
-        from_name: 'Softiel Admin',
-        reply_to: EMAILJS_TO,
-        user_name: result.userName || 'Admin Kullanıcı',
-        user_email: formData.email,
-        otp_code: result.otpCode || '',
-        message: `Your OTP code is ${result.otpCode || ''}`,
-        date: new Date().toISOString()
-      }
-
-      // Client-side EmailJS ile e-posta gönder
-      try {
-        await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams)
-        setOtpSent(true)
-        setOtpExpiresIn(result.expiresIn || 300)
-        setOtpTimer(result.expiresIn || 300)
-        setSuccess("OTP code sent successfully")
-      } catch (emailErr: any) {
-        console.error('EmailJS send error:', emailErr)
-        // OTP oluşturuldu ama e-posta gönderilemedi
-        // Yine de kullanıcıya başarılı göster (OTP zaten Firestore'da)
-        setOtpSent(true)
-        setOtpExpiresIn(result.expiresIn || 300)
-        setOtpTimer(result.expiresIn || 300)
-        setSuccess("OTP code generated. Please check your email.")
+          if (setupResult.success) {
+            setQrCodeUrl(setupResult.qrCode)
+            setTotpSecret(setupResult.secret)
+            setShowQRModal(true)
+            setSuccess("QR kodu Google Authenticator ile tarayın")
+          } else {
+            setError(setupResult.error || "TOTP kurulumu başarısız")
+          }
+        }
+      } else {
+        setError(checkResult.error || "TOTP kontrolü başarısız")
       }
     } catch (err) {
-      console.error('Send OTP error:', err)
-      setError("An error occurred while sending OTP code")
-    } finally {
-      setIsOTPLoading(false)
+      console.error('TOTP setup check error:', err)
+      setError("TOTP kontrolü sırasında bir hata oluştu")
     }
   }
 
-  const handleVerifyOTP = async (e: React.FormEvent) => {
+  const handleVerifyTOTP = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
     setError("")
 
     try {
-      // Use relative URL for production compatibility
-      const response = await fetch('/api/verify-otp', {
+      const response = await fetch('/api/totp/verify', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ 
           email: formData.email, 
-          code: formData.otpCode 
+          token: formData.totpCode 
         }),
       })
 
       const result = await response.json()
 
       if (result.success && result.isValid) {
-        // OTP verified, log in the user
+        // TOTP verified, log in the user
         if (userData) {
           // Store session data in localStorage for compatibility
           localStorage.setItem('isAuthenticated', 'true')
@@ -211,26 +149,26 @@ export function LoginForm() {
           localStorage.setItem('userName', userData.name)
           localStorage.setItem('userId', userData.id)
           
-          setSuccess("OTP verified and login successful!")
-          setShowOTPModal(false)
-          router.push('/content-management-system-2024')
+          setSuccess("TOTP doğrulandı ve giriş başarılı!")
+          setShowTOTPModal(false)
+          setShowQRModal(false)
+          router.push('/dashboard')
         } else {
-          setError("User information not found")
+          setError("Kullanıcı bilgileri bulunamadı")
         }
       } else {
-        setError(result.error || "OTP code could not be verified")
+        setError(result.error || "TOTP kodu doğrulanamadı")
       }
     } catch (err) {
-      setError("An error occurred while verifying OTP")
+      setError("TOTP doğrulanırken bir hata oluştu")
     } finally {
       setIsLoading(false)
     }
   }
 
-  const handleResendOTP = async () => {
-    setOtpSent(false)
-    setOtpTimer(0)
-    await handleSendOTP()
+  const handleQRScanned = () => {
+    setShowQRModal(false)
+    setShowTOTPModal(true)
   }
 
 
@@ -380,9 +318,9 @@ export function LoginForm() {
         </div>
       </div>
 
-      {/* OTP Modal - Completely Redesigned */}
+      {/* QR Code Modal */}
       <AnimatePresence>
-        {showOTPModal && (
+        {showQRModal && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -392,7 +330,98 @@ export function LoginForm() {
               background: 'rgba(0, 0, 0, 0.4)',
               backdropFilter: 'blur(8px)'
             }}
-            onClick={() => setShowOTPModal(false)}
+            onClick={() => setShowQRModal(false)}
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0, y: 30 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.9, opacity: 0, y: 30 }}
+              transition={{ 
+                type: "spring", 
+                duration: 0.5,
+                damping: 25,
+                stiffness: 300
+              }}
+              className="relative w-full max-w-md mx-auto"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="relative bg-gray-900/95 backdrop-blur-xl rounded-2xl shadow-2xl overflow-hidden p-6">
+                <button
+                  onClick={() => setShowQRModal(false)}
+                  className="absolute top-4 right-4 z-10 w-8 h-8 bg-gray-700/80 hover:bg-gray-600/80 rounded-full flex items-center justify-center transition-all duration-200 group"
+                >
+                  <X className="w-4 h-4 text-gray-300 group-hover:text-white" />
+                </button>
+
+                <div className="text-center">
+                  <div className="flex justify-center mb-4">
+                    <QrCode className="w-16 h-16 text-cyan-400" />
+                  </div>
+                  
+                  <h1 className="text-2xl font-bold text-white mb-2">
+                    Google Authenticator Kurulumu
+                  </h1>
+                  
+                  <p className="text-gray-300 text-sm mb-6">
+                    QR kodu Google Authenticator veya Microsoft Authenticator uygulaması ile tarayın
+                  </p>
+
+                  {/* QR Code */}
+                  {qrCodeUrl && (
+                    <div className="bg-white p-4 rounded-xl mb-4 inline-block">
+                      <img src={qrCodeUrl} alt="QR Code" className="w-64 h-64" />
+                    </div>
+                  )}
+
+                  {/* Manual Entry */}
+                  <div className="bg-gray-800/50 rounded-xl p-4 mb-6">
+                    <p className="text-gray-300 text-xs mb-2">Manuel giriş için kod:</p>
+                    <code className="text-cyan-400 font-mono text-sm break-all">{totpSecret}</code>
+                  </div>
+
+                  {/* Info */}
+                  <div className="bg-blue-500/20 border border-blue-400/50 rounded-xl p-4 mb-4">
+                    <div className="flex items-start space-x-3">
+                      <AlertCircle className="w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5" />
+                      <div className="text-left">
+                        <p className="text-blue-300 text-sm mb-2">
+                          QR kodu taradıktan sonra uygulamanız her 30 saniyede bir yeni 6 haneli kod üretecektir.
+                        </p>
+                        <p className="text-blue-200 text-xs font-semibold">
+                          ⚠️ Bu kurulum sadece bir kere yapılır. Bir sonraki girişinizde sadece kod girmeniz yeterli olacak.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Continue Button */}
+                  <button
+                    onClick={handleQRScanned}
+                    className="w-full py-3 px-4 bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white font-semibold rounded-xl transition-all duration-300 flex items-center justify-center space-x-2"
+                  >
+                    <CheckCircle className="w-5 h-5" />
+                    <span>QR Kodu Taradım, Devam Et</span>
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* TOTP Verification Modal */}
+      <AnimatePresence>
+        {showTOTPModal && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[9999] flex items-center justify-center p-4"
+            style={{ 
+              background: 'rgba(0, 0, 0, 0.4)',
+              backdropFilter: 'blur(8px)'
+            }}
+            onClick={() => setShowTOTPModal(false)}
           >
             {/* Modal Container - Perfectly Centered with Better Spacing */}
             <motion.div
@@ -412,7 +441,7 @@ export function LoginForm() {
               <div className="relative bg-gray-900/95 backdrop-blur-xl rounded-2xl shadow-2xl overflow-hidden">
                 {/* Close Button */}
                 <button
-                  onClick={() => setShowOTPModal(false)}
+                  onClick={() => setShowTOTPModal(false)}
                   className="absolute top-4 right-4 z-10 w-8 h-8 bg-gray-700/80 hover:bg-gray-600/80 rounded-full flex items-center justify-center transition-all duration-200 group"
                 >
                   <X className="w-4 h-4 text-gray-300 group-hover:text-white" />
@@ -450,10 +479,10 @@ export function LoginForm() {
                     transition={{ delay: 0.3 }}
                     className="text-gray-300 text-sm mb-4"
                   >
-                    Enter the 6-digit verification code sent to your email
+                    Google Authenticator uygulamasından 6 haneli kodu girin
                   </motion.p>
                   
-                  {/* Enhanced OTP Info Card */}
+                  {/* Enhanced TOTP Info Card */}
                   <motion.div 
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -462,15 +491,14 @@ export function LoginForm() {
                   >
                     <div className="flex items-start space-x-3">
                       <div className="w-8 h-8 bg-green-500/30 rounded-full flex items-center justify-center flex-shrink-0">
-                        <AlertCircle className="w-4 h-4 text-green-400" />
+                        <Shield className="w-4 h-4 text-green-400" />
                       </div>
                       <div className="text-left">
                         <p className="text-green-300 font-semibold text-sm mb-1">
-                          📧 OTP Code Sent via Email
+                          🔐 TOTP İki Faktörlü Doğrulama
                         </p>
                         <p className="text-green-200 text-xs leading-relaxed">
-                          Verification code has been sent to your email address. 
-                          Please check your inbox and enter the code below.
+                          Google Authenticator veya Microsoft Authenticator uygulamasından anlık olarak üretilen 6 haneli kodu girin.
                         </p>
                       </div>
                     </div>
@@ -507,20 +535,20 @@ export function LoginForm() {
                     )}
                   </AnimatePresence>
 
-                  {/* OTP Form */}
-                  <form onSubmit={handleVerifyOTP} className="space-y-4">
-                    {/* OTP Input with Enhanced Design */}
+                  {/* TOTP Form */}
+                  <form onSubmit={handleVerifyTOTP} className="space-y-4">
+                    {/* TOTP Input with Enhanced Design */}
                     <div>
                       <label className="block text-sm font-semibold text-gray-300 mb-2 text-center">
-                        Verification Code
+                        Doğrulama Kodu
                       </label>
                       <div className="flex justify-center">
                         <input
                           type="text"
-                          value={formData.otpCode}
+                          value={formData.totpCode}
                           onChange={(e) => {
                             const value = e.target.value.replace(/\D/g, '').slice(0, 6)
-                            handleInputChange("otpCode", value)
+                            handleInputChange("totpCode", value)
                           }}
                           className="w-56 text-center text-2xl font-mono font-bold tracking-[0.3em] py-4 bg-gray-800/50 rounded-xl text-cyan-400 placeholder-gray-500 focus:outline-none focus:ring-4 focus:ring-cyan-500/30 transition-all duration-300 shadow-lg backdrop-blur-sm"
                           placeholder="000000"
@@ -530,58 +558,37 @@ export function LoginForm() {
                       </div>
                     </div>
 
-                    {/* Timer with Enhanced Design */}
-                    {otpSent && otpTimer > 0 && (
-                      <motion.div 
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        className="text-center"
-                      >
-                        <div className="inline-flex items-center space-x-2 bg-gray-800/50 px-3 py-2 rounded-full backdrop-blur-sm">
-                          <Clock className="w-4 h-4 text-gray-300" />
-                          <span className="text-gray-300 text-sm font-medium">
-                            Code expires in: <span className="text-cyan-400 font-mono font-bold">{otpTimer}s</span>
-                          </span>
-                        </div>
-                      </motion.div>
-                    )}
-
-                    {/* Resend Button with Enhanced Design */}
-                    {otpTimer === 0 && (
-                      <motion.div 
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        className="text-center"
-                      >
-                        <button
-                          type="button"
-                          onClick={handleResendOTP}
-                          disabled={isOTPLoading}
-                          className="inline-flex items-center space-x-2 px-4 py-2 bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 hover:text-cyan-200 text-sm font-semibold rounded-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed border border-cyan-400/50 backdrop-blur-sm"
-                        >
-                          <RefreshCw className={`w-4 h-4 ${isOTPLoading ? 'animate-spin' : ''}`} />
-                          <span>Resend Code</span>
-                        </button>
-                      </motion.div>
-                    )}
+                    {/* Info */}
+                    <motion.div 
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      className="text-center"
+                    >
+                      <div className="inline-flex items-center space-x-2 bg-gray-800/50 px-3 py-2 rounded-full backdrop-blur-sm">
+                        <Clock className="w-4 h-4 text-gray-300" />
+                        <span className="text-gray-300 text-xs font-medium">
+                          Kod her 30 saniyede bir değişir
+                        </span>
+                      </div>
+                    </motion.div>
 
                     {/* Verify Button with Enhanced Design */}
                     <motion.button
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                       type="submit"
-                      disabled={isLoading || formData.otpCode.length !== 6}
+                      disabled={isLoading || formData.totpCode.length !== 6}
                       className="w-full py-3 px-4 bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white font-semibold rounded-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2 shadow-lg hover:shadow-xl"
                     >
                       {isLoading ? (
                         <>
                           <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                          <span>Verifying...</span>
+                          <span>Doğrulanıyor...</span>
                         </>
                       ) : (
                         <>
                           <Shield className="w-4 h-4" />
-                          <span>Verify Code</span>
+                          <span>Kodu Doğrula</span>
                         </>
                       )}
                     </motion.button>
@@ -589,11 +596,11 @@ export function LoginForm() {
                     {/* Back Button with Enhanced Design */}
                     <button
                       type="button"
-                      onClick={() => setShowOTPModal(false)}
+                      onClick={() => setShowTOTPModal(false)}
                       className="w-full flex items-center justify-center space-x-2 text-gray-400 hover:text-white transition-colors duration-200 py-2 px-4 rounded-lg hover:bg-gray-800/50 backdrop-blur-sm"
                     >
                       <ArrowLeft className="w-4 h-4" />
-                      <span className="font-medium">Back to Login</span>
+                      <span className="font-medium">Geri Dön</span>
                     </button>
                   </form>
 
@@ -602,7 +609,7 @@ export function LoginForm() {
                     <div className="inline-flex items-center space-x-2 bg-gray-800/50 px-3 py-2 rounded-full backdrop-blur-sm">
                       <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
                       <p className="text-xs text-gray-300 font-medium">
-                        Secure verification system
+                        Güvenli doğrulama sistemi
                       </p>
                     </div>
                   </div>

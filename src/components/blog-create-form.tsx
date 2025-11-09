@@ -44,7 +44,7 @@ export function BlogCreateForm() {
   const { user: currentUser, loading: userLoading } = useCurrentUser()
   
   // Geri dönülecek sayfa - URL parametresinden al veya varsayılan olarak blog listesi
-  const backUrl = searchParams.get('from') || '/content-management-system-2024/blogs'
+  const backUrl = searchParams.get('from') || '/dashboard/blogs'
   const [formData, setFormData] = useState({
     title: "",
     excerpt: "",
@@ -377,13 +377,13 @@ export function BlogCreateForm() {
                 <p className="font-medium">{success}</p>
                 {createdBlogSlug && (
                   <p className="text-xs text-green-300 mt-1">
-                    URL: /blog/{createdBlogSlug}
+                    URL: /tr/blog/{createdBlogSlug}
                   </p>
                 )}
               </div>
               {createdBlogSlug && (
                 <button
-                  onClick={() => router.push(`/blog/${createdBlogSlug}`)}
+                  onClick={() => router.push(`/tr/blog/${createdBlogSlug}`)}
                   className="ml-4 px-3 py-1 bg-green-500 text-white text-xs rounded-lg hover:bg-green-600 transition-colors"
                 >
                   Blogu Görüntüle
@@ -771,7 +771,7 @@ export function BlogCreateForm() {
                     required
                   />
                   <p className="text-xs text-neutral-400">
-                    URL: /content-management-system-2024/blogs/{formData.slug || 'url-slug-formatinda'}
+                    URL: /dashboard/blogs/{formData.slug || 'url-slug-formatinda'}
                   </p>
                 </div>
 

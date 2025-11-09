@@ -825,7 +825,7 @@ export function CommentManagement() {
                       </button>
 
                       <button
-                        onClick={() => router.push(`/content-management-system-2024/comments/${comment.id}`)}
+                        onClick={() => router.push(`/dashboard/comments/${comment.id}`)}
                         className="flex items-center space-x-1 px-3 py-2 text-cyan-400 hover:bg-cyan-500/20 rounded-lg transition-all duration-200 text-sm"
                       >
                         <Eye className="h-4 w-4" />
