@@ -7,9 +7,9 @@ export default function Home() {
   const host = headersList.get('host') || ''
   const dashboardHost = process.env.NEXT_PUBLIC_DASHBOARD_HOST || 'dashboard.softiel.com'
   
-  // Eğer dashboard host'uysa, admin panel'e yönlendir
+  // Eğer dashboard host'uysa, dashboard'a yönlendir
   if (host.toLowerCase().includes(dashboardHost.toLowerCase())) {
-    redirect('/admin-panel-secure-access-2024')
+    redirect('/dashboard')
   }
   
   // Varsayılan olarak ana siteyi Türkçe'ye yönlendir
