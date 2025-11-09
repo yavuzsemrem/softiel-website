@@ -8,23 +8,39 @@ export function middleware(request: NextRequest) {
   const dashboardHost = (DASHBOARD_HOST || '').toLowerCase()
   const pathname = request.nextUrl.pathname
 
+  // Debug logging (production'da kaldırılabilir)
+  console.log('🔍 Middleware Debug:', {
+    host,
+    dashboardHost,
+    pathname,
+    isDashboard: host === dashboardHost || host.includes('dashboard')
+  })
+
   // 1) Host bazlı yönlendirme: dashboard.softiel.com için temiz URL'ler
-  if (host === dashboardHost) {
+  // Daha sıkı kontrol: tam eşleşme VEYA "dashboard" içeriyor mu?
+  const isDashboardHost = host === dashboardHost || host.includes('dashboard')
+  
+  if (isDashboardHost) {
+    console.log('✅ Dashboard host algılandı')
+    
     // Ana sayfa → Login sayfasına direkt redirect
     const isRoot = pathname === '/' || pathname === ''
     const isLocaleRoot = /^\/(tr|en|de|fr|ru|ar)\/?$/.test(pathname)
     if (isRoot || isLocaleRoot) {
+      console.log('🔄 Root detected, redirecting to login')
       return NextResponse.redirect(new URL('/admin-panel-secure-access-2024', request.url))
     }
     
     // /login path'ini de admin panel'e redirect et
     if (pathname === '/login') {
+      console.log('🔄 /login detected, redirecting to admin panel')
       return NextResponse.redirect(new URL('/admin-panel-secure-access-2024', request.url))
     }
     
     // /dashboard/* path'lerini gerçek path'lere rewrite et
     if (pathname.startsWith('/dashboard')) {
       const newPath = pathname.replace('/dashboard', '/content-management-system-2024')
+      console.log('🔄 Rewriting /dashboard to:', newPath)
       return NextResponse.rewrite(new URL(newPath, request.url))
     }
     
@@ -34,8 +50,12 @@ export function middleware(request: NextRequest) {
     return res
   }
 
-  // 2) Ana site: kök istekleri /en'e yönlendir (default açılış sayfası)
-  if (pathname === '/' || pathname === '') {
+  console.log('🌐 Ana site (softiel.com) detected')
+  
+  // 2) Ana site: SADECE softiel.com için - kök istekleri /en'e yönlendir
+  const isMainSite = !isDashboardHost && !host.includes('dashboard')
+  if (isMainSite && (pathname === '/' || pathname === '')) {
+    console.log('🔄 Main site root, redirecting to /en')
     const url = new URL('/en', request.url)
     return NextResponse.redirect(url)
   }
