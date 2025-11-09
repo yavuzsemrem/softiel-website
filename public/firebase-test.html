@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Firebase Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        button {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #2563eb;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f0f0f0;
+            border-radius: 5px;
+            white-space: pre-wrap;
+            font-family: monospace;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+        .success {
+            background: #dcfce7;
+            border: 1px solid #22c55e;
+        }
+        .error {
+            background: #fee2e2;
+            border: 1px solid #ef4444;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔥 Firebase Connection Test</h1>
+        <p>Firebase'deki verileri kontrol edin:</p>
+        
+        <div>
+            <button onclick="testConnection()">1️⃣ Bağlantı Test</button>
+            <button onclick="listUsers()">2️⃣ Kullanıcıları Listele</button>
+            <button onclick="listBlogs()">3️⃣ Blogları Listele</button>
+            <button onclick="listProjects()">4️⃣ Projeleri Listele</button>
+            <button onclick="clearCache()">🧹 Cache Temizle</button>
+        </div>
+        
+        <div id="result" class="result"></div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getFirestore, collection, getDocs } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDT23p3KDd3pQf13UiQOuIjmemyBlMYPBg",
+            authDomain: "softielwebsite.firebaseapp.com",
+            databaseURL: "https://softielwebsite-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "softielwebsite",
+            storageBucket: "softielwebsite.firebasestorage.app",
+            messagingSenderId: "876968672828",
+            appId: "1:876968672828:web:b0f7ab34322bf14a044d39",
+            measurementId: "G-GHEMBDDCZP"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        window.testConnection = async function() {
+            const result = document.getElementById('result');
+            result.className = 'result';
+            result.textContent = 'Testing connection...';
+            
+            try {
+                const testCollection = collection(db, 'users');
+                const snapshot = await getDocs(testCollection);
+                
+                result.className = 'result success';
+                result.textContent = `✅ Bağlantı Başarılı!\n\nFirebase Project: ${firebaseConfig.projectId}\nTest Collection: users\nDocument Count: ${snapshot.size}`;
+            } catch (error) {
+                result.className = 'result error';
+                result.textContent = `❌ Hata:\n${error.message}\n\nStack:\n${error.stack}`;
+            }
+        };
+
+        window.listUsers = async function() {
+            const result = document.getElementById('result');
+            result.className = 'result';
+            result.textContent = 'Loading users...';
+            
+            try {
+                const usersCollection = collection(db, 'users');
+                const snapshot = await getDocs(usersCollection);
+                
+                if (snapshot.empty) {
+                    result.className = 'result error';
+                    result.textContent = '⚠️ Users collection boş!';
+                    return;
+                }
+                
+                const users = [];
+                snapshot.forEach(doc => {
+                    const data = doc.data();
+                    users.push({
+                        id: doc.id,
+                        FULL_DATA: data,  // TÜM VERİYİ GÖSTER
+                        name: data.name,
+                        email: data.email,
+                        password: data.password || '❌ ŞİFRE YOK!',
+                        role: data.role,
+                        isActive: data.isActive
+                    });
+                });
+                
+                result.className = 'result success';
+                result.textContent = `✅ ${users.length} Kullanıcı Bulundu:\n\n${JSON.stringify(users, null, 2)}`;
+            } catch (error) {
+                result.className = 'result error';
+                result.textContent = `❌ Hata:\n${error.message}`;
+            }
+        };
+
+        window.listBlogs = async function() {
+            const result = document.getElementById('result');
+            result.className = 'result';
+            result.textContent = 'Loading blogs...';
+            
+            try {
+                const blogsCollection = collection(db, 'blogs');
+                const snapshot = await getDocs(blogsCollection);
+                
+                if (snapshot.empty) {
+                    result.className = 'result error';
+                    result.textContent = '⚠️ Blogs collection boş!';
+                    return;
+                }
+                
+                const blogs = [];
+                snapshot.forEach(doc => {
+                    const data = doc.data();
+                    blogs.push({
+                        id: doc.id,
+                        title: data.title,
+                        status: data.status,
+                        author: data.author,
+                        category: data.category
+                    });
+                });
+                
+                result.className = 'result success';
+                result.textContent = `✅ ${blogs.length} Blog Bulundu:\n\n${JSON.stringify(blogs, null, 2)}`;
+            } catch (error) {
+                result.className = 'result error';
+                result.textContent = `❌ Hata:\n${error.message}`;
+            }
+        };
+
+        window.listProjects = async function() {
+            const result = document.getElementById('result');
+            result.className = 'result';
+            result.textContent = 'Loading projects...';
+            
+            try {
+                const projectsCollection = collection(db, 'projects');
+                const snapshot = await getDocs(projectsCollection);
+                
+                if (snapshot.empty) {
+                    result.className = 'result error';
+                    result.textContent = '⚠️ Projects collection boş!';
+                    return;
+                }
+                
+                const projects = [];
+                snapshot.forEach(doc => {
+                    const data = doc.data();
+                    projects.push({
+                        id: doc.id,
+                        title: data.title,
+                        status: data.status,
+                        category: data.category
+                    });
+                });
+                
+                result.className = 'result success';
+                result.textContent = `✅ ${projects.length} Proje Bulundu:\n\n${JSON.stringify(projects, null, 2)}`;
+            } catch (error) {
+                result.className = 'result error';
+                result.textContent = `❌ Hata:\n${error.message}`;
+            }
+        };
+
+        window.clearCache = async function() {
+            const result = document.getElementById('result');
+            result.className = 'result';
+            result.textContent = 'Cache temizleniyor...';
+            
+            try {
+                const dbs = await indexedDB.databases();
+                for (const db of dbs) {
+                    if (db.name) {
+                        console.log('Siliniyor:', db.name);
+                        indexedDB.deleteDatabase(db.name);
+                    }
+                }
+                
+                localStorage.clear();
+                sessionStorage.clear();
+                
+                result.className = 'result success';
+                result.textContent = '✅ Cache temizlendi!\n\nSayfa 2 saniye içinde yenilenecek...';
+                
+                setTimeout(() => {
+                    location.reload(true);
+                }, 2000);
+            } catch (error) {
+                result.className = 'result error';
+                result.textContent = `❌ Hata:\n${error.message}`;
+            }
+        };
+    </script>
+</body>
+</html>
+
