@@ -54,11 +54,34 @@ export const metadata: Metadata = {
   description: "Softiel ile dijital dünyada fark yaratın. Web tasarım, geliştirme, SEO ve dijital pazarlama hizmetleri.",
   keywords: "web tasarım, web geliştirme, SEO, dijital pazarlama, mobil uygulama, yapay zeka",
   authors: [{ name: "Softiel" }],
+  icons: {
+    icon: [
+      { url: '/favicon.ico', sizes: 'any' },
+      { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
+      { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+    ],
+    apple: [
+      { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
+    ],
+    other: [
+      { rel: 'icon', url: '/android-chrome-192x192.png', sizes: '192x192', type: 'image/png' },
+      { rel: 'icon', url: '/android-chrome-512x512.png', sizes: '512x512', type: 'image/png' },
+    ],
+  },
   openGraph: {
     title: "Softiel - Modern Web Ajansı",
     description: "Softiel ile dijital dünyada fark yaratın. Web tasarım, geliştirme, SEO ve dijital pazarlama hizmetleri.",
     type: "website",
+    images: [
+      {
+        url: '/android-chrome-512x512.png',
+        width: 512,
+        height: 512,
+        alt: 'Softiel Logo',
+      },
+    ],
   },
+  manifest: '/manifest.json',
 };
 
 export default function RootLayout({
@@ -69,6 +92,19 @@ export default function RootLayout({
   return (
     <html lang="tr" suppressHydrationWarning>
       <head>
+        {/* Favicon declarations - Multiple formats for better compatibility */}
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+        <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png" />
+        <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png" />
+        <link rel="manifest" href="/manifest.json" />
+        
+        {/* Theme color for mobile browsers */}
+        <meta name="theme-color" content="#0ea5e9" />
+        <meta name="msapplication-TileColor" content="#0ea5e9" />
+        
         {/* Preconnect to critical origins - Network latency reduction */}
         <link rel="preconnect" href="https://res.cloudinary.com" />
         <link rel="dns-prefetch" href="https://res.cloudinary.com" />
