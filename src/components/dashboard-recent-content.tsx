@@ -260,7 +260,7 @@ export function DashboardRecentContent() {
             <motion.button
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              onClick={() => router.push('/dashboard/blogs')}
+              onClick={() => router.push('/content-management-system-2024/blogs')}
               className="w-full mt-6 py-3 text-sm font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors"
             >
               Tüm blog yazılarını görüntüle →
