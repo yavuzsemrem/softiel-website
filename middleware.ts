@@ -47,16 +47,15 @@ export function middleware(request: NextRequest) {
     const isLocaleRoot = /^\/(tr|en|de|fr|ru|ar)\/?$/.test(pathname)
     if (isRoot || isLocaleRoot) {
       console.log('🔄 Root detected, redirecting to login')
-      return NextResponse.redirect(new URL('/admin-panel-secure-access-2024', request.url))
+      return NextResponse.redirect(new URL('/login', request.url))
     }
     
-    // /login path'ini de admin panel'e redirect et
-    if (pathname === '/login') {
-      console.log('🔄 /login detected, redirecting to admin panel')
-      return NextResponse.redirect(new URL('/admin-panel-secure-access-2024', request.url))
+    // Eski URL'ler için geriye dönük uyumluluk
+    if (pathname === '/admin-panel-secure-access-2024') {
+      console.log('🔄 Old login path detected, redirecting to /login')
+      return NextResponse.redirect(new URL('/login', request.url))
     }
     
-    // Eski /content-management-system-2024 path'lerini yeni /dashboard path'ine redirect et (geriye dönük uyumluluk)
     if (pathname.startsWith('/content-management-system-2024')) {
       const newPath = pathname.replace('/content-management-system-2024', '/dashboard')
       console.log('🔄 Redirecting old path to:', newPath)
@@ -71,12 +70,21 @@ export function middleware(request: NextRequest) {
 
   console.log('🌐 Ana site (softiel.com) detected')
   
-  // 2) Ana site: SADECE softiel.com için - kök istekleri /en'e yönlendir
+  // 2) Ana site: SADECE softiel.com için
   const isMainSite = !isDashboardHost && !host.includes('dashboard')
-  if (isMainSite && (pathname === '/' || pathname === '')) {
-    console.log('🔄 Main site root, redirecting to /en')
-    const url = new URL('/en', request.url)
-    return NextResponse.redirect(url)
+  if (isMainSite) {
+    // Ana sitede /dashboard path'lerini engelle (403 Forbidden)
+    if (pathname.startsWith('/dashboard') || pathname.startsWith('/login')) {
+      console.log('🚫 Dashboard/Login access denied on main site')
+      return NextResponse.redirect(new URL('/en', request.url))
+    }
+    
+    // Kök istekleri /en'e yönlendir
+    if (pathname === '/' || pathname === '') {
+      console.log('🔄 Main site root, redirecting to /en')
+      const url = new URL('/en', request.url)
+      return NextResponse.redirect(url)
+    }
   }
 
   const response = NextResponse.next()
