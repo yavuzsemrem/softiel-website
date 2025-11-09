@@ -10,18 +10,19 @@ export function middleware(request: NextRequest) {
 
   // 1) Host bazlı yönlendirme: dashboard.softiel.com için temiz URL'ler
   if (host === dashboardHost) {
-    // Ana sayfa → Login'e redirect
+    // Ana sayfa → Login sayfasına direkt redirect
     const isRoot = pathname === '/' || pathname === ''
     const isLocaleRoot = /^\/(tr|en|de|fr|ru|ar)\/?$/.test(pathname)
     if (isRoot || isLocaleRoot) {
-      return NextResponse.redirect(new URL('/login', request.url))
+      return NextResponse.redirect(new URL('/admin-panel-secure-access-2024', request.url))
     }
     
-    // Temiz URL'leri gerçek path'lere rewrite et
+    // /login path'ini de admin panel'e redirect et
     if (pathname === '/login') {
-      return NextResponse.rewrite(new URL('/admin-panel-secure-access-2024', request.url))
+      return NextResponse.redirect(new URL('/admin-panel-secure-access-2024', request.url))
     }
     
+    // /dashboard/* path'lerini gerçek path'lere rewrite et
     if (pathname.startsWith('/dashboard')) {
       const newPath = pathname.replace('/dashboard', '/content-management-system-2024')
       return NextResponse.rewrite(new URL(newPath, request.url))
