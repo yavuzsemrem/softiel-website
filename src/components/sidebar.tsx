@@ -146,7 +146,7 @@ export function Sidebar({ isOpen, onClose, collapsed, onToggle }: SidebarProps) 
   ]
 
   const handleLogout = () => {
-    window.location.href = '/admin-panel-secure-access-2024'
+    window.location.href = '/login'
   }
 
   return (

@@ -384,7 +384,7 @@ export function ProjectCreateForm() {
       
       setSuccess('Proje başarıyla oluşturuldu!')
       setTimeout(() => {
-        router.push('/content-management-system-2024/projects')
+        router.push('/dashboard/projects')
       }, 2000)
 
     } catch (error) {

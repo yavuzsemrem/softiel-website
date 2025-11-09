@@ -57,11 +57,11 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
       setUserRole(null)
       
       // Redirect to login page
-      router.push('/admin-panel-secure-access-2024')
+      router.push('/login')
     } catch (error) {
       // Logout hatası sessizce işlendi
       // Even if there's an error, still redirect
-      router.push('/admin-panel-secure-access-2024')
+      router.push('/login')
     }
   }
 
@@ -115,11 +115,11 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
         localStorage.removeItem('userEmail')
         localStorage.removeItem('userName')
         localStorage.removeItem('userId')
-        router.push('/admin-panel-secure-access-2024')
+        router.push('/login')
       } catch (error) {
         // Auth check failed, redirect to login
         localStorage.clear()
-        router.push('/admin-panel-secure-access-2024')
+        router.push('/login')
       } finally {
         setIsLoading(false)
       }

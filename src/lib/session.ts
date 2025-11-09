@@ -28,8 +28,8 @@ class SessionService {
   constructor() {
     // Sadece dashboard sayfalarında initialize et
     if (typeof window !== 'undefined') {
-      const isDashboardPage = window.location.pathname.includes('/content-management-system-2024') || 
-                             window.location.pathname.includes('/admin');
+      const isDashboardPage = window.location.pathname.includes('/dashboard') || 
+                             window.location.pathname.includes('/login');
       
       if (isDashboardPage) {
         this.initialize();

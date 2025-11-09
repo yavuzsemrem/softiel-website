@@ -127,7 +127,7 @@ export function DashboardSidebar({ isOpen, onClose, collapsed, onToggle, user: p
 
   const handleLogout = () => {
     // Logout işlemi - gerçek uygulamada token temizleme vs. yapılacak
-    window.location.href = '/admin-panel-secure-access-2024'
+    window.location.href = '/login'
   }
 
   return (

@@ -55,7 +55,7 @@ export function DashboardNavbar({ onMenuClick, onSidebarToggle, sidebarCollapsed
 
   const handleLogout = () => {
     // Logout işlemi - gerçek uygulamada token temizleme vs. yapılacak
-    window.location.href = '/admin-panel-secure-access-2024'
+    window.location.href = '/login'
   }
 
   const handleProfileSettings = () => {

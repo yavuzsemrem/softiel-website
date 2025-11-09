@@ -100,7 +100,7 @@ export function BlogForm() {
     <div className="space-y-6">
       {/* Back Button */}
       <Link 
-        href="/content-management-system-2024"
+        href="/dashboard"
         className="inline-flex items-center space-x-2 text-cyan-600 dark:text-cyan-400 hover:text-cyan-700 dark:hover:text-cyan-300 transition-colors duration-200"
       >
         <ArrowLeft className="h-4 w-4" />
