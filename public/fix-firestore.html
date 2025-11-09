@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Firestore Cache Tamiri</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            text-align: center;
+            max-width: 600px;
+        }
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 18px;
+            border-radius: 10px;
+            cursor: pointer;
+            margin: 10px;
+        }
+        button:hover {
+            opacity: 0.9;
+        }
+        .status {
+            margin: 20px 0;
+            font-size: 16px;
+            color: #333;
+        }
+        .success {
+            color: #22c55e;
+            font-weight: bold;
+        }
+        .error {
+            color: #ef4444;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 Firestore Cache Tamiri</h1>
+        <p>Firestore cache'i bozulmuş. Aşağıdaki butona tıklayarak tümünü temizleyin.</p>
+        
+        <div id="status" class="status">Hazır</div>
+        
+        <button onclick="fixFirestore()">Firestore Cache'i Temizle</button>
+        <button onclick="goToDashboard()">Dashboard'a Git</button>
+        
+        <div style="margin-top: 30px; padding: 20px; background: #f0f0f0; border-radius: 10px; text-align: left;">
+            <h3>Yapılacaklar:</h3>
+            <ol id="steps">
+                <li>IndexedDB'deki tüm Firestore veritabanlarını sil</li>
+                <li>LocalStorage'ı temizle</li>
+                <li>SessionStorage'ı temizle</li>
+                <li>Service Worker cache'i temizle</li>
+                <li>Tarayıcıyı yenile</li>
+            </ol>
+        </div>
+    </div>
+
+    <script>
+        async function fixFirestore() {
+            const status = document.getElementById('status');
+            const steps = document.getElementById('steps').children;
+            
+            try {
+                // 1. IndexedDB'deki tüm Firestore veritabanlarını sil
+                status.textContent = 'IndexedDB temizleniyor...';
+                steps[0].style.color = '#3b82f6';
+                
+                const databases = await indexedDB.databases();
+                let deletedCount = 0;
+                
+                for (const db of databases) {
+                    if (db.name) {
+                        console.log('Siliniyor:', db.name);
+                        indexedDB.deleteDatabase(db.name);
+                        deletedCount++;
+                    }
+                }
+                
+                steps[0].style.color = '#22c55e';
+                steps[0].textContent += ` ✅ (${deletedCount} veritabanı silindi)`;
+                
+                // 2. LocalStorage
+                status.textContent = 'LocalStorage temizleniyor...';
+                steps[1].style.color = '#3b82f6';
+                localStorage.clear();
+                steps[1].style.color = '#22c55e';
+                steps[1].textContent += ' ✅';
+                
+                // 3. SessionStorage
+                status.textContent = 'SessionStorage temizleniyor...';
+                steps[2].style.color = '#3b82f6';
+                sessionStorage.clear();
+                steps[2].style.color = '#22c55e';
+                steps[2].textContent += ' ✅';
+                
+                // 4. Service Worker cache
+                status.textContent = 'Service Worker cache temizleniyor...';
+                steps[3].style.color = '#3b82f6';
+                if ('caches' in window) {
+                    const cacheNames = await caches.keys();
+                    await Promise.all(cacheNames.map(name => caches.delete(name)));
+                }
+                if ('serviceWorker' in navigator) {
+                    const registrations = await navigator.serviceWorker.getRegistrations();
+                    await Promise.all(registrations.map(r => r.unregister()));
+                }
+                steps[3].style.color = '#22c55e';
+                steps[3].textContent += ' ✅';
+                
+                // 5. Yenile
+                status.textContent = '✅ Tamamlandı! Sayfa yenileniyor...';
+                status.className = 'status success';
+                steps[4].style.color = '#22c55e';
+                steps[4].textContent += ' ✅';
+                
+                setTimeout(() => {
+                    window.location.href = '/admin-panel-secure-access-2024';
+                }, 2000);
+                
+            } catch (error) {
+                status.textContent = '❌ Hata: ' + error.message;
+                status.className = 'status error';
+                console.error('Hata:', error);
+            }
+        }
+        
+        function goToDashboard() {
+            window.location.href = '/admin-panel-secure-access-2024';
+        }
+    </script>
+</body>
+</html>
+

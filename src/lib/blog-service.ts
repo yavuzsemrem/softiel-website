@@ -870,35 +870,16 @@ export async function getBlogStats(): Promise<{
   } catch (error) {
     throw new Error(`Blog istatistikleri getirilemedi: ${(error as any)?.message || 'Bilinmeyen hata'}`)
   }
-}// Tüm blogları getir
+}
+
+// Tüm blogları getir
 export async function getAllBlogs(filters?: BlogFilters): Promise<BlogPost[]> {
   try {
-    let q = query(blogsCollection)
-    
-    // Filtreleri uygula
-    if (filters?.status) {
-      q = query(q, where('status', '==', filters.status))
-    }
-    
-    if (filters?.category) {
-      q = query(q, where('category', '==', filters.category))
-    }
-    
-    if (filters?.featured !== undefined) {
-      q = query(q, where('featured', '==', filters.featured))
-    }
-    
-    if (filters?.author) {
-      q = query(q, where('author', '==', filters.author))
-    }
-    
-    // Tarihe göre sırala (en yeni önce)
-    q = query(q, orderBy('createdAt', 'desc'))
-    
-    const snapshot = await getDocs(q)
+    // Tüm blogları al - filtreleri client-side uygula
+    const snapshot = await getDocs(blogsCollection)
     let blogs: BlogPost[] = []
     
-    // Use snapshot.docs array to avoid forEach serialization issues in production
+    // Dökümanları diziye dönüştür
     const docs = snapshot.docs || []
     for (const doc of docs) {
       const data = doc.data()
@@ -911,6 +892,25 @@ export async function getAllBlogs(filters?: BlogFilters): Promise<BlogPost[]> {
         ...data,
         slug: slug
       } as BlogPost)
+    }
+    
+    // Client-side filtreleme
+    if (filters?.status) {
+      blogs = blogs.filter(blog => blog.status === filters.status)
+    }
+    
+    if (filters?.category) {
+      blogs = blogs.filter(blog => blog.category === filters.category)
+    }
+    
+    if (filters?.featured !== undefined) {
+      blogs = blogs.filter(blog => blog.featured === filters.featured)
+    }
+    
+    if (filters?.author) {
+      blogs = blogs.filter(blog => 
+        blog.author.toLowerCase().includes(filters.author!.toLowerCase())
+      )
     }
     
     // Arama filtresi uygula (client-side)
@@ -931,8 +931,16 @@ export async function getAllBlogs(filters?: BlogFilters): Promise<BlogPost[]> {
       )
     }
     
+    // Tarihe göre sırala (en yeni önce)
+    blogs.sort((a, b) => {
+      const aTime = a.createdAt?.toDate ? a.createdAt.toDate().getTime() : 0
+      const bTime = b.createdAt?.toDate ? b.createdAt.toDate().getTime() : 0
+      return bTime - aTime
+    })
+    
     return blogs
   } catch (error) {
+    console.error('getAllBlogs error:', error)
     throw new Error(`Bloglar getirilemedi: ${(error as any)?.message || 'Bilinmeyen hata'}`)
   }
 }

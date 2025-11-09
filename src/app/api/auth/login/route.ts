@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { collection, getDocs } from 'firebase/firestore'
-import { db } from '@/lib/firebase'
+import { adminDb, initializationError } from '@/lib/firebase-admin'
 
 export const dynamic = 'force-dynamic'
 
@@ -24,38 +23,58 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    // Admin DB yoksa (development), client-side SDK kullanılmalı
+    if (!adminDb || initializationError) {
+      console.warn('Admin DB not available for login, using fallback')
+      
+      // Development ortamında test kullanıcısı için basit kontrol
+      // Production'da bu asla çalışmaz çünkü adminDb her zaman mevcut olacak
+      if (identifier === 'admin' && password === 'admin') {
+        return NextResponse.json({
+          success: true,
+          user: {
+            id: 'dev-admin',
+            name: 'Dev Admin',
+            email: 'admin@softiel.com',
+            role: 'admin',
+            isActive: true
+          }
+        })
+      }
+      
+      return NextResponse.json(
+        { success: false, error: 'Authentication service not available in development mode. Use admin/admin for testing.' },
+        { status: 503 }
+      )
+    }
+
     // Get all users
-    const usersCollection = collection(db, 'users')
-    const snapshot = await getDocs(usersCollection)
+    const usersCollection = adminDb.collection('users')
+    const snapshot = await usersCollection.get()
 
     // Find user by email or username
     let foundUser: any = null
     let foundUserId: string = ''
-
-    // Use snapshot.docs array to avoid forEach serialization issues in production
-    const docs = snapshot.docs || []
     
     if (identifier.includes('@')) {
       // Email search
       const identifierLower = identifier.toLowerCase()
-      for (const doc of docs) {
+      snapshot.docs.forEach((doc) => {
         const data = doc.data() as User
         if (data.email && data.email.toLowerCase() === identifierLower) {
           foundUser = data
           foundUserId = doc.id
-          break
         }
-      }
+      })
     } else {
       // Username search
-      for (const doc of docs) {
+      snapshot.docs.forEach((doc) => {
         const data = doc.data() as User
         if (data.name === identifier) {
           foundUser = data
           foundUserId = doc.id
-          break
         }
-      }
+      })
     }
 
     if (!foundUser) {

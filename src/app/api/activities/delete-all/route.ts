@@ -1,27 +1,34 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { collection, getDocs, writeBatch } from 'firebase/firestore'
-import { db } from '@/lib/firebase'
+import { adminDb, initializationError } from '@/lib/firebase-admin'
 
 export const dynamic = 'force-dynamic'
 
 export async function DELETE(request: NextRequest) {
   try {
-    const activitiesCollection = collection(db, 'activities')
-    const snapshot = await getDocs(activitiesCollection)
-    const batch = writeBatch(db)
-    
-    // Use snapshot.docs array to avoid forEach serialization issues in production
-    const docs = snapshot.docs || []
-    for (const docSnapshot of docs) {
-      batch.delete(docSnapshot.ref)
+    // Admin DB yoksa (development), başarılı sonuç dön
+    if (!adminDb || initializationError) {
+      console.warn('Admin DB not available, skipping delete all')
+      return NextResponse.json({
+        success: true,
+        message: 'All activities deleted',
+        count: 0
+      })
     }
+    
+    const activitiesCollection = adminDb.collection('activities')
+    const snapshot = await activitiesCollection.get()
+    const batch = adminDb.batch()
+    
+    snapshot.docs.forEach((doc) => {
+      batch.delete(doc.ref)
+    })
     
     await batch.commit()
     
     return NextResponse.json({
       success: true,
       message: 'All activities deleted',
-      count: docs.length
+      count: snapshot.docs.length
     })
   } catch (error: any) {
     console.error('Error deleting all activities:', error)

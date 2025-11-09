@@ -1,30 +1,36 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { collection, getDocs } from 'firebase/firestore'
-import { db } from '@/lib/firebase'
+import { adminDb, initializationError } from '@/lib/firebase-admin'
 
 export const dynamic = 'force-dynamic'
 
 export async function GET(request: NextRequest) {
   try {
+    // Admin DB yoksa (development), başarılı ama boş sonuç dön
+    if (!adminDb || initializationError) {
+      console.warn('Admin DB not available, returning empty activities')
+      return NextResponse.json({
+        success: true,
+        activities: []
+      })
+    }
+    
     const url = new URL(request.url || `https://domain.com${request.nextUrl.pathname}${request.nextUrl.search}`)
     const { searchParams } = url
     const limitCount = parseInt(searchParams.get('limit') || '10')
     
-    const activitiesCollection = collection(db, 'activities')
-    const snapshot = await getDocs(activitiesCollection)
+    const activitiesCollection = adminDb.collection('activities')
+    const snapshot = await activitiesCollection.get()
     
     const activities: any[] = []
     
-    // Use snapshot.docs array to avoid forEach serialization issues in production
-    const docs = snapshot.docs || []
-    for (const doc of docs) {
+    snapshot.docs.forEach((doc) => {
       const data = doc.data()
       activities.push({
         id: doc.id,
         ...data,
-        createdAt: data.createdAt?.toMillis ? data.createdAt.toMillis() : Date.now()
+        createdAt: data.createdAt?._seconds ? data.createdAt._seconds * 1000 : Date.now()
       })
-    }
+    })
     
     // Manuel olarak sırala ve limit uygula
     const sortedActivities = activities

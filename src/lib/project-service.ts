@@ -212,19 +212,35 @@ export async function getProjectBySlug(slug: string): Promise<Project | null> {
 // Projeleri listele
 export async function getProjects(filters: ProjectFilters = {}, pageSize: number = 10, lastDoc?: any): Promise<{ projects: Project[], hasMore: boolean, lastDoc: any }> {
   try {
-    let q = query(collection(db, 'projects'))
+    // Tüm projeleri al - filtreleri client-side uygula
+    const querySnapshot = await getDocs(collection(db, 'projects'))
+    let projects = querySnapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    })) as Project[]
 
-    // Filtreler
+    // Client-side filtreleme
     if (filters.category) {
-      q = query(q, where('category', '==', filters.category))
+      projects = projects.filter(p => p.category === filters.category)
     }
     
     if (filters.status) {
-      q = query(q, where('status', '==', filters.status))
+      projects = projects.filter(p => p.status === filters.status)
     }
     
     if (filters.featured !== undefined) {
-      q = query(q, where('featured', '==', filters.featured))
+      projects = projects.filter(p => p.featured === filters.featured)
+    }
+
+    // Arama filtresi (client-side)
+    if (filters.search) {
+      const searchTerm = filters.search.toLowerCase()
+      projects = projects.filter(project => 
+        project.title.toLowerCase().includes(searchTerm) ||
+        project.description.toLowerCase().includes(searchTerm) ||
+        project.client.toLowerCase().includes(searchTerm) ||
+        project.technologies.some(tech => tech.toLowerCase().includes(searchTerm))
+      )
     }
 
     // Sıralama
@@ -252,43 +268,39 @@ export async function getProjects(filters: ProjectFilters = {}, pageSize: number
         orderDirection = 'desc'
     }
 
-    q = query(q, orderBy(orderField, orderDirection))
+    // Client-side sorting
+    projects.sort((a, b) => {
+      const aVal = a[orderField as keyof Project]
+      const bVal = b[orderField as keyof Project]
+      
+      // Handle Timestamp objects
+      if (orderField === 'createdAt' || orderField === 'updatedAt') {
+        const aTime = (aVal as any)?.toDate ? (aVal as any).toDate().getTime() : 0
+        const bTime = (bVal as any)?.toDate ? (bVal as any).toDate().getTime() : 0
+        return orderDirection === 'desc' ? bTime - aTime : aTime - bTime
+      }
+      
+      // Handle strings
+      if (typeof aVal === 'string' && typeof bVal === 'string') {
+        return orderDirection === 'desc' 
+          ? bVal.localeCompare(aVal)
+          : aVal.localeCompare(bVal)
+      }
+      
+      // Handle numbers
+      const aNum = Number(aVal) || 0
+      const bNum = Number(bVal) || 0
+      return orderDirection === 'desc' ? bNum - aNum : aNum - bNum
+    })
 
-    // Sayfalama
-    if (lastDoc) {
-      q = query(q, startAfter(lastDoc))
-    }
-    q = query(q, limit(pageSize + 1))
-
-    const querySnapshot = await getDocs(q)
-    const projects = querySnapshot.docs.map(doc => ({
-      id: doc.id,
-      ...doc.data()
-    })) as Project[]
-
+    // Sayfalama (client-side)
     const hasMore = projects.length > pageSize
-    if (hasMore) {
-      projects.pop() // Son elemanı çıkar
-    }
-
-    const newLastDoc = hasMore ? querySnapshot.docs[querySnapshot.docs.length - 2] : null
-
-    // Arama filtresi (client-side)
-    let filteredProjects = projects
-    if (filters.search) {
-      const searchTerm = filters.search.toLowerCase()
-      filteredProjects = projects.filter(project => 
-        project.title.toLowerCase().includes(searchTerm) ||
-        project.description.toLowerCase().includes(searchTerm) ||
-        project.client.toLowerCase().includes(searchTerm) ||
-        project.technologies.some(tech => tech.toLowerCase().includes(searchTerm))
-      )
-    }
+    const paginatedProjects = projects.slice(0, pageSize)
 
     return {
-      projects: filteredProjects,
+      projects: paginatedProjects,
       hasMore,
-      lastDoc: newLastDoc
+      lastDoc: null // Client-side pagination'da lastDoc kullanmıyoruz
     }
   } catch (error) {
     console.error('Error getting projects:', error)
