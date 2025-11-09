@@ -16,8 +16,8 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
   const [unreadCount, setUnreadCount] = useState(0)
   const pathname = usePathname()
   
-  // Sadece dashboard sayfalarında Firebase'i yükle
-  const isDashboardPage = pathname?.includes('/content-management-system-2024') || pathname?.includes('/admin')
+  // Sadece CMS sayfalarında Firebase'i yükle - login sayfasında YÜKLEMEyelim
+  const isDashboardPage = pathname?.includes('/content-management-system-2024')
 
   const updateUnreadCount = async () => {
     // Dashboard sayfası değilse Firebase'i yükleme

@@ -43,12 +43,31 @@ export function DashboardHero() {
         setLoading(true)
         setError(null)
 
-        // Paralel olarak tüm verileri getir
-        const [blogStats, commentStats, userStats] = await Promise.all([
-          getBlogStats(),
-          getCommentStats(),
-          getUserStats()
-        ])
+        // Firestore cache bug workaround - Hataları yakala ve devam et
+        let blogStats: any
+        let commentStats: any
+        let userStats: any
+        
+        try {
+          blogStats = await getBlogStats()
+        } catch (err) {
+          console.warn('Blog stats error (using defaults):', err)
+          blogStats = { total: 0, published: 0, draft: 0, archived: 0, totalViews: 0, totalLikes: 0, totalComments: 0 }
+        }
+        
+        try {
+          commentStats = await getCommentStats()
+        } catch (err) {
+          console.warn('Comment stats error (using defaults):', err)
+          commentStats = { total: 0, approved: 0, pending: 0, rejected: 0, replies: 0 }
+        }
+        
+        try {
+          userStats = await getUserStats()
+        } catch (err) {
+          console.warn('User stats error (using defaults):', err)
+          userStats = { total: 0, active: 0, inactive: 0, byRole: {} }
+        }
 
         setStats({
           blogs: blogStats,
@@ -57,6 +76,7 @@ export function DashboardHero() {
         })
       } catch (err) {
         // Dashboard veri yükleme hatası sessizce işlendi
+        console.error('Dashboard data error:', err)
         setError('Veriler yüklenirken bir hata oluştu')
       } finally {
         setLoading(false)

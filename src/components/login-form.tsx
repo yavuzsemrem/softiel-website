@@ -4,7 +4,9 @@ import React, { useState, useEffect, useRef } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Eye, EyeOff, Lock, LogIn, Shield, AlertTriangle, User, Mail, Clock, RefreshCw, X, ArrowLeft, AlertCircle, CheckCircle } from "lucide-react"
 import { useRouter } from "next/navigation"
+import { loginUserByUsernameOrEmail } from "@/lib/firestore-auth"
 import { sessionService } from "@/lib/session"
+import { useRecaptcha } from "@/hooks/useRecaptcha"
 import emailjs from '@emailjs/browser'
 
 export function LoginForm() {
@@ -25,6 +27,9 @@ export function LoginForm() {
   const [userData, setUserData] = useState<any>(null)
   const router = useRouter()
   const formRef = useRef<HTMLFormElement>(null)
+  
+  // ReCAPTCHA hook
+  const { isAvailable, executeRecaptchaAction } = useRecaptcha()
 
   // EmailJS initialization - sadece bir kere
   useEffect(() => {
@@ -75,70 +80,30 @@ export function LoginForm() {
     setError("")
 
     try {
-      // Client-side Firestore kullanarak login
-      const { collection, getDocs, query, where } = await import('firebase/firestore')
-      const { db } = await import('@/lib/firebase')
+      // ReCAPTCHA token al (production'da)
+      let recaptchaToken = null
+      if (isAvailable) {
+        const result = await executeRecaptchaAction('LOGIN')
+        recaptchaToken = result.token || null
+      }
+
+      const result = await loginUserByUsernameOrEmail(formData.email, formData.password, recaptchaToken)
       
-      const usersCollection = collection(db, 'users')
-      const identifier = formData.email.trim()
-      const password = formData.password
-      
-      // Email veya kullanıcı adı ile ara
-      let userQuery
-      if (identifier.includes('@')) {
-        // Email ile ara
-        userQuery = query(usersCollection, where('email', '==', identifier.toLowerCase()))
+      if (result.success && result.user) {
+        // Kullanıcı bilgilerini kaydet
+        setUserData(result.user)
+        
+        // OTP gönder
+        await handleSendOTP()
+        
+        // OTP modalını aç
+        setShowOTPModal(true)
+        setSuccess("OTP code sent successfully")
       } else {
-        // Kullanıcı adı ile ara
-        userQuery = query(usersCollection, where('name', '==', identifier))
+        setError(result.error || "An error occurred during login")
       }
-      
-      const snapshot = await getDocs(userQuery)
-      
-      if (snapshot.empty) {
-        setError("Invalid username, email or password")
-        setIsLoading(false)
-        return
-      }
-      
-      const userDoc = snapshot.docs[0]
-      const userData = userDoc.data()
-      
-      // Şifre kontrolü
-      if (userData.password !== password) {
-        setError("Invalid username, email or password")
-        setIsLoading(false)
-        return
-      }
-      
-      // Aktif mi kontrolü
-      if (!userData.isActive) {
-        setError("Your account has been deactivated")
-        setIsLoading(false)
-        return
-      }
-      
-      // Kullanıcı bilgilerini kaydet
-      const user = {
-        id: userDoc.id,
-        name: userData.name,
-        email: userData.email,
-        role: userData.role,
-        isActive: userData.isActive
-      }
-      
-      setUserData(user)
-      
-      // OTP gönder
-      await handleSendOTP()
-      
-      // OTP modalını aç
-      setShowOTPModal(true)
-      setSuccess("OTP code sent successfully")
-      
     } catch (err) {
-      console.error('Login error:', err)
-      setError("An error occurred during login: " + (err instanceof Error ? err.message : 'Unknown error'))
+      setError("An error occurred during login")
     } finally {
       setIsLoading(false)
     }

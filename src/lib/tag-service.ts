@@ -83,14 +83,12 @@ export async function getTags(): Promise<Tag[]> {
     const snapshot = await getDocs(q)
     const tags: Tag[] = []
     
-    // Use snapshot.docs array to avoid forEach serialization issues in production
-    const docs = snapshot.docs || []
-    for (const doc of docs) {
+    snapshot.forEach(doc => {
       tags.push({
         id: doc.id,
         ...doc.data()
       } as Tag)
-    }
+    })
     
     return tags
   } catch (error) {
@@ -106,9 +104,7 @@ export async function getActiveTags(): Promise<Tag[]> {
     const snapshot = await getDocs(tagsCollection)
     const tags: Tag[] = []
     
-    // Use snapshot.docs array to avoid forEach serialization issues in production
-    const docs = snapshot.docs || []
-    for (const doc of docs) {
+    snapshot.forEach(doc => {
       const data = doc.data()
       if (data.isActive === true) {
         tags.push({
@@ -116,7 +112,7 @@ export async function getActiveTags(): Promise<Tag[]> {
           ...data
         } as Tag)
       }
-    }
+    })
     
     // Client-side sıralama
     tags.sort((a, b) => a.name.localeCompare(b.name, 'tr'))

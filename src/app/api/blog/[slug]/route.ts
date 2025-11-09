@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { adminDb, initializationError } from '@/lib/firebase-admin'
+import { getAdminFirestore } from '@/lib/firebase-admin'
 
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
@@ -31,17 +31,9 @@ export async function GET(
 
     const incrementViews = request.nextUrl.searchParams.get('incrementViews') === 'true'
     
-    // Admin DB yoksa (development), 404 dön
-    if (!adminDb || initializationError) {
-      console.warn('Admin DB not available for blog fetch')
-      return NextResponse.json(
-        { error: 'Blog service not available in development mode' },
-        { status: 503 }
-      )
-    }
-    
     // Admin Firestore kullan
-    const blogsCollection = adminDb.collection('blogs')
+    const db = getAdminFirestore()
+    const blogsCollection = db.collection('blogs')
     
     // Önce ID ile dene
     try {

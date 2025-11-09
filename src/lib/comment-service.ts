@@ -757,9 +757,7 @@ export async function getComments(filters: CommentFilters = {}, pagination: Comm
     const snapshot = await getDocs(q)
     const comments: Comment[] = []
     
-    // Use snapshot.docs array to avoid forEach serialization issues in production
-    const docs = snapshot.docs || []
-    for (const doc of docs) {
+    snapshot.forEach(doc => {
       const data = doc.data()
       comments.push({
         id: doc.id,
@@ -776,7 +774,7 @@ export async function getComments(filters: CommentFilters = {}, pagination: Comm
         likes: data.likes || 0,
         likedBy: data.likedBy || []
       } as Comment)
-    }
+    })
     
     // Client-side filtreleme (index gerektirmez)
     let filteredComments = comments
@@ -821,15 +819,13 @@ export async function getAllComments(): Promise<Comment[]> {
     const snapshot = await getDocs(q)
     const comments: Comment[] = []
     
-    // Use snapshot.docs array to avoid forEach serialization issues in production
-    const docs = snapshot.docs || []
-    for (const doc of docs) {
+    snapshot.forEach(doc => {
       try {
         const data = doc.data()
         
         // Veri doğrulama
         if (!data) {
-          continue
+          return
         }
         
         const comment: Comment = {
@@ -852,7 +848,7 @@ export async function getAllComments(): Promise<Comment[]> {
       } catch (docError) {
         // Hatalı dokümanı atla ve devam et
       }
-    }
+    })
     
     return comments
   } catch (error) {
@@ -995,9 +991,7 @@ export async function getAdminRepliesByThread(threadId: string): Promise<AdminRe
     const snapshot = await getDocs(q)
     const adminReplies: AdminReply[] = []
     
-    // Use snapshot.docs array to avoid forEach serialization issues in production
-    const docs = snapshot.docs || []
-    for (const doc of docs) {
+    snapshot.forEach(doc => {
       const data = doc.data()
       const adminReply: AdminReply = {
         id: doc.id,
@@ -1014,11 +1008,11 @@ export async function getAdminRepliesByThread(threadId: string): Promise<AdminRe
       
       // ID kontrolü
       if (!adminReply.id) {
-        continue
+        return
       }
       
       adminReplies.push(adminReply)
-    }
+    })
     
     return adminReplies
   } catch (error) {

@@ -1,6 +1,8 @@
 // Firestore-based authentication service
 import { 
   collection, 
+  query, 
+  where, 
   getDocs,
   doc,
   getDoc,
@@ -53,33 +55,17 @@ export async function loginUser(
       return { success: false, error: 'Çok fazla giriş denemesi. Lütfen 15 dakika bekleyin.' }
     }
 
-    // Find user by email - Query kullanmadan (server-side bug workaround)
+    // Find user by email
     const usersCollection = collection(db, 'users')
-    const snapshot = await getDocs(usersCollection)
-    const emailLower = email.toLowerCase()
+    const q = query(usersCollection, where('email', '==', email.toLowerCase()))
+    const snapshot = await getDocs(q)
     
-    // Manuel olarak email ile eşleşen kullanıcıyı bul
-    let foundUserDoc: any = null
-    let foundUserData: User | null = null
-    
-    // Use snapshot.docs array to avoid forEach serialization issues in production
-    const docs = snapshot.docs || []
-    for (const d of docs) {
-      const data = d.data() as User
-      if (data.email && data.email.toLowerCase() === emailLower) {
-        foundUserDoc = d
-        foundUserData = data
-        break
-      }
-    }
-    
-    if (!foundUserDoc || !foundUserData) {
+    if (snapshot.empty) {
       return { success: false, error: 'Invalid email or password' }
     }
 
-    // TypeScript type guard
-    const userData: User = foundUserData
-    const userDocSnapshot = foundUserDoc
+    const userDoc = snapshot.docs[0]
+    const userData = userDoc.data() as User
 
     // Check if user is active
     if (!userData.isActive) {
@@ -93,7 +79,7 @@ export async function loginUser(
     }
 
     // Update last login time
-    const userRef = doc(db, 'users', userDocSnapshot.id)
+    const userRef = doc(db, 'users', userDoc.id)
     await updateDoc(userRef, {
       lastLoginAt: Timestamp.now()
     })
@@ -102,7 +88,7 @@ export async function loginUser(
     loginAttempts.delete(email)
 
     const authUser: AuthUser = {
-      id: userDocSnapshot.id,
+      id: userDoc.id,
       name: userData.name,
       email: userData.email,
       role: userData.role,
@@ -137,47 +123,26 @@ export async function loginUserByUsernameOrEmail(
       return { success: false, error: 'Çok fazla giriş denemesi. Lütfen 15 dakika bekleyin.' }
     }
 
-    // Query kullanmadan tüm collection'ı çek (server-side bug workaround)
     const usersCollection = collection(db, 'users')
-    const snapshot = await getDocs(usersCollection)
-    
-    // Manuel olarak username veya email ile eşleşen kullanıcıyı bul
-    let foundUserDoc: any = null
-    let foundUserData: User | null = null
-    
-    // Use snapshot.docs array to avoid forEach serialization issues in production
-    const docs = snapshot.docs || []
-    
+    let q
+    let snapshot
+
+    // First try to find by email
     if (identifier.includes('@')) {
-      // Email ile arama
-      const identifierLower = identifier.toLowerCase()
-      for (const d of docs) {
-        const data = d.data() as User
-        if (data.email && data.email.toLowerCase() === identifierLower) {
-          foundUserDoc = d
-          foundUserData = data
-          break
-        }
-      }
+      q = query(usersCollection, where('email', '==', identifier.toLowerCase()))
+      snapshot = await getDocs(q)
     } else {
-      // Username ile arama
-      for (const d of docs) {
-        const data = d.data() as User
-        if (data.name === identifier) {
-          foundUserDoc = d
-          foundUserData = data
-          break
-        }
-      }
+      // Try to find by name
+      q = query(usersCollection, where('name', '==', identifier))
+      snapshot = await getDocs(q)
     }
     
-    if (!foundUserDoc || !foundUserData) {
+    if (snapshot.empty) {
       return { success: false, error: 'Invalid username, email or password' }
     }
 
-    // TypeScript type guard
-    const userData: User = foundUserData
-    const userDocSnapshot = foundUserDoc
+    const userDoc = snapshot.docs[0]
+    const userData = userDoc.data() as User
 
     // Check if user is active
     if (!userData.isActive) {
@@ -191,7 +156,7 @@ export async function loginUserByUsernameOrEmail(
     }
 
     // Update last login time
-    const userRef = doc(db, 'users', userDocSnapshot.id)
+    const userRef = doc(db, 'users', userDoc.id)
     await updateDoc(userRef, {
       lastLoginAt: Timestamp.now()
     })
@@ -200,7 +165,7 @@ export async function loginUserByUsernameOrEmail(
     loginAttempts.delete(identifier)
 
     const authUser: AuthUser = {
-      id: userDocSnapshot.id,
+      id: userDoc.id,
       name: userData.name,
       email: userData.email,
       role: userData.role,

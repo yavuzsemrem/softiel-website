@@ -2,15 +2,17 @@
 import { 
   collection, 
   addDoc, 
+  getDocs, 
+  query, 
+  orderBy, 
+  limit,
+  where,
   Timestamp,
   doc,
   deleteDoc,
-  writeBatch as firestoreWriteBatch
+  writeBatch
 } from 'firebase/firestore'
 import { db } from './firebase'
-
-// writeBatch helper
-const writeBatch = (database: any) => firestoreWriteBatch(database)
 
 export interface Activity {
   id?: string
@@ -47,31 +49,24 @@ export async function createActivity(activityData: Omit<Activity, 'id' | 'create
   }
 }
 
-// Get recent activities - CLIENT-SIDE FIRESTORE KULLAN
+// Get recent activities
 export async function getRecentActivities(limitCount: number = 10): Promise<Activity[]> {
   try {
-    const { getDocs, query, orderBy, limit } = await import('firebase/firestore')
-    const activitiesCollection = getActivitiesCollection()
+    const activitiesCollection = getActivitiesCollection();
+    const q = query(
+      activitiesCollection,
+      orderBy('createdAt', 'desc'),
+      limit(limitCount)
+    )
     
-    // Query oluştur - orderBy ve limit tek seferde
-    const q = query(activitiesCollection, orderBy('createdAt', 'desc'), limit(limitCount))
     const snapshot = await getDocs(q)
-    
     const activities: Activity[] = []
-    snapshot.docs.forEach(doc => {
-      const data = doc.data()
+    
+    snapshot.forEach(doc => {
       activities.push({
         id: doc.id,
-        type: data.type,
-        title: data.title,
-        description: data.description,
-        userId: data.userId,
-        userName: data.userName,
-        targetId: data.targetId,
-        metadata: data.metadata,
-        createdAt: data.createdAt || Timestamp.now(),
-        isRead: data.isRead || false
-      })
+        ...doc.data()
+      } as Activity)
     })
     
     return activities
@@ -81,16 +76,16 @@ export async function getRecentActivities(limitCount: number = 10): Promise<Acti
   }
 }
 
-// Get unread activities count - CLIENT-SIDE FIRESTORE KULLAN
+// Get unread activities count
 export async function getUnreadActivitiesCount(): Promise<number> {
   try {
-    const { getDocs, query, where } = await import('firebase/firestore')
-    const activitiesCollection = getActivitiesCollection()
+    const activitiesCollection = getActivitiesCollection();
+    const q = query(
+      activitiesCollection,
+      where('isRead', '==', false)
+    )
     
-    // Sadece okunmamışları say
-    const q = query(activitiesCollection, where('isRead', '==', false))
     const snapshot = await getDocs(q)
-    
     return snapshot.size
   } catch (error) {
     console.error('Okunmamış aktivite sayısı getirilemedi:', error)
@@ -136,19 +131,20 @@ export async function toggleActivityReadStatus(activityId: string, currentStatus
   }
 }
 
-// Mark all activities as read - API ROUTE KULLAN (Client-side Firestore bug'ı)
+// Mark all activities as read
 export async function markAllActivitiesAsRead(): Promise<void> {
   try {
-    const { getDocs, query, where, updateDoc } = await import('firebase/firestore')
-    const activitiesCollection = getActivitiesCollection()
+    const activitiesCollection = getActivitiesCollection();
+    const q = query(
+      activitiesCollection,
+      where('isRead', '==', false)
+    )
     
-    // Okunmamış aktiviteleri getir
-    const q = query(activitiesCollection, where('isRead', '==', false))
     const snapshot = await getDocs(q)
+    const { updateDoc } = await import('firebase/firestore')
     
-    // Tümünü okundu olarak işaretle
-    const updatePromises = snapshot.docs.map(doc => 
-      updateDoc(doc.ref, { isRead: true })
+    const updatePromises = snapshot.docs.map(docSnapshot => 
+      updateDoc(doc(db, 'activities', docSnapshot.id), { isRead: true })
     )
     
     await Promise.all(updatePromises)
@@ -187,19 +183,15 @@ export async function deleteActivities(activityIds: string[]): Promise<void> {
   }
 }
 
-// Delete all activities - API ROUTE KULLAN (Client-side Firestore bug'ı)
+// Delete all activities
 export async function deleteAllActivities(): Promise<void> {
   try {
-    const { getDocs } = await import('firebase/firestore')
-    const activitiesCollection = getActivitiesCollection()
-    
-    // Tüm aktiviteleri getir
+    const activitiesCollection = getActivitiesCollection();
     const snapshot = await getDocs(activitiesCollection)
-    
-    // Batch silme
     const batch = writeBatch(db)
-    snapshot.docs.forEach(doc => {
-      batch.delete(doc.ref)
+    
+    snapshot.docs.forEach(docSnapshot => {
+      batch.delete(docSnapshot.ref)
     })
     
     await batch.commit()

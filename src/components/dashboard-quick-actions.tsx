@@ -99,11 +99,31 @@ export function DashboardQuickActions() {
         setLoading(true)
         setError(null)
         
-        const [blogs, comments, users] = await Promise.all([
-          getAllBlogs(),
-          getAllComments(),
-          getUsers()
-        ])
+        // Firestore cache bug workaround - Her birini ayrı try-catch ile
+        let blogs: any[] = []
+        let comments: any[] = []
+        let users: any[] = []
+        
+        try {
+          blogs = await getAllBlogs()
+        } catch (err) {
+          console.warn('Blogs load error (using empty):', err)
+          blogs = []
+        }
+        
+        try {
+          comments = await getAllComments()
+        } catch (err) {
+          console.warn('Comments load error (using empty):', err)
+          comments = []
+        }
+        
+        try {
+          users = await getUsers()
+        } catch (err) {
+          console.warn('Users load error (using empty):', err)
+          users = []
+        }
         
         setRecentBlogs(blogs.slice(0, 5))
         setRecentComments(comments.slice(0, 5))
@@ -111,6 +131,7 @@ export function DashboardQuickActions() {
         
       } catch (err) {
         // Veri yükleme hatası sessizce işlendi
+        console.error('Dashboard quick actions error:', err)
         setError('Veriler yüklenirken bir hata oluştu')
       } finally {
         setLoading(false)

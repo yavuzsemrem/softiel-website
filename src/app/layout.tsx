@@ -77,7 +77,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         
         
-               {/* Minimal critical JS */}
+               {/* Minimal critical JS + Firestore Cache Cleaner */}
                <script
                  dangerouslySetInnerHTML={{
                    __html: `
@@ -87,6 +87,27 @@ export default function RootLayout({
                          document.documentElement.classList.add('fonts-loaded');
                        });
                      }
+                     
+                     // FIRESTORE CACHE AUTO-CLEANER - Her sayfa yüklendiğinde temizle
+                     (function() {
+                       const lastClean = sessionStorage.getItem('firestore_last_clean');
+                       const now = Date.now();
+                       
+                       // 5 dakikada bir temizle (veya ilk yüklemede)
+                       if (!lastClean || (now - parseInt(lastClean)) > 300000) {
+                         if (typeof indexedDB !== 'undefined') {
+                           indexedDB.databases().then(function(dbs) {
+                             dbs.forEach(function(db) {
+                               if (db.name && db.name.includes('firestore')) {
+                                 indexedDB.deleteDatabase(db.name);
+                                 console.log('🧹 Firestore cache cleared:', db.name);
+                               }
+                             });
+                             sessionStorage.setItem('firestore_last_clean', now.toString());
+                           }).catch(function() {});
+                         }
+                       }
+                     })();
                      
                      // Global error handler for production - suppress React errors in production
                     window.addEventListener('error', function(event) {

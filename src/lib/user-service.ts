@@ -85,9 +85,7 @@ export async function getUsers(): Promise<User[]> {
     const snapshot = await getDocs(q)
     const users: User[] = []
     
-    // Use snapshot.docs array to avoid forEach serialization issues in production
-    const docs = snapshot.docs || []
-    for (const doc of docs) {
+    snapshot.forEach(doc => {
       const data = doc.data()
       users.push({
         id: doc.id,
@@ -101,7 +99,7 @@ export async function getUsers(): Promise<User[]> {
         createdAt: data.createdAt,
         updatedAt: data.updatedAt
       } as User)
-    }
+    })
     
     return users
   } catch (error) {
@@ -117,9 +115,7 @@ export async function getActiveUsers(): Promise<User[]> {
     const snapshot = await getDocs(q)
     const users: User[] = []
     
-    // Use snapshot.docs array to avoid forEach serialization issues in production
-    const docs = snapshot.docs || []
-    for (const doc of docs) {
+    snapshot.forEach(doc => {
       const data = doc.data()
       users.push({
         id: doc.id,
@@ -133,7 +129,7 @@ export async function getActiveUsers(): Promise<User[]> {
         createdAt: data.createdAt,
         updatedAt: data.updatedAt
       } as User)
-    }
+    })
     
     return users
   } catch (error) {
@@ -149,9 +145,7 @@ export async function getWritableUsers(): Promise<User[]> {
     const snapshot = await getDocs(q)
     const users: User[] = []
     
-    // Use snapshot.docs array to avoid forEach serialization issues in production
-    const docs = snapshot.docs || []
-    for (const doc of docs) {
+    snapshot.forEach(doc => {
       const data = doc.data()
       const role = data.role || 'viewer'
       
@@ -169,7 +163,7 @@ export async function getWritableUsers(): Promise<User[]> {
           updatedAt: data.updatedAt
         } as User)
       }
-    }
+    })
     
     return users
   } catch (error) {
@@ -287,9 +281,7 @@ export async function getUserStats(): Promise<{
       byRole: {} as Record<string, number>
     }
     
-    // Use snapshot.docs array to avoid forEach serialization issues in production
-    const docs = snapshot.docs || []
-    for (const doc of docs) {
+    snapshot.forEach(doc => {
       const data = doc.data()
       stats.total++
       
@@ -301,7 +293,7 @@ export async function getUserStats(): Promise<{
       
       const role = data.role || 'unknown'
       stats.byRole[role] = (stats.byRole[role] || 0) + 1
-    }
+    })
     
     return stats
   } catch (error) {
