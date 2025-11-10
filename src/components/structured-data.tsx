@@ -18,12 +18,6 @@ export function StructuredData({ locale = 'en' }: StructuredDataProps) {
       ? 'Softiel ile dijital dünyada fark yaratın. Web tasarım, geliştirme, SEO ve dijital pazarlama hizmetleri.'
       : 'Make a difference in the digital world with Softiel. Web design, development, SEO and digital marketing services.',
     foundingDate: '2023',
-    founders: [
-      {
-        '@type': 'Person',
-        name: 'Softiel Team'
-      }
-    ],
     address: {
       '@type': 'PostalAddress',
       addressCountry: 'TR',
@@ -40,23 +34,7 @@ export function StructuredData({ locale = 'en' }: StructuredDataProps) {
       'https://twitter.com/softiel',
       'https://www.instagram.com/softiel',
       'https://www.facebook.com/softiel'
-    ],
-    areaServed: {
-      '@type': 'GeoCircle',
-      geoMidpoint: {
-        '@type': 'GeoCoordinates',
-        latitude: '41.0082',
-        longitude: '28.9784'
-      }
-    },
-    brand: {
-      '@type': 'Brand',
-      name: 'Softiel',
-      logo: 'https://softiel.com/android-chrome-512x512.png',
-      slogan: locale === 'tr' 
-        ? 'Dijital Dünyada Fark Yaratın'
-        : 'Make a Difference in the Digital World'
-    }
+    ]
   }
 
   // WebSite Schema - Arama özelliği için
@@ -88,14 +66,16 @@ export function StructuredData({ locale = 'en' }: StructuredDataProps) {
     image: 'https://softiel.com/android-chrome-512x512.png',
     '@id': 'https://softiel.com',
     url: 'https://softiel.com',
-    telephone: '',
     priceRange: '$$',
     address: {
       '@type': 'PostalAddress',
       addressCountry: 'TR',
       addressLocality: 'Istanbul'
     },
-    areaServed: ['TR', 'Global'],
+    areaServed: {
+      '@type': 'Country',
+      name: 'Turkey'
+    },
     hasOfferCatalog: {
       '@type': 'OfferCatalog',
       name: locale === 'tr' ? 'Hizmetlerimiz' : 'Our Services',
@@ -183,7 +163,13 @@ export function StructuredData({ locale = 'en' }: StructuredDataProps) {
     openingHoursSpecification: [
       {
         '@type': 'OpeningHoursSpecification',
-        dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+        dayOfWeek: [
+          'https://schema.org/Monday',
+          'https://schema.org/Tuesday',
+          'https://schema.org/Wednesday',
+          'https://schema.org/Thursday',
+          'https://schema.org/Friday'
+        ],
         opens: '09:00',
         closes: '18:00'
       }
