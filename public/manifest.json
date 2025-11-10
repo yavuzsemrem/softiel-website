@@ -1,7 +1,7 @@
 {
-  "name": "Softiel - Modern Web Ajansı | Softiel Software",
+  "name": "Softiel - Modern Web Agency | Softiel Software",
   "short_name": "Softiel",
-  "description": "Softiel ile dijital dünyada fark yaratın. Softiel Software - Web tasarım, geliştirme, SEO ve dijital pazarlama hizmetleri. Softiel Yazılım.",
+  "description": "Make a difference in the digital world with Softiel. Softiel Software - Web design, development, SEO and digital marketing services.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#0f172a",
@@ -38,7 +38,7 @@
     }
   ],
   "categories": ["business", "productivity"],
-  "lang": "tr-TR",
+  "lang": "en-US",
   "dir": "ltr"
 }
 

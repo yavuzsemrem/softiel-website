@@ -53,21 +53,21 @@ const poppins = Poppins({
 export const metadata: Metadata = {
   metadataBase: new URL('https://softiel.com'),
   title: {
-    default: "Softiel - Modern Web Ajansı | Web Tasarım & Dijital Pazarlama",
+    default: "Softiel - Modern Web Agency | Web Design & Digital Marketing",
     template: "%s | Softiel"
   },
-  description: "Softiel ile dijital dünyada fark yaratın. Web tasarım, geliştirme, SEO ve dijital pazarlama hizmetleri. Softiel Software - Modern Web Ajansı.",
+  description: "Make a difference in the digital world with Softiel. Web design, web development, SEO optimization and digital marketing services. Softiel Software - Modern Web Agency.",
   keywords: [
     "Softiel",
     "Softiel Software",
-    "Softiel Yazılım",
-    "web tasarım",
-    "web geliştirme",
-    "SEO optimizasyonu",
-    "dijital pazarlama",
-    "mobil uygulama geliştirme",
-    "yapay zeka entegrasyonu",
-    "web ajansı",
+    "web design",
+    "web development",
+    "SEO optimization",
+    "digital marketing",
+    "mobile app development",
+    "artificial intelligence integration",
+    "web agency",
+    "software development",
     "softiel.com"
   ],
   authors: [{ name: "Softiel", url: "https://softiel.com" }],
@@ -102,12 +102,12 @@ export const metadata: Metadata = {
   },
   openGraph: {
     type: "website",
-    locale: "tr_TR",
-    alternateLocale: ['en_US', 'de_DE', 'fr_FR', 'ru_RU', 'ar_SA'],
+    locale: "en_US",
+    alternateLocale: ['tr_TR', 'de_DE', 'fr_FR', 'ru_RU', 'ar_SA'],
     url: "https://softiel.com",
     siteName: "Softiel",
-    title: "Softiel - Modern Web Ajansı | Web Tasarım & Dijital Pazarlama",
-    description: "Softiel ile dijital dünyada fark yaratın. Web tasarım, geliştirme, SEO ve dijital pazarlama hizmetleri. Softiel Software - Modern Web Ajansı.",
+    title: "Softiel - Modern Web Agency | Web Design & Digital Marketing",
+    description: "Make a difference in the digital world with Softiel. Web design, web development, SEO optimization and digital marketing services. Softiel Software - Modern Web Agency.",
     images: [
       {
         url: 'https://softiel.com/android-chrome-512x512.png',
@@ -120,8 +120,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Softiel - Modern Web Ajansı',
-    description: 'Softiel ile dijital dünyada fark yaratın. Web tasarım, geliştirme, SEO ve dijital pazarlama hizmetleri.',
+    title: 'Softiel - Modern Web Agency',
+    description: 'Make a difference in the digital world with Softiel. Web design, web development, SEO optimization and digital marketing services.',
     creator: '@softiel',
     site: '@softiel',
     images: ['https://softiel.com/android-chrome-512x512.png'],
@@ -151,10 +151,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="tr" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <head>
         {/* Structured Data - JSON-LD for SEO */}
-        <StructuredData locale="tr" />
+        <StructuredData locale="en" />
         
         {/* Favicon declarations - Multiple formats for better compatibility */}
         <link rel="icon" href="/favicon.ico" sizes="any" />

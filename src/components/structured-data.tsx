@@ -4,7 +4,7 @@ interface StructuredDataProps {
   locale?: string
 }
 
-export function StructuredData({ locale = 'tr' }: StructuredDataProps) {
+export function StructuredData({ locale = 'en' }: StructuredDataProps) {
   // Organization Schema - Softiel markasını güçlendirmek için
   const organizationSchema = {
     '@context': 'https://schema.org',
