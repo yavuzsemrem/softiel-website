@@ -1,12 +1,63 @@
 import dynamic from "next/dynamic"
 import { Header } from "@/components/header"
 import { Hero } from "@/components/hero"
+import { Metadata } from "next"
 
 // Sadece ağır bileşenleri lazy load et
 const LazyHomeContent = dynamic(() => import("@/components/lazy-home-content"), {
   ssr: false,
   loading: () => <div className="min-h-screen bg-slate-800 animate-pulse" />
 })
+
+export const metadata: Metadata = {
+  title: "Softiel - Modern Web Ajansı | Web Tasarım & Dijital Pazarlama",
+  description: "Softiel ile dijital dünyada fark yaratın. Web tasarım, web geliştirme, SEO optimizasyonu ve dijital pazarlama hizmetleri. Softiel Software - Modern Web Ajansı.",
+  keywords: [
+    "Softiel",
+    "Softiel Software",
+    "Softiel Yazılım",
+    "web tasarım",
+    "web geliştirme",
+    "SEO",
+    "dijital pazarlama",
+    "mobil uygulama",
+    "yapay zeka",
+    "web ajansı Türkiye"
+  ],
+  alternates: {
+    canonical: 'https://softiel.com/tr',
+    languages: {
+      'tr': 'https://softiel.com/tr',
+      'en': 'https://softiel.com/en',
+      'de': 'https://softiel.com/de',
+      'fr': 'https://softiel.com/fr',
+      'ru': 'https://softiel.com/ru',
+      'ar': 'https://softiel.com/ar',
+    },
+  },
+  openGraph: {
+    title: "Softiel - Modern Web Ajansı",
+    description: "Softiel ile dijital dünyada fark yaratın. Web tasarım, geliştirme, SEO ve dijital pazarlama hizmetleri.",
+    url: "https://softiel.com/tr",
+    siteName: "Softiel",
+    locale: "tr_TR",
+    type: "website",
+    images: [
+      {
+        url: 'https://softiel.com/android-chrome-512x512.png',
+        width: 512,
+        height: 512,
+        alt: 'Softiel Logo',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Softiel - Modern Web Ajansı',
+    description: 'Softiel ile dijital dünyada fark yaratın.',
+    images: ['https://softiel.com/android-chrome-512x512.png'],
+  },
+}
 
 export default function Home() {
   return (

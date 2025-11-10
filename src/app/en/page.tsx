@@ -1,12 +1,62 @@
 import dynamic from "next/dynamic"
 import { Header } from "@/components/header"
 import { Hero } from "@/components/hero"
+import { Metadata } from "next"
 
 // Sadece ağır bileşenleri lazy load et
 const LazyHomeContent = dynamic(() => import("@/components/lazy-home-content"), {
   ssr: false,
   loading: () => <div className="min-h-screen bg-slate-800 animate-pulse" />
 })
+
+export const metadata: Metadata = {
+  title: "Softiel - Modern Web Agency | Web Design & Digital Marketing",
+  description: "Make a difference in the digital world with Softiel. Web design, web development, SEO optimization and digital marketing services. Softiel Software - Modern Web Agency.",
+  keywords: [
+    "Softiel",
+    "Softiel Software",
+    "web design",
+    "web development",
+    "SEO",
+    "digital marketing",
+    "mobile app development",
+    "artificial intelligence",
+    "web agency"
+  ],
+  alternates: {
+    canonical: 'https://softiel.com/en',
+    languages: {
+      'tr': 'https://softiel.com/tr',
+      'en': 'https://softiel.com/en',
+      'de': 'https://softiel.com/de',
+      'fr': 'https://softiel.com/fr',
+      'ru': 'https://softiel.com/ru',
+      'ar': 'https://softiel.com/ar',
+    },
+  },
+  openGraph: {
+    title: "Softiel - Modern Web Agency",
+    description: "Make a difference in the digital world with Softiel. Web design, development, SEO and digital marketing services.",
+    url: "https://softiel.com/en",
+    siteName: "Softiel",
+    locale: "en_US",
+    type: "website",
+    images: [
+      {
+        url: 'https://softiel.com/android-chrome-512x512.png',
+        width: 512,
+        height: 512,
+        alt: 'Softiel Logo',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Softiel - Modern Web Agency',
+    description: 'Make a difference in the digital world with Softiel.',
+    images: ['https://softiel.com/android-chrome-512x512.png'],
+  },
+}
 
 export default function Home() {
   return (

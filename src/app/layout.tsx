@@ -4,6 +4,7 @@ import "./globals.css";
 import dynamic from "next/dynamic";
 import { Suspense } from "react";
 import { ErrorBoundary } from "@/components/error-boundary";
+import { StructuredData } from "@/components/structured-data";
 
 
 // AppContent'i lazy load et - CLIENT ONLY (useI18n ve hooks kullanır)
@@ -50,10 +51,41 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "Softiel - Modern Web Ajansı",
-  description: "Softiel ile dijital dünyada fark yaratın. Web tasarım, geliştirme, SEO ve dijital pazarlama hizmetleri.",
-  keywords: "web tasarım, web geliştirme, SEO, dijital pazarlama, mobil uygulama, yapay zeka",
-  authors: [{ name: "Softiel" }],
+  metadataBase: new URL('https://softiel.com'),
+  title: {
+    default: "Softiel - Modern Web Ajansı | Web Tasarım & Dijital Pazarlama",
+    template: "%s | Softiel"
+  },
+  description: "Softiel ile dijital dünyada fark yaratın. Web tasarım, geliştirme, SEO ve dijital pazarlama hizmetleri. Softiel Software - Modern Web Ajansı.",
+  keywords: [
+    "Softiel",
+    "Softiel Software",
+    "Softiel Yazılım",
+    "web tasarım",
+    "web geliştirme",
+    "SEO optimizasyonu",
+    "dijital pazarlama",
+    "mobil uygulama geliştirme",
+    "yapay zeka entegrasyonu",
+    "web ajansı",
+    "softiel.com"
+  ],
+  authors: [{ name: "Softiel", url: "https://softiel.com" }],
+  creator: "Softiel",
+  publisher: "Softiel",
+  applicationName: "Softiel",
+  referrer: 'origin-when-cross-origin',
+  alternates: {
+    canonical: 'https://softiel.com',
+    languages: {
+      'tr': 'https://softiel.com/tr',
+      'en': 'https://softiel.com/en',
+      'de': 'https://softiel.com/de',
+      'fr': 'https://softiel.com/fr',
+      'ru': 'https://softiel.com/ru',
+      'ar': 'https://softiel.com/ar',
+    },
+  },
   icons: {
     icon: [
       { url: '/favicon.ico', sizes: 'any' },
@@ -69,19 +101,48 @@ export const metadata: Metadata = {
     ],
   },
   openGraph: {
-    title: "Softiel - Modern Web Ajansı",
-    description: "Softiel ile dijital dünyada fark yaratın. Web tasarım, geliştirme, SEO ve dijital pazarlama hizmetleri.",
     type: "website",
+    locale: "tr_TR",
+    alternateLocale: ['en_US', 'de_DE', 'fr_FR', 'ru_RU', 'ar_SA'],
+    url: "https://softiel.com",
+    siteName: "Softiel",
+    title: "Softiel - Modern Web Ajansı | Web Tasarım & Dijital Pazarlama",
+    description: "Softiel ile dijital dünyada fark yaratın. Web tasarım, geliştirme, SEO ve dijital pazarlama hizmetleri. Softiel Software - Modern Web Ajansı.",
     images: [
       {
-        url: '/android-chrome-512x512.png',
+        url: 'https://softiel.com/android-chrome-512x512.png',
         width: 512,
         height: 512,
         alt: 'Softiel Logo',
+        type: 'image/png',
       },
     ],
   },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Softiel - Modern Web Ajansı',
+    description: 'Softiel ile dijital dünyada fark yaratın. Web tasarım, geliştirme, SEO ve dijital pazarlama hizmetleri.',
+    creator: '@softiel',
+    site: '@softiel',
+    images: ['https://softiel.com/android-chrome-512x512.png'],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  verification: {
+    google: 'your-google-verification-code', // Google Search Console'dan alınacak
+    yandex: 'your-yandex-verification-code', // Yandex'ten alınacak
+  },
   manifest: '/manifest.json',
+  category: 'technology',
 };
 
 export default function RootLayout({
@@ -92,6 +153,9 @@ export default function RootLayout({
   return (
     <html lang="tr" suppressHydrationWarning>
       <head>
+        {/* Structured Data - JSON-LD for SEO */}
+        <StructuredData locale="tr" />
+        
         {/* Favicon declarations - Multiple formats for better compatibility */}
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
@@ -104,6 +168,32 @@ export default function RootLayout({
         {/* Theme color for mobile browsers */}
         <meta name="theme-color" content="#0ea5e9" />
         <meta name="msapplication-TileColor" content="#0ea5e9" />
+        
+        {/* Additional SEO Meta Tags */}
+        <meta name="classification" content="Web Agency, Software Development" />
+        <meta name="distribution" content="global" />
+        <meta name="rating" content="general" />
+        <meta name="revisit-after" content="7 days" />
+        <meta name="copyright" content="Softiel" />
+        <meta name="author" content="Softiel" />
+        <meta name="designer" content="Softiel" />
+        <meta name="owner" content="Softiel" />
+        <meta name="reply-to" content="info@softiel.com" />
+        <meta name="target" content="all" />
+        <meta name="audience" content="all" />
+        <meta name="coverage" content="Worldwide" />
+        
+        {/* Canonical Link */}
+        <link rel="canonical" href="https://softiel.com" />
+        
+        {/* Hreflang Tags for Multi-language Support */}
+        <link rel="alternate" hrefLang="tr" href="https://softiel.com/tr" />
+        <link rel="alternate" hrefLang="en" href="https://softiel.com/en" />
+        <link rel="alternate" hrefLang="de" href="https://softiel.com/de" />
+        <link rel="alternate" hrefLang="fr" href="https://softiel.com/fr" />
+        <link rel="alternate" hrefLang="ru" href="https://softiel.com/ru" />
+        <link rel="alternate" hrefLang="ar" href="https://softiel.com/ar" />
+        <link rel="alternate" hrefLang="x-default" href="https://softiel.com/en" />
         
         {/* Preconnect to critical origins - Network latency reduction */}
         <link rel="preconnect" href="https://res.cloudinary.com" />
