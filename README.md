@@ -110,7 +110,7 @@ softiel-website/
 1. Login to admin panel: `/admin-panel-secure-access-2024`
 2. Sign in with email/username and password
 3. Enter OTP code sent to your email
-4. Dashboard: `/content-management-system-2024`
+4. Dashboard: ``
 
 **Dashboard Modules:**
 - `/blogs` - Blog management
